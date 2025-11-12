@@ -1,4 +1,4 @@
-# 🍽️ Cantinho Deolinda
+# 🍽️ Cantinho Deolinda (desenvolvimento)
 
 Website de restaurante desenvolvido em **PHP**, **HTML**, **CSS** e **JavaScript**, com foco em **simplicidade** e **experiência do utilizador**.
 
