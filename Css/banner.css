@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  background: #1b1d1e;
+  font-family: Arial, sans-serif;
+}
+
+/* 🔹 Banner geral */
+.banner {
+  background-color: #08111e;
+  display: flex;
+  align-items: flex-end; /* mantém tudo encostado à parte inferior */
+  justify-content: center; /* centra a imagem e o texto horizontalmente */
+  height: 300px;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+  margin-top: 100px;
+  padding: 0 80px;
+}
+
+/* 🔹 Imagem das batatas */
+.banner img {
+  height: 450px;
+  width: auto;
+  object-fit: contain;
+  position: absolute;
+  bottom: 0; /* encosta a parte branca ao fundo do retângulo */
+  left: 35%; /* centra horizontalmente */
+  transform: translateX(-50%); /* garante que fica exatamente no centro */
+  z-index: 2;
+}
+
+/* 🔹 Texto e botão ao lado direito */
+.banner-text {
+  color: white;
+  text-align: left;
+  z-index: 3;
+  position: relative;
+  max-width: 400px;
+  margin-bottom: 100px; /* sobe um pouco para equilibrar com a imagem */
+  left: 10%; /* posiciona o texto à direita */
+}
+
+.banner-text h4 {
+  color: #d48a00;
+  font-size: 1.2rem;
+  margin: 0 0 10px;
+}
+
+.banner-text h2 {
+  font-size: 2rem;
+  font-weight: normal;
+  margin: 0 0 20px;
+}
+
+.banner-text button {
+  background-color: #b87700;
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.banner-text button:hover {
+  background-color: #da9b00;
+}

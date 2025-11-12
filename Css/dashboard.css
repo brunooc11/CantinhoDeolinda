@@ -1,0 +1,343 @@
+body {
+    background-color: #121212;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+}
+
+/* Cabeçalho */
+.dashboard-header {
+    background-color: #000;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dashboard-header h1 {
+    color: #fbbd33;
+    margin: 0;
+    font-size: 24px;
+}
+.dashboard-header a {
+    background-color: #fbbd33;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Menu de abas */
+.dashboard-menu {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #1a1a1a;
+}
+.dashboard-menu button {
+    flex: 1;
+    padding: 15px;
+    background-color: #222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.dashboard-menu button:hover {
+    background-color: #333;
+}
+.dashboard-menu button.active {
+    background-color: #fbbd33;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Conteúdo das abas */
+.tabcontent {
+    display: none;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.tabcontent.ativo {
+    display: block;
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Cards */
+.card {
+    background-color: #1e1e1e;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+}
+.card h3 {
+    color: #fbbd33;
+    margin-top: 0;
+}
+
+/* Botões */
+.btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-logout { background-color: #fbbd33; color: #000; }
+.btn-excluir { background-color: #e74c3c; color: #fff; border: none; }
+
+/* Responsividade */
+@media(max-width:600px) {
+    .dashboard-menu button { font-size: 14px; padding: 10px; }
+}
+
+/* btt sair*/
+.btt-sair {
+  display: inline-block;
+  margin-bottom: 10px; /* Espaço entre Sair e Excluir */
+  padding: 12px 28px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #f5a623, #ffcc33);
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border: none;
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.6),
+              0 0 20px rgba(245, 166, 35, 0.3);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btt-sair:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.9),
+              0 0 40px rgba(245, 166, 35, 0.5);
+  background: linear-gradient(135deg, #ffcc33, #f5a623);
+  color: #111;
+}
+
+.btt-sair:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(245, 166, 35, 0.6);
+}
+
+/* btt alterar senha */
+.btt-alterar-senha {
+  display: inline-block;
+  margin-bottom: 10px; /* Espaço entre Alterar Senha e Sair */
+  padding: 12px 28px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #f5a623, #ffcc33);
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border: none;
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.6),
+              0 0 20px rgba(245, 166, 35, 0.3);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btt-alterar-senha:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.9),
+              0 0 40px rgba(245, 166, 35, 0.5);
+  background: linear-gradient(135deg, #ffcc33, #f5a623);
+  color: #111;
+}
+
+.btt-alterar-senha:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(245, 166, 35, 0.6);
+}
+
+#bttInicio {
+    margin-top: -15px; /* para o btt ficar um pouco mais para cima sem interferir no outro*/
+}
+
+#bttConfirmar {
+    display: inline-block;
+    position: relative;      /* não remove do fluxo */
+    top: 0;                  /* mesmo nível do form */
+    margin-left: auto;
+    margin-right: auto;      /* centraliza horizontalmente */
+}
+
+
+
+#bttsair {
+    position: absolute; /* deixa o botão sair do fluxo normal */
+    top: 20px;          /* distância do topo do card */
+    right: 20px;        /* distância da borda direita do card */
+}
+
+#btt_excluir_conta {
+    position: absolute; 
+    top: 75px;          
+    right: 20px;        
+}
+
+/* painel lateral de alterar senha */
+.conta-card {
+    display: flex;
+    justify-content: space-between; /* botão e painel lado a lado */
+    align-items: flex-start;        /* alinha no topo do card */
+    background: #222;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+}
+#Conta .card {
+    position: relative;
+}
+
+
+.info-conta {
+    flex: 1; /* conteúdo ocupa o espaço restante */
+}
+
+.form-lateral-card {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;   /* remove o fundo */
+    padding: 0;               /* remove padding extra */
+    border-radius: 0;         /* remove cantos arredondados */
+    z-index: 10;
+}
+.form-lateral-card.aberto {
+    display: block;
+}
+
+/* aba reservas */
+
+#Reservas .card {
+    background: linear-gradient(145deg, #1a1a1a, #1f1f1f);
+    padding: 30px;
+    border-radius: 16px; /* leve arredondamento extra */
+    width: 90%;
+    max-width: 950px;
+    margin: 30px auto;
+    box-shadow: 0 0 20px rgba(255, 200, 0, 0.25); /* sombra mais suave e intensa */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#Reservas .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 200, 0, 0.35);
+}
+
+#Reservas .card h3 {
+    color: #fbbd33;
+    font-size: 26px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#Reservas .card h3::before {
+    content: "📅";
+    font-size: 28px;
+}
+
+/* Tabela Premium */
+.tabela-reservas {
+    width: 100%;
+    border-collapse: separate; /* para o border-radius funcionar */
+    border-spacing: 0;
+    background-color: #262626;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+}
+
+.tabela-reservas thead th {
+    background: #fbbd33;
+    color: #000;
+    padding: 14px 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e0a800;
+}
+
+.tabela-reservas tbody td {
+    padding: 14px 10px;
+    color: #eaeaea;
+    text-align: center;
+    border-bottom: 1px solid #3b3b3b;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.tabela-reservas tbody tr:hover {
+    background-color: #353535;
+    transform: scale(1.02);
+}
+
+/* Última linha sem borda */
+.tabela-reservas tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Mensagem "sem reservas" */
+#Reservas .card p {
+    color: #c9c9c9;
+    font-size: 17px;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Botão cancelar reserva */
+.btn-cancelar {
+    background: linear-gradient(135deg, #ff5a5a, #ff1f1f);
+    color: white;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(255, 50, 50, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background: linear-gradient(135deg, #ff1f1f, #ff5a5a);
+    transform: scale(1.08);
+    box-shadow: 0 6px 15px rgba(255, 50, 50, 0.7);
+}
+
+/* Animação entrar */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Garantir que o card aparece com animação */
+.tabcontent.ativo #Reservas .card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+
+
+

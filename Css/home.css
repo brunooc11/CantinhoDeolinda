@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, main {
+  margin: 0;
+  padding: 0;
+}  /* este dois codigo foram para resolver o problema do espaço a mais no incio da pagina*/
+
+.landing-page {
+  display: flex;
+  align-items: flex-start; /* conteúdo começa do topo */
+  justify-content: flex-start;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+
+.landing-page .gold-shape {
+  position: absolute;
+  top: 0;         /* começa no topo da página */
+  left: 0;
+  width: 45%;     /* largura proporcional */
+  height: 100%;   /* ocupa toda a altura da landing page */
+  z-index: 0;
+}
+
+/* Conteúdo da landing page */
+.landing-page .content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 1200px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  padding: 200px 2rem 2rem 2rem; 
+  box-sizing: border-box;
+}
+
+/* Imagem do prato */
+.landing-page .left img {
+  width: 500px;
+  max-width: 90vw;
+  border-radius: 50%;
+  transform: translateX(50px);
+}
+
+/* Coluna direita */
+.landing-page .right {
+  margin-left: 3rem;
+  max-width: 500px;
+}
+
+.landing-page .right h1 {
+  font-size: 2.5rem;
+  line-height: 1.3;
+}
+
+.landing-page .right h1 strong {
+  font-weight: 700;
+}
+
+.landing-page .right p {
+  font-family: Arial, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.landing-page .buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.landing-page .btn {
+  padding: 0.9rem 1.8rem;
+  font-size: 0.85rem;
+  border: 2px solid #f4b942;
+  background: transparent;
+  color: #f4b942;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.landing-page .btn.filled {
+  background: #f4b942;
+  color: #111;
+  border: none;
+}
+
+.landing-page .btn:hover {
+  opacity: 0.85;
+}
+
+/* scrool suave para a navbar*/
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}

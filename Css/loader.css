@@ -1,0 +1,177 @@
+body {
+  margin: 0;
+  background: #ffeecf;
+  font-family: sans-serif;
+  overflow: hidden; /* só até loader sair */
+}
+
+/* Wrapper do loader ocupa toda a tela */
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffeecf;
+  display: flex;
+  z-index: 1000;
+  transition: opacity 1s ease;
+  flex-direction: column; /* organiza ovo + frigideira + texto verticalmente */
+  justify-content: center; /* centraliza verticalmente */
+  align-items: center;     /* centraliza horizontalmente */
+}
+
+.loader-wrapper.fade-out {
+  opacity: 0;
+}
+
+
+.container {
+  position: relative;
+  width: 40vw;
+  height: 40vh;
+  max-width: 350px;
+  max-height: 350px;
+  text-align: center;
+}
+
+.frigideira {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at 30% 30%, #555, #222);
+  border: 12px solid #111;
+  border-radius: 50%;
+  position: relative;
+  margin: auto;
+  box-shadow: inset -6px -6px 15px rgba(0,0,0,0.7),
+              inset 6px 6px 12px rgba(255,255,255,0.1),
+              0 10px 20px rgba(0,0,0,0.6);
+}
+
+.pega {
+  width: 160px;
+  height: 36px;
+  background: linear-gradient(145deg, #444, #111);
+  border-radius: 18px 45px 45px 18px;
+  position: absolute;
+  right: -160px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: inset -6px -6px 10px rgba(0,0,0,0.7),
+              inset 4px 4px 8px rgba(255,255,255,0.15),
+              0 6px 10px rgba(0,0,0,0.6);
+}
+
+.pega::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: radial-gradient(circle, #222 30%, #000 100%);
+  border-radius: 50%;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: inset -2px -2px 4px rgba(255,255,255,0.2),
+              1px 1px 3px rgba(0,0,0,0.6);
+}
+
+.fumo {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 18%;
+  height: 18%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(4px);
+  animation: subirFumo 4s ease-in-out infinite;
+}
+
+.fumo:nth-child(2) {
+  left: 40%;
+  width: 15%;
+  height: 15%;
+  animation-delay: 1s;
+  animation-duration: 5s;
+}
+
+.fumo:nth-child(3) {
+  left: 60%;
+  width: 20%;
+  height: 20%;
+  animation-delay: 2s;
+  animation-duration: 6s;
+}
+
+@keyframes subirFumo {
+  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { opacity: 0.8; }
+  100% { transform: translateY(-250%) scale(1.6); opacity: 0; }
+}
+
+.ovo {
+  width: 22%;
+  height: 22%;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #f0f0f0 60%);
+  border: 0.3em solid #ccc;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 6px 6px rgba(0,0,0,0.2), inset -4px -4px 10px rgba(255,255,255,0.4);
+  z-index: 3;
+  transform-origin: center;
+  animation: ovoLoop 3s ease-in-out forwards;
+}
+
+.ovo::after {
+  content: "";
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle at 30% 30%, #ffe066, #ffcb00);
+  border: 0.2em solid #d49b00;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset -2px -2px 4px rgba(0,0,0,0.2), 0 2px 3px rgba(0,0,0,0.15);
+  animation: gemaBrilho 2s infinite alternate;
+}
+
+@keyframes ovoLoop {
+  0%   { transform: translate(-50%, -125%) rotate(0deg); }
+  25%  { transform: translate(-150%, -300%) rotate(90deg); }
+  50%  { transform: translate(-50%, -400%) rotate(180deg); }
+  75%  { transform: translate(-150%, -300%) rotate(270deg); }
+  100% { transform: translate(-50%, -125%) rotate(360deg); }
+}
+
+@keyframes gemaBrilho {
+  from { box-shadow: inset -2px -2px 4px rgba(0,0,0,0.2), 0 2px 3px rgba(255,255,255,0.1); }
+  to   { box-shadow: inset -3px -3px 6px rgba(0,0,0,0.3), 0 3px 5px rgba(255,255,255,0.25); }
+}
+
+.texto {
+  margin-top: 20px;  /* espaço entre animação e texto */
+  font-size: 1.2em;
+  font-weight: bold;
+  font-family: "Comic Sans MS", cursive;
+  color: #333;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  text-align: center; /* garante que o texto fique centralizado */
+}
+
+
+.site-content {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.site-content.visible {
+  opacity: 1;
+}

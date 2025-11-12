@@ -1,0 +1,10 @@
+# Ignorar ficheiros sensíveis e pastas privadas
+config.php
+config.env
+*.env
+seguranca/
+*.sql
+*.zip
+*.rar
+node_modules/
+vendor/

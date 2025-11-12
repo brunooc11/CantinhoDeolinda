@@ -1,0 +1,130 @@
+/* Estilos Básicos */
+body {
+    margin: 0;
+    background-color: #ffeecf; 
+    font-family: Arial, sans-serif;
+    /* ESPAÇAMENTO ESSENCIAL: Afasta o conteúdo para baixo da barra fixa */
+    padding-top: 100px; 
+}
+
+/* 1. ESTILO DA BARRA DE NAVEGAÇÃO PRINCIPAL */
+.navbar {
+    background-color: #000; 
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; /* centraliza verticalmente todos os elementos */
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    
+    /* PROPRIEDADES PARA FIXAR E CENTRALIZAR */
+    position: fixed; 
+    top: 20px;       /* Afasta 20px do topo */
+    left: 50%;      
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+    z-index: 1000;  
+    
+    /* Propriedades de Largura e Arredondamento */
+    max-width: 1100px; 
+    width: 90%; 
+    border-radius: 30px; /* Grande arredondamento */
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-family: 'Georgia', serif; /* estilo elegante */
+  font-size: 26px; /* tamanho do texto */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 
+    -1px -1px 0 #000,  /* Top-left */
+     1px -1px 0 #000,  /* Top-right */
+    -1px  1px 0 #000,  /* Bottom-left */
+     1px  1px 0 #000;  /* Bottom-right */
+}
+
+.logo-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;     
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f4b042; /* cor da bola */
+  color: #fff;      
+  font-size: 40px; 
+  font-weight: bold;
+  position: relative;
+  z-index: 1; 
+  margin-right: -10px; 
+  padding-left: 2px; 
+}
+
+.logo-text {
+  position: relative;
+  z-index: 2; 
+  color: #fff;
+  text-shadow: 
+    -1px -1px 0 #000,  /* Top-left */
+     1px -1px 0 #000,  /* Top-right */
+    -1px  1px 0 #000,  /* Bottom-left */
+     1px  1px 0 #000;  /* Bottom-right */
+}
+
+/* 3. ESTILO DO MENU (Links) */
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-grow: 1; 
+    justify-content: center; 
+}
+
+.menu li {
+    margin-left: 20px;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    display: block;
+}
+
+.menu a:hover {
+    color: #f7a823;
+}
+
+
+/* 4. ESTILO DO BOTÃO DE RESERVA */
+.btn-reserva {
+    background-color: #f7a823; 
+    color: #000;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+    border-radius: 25px; /* Arredondamento do botão */
+    border: 1px solid #f7a823;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-reserva:hover {
+    background-color: #e0941a;
+}
+
+/* Estilos de Conteúdo para gerar scroll */
+.conteudo {
+    padding: 20px; 
+    color: white; 
+    text-align: center;
+}
+.espaco {
+    height: 1000px; 
+    background-color: #555;
+    margin-top: 20px;
+}

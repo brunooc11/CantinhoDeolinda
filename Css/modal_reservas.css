@@ -1,0 +1,168 @@
+/* Modal Container */
+.reserva-modal {
+  display: none; /* invisível por padrão */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reserva-modal-content {
+  width: 460px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  background: #111;
+  color: #f4b942;
+  position: relative;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+
+/* Header */
+.reserva-modal-header {
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  background: #111;
+  border-bottom: 1px solid #333;
+}
+
+.reserva-modal-header h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+  border-left: 4px solid #f4b942;
+  padding-left: 12px;
+  color: #f4b942;
+}
+
+/* Body */
+.reserva-modal-body {
+  background: #1a1a1a;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reserva-form-group.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Inputs e Selects */
+.reserva-input, .reserva-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #f4b942;
+  border-radius: 8px;
+  background: #111;
+  color: #f4b942;
+  font-size: 14px;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.reserva-input:focus, .reserva-select:focus {
+  outline: none;
+  border-color: #ffcd55;
+  background: #1f1f1f;
+  box-shadow: 0 0 8px rgba(244,191,66,0.5);
+}
+
+.reserva-input::placeholder { /* para taqr em dourado logo de começo*/
+  color: #f4b942;
+  opacity: 1; /* garante que não fique esmaecido */
+}
+
+
+/* Input de data */
+.date-container {
+  position: relative;
+}
+
+.date-container input[type="date"] {
+  width: 100%;
+  padding-right: 28px;
+}
+
+.date-container input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+}
+
+.date-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  fill: #f4b942;
+}
+
+/* Footer */
+.reserva-modal-footer {
+  background: #f4b942;
+  padding: 25px;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
+  color: #111;
+}
+
+.reserva-modal-footer p {
+  font-size: 14px;
+  margin-bottom: 18px;
+  line-height: 1.6em;
+  color: #111 !important;
+}
+
+.reserva-modal-footer button {
+  background: #111;
+  color: #f4b942;
+  border: 2px solid #f4b942;
+  padding: 12px 0;
+  width: 80%;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.reserva-modal-footer button:hover {
+  background: #1f1f1f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Responsivo */
+@media screen and (max-width: 500px) {
+  .reserva-modal-content {
+    width: 90%;
+  }
+}
+
+
+/* Remove as setinhas (spinners) apenas no modal de reserva */
+#reservaModal input[type=number]::-webkit-inner-spin-button, 
+#reservaModal input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#reservaModal input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield; /* 🔧 compatível com todos os browsers modernos */
+}
+
+
