@@ -3,9 +3,10 @@ config.php
 config.env
 *.env
 
-# Pasta de segurança (contém ficheiros confidenciais)
-seguranca/
-!seguranca/config.env.example   # exceção: manter o ficheiro de exemplo
+# Ignorar apenas o ficheiro real (com dados sensíveis)
+seguranca/config.env
+# Mas manter a pasta e o ficheiro de exemplo
+!seguranca/config.env.example
 
 # Bases de dados e backups
 *.sql
