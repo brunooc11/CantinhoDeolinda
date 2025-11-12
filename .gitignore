@@ -2,9 +2,16 @@
 config.php
 config.env
 *.env
+
+# Pasta de segurança (contém ficheiros confidenciais)
 seguranca/
+!seguranca/config.env.example   # exceção: manter o ficheiro de exemplo
+
+# Bases de dados e backups
 *.sql
 *.zip
 *.rar
+
+# Dependências e módulos externos
 node_modules/
 vendor/
