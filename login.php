@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
                     $headers = "MIME-Version: 1.0\r\n";
                     $headers .= "Content-type:text/html;charset=UTF-8\r\n";
-                    $headers .= "From: noreply@teusite.com\r\n";
+                    $headers .= "From: no-reply@cantinho.pt\r\n";
 
                     mail($email, $assunto, $mensagem, $headers);
 
