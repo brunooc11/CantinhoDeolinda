@@ -3,8 +3,15 @@ session_start();
 require("../Bd/ligar.php");
 
 // PHPMailer
-require("../phpmailer/class.phpmailer.php");
-require("../phpmailer/class..php");
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require("../phpmailer/src/PHPMailer.php");
+require("../phpmailer/src/SMTP.php");
+require("../phpmailer/src/Exception.php");
+
+$env = parse_ini_file("../Seguranca/config.env");   
 
 $msg = "";
 $enviado = false;
@@ -22,45 +29,49 @@ if (isset($_POST['recuperar'])) {
         $expires = date("Y-m-d H:i:s", time() + 1800);
 
         $sql_token = sprintf(
-            "INSERT INTO _resets (email, token, expires_at)
+            "INSERT INTO password_resets (email, token, expires_at)
             VALUES ('%s','%s','%s')",
-            $email, $token, $expires
+            $email,
+            $token,
+            $expires
         );
         mysqli_query($con, $sql_token);
 
-        $link = "http://aluno15696.damiaodegoes.pt/recuperacao/reset_.php?token=$token";
+        $link = "http://aluno15696.damiaodegoes.pt/recuperacao/reset_password.php?token=$token";
 
         $mensagem = "
         <h3>Recuperação de Password</h3>
-        Clique no link abaixo para redefinir a sua :<br><br>
+        Clique no link abaixo para redefinir a sua password:<br><br>
         <a href='$link'>$link</a><br><br>
         Este link expira em 30 minutos.
         ";
 
         // CONFIGURAR PHPMailer
-        $mail = new PHPMailer();
-        $mail->IsSMTP();
-        $mail->Host = "mail.damiaodegoes.pt";
+        $mail = new PHPMailer(true);
+/*
+        $mail->SMTPDebug = 2;
+        $mail->Debugoutput = 'html'; // debug adicional
+*/
+        $mail->isSMTP();
+        $mail->Host = $env['SMTP_HOST'];
         $mail->SMTPAuth = true;
-        $mail->Username = "aluno15696@damiaodegoes.pt";
-        $mail->Password = "slbcarvalho44";   // 🔥 Trocar pela  real
-        $mail->SMTPSecure = "tls";
+        $mail->Username = $env['SMTP_USER'];
+        $mail->Password = $env['SMTP_PASS']; 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        $mail->From = "aluno15696@damiaodegoes.pt";
-        $mail->FromName = "Cantinho Deolinda";
-        $mail->AddAddress($email);
+        $mail->setFrom($env['SMTP_FROM'], $env['SMTP_FROM_NAME']);
+        $mail->addAddress($email);
 
         $mail->IsHTML(true);
-        $mail->Subject = "Recuperação de Password";
+        $mail->Subject = "Recuperacao de Password";
         $mail->Body = $mensagem;
 
-        if ($mail->Send()) {
+        if ($mail->send()) {
             $enviado = true;
         } else {
             $msg = "Erro ao enviar email: " . $mail->ErrorInfo;
         }
-
     } else {
         $msg = "Email não encontrado.";
     }
@@ -72,8 +83,6 @@ if (isset($_POST['recuperar'])) {
 <h2>Recuperar Password</h2>
 
 <div class="container" style="max-width:450px; padding:40px; margin-top:20px;">
-    <div class="form-container" style="width:100%;">
-
         <?php if ($enviado): ?>
             <form style="text-align:center;">
                 <h1 style="color:#f5b631;">Email enviado!</h1>
@@ -97,6 +106,4 @@ if (isset($_POST['recuperar'])) {
                 </button>
             </form>
         <?php endif; ?>
-
-    </div>
 </div>

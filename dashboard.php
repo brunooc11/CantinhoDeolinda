@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
         $mensagem = "As novas senhas não coincidem.";
     } else {
         $id = $_SESSION['id'];
-        $query = "SELECT  FROM Cliente WHERE id = ?";
+        $query = "SELECT password FROM Cliente WHERE id = ?";
         $stmt = mysqli_prepare($con, $query);
         if (!$stmt) {
             die("Erro na preparação da query: " . mysqli_error($con));
@@ -53,18 +53,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
         mysqli_stmt_fetch($stmt);
         mysqli_stmt_close($stmt);
 
-        if (!_verify($senha_atual, $senha_bd)) {
+        if (!password_verify($senha_atual, $senha_bd)) {
             $mensagem = "A senha atual está incorreta.";
         } else {
-            // Atualiza a 
-            $nova_hash = _hash($nova_senha, PASSWORD_DEFAULT);
-            $query = "UPDATE Cliente SET  = ? WHERE id = ?";
+            // Atualiza a password
+            $nova_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
+            $query = "UPDATE Cliente SET password = ? WHERE id = ?";
             $stmt = mysqli_prepare($con, $query);
             mysqli_stmt_bind_param($stmt, "si", $nova_hash, $id);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
 
-            // Termina a sessão após alterar a 
+            // Termina a sessão após alterar a password
             session_destroy();
 
             // Redireciona para login com aviso
@@ -157,9 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             <div class="form-lateral-card" id="formSenhaCard">
                 <form method="POST">
                     <h3>Alterar Senha</h3>
-                    <input type="" name="senha_atual" placeholder="Senha atual" required><br><br>
-                    <input type="" name="nova_senha" placeholder="Nova senha" required><br><br>
-                    <input type="" name="confirmar_senha" placeholder="Confirmar nova senha" required><br><br>
+                    <input type="password" name="senha_atual" placeholder="Senha atual" required><br><br>
+                    <input type="password" name="nova_senha" placeholder="Nova senha" required><br><br>
+                    <input type="password" name="confirmar_senha" placeholder="Confirmar nova senha" required><br><br>
                     <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
                         Confirmar Alteração
                     </button>

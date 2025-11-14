@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         $nome = $_POST['name'];
         $email = $_POST['email'];
         $telefone = $_POST['telefone'];
-        $ = _hash($_POST[''], PASSWORD_DEFAULT);
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $data = date('Y-m-d H:i:s');
         $token = bin2hex(random_bytes(16)); // 🔥 token único
 
@@ -33,12 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                 echo "<script>alert('Email já cadastrado!');</script>";
             } else {
                 // Inserir novo utilizador com verificação pendente
-                $insertQuery = "INSERT INTO Cliente (nome, email, telefone, , data, verificado, token_verificacao_conta)
+                $insertQuery = "INSERT INTO Cliente (nome, email, telefone, password, data, verificado, token_verificacao_conta)
                                 VALUES (?, ?, ?, ?, ?, 0, ?)";
                 $insertStmt = mysqli_prepare($con, $insertQuery);
                 if (!$insertStmt) die("Erro na query (insert): " . mysqli_error($con));
 
-                mysqli_stmt_bind_param($insertStmt, "ssssss", $nome, $email, $telefone, $, $data, $token);
+                mysqli_stmt_bind_param($insertStmt, "ssssss", $nome, $email, $telefone, $password, $data, $token);
 
                 if (mysqli_stmt_execute($insertStmt)) {
 
@@ -76,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 // --- SIGN-IN ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
     $email = $_POST['email'];
-    $ = $_POST[''];
+    $password = $_POST['password'];
 
-    $checkQuery = "SELECT id, nome, email, telefone, data, , verificado FROM Cliente WHERE email = ?";
+    $checkQuery = "SELECT id, nome, email, telefone, data, password, verificado FROM Cliente WHERE email = ?";
     $stmt = mysqli_prepare($con, $checkQuery);
     if (!$stmt) die("Erro na query: " . mysqli_error($con));
 
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
         if ($verificado == 0) {
             echo "<script>alert('⚠ Por favor, verifique o seu e-mail antes de fazer login.');</script>";
-        } else if (_verify($, $hashedPassword)) {
+        } else if (password_verify($password, $hashedPassword)) {
             $_SESSION['id'] = $id;
             $_SESSION['nome'] = $nome;
             $_SESSION['email'] = $email;
@@ -136,7 +136,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             <input type="text" name="name" placeholder="Nome" required />
             <input type="email" name="email" placeholder="Email" required />
             <input type="text" name="telefone" placeholder="Telefone" required pattern="[0-9]{9}" title="O número deve ter exatamente 9 dígitos" />
-            <input type="" name="" placeholder="Password" required />
+            <input type="password" name="password" placeholder="Password" required />
             <label style="font-size: 14px; display:block; margin: 10px 0;">
                 <input type="checkbox" name="termos" required>
                 Li e aceito os
@@ -150,8 +150,8 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
         <form action="" method="POST">
             <h1>Sign in</h1>
             <input type="email" name="email" placeholder="Email" required />
-            <input type="" name="" placeholder="Password" required />
-            <a href="recuperacao/forgot_.php">Forgot your ?</a>
+            <input type="password" name="password" placeholder="Password" required />
+            <a href="recuperacao/forgot_password.php">Forgot your password?</a>
             <button type="submit" name="signin">Login</button>
         </form>
     </div>

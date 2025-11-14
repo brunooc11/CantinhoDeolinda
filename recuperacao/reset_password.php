@@ -13,10 +13,10 @@ $token = isset($_GET['token']) ? $_GET['token'] : $_POST['token'];
 
 if (isset($_POST['alterar'])) {
 
-    $nova = $_POST[''];
-    $hash = _hash($nova, PASSWORD_DEFAULT);
+    $nova = $_POST['password'];
+    $hash = password_hash($nova, PASSWORD_DEFAULT);
 
-    $sql = sprintf("SELECT * FROM _resets WHERE token='%s' AND expires_at > NOW()", $token);
+    $sql = sprintf("SELECT * FROM password_resets WHERE token='%s' AND expires_at > NOW()", $token);
     $res = mysqli_query($con, $sql);
 
     if (mysqli_num_rows($res) == 1) {
@@ -24,10 +24,10 @@ if (isset($_POST['alterar'])) {
         $dados = mysqli_fetch_assoc($res);
         $email = $dados['email'];
 
-        $sql_update = sprintf("UPDATE Cliente SET ='%s' WHERE email='%s'", $hash, $email);
+        $sql_update = sprintf("UPDATE Cliente SET password='%s' WHERE email='%s'", $hash, $email);
         mysqli_query($con, $sql_update);
 
-        mysqli_query($con, sprintf("DELETE FROM _resets WHERE token='%s'", $token));
+        mysqli_query($con, sprintf("DELETE FROM password_resets WHERE token='%s'", $token));
 
         $sucesso = true;
 
@@ -42,8 +42,6 @@ if (isset($_POST['alterar'])) {
 <h2>Nova Password</h2>
 
 <div class="container" style="max-width:450px; padding:40px; margin-top:20px;">
-    <div class="form-container" style="width:100%;">
-
         <?php if ($sucesso): ?>
             <form style="text-align:center;">
                 <h1 style="color:#f5b631;">Password alterada!</h1>
@@ -58,7 +56,7 @@ if (isset($_POST['alterar'])) {
                 <h1>Nova Password</h1>
 
                 <input type="hidden" name="token" value="<?php echo $token; ?>">
-                <input type="" name="" placeholder="Nova " required minlength="5">
+                <input type="password" name="password" placeholder="Nova password" required minlength="5">
 
                 <?php if ($erro): ?>
                     <p style="color:#ff5757;"><?php echo $erro; ?></p>
@@ -69,6 +67,4 @@ if (isset($_POST['alterar'])) {
                 </button>
             </form>
         <?php endif; ?>
-
-    </div>
 </div>
