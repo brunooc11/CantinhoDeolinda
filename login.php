@@ -151,7 +151,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             <h1>Sign in</h1>
             <input type="email" name="email" placeholder="Email" required />
             <input type="" name="" placeholder="Password" required />
-            <a href="#">Forgot your ?</a>
+            <a href="recuperacao/forgot_.php">Forgot your ?</a>
             <button type="submit" name="signin">Login</button>
         </form>
     </div>

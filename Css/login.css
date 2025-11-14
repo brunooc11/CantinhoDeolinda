@@ -339,3 +339,16 @@ footer a {
     text-decoration: underline;
 }
 
+#btn-centro {
+  position: static !important;  /* remove o fixed */
+  top: auto !important;
+  left: auto !important;
+
+  margin-top: 20px;
+  width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
