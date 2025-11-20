@@ -22,6 +22,7 @@ session_start();
   <link rel="stylesheet" href="Css/bttlogin.css">
   <link rel="stylesheet" href="Css/conta.css">
   <link rel="stylesheet" href="Css/modal_reservas.css">
+  <link rel="stylesheet" href="Css/contacto.css">
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
 </head>
@@ -340,6 +341,50 @@ session_start();
       </div>
     </section>
 
+    <div class="contact-wrapper">
+
+      <div class="contact-card">
+        <h1>Contacta-nos</h1>
+        <p class="subtitle">Envia-nos uma mensagem e responderemos assim que possível.</p>
+
+        <form class="form-grid" id="contactForm">
+
+          <!-- COLUNA ESQUERDA -->
+          <div class="left-col">
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" name="nome" placeholder="O teu nome" required>
+            </div>
+
+            <div class="form-group">
+              <label>Assunto</label>
+              <input type="text" name="assunto" placeholder="Assunto" required>
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="email@exemplo.com" required>
+            </div>
+          </div>
+
+          <!-- COLUNA DIREITA -->
+          <div class="right-col">
+            <div class="form-group">
+              <label>Mensagem</label>
+              <textarea name="mensagem" placeholder="A tua mensagem..." required></textarea>
+            </div>
+
+            <button type="submit" class="btt-padrao-login" id="btt-contact-pos">
+              Enviar Mensagem
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
   </main>
 
   <script src="Js/ModoEscuro.js"></script>
@@ -347,6 +392,7 @@ session_start();
   <script src="Js/carrosel.js"></script>
   <script src="Js/menu.js"></script>
   <script src="Js/Modal_reservas.js"></script>
+  <script src="Js/contacto.js"></script>
 
 </body>
 

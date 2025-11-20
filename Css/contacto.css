@@ -1,0 +1,187 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #1b1b1b;
+  font-family: "Poppins", Arial, sans-serif;
+  color: #fff;
+}
+
+/* ------------------------- */
+/* BOTÃO PADRÃO DO TEU SITE */
+/* ------------------------- */
+
+.btt-padrao-login {
+  padding: 12px 28px;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #f5a623, #ffcc33);
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border: none;
+  cursor: pointer;
+
+  box-shadow: 
+      0 0 10px rgba(245, 166, 35, 0.6),
+      0 0 20px rgba(245, 166, 35, 0.3);
+
+  transition: all 0.3s ease-in-out;
+}
+
+.btt-padrao-login:hover {
+  transform: translateY(-3px) scale(1.05);
+
+  box-shadow:
+      0 0 20px rgba(245, 166, 35, 0.9),
+      0 0 40px rgba(245, 166, 35, 0.5);
+
+  background: linear-gradient(135deg, #ffcc33, #f5a623);
+  color: #111;
+}
+
+.btt-padrao-login:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(245, 166, 35, 0.6);
+}
+
+/* Posição específica do botão no formulário */
+#btt-contact-pos {
+  width: fit-content;
+  margin-top: 5px;
+}
+
+
+/* ------------------------- */
+/*      CONTACT PAGE        */
+/* ------------------------- */
+
+.contact-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  min-height: 100vh;
+}
+
+.contact-card {
+  background: #111;
+  border: 2px solid #f4b942;
+  border-radius: 14px;
+  max-width: 900px;
+  width: 100%;
+  padding: 40px;
+  box-shadow: 0 0 25px rgba(244, 185, 66, 0.25);
+}
+
+.contact-card h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #f4b942;
+}
+
+.contact-card .subtitle {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+
+/* ------------------------- */
+/*         FORM GRID         */
+/* ------------------------- */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;  /* direita mais larga */
+  gap: 12px;
+}
+
+.left-col,
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* ------------------------- */
+/*      INPUTS & TEXTAREA    */
+/* ------------------------- */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #e1e1e1;
+}
+
+.form-group input {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  padding: 12px 14px;
+  height: 48px;                /* mais retangular */
+  border-radius: 10px;         /* arredondado suave */
+  color: #fff;
+  font-size: 0.95rem;
+  transition: 0.2s;
+}
+
+.form-group textarea {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  padding: 12px 14px;
+  height: 210px;               /* caixa bem retangular */
+  border-radius: 10px;         /* arredondado suave */
+  color: #fff;
+  font-size: 0.95rem;
+  transition: 0.2s;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #f4b942;
+  box-shadow: 0 0 6px rgba(244, 185, 66, 0.5);
+}
+
+
+/* ------------------------- */
+/*      RESPONSIVIDADE       */
+/* ------------------------- */
+
+@media (max-width: 780px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #btt-contact-pos {
+    width: 100%;
+  }
+}
+
+/* Corrige texto centrado que vem do CSS global */
+.contact-card, 
+.contact-card * {
+    text-align: left !important;
+}
+
+/* Garante que o botão aparece SEMPRE */
+#btt-contact-pos {
+  position: static !important;
+  margin-top: 20px;
+  margin-left: auto;
+  display: inline-block;
+}
