@@ -2,7 +2,17 @@
 session_start();
 include("ligar.php");
 
-// (mais tarde podes proteger esta página para só o admin aceder)
+// Se não estiver logado
+if (!isset($_SESSION['permissoes'])) {
+    header("Location: ../login.php");
+    exit();
+}
+
+// Se não for admin
+if ($_SESSION['permissoes'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
 
 echo "<h2>Reservas pendentes</h2>";
 

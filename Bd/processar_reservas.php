@@ -1,10 +1,10 @@
 <?php
-session_start();
+require("../config.php");  
 include("ligar.php");
 
 // Verifica se o utilizador está autenticado
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
 

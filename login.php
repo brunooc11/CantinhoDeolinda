@@ -33,12 +33,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                 echo "<script>alert('Email já cadastrado!');</script>";
             } else {
                 // Inserir novo utilizador com verificação pendente
-                $insertQuery = "INSERT INTO Cliente (nome, email, telefone, password, data, verificado, token_verificacao_conta)
-                                VALUES (?, ?, ?, ?, ?, 0, ?)";
+                $insertQuery = "INSERT INTO Cliente 
+                (nome, email, telefone, password, data, verificado, token_verificacao_conta, permissoes, estado)
+                VALUES (?, ?, ?, ?, ?, 0, ?, 'user', 1)";
                 $insertStmt = mysqli_prepare($con, $insertQuery);
                 if (!$insertStmt) die("Erro na query (insert): " . mysqli_error($con));
 
-                mysqli_stmt_bind_param($insertStmt, "ssssss", $nome, $email, $telefone, $password, $data, $token);
+                mysqli_stmt_bind_param(
+                    $insertStmt,
+                    "ssssss",
+                    $nome,
+                    $email,
+                    $telefone,
+                    $password,
+                    $data,
+                    $token
+                );
+
 
                 if (mysqli_stmt_execute($insertStmt)) {
 
@@ -78,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $checkQuery = "SELECT id, nome, email, telefone, data, password, verificado FROM Cliente WHERE email = ?";
+    $checkQuery = "SELECT id, nome, email, telefone, data, password, verificado, permissoes, estado FROM Cliente WHERE email = ?";
     $stmt = mysqli_prepare($con, $checkQuery);
     if (!$stmt) die("Erro na query: " . mysqli_error($con));
 
@@ -87,8 +98,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        mysqli_stmt_bind_result($stmt, $id, $nome, $email, $telefone, $data, $hashedPassword, $verificado);
+        mysqli_stmt_bind_result($stmt, $id, $nome, $email, $telefone, $data, $hashedPassword, $verificado, $permissoes, $estado);
         mysqli_stmt_fetch($stmt);
+
+        if ($estado == 0) {
+            echo "<script>
+        alert('A sua conta está bloqueada pelo administrador.');
+        window.location.href = 'index.php';
+                </script>";
+            exit();
+        }
+
 
         if ($verificado == 0) {
             echo "<script>alert('⚠ Por favor, verifique o seu e-mail antes de fazer login.');</script>";
@@ -98,10 +118,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
             $_SESSION['email'] = $email;
             $_SESSION['data'] = $data;
             $_SESSION['telefone'] = $telefone;
+            $_SESSION['permissoes'] = $permissoes;
 
             mysqli_stmt_close($stmt);
             mysqli_close($con);
-            header("Location: dashboard.php");
+            if ($permissoes === 'admin') {
+                header("Location: admin.php");
+                exit();
+            } else {
+                header("Location: dashboard.php");
+                exit();
+            }
+
             exit();
         } else {
             echo "<script>alert('Password incorreta!');</script>";

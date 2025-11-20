@@ -1,5 +1,6 @@
 <?php
 require('Bd/ligar.php');
+require("config.php");  
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];

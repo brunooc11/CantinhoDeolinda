@@ -1,6 +1,7 @@
 # Ignorar ficheiros sensíveis e pastas privadas
 config.php
 config.env
+Bd/ligar.php
 *.env
 
 # Ignorar apenas o ficheiro real (com dados sensíveis)

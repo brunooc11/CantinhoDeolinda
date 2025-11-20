@@ -1,6 +1,6 @@
 <?php
-session_start();
-require('Bd/ligar.php');
+require_once("config.php");
+require_once("Bd/ligar.php");
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['id'])) {

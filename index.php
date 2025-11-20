@@ -1,5 +1,5 @@
 <?php
-session_start();
+require("config.php");
 ?>
 
 
@@ -57,7 +57,11 @@ session_start();
     </div>
 
     <?php if (isset($_SESSION['id'])): ?>
-      <a href="dashboard.php" class="btt-padrao-login">⚙️ Conta</a>
+      <?php if ($_SESSION['permissoes'] === 'admin'): ?>
+        <a href="admin.php" class="btt-padrao-login">⚙️ Admin</a>
+      <?php else: ?>
+        <a href="dashboard.php" class="btt-padrao-login">⚙️ Conta</a>
+      <?php endif; ?>
 
       <!-- Modal de Reserva -->
       <div id="reservaModal" class="reserva-modal">
