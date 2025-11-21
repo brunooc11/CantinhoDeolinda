@@ -1,16 +1,16 @@
-# 🍽️ Cantinho Deolinda (desenvolvimento)
+# 🍽️ Cantinho Deolinda (development)
 
-Website de restaurante desenvolvido em **PHP**, **HTML**, **CSS** e **JavaScript**, com foco em **simplicidade** e **experiência do utilizador**.
+Restaurant website developed using **PHP**, **HTML**, **CSS** and **JavaScript**, focused on **simplicity** and **user experience.**.
 
-O site permite:
-- 📋 Visualizar o menu  
-- 🏠 Conhecer o restaurante  
-- 📅 Efetuar reservas online  
-- 📞 Contactar diretamente o estabelecimento  
+The website allows users to:
+- 📋 View the menu
+- 🏠 Learn about the restaurant
+- 📅 Make online reservations
+- 📞 Contact the establishment directly  
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## 🚀 Technologies Used
 - PHP  
 - HTML5  
 - CSS3  
@@ -19,15 +19,15 @@ O site permite:
 
 ---
 
-## ⚙️ Funcionalidades Principais
-- Sistema de reservas funcional  
-- Área de administração (dashboard)  
-- Modo escuro  
-- Layout responsivo  
+## ⚙️ Main Features
+- Functional reservation system
+- Administration area (dashboard)
+- Dark mode
+- Responsive layout
 
 ---
 
-## 🧱 Estrutura do Projeto
+## 🧱 Project Structure
 ```bash
 CantinhoDeolinda/
 ├── index.php
@@ -35,23 +35,23 @@ CantinhoDeolinda/
 ├── Js/
 ├── Bd/
 ├── Imagens/
-├── seguranca/          # Contém config.env (ignorado no GitHub)
+├── seguranca/         # Contains config.env (ignored on GitHub)
 └── .gitignore
 
 ```
 
 ---
 
-## 🔒 Segurança
-O ficheiro `config.env` contém tokens e dados sensíveis e **não é incluído no repositório GitHub**.  
-Em vez disso, é utilizado um ficheiro de exemplo:  
+## 🔒 Security
+The `config.env` file contains tokens and sensitive data and is **not included in the GitHub repository.**.  
+Instead, an example file is provided: 
 `config.env.example`
 
 ---
 
-## 🧑‍💻 Desenvolvido por
-**Bruno C.**  
-💻 Estudante de Programação  
+## 🧑‍💻 Developed by
+**Bruno Carvalho.**  
+💻 Programming Student 
 📍 Portugal
 
 
