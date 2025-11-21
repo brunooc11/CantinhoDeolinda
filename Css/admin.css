@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #0d0d0d;
+    min-height: 100vh;
+    color: white;
+    font-family: Arial;
+}
+
+.container {
+    width: 80%;
+    margin: 50px auto;
+    background: #111;
+    padding: 25px;
+    border-radius: 12px;
+    border: 2px solid #ffcf00;
+    box-shadow: 0 0 25px rgba(255, 200, 0, 0.25);
+}
+
+h2, h3 {
+    color: #ffcf33;
+    text-shadow: 0 0 6px #ffcf33;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.danger { background: #d9534f; color: #fff; }
+.success { background: #5cb85c; color: #fff; }
+
+table {
+    width: 100%;
+    margin-top: 25px;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #ffcf33;
+    color: black;
+    padding: 12px;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    text-align: center;
+}
+
+tr:hover {
+    background: #252525;
+}
+
+a.action-btn {
+    padding: 6px 12px;
+    background: #d9534f;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+a.action-btn:hover {
+    background: #c9302c;
+}
+
+.blue-btn {
+    background: #007bff !important;
+}
+
+.blue-btn:hover {
+    background: #0062cc !important;
+}
+
+.green-btn {
+    background: #5cb85c;
+}
+
+.green-btn:hover {
+    background: #449d48;
+}
+
+.top-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.top-buttons a {
+    color: #ffcf33;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.top-buttons a:hover {
+    text-decoration: underline;
+}
+
+.botoesNav {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center; /* centra como antes */
+    gap: 20px;
+}
+
+
+#btnDashboard,
+#btnInicio {
+    padding: 12px 28px;
+    border-radius: 40px;
+    background: linear-gradient(135deg, #f5a623, #ffcc33);
+    color: #000;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border: none;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.6),
+                0 0 20px rgba(245, 166, 35, 0.3);
+    transition: all 0.3s ease-in-out;
+}
+
+/* HOVER */
+#btnDashboard:hover,
+#btnInicio:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(135deg, #ffcc33, #f5a623);
+    color: #111;
+}
+
+/* ACTIVE */
+#btnDashboard:active,
+#btnInicio:active {
+    transform: scale(0.98);
+}

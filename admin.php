@@ -31,6 +31,31 @@ if (isset($_GET['desbloquear'])) {
     exit();
 }
 
+// TORNAR ADMIN
+if (isset($_GET['role_admin'])) {
+    $id = intval($_GET['role_admin']);
+    mysqli_query($con, "UPDATE Cliente SET permissoes = 'admin' WHERE id = $id");
+    echo "<script>alert('Utilizador agora é ADMIN!'); window.location.href='admin.php';</script>";
+    exit();
+}
+
+// TORNAR CLIENTE
+if (isset($_GET['role_user'])) {
+    $id = intval($_GET['role_user']);
+
+    $check = mysqli_query($con, "SELECT COUNT(*) AS total FROM Cliente WHERE permissoes = 'admin'");
+    $row = mysqli_fetch_assoc($check);
+
+    if ($row['total'] <= 1) {
+        echo "<script>alert('Não podes remover o último admin!'); window.location.href='admin.php';</script>";
+        exit();
+    }
+
+    mysqli_query($con, "UPDATE Cliente SET permissoes = 'cliente' WHERE id = $id");
+    echo "<script>alert('Utilizador agora é CLIENTE!'); window.location.href='admin.php';</script>";
+    exit();
+}
+
 // ESTADO DO SITE
 $sql = "SELECT bloqueado FROM estado_site LIMIT 1";
 $res = mysqli_query($con, $sql);
@@ -55,119 +80,9 @@ if (isset($_POST['ativar_site'])) {
 <head>
     <meta charset="UTF-8">
     <title>Painel de Administração</title>
-
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0d0d0d; 
-            /* fundo totalmente preto */
-            min-height: 100vh;
-            /* ocupa a página inteira */
-            color: white;
-            font-family: Arial;
-        }
-
-
-        /* RETÂNGULO AMARELO À VOLTA DO CONTEÚDO */
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            background: #111;
-            /* fundo dentro do retângulo */
-            padding: 25px;
-            border-radius: 12px;
-
-            border: 2px solid #ffcf00;
-            /* CONTORNO AMARELO */
-            box-shadow: 0 0 25px rgba(255, 200, 0, 0.25);
-            /* brilho amarelo opcional */
-        }
-
-        h2,
-        h3 {
-            color: #ffcf33;
-            margin-top: 0;
-            text-shadow: 0 0 6px #ffcf33;
-        }
-
-        .btn {
-            padding: 10px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .danger {
-            background: #d9534f;
-            color: #fff;
-        }
-
-        .success {
-            background: #5cb85c;
-            color: #fff;
-        }
-
-        table {
-            width: 100%;
-            margin-top: 25px;
-            border-collapse: collapse;
-            background: #1a1a1a;
-            color: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        th {
-            background: #ffcf33;
-            color: black;
-            padding: 12px;
-            text-transform: uppercase;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #333;
-            text-align: center;
-        }
-
-        tr:hover {
-            background: #252525;
-        }
-
-        a.action-btn {
-            padding: 6px 12px;
-            background: #d9534f;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        a.action-btn:hover {
-            background: #c9302c;
-        }
-
-        .top-buttons {
-            margin-top: 25px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .top-buttons a {
-            color: #ffcf33;
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .top-buttons a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="Css/admin.css">
+    <link rel="stylesheet" href="Css/bttlogin.css"
+        </head>
 
 <body>
 
@@ -194,6 +109,7 @@ if (isset($_POST['ativar_site'])) {
                 <th>Estado</th>
                 <th>Tipo</th>
                 <th>Ação</th>
+                <th>Role</th>
             </tr>
 
             <?php
@@ -207,36 +123,39 @@ if (isset($_POST['ativar_site'])) {
                 echo "<td>{$user['email']}</td>";
                 echo "<td>{$user['telefone']}</td>";
 
-                if ($user['estado'] == 1) {
-                    echo "<td style='color:lightgreen;'>Ativo</td>";
-                } else {
-                    echo "<td style='color:red;'>Bloqueado</td>";
-                }
+                echo $user['estado'] == 1
+                    ? "<td style='color:lightgreen;'>Ativo</td>"
+                    : "<td style='color:red;'>Bloqueado</td>";
 
                 echo "<td>" . strtoupper($user['permissoes']) . "</td>";
 
-                if ($user['permissoes'] === 'admin') {
-                    echo "<td><span style='color:#ffcf33; font-weight:bold;'>ADMIN</span></td>";
+                echo "<td>";
+                if ($user['estado'] == 1) {
+                    echo "<a class='action-btn' href='admin.php?bloquear={$user['id']}'>Bloquear</a>";
                 } else {
-                    if ($user['estado'] == 1) {
-                        echo "<td><a class='action-btn' href='admin.php?bloquear={$user['id']}'>Bloquear</a></td>";
-                    } else {
-                        echo "<td><a class='action-btn' style='background:#5cb85c;' href='admin.php?desbloquear={$user['id']}'>Desbloquear</a></td>";
-                    }
+                    echo "<a class='action-btn green-btn' href='admin.php?desbloquear={$user['id']}'>Desbloquear</a>";
                 }
+                echo "</td>";
+
+                echo "<td>";
+                if ($user['permissoes'] === 'admin') {
+                    echo "<a class='action-btn blue-btn' href='admin.php?role_user={$user['id']}'>Tornar Cliente</a>";
+                } else {
+                    echo "<a class='action-btn blue-btn' href='admin.php?role_admin={$user['id']}'>Tornar Admin</a>";
+                }
+                echo "</td>";
 
                 echo "</tr>";
             }
             ?>
         </table>
 
-        <div class="top-buttons">
-            <a href="dashboard.php">← Dashboard</a>
-            <a href="index.php">← Voltar ao início</a>
+        <div class="botoesNav">
+            <a href="index.php" id="btnInicio">← Início</a>
+            <a href="dashboard.php" id="btnDashboard">← Dashboard</a>
         </div>
 
     </div>
-
 </body>
 
 </html>
