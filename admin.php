@@ -35,13 +35,19 @@ if (isset($_GET['desbloquear'])) {
 if (isset($_GET['role_admin'])) {
     $id = intval($_GET['role_admin']);
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'admin' WHERE id = $id");
-    echo "<script>alert('Utilizador agora é ADMIN!'); window.location.href='admin.php';</script>";
+    echo "<script>alert('Utilizador agora é admin!'); window.location.href='admin.php';</script>";
     exit();
 }
 
 // TORNAR CLIENTE
 if (isset($_GET['role_user'])) {
     $id = intval($_GET['role_user']);
+
+    //impefir o admin de se autodespromover 
+     if ($id == $_SESSION['id']) {
+        echo "<script>alert('Não te podes remover a ti próprio como admin!'); window.location.href='admin.php';</script>";
+        exit();
+    }
 
     $check = mysqli_query($con, "SELECT COUNT(*) AS total FROM Cliente WHERE permissoes = 'admin'");
     $row = mysqli_fetch_assoc($check);
@@ -52,7 +58,7 @@ if (isset($_GET['role_user'])) {
     }
 
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'cliente' WHERE id = $id");
-    echo "<script>alert('Utilizador agora é CLIENTE!'); window.location.href='admin.php';</script>";
+    echo "<script>alert('Utilizador agora é cliente!'); window.location.href='admin.php';</script>";
     exit();
 }
 
