@@ -18,6 +18,13 @@ require("Bd/ligar.php");
 // BLOQUEAR UTILIZADOR
 if (isset($_GET['bloquear'])) {
     $id = intval($_GET['bloquear']);
+
+    // Impedir autobloqueio
+    if ($id == $_SESSION['id']) {
+        echo "<script>alert('Não te podes bloquear a ti próprio!'); window.location.href='admin.php';</script>";
+        exit();
+    }
+
     mysqli_query($con, "UPDATE Cliente SET estado = 0 WHERE id = $id");
     echo "<script>alert('Utilizador bloqueado!'); window.location.href='admin.php';</script>";
     exit();
