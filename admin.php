@@ -28,7 +28,7 @@ if (isset($_GET['bloquear'])) {
     mysqli_query($con, "UPDATE Cliente SET estado = 0 WHERE id = $id");
     echo "<script>alert('Utilizador bloqueado!'); window.location.href='admin.php';</script>";
     exit();
-}
+}  
 
 // DESBLOQUEAR UTILIZADOR
 if (isset($_GET['desbloquear'])) {
