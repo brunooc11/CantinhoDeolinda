@@ -16,6 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assunto = htmlspecialchars($_POST['assunto']);
     $mensagem = nl2br(htmlspecialchars($_POST['mensagem']));
 
+     // GRAVAR NA BD
+    $stmt = $con->prepare("
+        INSERT INTO contactos (nome, email, assunto, mensagem)
+        VALUES (?, ?, ?, ?)
+    ");
+    $stmt->bind_param("ssss", $nome, $email, $assunto, $mensagem);
+    $stmt->execute();
+    $stmt->close();
+
     $mail = new PHPMailer(true);
 
     try {
@@ -33,8 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // O email do cliente vai em Reply-To (para poderes responder)
         $mail->addReplyTo($email, $nome);
 
-        // Destino — o teu Gmail
-        $mail->addAddress($env['SMTP_USER']);
+        // Destino — Admin
+        $mail->addAddress($env['SMTP_ADMIN']);
 
         $mail->isHTML(true);
         $mail->Subject = "Novo contacto: $assunto";

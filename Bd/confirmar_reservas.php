@@ -16,6 +16,13 @@ if ($_SESSION['permissoes'] !== 'admin') {
 
 echo "<h2>Reservas pendentes</h2>";
 
+echo "<a href='../admin.php' 
+        style='display:inline-block; padding:8px 15px; background:#3498db; color:white; 
+               text-decoration:none; border-radius:5px; margin-bottom:15px;'>
+        ⬅️ Voltar ao Início
+      </a>";
+
+
 $sql = "SELECT r.id, c.nome, c.email, r.data_reserva, r.hora_reserva, r.numero_pessoas
         FROM reservas r
         JOIN Cliente c ON r.cliente_id = c.id

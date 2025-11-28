@@ -166,6 +166,7 @@ if (isset($_POST['ativar_site'])) {
         <div class="botoesNav">
             <a href="index.php" id="btnInicio">← Início</a>
             <a href="dashboard.php" id="btnDashboard">← Dashboard</a>
+            <a href="Bd/confirmar_reservas.php" id="btnDashboard">← confirmar_reservas</a>
         </div>
 
     </div>
