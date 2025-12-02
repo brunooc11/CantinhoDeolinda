@@ -1,0 +1,103 @@
+body {
+    margin: 0;
+    font-family: "Inter", Arial, sans-serif;
+    background-color: #0d0d0d;
+    color: white;
+}
+
+/* GRANDE RETÂNGULO */
+.info_adicionais-wrapper {
+    width: 90%;
+    max-width: 1400px;
+    margin: 60px auto;
+    background-color: #111;
+    border-radius: 25px;
+    border: 1px solid #ffb40055;
+    box-shadow: 0 0 20px #ffb40033;
+    padding: 60px 40px 70px 40px;
+}
+
+/* Títulos */
+.info_adicionais-subtitle {
+    text-align: center;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #ffb400;
+    font-weight: 600;
+    text-shadow: 0 0 8px #ffb400aa;
+}
+
+.info_adicionais-title {
+    text-align: center;
+    font-size: 45px;
+    margin-top: 10px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 0 12px #ffb40033;
+}
+
+/* Cards internos */
+.info_adicionais-cards {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+}
+
+.info_adicionais-card {
+    background: #0d0d0d;
+    padding: 32px;
+    border-radius: 18px;
+    border: 1px solid #ffb40055;
+    box-shadow: 0 0 15px #ffb40022;
+    position: relative;
+    color: white;
+    min-height: 150px;
+    text-align: left;
+}
+
+.info_adicionais-icon-text {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 10px;
+    font-size: 15px;
+    color: #ddd;
+}
+
+.info_adicionais-icon {
+    color: #ffb400;
+    font-size: 18px;
+}
+
+.info_adicionais-card-title {
+    color: #ffb400;
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 18px;
+    text-shadow: 0 0 8px #ffb400aa;
+}
+
+@media (max-width: 900px) {
+    .info_adicionais-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+#info_adicionais-btn {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    display: block;    
+}
+
+.info_adicionais-card:nth-child(1) {
+    padding-top: 50px;     /* desce o conteúdo */
+    padding-bottom: 20px;  /* remove espaço extra em baixo */
+}
+
+.info_adicionais-bold {
+    font-weight: 700;
+    color: #ffffff; /* opcional: mantém a cor forte */
+}

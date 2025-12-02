@@ -23,6 +23,8 @@ require("config.php");
   <link rel="stylesheet" href="Css/conta.css">
   <link rel="stylesheet" href="Css/modal_reservas.css">
   <link rel="stylesheet" href="Css/contacto.css">
+  <link rel="stylesheet" href="Css/info_adicionais.css">
+
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
 </head>
@@ -173,9 +175,9 @@ require("config.php");
           <div class="buttons">
 
             <?php if (isset($_SESSION['id'])): ?>
-              <button class="btn filled" id="openReservaModal">Reserva Agora</button>
+              <button class="btn filled" id="openReservaModal">Reservar Agora</button>
             <?php else: ?>
-              <a href="login.php" class="btn filled">Reserva Agora</a>
+              <a href="login.php" class="btn filled">Reservar Agora</a>
             <?php endif; ?>
 
             <button class="btn">Our Location</button>
@@ -345,6 +347,67 @@ require("config.php");
       </div>
     </section>
 
+    <!-- Info Adicionais -->
+    <div class="info_adicionais-wrapper">
+
+      <div class="info_adicionais-subtitle">Location & Timing</div>
+      <div class="info_adicionais-title">Contact with us</div>
+
+      <div class="info_adicionais-cards">
+
+        <!-- CARD 1 -->
+        <div class="info_adicionais-card">
+          <div class="info_adicionais-icon-text">
+            <span class="info_adicionais-icon">📍</span>
+            Av. Paz Soldán 290, San Isidro, Lima 27 - Peru
+          </div>
+
+          <div class="info_adicionais-icon-text">
+            <span class="info_adicionais-icon">📞</span>
+            +511 442-2777
+          </div>
+
+          <div class="info_adicionais-icon-text">
+            <span class="info_adicionais-icon">📧</span>
+            mail@restaurantpro.com
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="info_adicionais-card">
+          <div class="info_adicionais-card-title">Hours of service</div>
+
+          <span class="info_adicionais-bold">Monday to Saturday</span><br>
+          1:00 pm – 3:00 pm <br>
+          7:00 pm – 11:00 pm <br><br>
+
+          <span class="info_adicionais-bold">Sunday</span><br>
+          12:30 pm – 3:30 pm
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="info_adicionais-card">
+          <div class="info_adicionais-card-title">Telephone support:</div>
+
+          <span class="info_adicionais-bold">Monday to Saturday</span><br>
+          9:00 am to 9:00 pm <br>
+
+          <?php if (isset($_SESSION['id'])): ?>
+            <button id="info_adicionais-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
+              Reservar Agora
+            </button>
+          <?php else: ?>
+            <button id="info_adicionais-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
+              Reservar Agora
+            </a>
+          <?php endif; ?>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Contacto -->
     <div class="contact-wrapper">
 
       <div class="contact-card">
