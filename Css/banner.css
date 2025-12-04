@@ -53,17 +53,10 @@ body {
   margin: 0 0 20px;
 }
 
-.banner-text button {
-  background-color: #b87700;
-  border: none;
-  color: white;
-  padding: 10px 30px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.banner-text button:hover {
-  background-color: #da9b00;
+#batatas-btn {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    display: block;    
 }

@@ -32,8 +32,8 @@ body {
     font-size: 45px;
     margin-top: 10px;
     font-weight: 700;
-    color: white;
-    text-shadow: 0 0 12px #ffb40033;
+    color: #ffb400;
+    text-shadow: 0 0 12px #ffb400aa;
 }
 
 /* Cards internos */
@@ -54,6 +54,12 @@ body {
     color: white;
     min-height: 150px;
     text-align: left;
+    transition: 0.3s ease;
+}
+
+.info_adicionais-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px #ffb40055;
 }
 
 .info_adicionais-icon-text {
@@ -100,4 +106,50 @@ body {
 .info_adicionais-bold {
     font-weight: 700;
     color: #ffffff; /* opcional: mantém a cor forte */
+}
+
+/* ---- LAYOUT DOS CONTACTOS ---- */
+
+/* Linha principal: 2 cards à esquerda + mapa à direita */
+.contact-section {
+    display: flex;
+    gap: 35px;
+    margin-top: 60px;
+    align-items: stretch; /* faz o mapa ficar do mesmo tamanho dos 2 retângulos */
+}
+
+/* Coluna esquerda (2 retângulos empilhados) */
+.contact-left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+/* O card que contém o mapa */
+.contact-map {
+    transition: 0.3s ease;
+    width: 50%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0; /* retira padding para o mapa ocupar toda a caixa */
+}
+
+.contact-map:hover {
+    box-shadow: 0 0 30px #ffb40066;
+    transform: translateY(-4px);
+}
+
+/* Faz o mapa crescer automaticamente para igualar a altura da coluna esquerda */
+.contact-map iframe {
+    flex: 1;
+}
+
+.contact-desc {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+    color: #ddd;
+    opacity: 0.9;
 }

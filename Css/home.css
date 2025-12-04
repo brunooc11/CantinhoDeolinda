@@ -108,3 +108,15 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
+
+/*tirar o sublinahdo dos btts*/
+
+.landing-page .btn {
+    text-decoration: none !important;
+}
+
+.landing-page .btn:hover,
+.landing-page .btn:focus {
+    text-decoration: none !important;
+}
+

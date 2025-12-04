@@ -146,9 +146,9 @@ require("config.php");
       <ul class="menu">
         <li><a href="#">Home</a></li>
         <li><a href="#menu_carrosel">Menu</a></li>
-        <li><a href="#">Galeria</a></li>
-        <li><a href="#">Localização</a></li>
-        <li><a href="#">Experiencia</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#localizacao">Localização</a></li>
+        <li><a href="#contacto">Experiencia</a></li>
       </ul>
 
       <!--Se o login tiver feito ele abre a dashboard na aba reservas -->
@@ -180,7 +180,7 @@ require("config.php");
               <a href="login.php" class="btn filled">Reservar Agora</a>
             <?php endif; ?>
 
-            <button class="btn">Our Location</button>
+            <button class="btn" onclick="window.location.href='#localizacao'">Our Location</button>
           </div>
         </div>
       </div>
@@ -321,12 +321,19 @@ require("config.php");
       <div class="banner-text">
         <h4>Hungry?</h4>
         <h2>We will home deliver!</h2>
-        <button>MAKE AN ORDER</button>
+        <?php if (isset($_SESSION['id'])): ?>
+          <button id="batatas-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
+            Reservar Agora
+          </button>
+        <?php else: ?>
+          <button id="batatas-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
+            Reservar Agora
+          <?php endif; ?>
       </div>
     </section>
 
     <!-- 🔥 Novo bloco: Catering -->
-    <section class="catering">
+    <section class="catering" id="eventos">
       <div class="catering-wrapper">
         <div class="catering-info">
           <h5>Catering</h5>
@@ -347,110 +354,113 @@ require("config.php");
       </div>
     </section>
 
-    <!-- Info Adicionais -->
-    <div class="info_adicionais-wrapper">
+    <!-- info Adicionais -->
 
-      <div class="info_adicionais-subtitle">Location & Timing</div>
-      <div class="info_adicionais-title">Contact with us</div>
+    <section id="localizacao">
+      <div class="info_adicionais-wrapper">
 
-      <div class="info_adicionais-cards">
+        <div class="info_adicionais-title">Contactos/Localização</div>
 
-        <!-- CARD 1 -->
-        <div class="info_adicionais-card">
-          <div class="info_adicionais-icon-text">
-            <span class="info_adicionais-icon">📍</span>
-            Av. Paz Soldán 290, San Isidro, Lima 27 - Peru
+        <p class="contact-desc">
+          Estamos disponíveis para ajudar. Contacte-nos ou visite-nos no nosso espaço físico.
+        </p>
+
+        <div class="contact-section">
+
+          <div class="contact-left">
+
+            <div class="info_adicionais-card">
+              <div class="info_adicionais-card-title">Hours of Service</div>
+              <p><strong>Monday to Saturday</strong><br>1:00 pm – 3:00 pm<br>7:00 pm – 11:00 pm</p>
+              <p><strong>Sunday</strong><br>12:30 pm – 3:30 pm</p>
+            </div>
+
+            <div class="info_adicionais-card">
+              <div class="info_adicionais-card-title">Support</div>
+              <p><strong>Monday to Saturday</strong></p>
+              <p>📞 +511 442-2777</p>
+              <p>✉️ mail@restaurantpro.com</p>
+              <p>📍 Rua Carlos Alberto Martins Vicente, 2580-355 Alenquer</p>
+
+              <?php if (isset($_SESSION['id'])): ?>
+                <button id="info_adicionais-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
+                  Reservar Agora
+                </button>
+              <?php else: ?>
+                <button id="info_adicionais-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
+                  Reservar Agora
+                </button>
+              <?php endif; ?>
+
+            </div>
+
           </div>
 
-          <div class="info_adicionais-icon-text">
-            <span class="info_adicionais-icon">📞</span>
-            +511 442-2777
+          <!-- com o loading lazy ,o mapa carrega apenas quando aparece no ecrã. -->
+          <div class="info_adicionais-card contact-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.627227445397!2d-9.006716523513655!3d39.05388597170578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd18f6cd5b0cf3ef%3A0x7a3d7a0f54818651!2sR.%20Carlos%20Alberto%20Martins%20Vicente%202580-355%20Alenquer!5e0!3m2!1spt-PT!2spt!4v1733340000000!5m2!1spt-PT!2spt"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+
           </div>
 
-          <div class="info_adicionais-icon-text">
-            <span class="info_adicionais-icon">📧</span>
-            mail@restaurantpro.com
-          </div>
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="info_adicionais-card">
-          <div class="info_adicionais-card-title">Hours of service</div>
-
-          <span class="info_adicionais-bold">Monday to Saturday</span><br>
-          1:00 pm – 3:00 pm <br>
-          7:00 pm – 11:00 pm <br><br>
-
-          <span class="info_adicionais-bold">Sunday</span><br>
-          12:30 pm – 3:30 pm
-        </div>
-
-        <!-- CARD 3 -->
-        <div class="info_adicionais-card">
-          <div class="info_adicionais-card-title">Telephone support:</div>
-
-          <span class="info_adicionais-bold">Monday to Saturday</span><br>
-          9:00 am to 9:00 pm <br>
-
-          <?php if (isset($_SESSION['id'])): ?>
-            <button id="info_adicionais-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
-              Reservar Agora
-            </button>
-          <?php else: ?>
-            <button id="info_adicionais-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
-              Reservar Agora
-            </a>
-          <?php endif; ?>
         </div>
 
       </div>
+    </section>
 
-    </div>
 
     <!-- Contacto -->
-    <div class="contact-wrapper">
+    <section id="contacto">
+      <div class="contact-wrapper">
 
-      <div class="contact-card">
-        <h1>Contacta-nos</h1>
-        <p class="subtitle">Envia-nos uma mensagem e responderemos assim que possível.</p>
+        <div class="contact-card">
+          <h1>Feedback</h1>
+          <p class="subtitle">Envia-nos uma mensagem e responderemos assim que possível.</p>
 
-        <form class="form-grid" id="contactForm">
+          <form class="form-grid" id="contactForm">
 
-          <!-- COLUNA ESQUERDA -->
-          <div class="left-col">
-            <div class="form-group">
-              <label>Nome</label>
-              <input type="text" name="nome" placeholder="O teu nome" required>
+            <!-- COLUNA ESQUERDA -->
+            <div class="left-col">
+              <div class="form-group">
+                <label>Nome</label>
+                <input type="text" name="nome" placeholder="O teu nome" required>
+              </div>
+
+              <div class="form-group">
+                <label>Assunto</label>
+                <input type="text" name="assunto" placeholder="Assunto" required>
+              </div>
+
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="email@exemplo.com" required>
+              </div>
             </div>
 
-            <div class="form-group">
-              <label>Assunto</label>
-              <input type="text" name="assunto" placeholder="Assunto" required>
+            <!-- COLUNA DIREITA -->
+            <div class="right-col">
+              <div class="form-group">
+                <label>Mensagem</label>
+                <textarea name="mensagem" placeholder="A tua mensagem..." required></textarea>
+              </div>
+
+              <button type="submit" class="btt-padrao-login" id="btt-contact-pos">
+                Enviar Mensagem
+              </button>
             </div>
 
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" name="email" placeholder="email@exemplo.com" required>
-            </div>
-          </div>
+          </form>
 
-          <!-- COLUNA DIREITA -->
-          <div class="right-col">
-            <div class="form-group">
-              <label>Mensagem</label>
-              <textarea name="mensagem" placeholder="A tua mensagem..." required></textarea>
-            </div>
-
-            <button type="submit" class="btt-padrao-login" id="btt-contact-pos">
-              Enviar Mensagem
-            </button>
-          </div>
-
-        </form>
+        </div>
 
       </div>
-
-    </div>
 
   </main>
 
