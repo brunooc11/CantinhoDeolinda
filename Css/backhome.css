@@ -1,0 +1,34 @@
+.back-home-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 35px;
+  height: 35px;
+  background: #f4b942;
+  color: white;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  text-decoration: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all 1s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 9999;
+}
+
+/* Quando aparece */
+.back-home-btn.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-home-btn:hover {
+  background: #ffcf4a;
+  transform: translateY(0) scale(1.12);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+}

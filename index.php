@@ -24,6 +24,9 @@ require("config.php");
   <link rel="stylesheet" href="Css/modal_reservas.css">
   <link rel="stylesheet" href="Css/contacto.css">
   <link rel="stylesheet" href="Css/info_adicionais.css">
+  <link rel="stylesheet" href="Css/backhome.css">
+  <link rel="stylesheet" href="Css/footer.css">
+  <link rel="stylesheet" href="Css/prefooter.css">
 
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
@@ -144,7 +147,7 @@ require("config.php");
       </div>
 
       <ul class="menu">
-        <li><a href="#">Home</a></li>
+        <li><a href="#home">Home</a></li>
         <li><a href="#menu_carrosel">Menu</a></li>
         <li><a href="#eventos">Eventos</a></li>
         <li><a href="#localizacao">Localização</a></li>
@@ -156,35 +159,37 @@ require("config.php");
     </div>
 
     <!-- Landing Page -->
-    <div class="landing-page">
-      <svg class="gold-shape" viewBox="0 0 600 1000" preserveAspectRatio="none">
-        <path d="M0,0 L400,0 C460,120 480,300 450,500 C420,700 480,850 450,1000 L0,1000 Z" fill="#f4b942" />
-      </svg>
+    <section id="home">
+      <div class="landing-page">
+        <svg class="gold-shape" viewBox="0 0 600 1000" preserveAspectRatio="none">
+          <path d="M0,0 L400,0 C460,120 480,300 450,500 C420,700 480,850 450,1000 L0,1000 Z" fill="#f4b942" />
+        </svg>
 
-      <div class="content">
-        <div class="left">
-          <img src="Imagens/plate.png" alt="Prato de comida">
-        </div>
-        <div class="right">
-          <h1>The Spectacle <strong>Before Us Was Indeed</strong> Sublime.</h1>
-          <p>
-            Apparently, we had reached a great height in the atmosphere, for the sky
-            was a dead black, and which lifts the horizon of the sea to the level of
-            the spectator on a hillside.
-          </p>
-          <div class="buttons">
+        <div class="content">
+          <div class="left">
+            <img src="Imagens/plate.png" alt="Prato de comida">
+          </div>
+          <div class="right">
+            <h1>The Spectacle <strong>Before Us Was Indeed</strong> Sublime.</h1>
+            <p>
+              Apparently, we had reached a great height in the atmosphere, for the sky
+              was a dead black, and which lifts the horizon of the sea to the level of
+              the spectator on a hillside.
+            </p>
+            <div class="buttons">
 
-            <?php if (isset($_SESSION['id'])): ?>
-              <button class="btn filled" id="openReservaModal">Reservar Agora</button>
-            <?php else: ?>
-              <a href="login.php" class="btn filled">Reservar Agora</a>
-            <?php endif; ?>
+              <?php if (isset($_SESSION['id'])): ?>
+                <button class="btn filled" id="openReservaModal">Reservar Agora</button>
+              <?php else: ?>
+                <a href="login.php" class="btn filled">Reservar Agora</a>
+              <?php endif; ?>
 
-            <button class="btn" onclick="window.location.href='#localizacao'">Our Location</button>
+              <button class="btn" onclick="window.location.href='#localizacao'">Our Location</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
 
     <!-- Menu com carrossel -->
@@ -316,7 +321,7 @@ require("config.php");
     </section>
 
     <!-- 🔥 Novo Banner (batatas fritas) -->
-    <section class="banner">
+    <section class="banner" id="banner">
       <img src="Imagens/batata.png" alt="French Fries">
       <div class="banner-text">
         <h4>Hungry?</h4>
@@ -404,7 +409,7 @@ require("config.php");
               height="100%"
               style="border:0;"
               allowfullscreen=""
-              loading="lazy" 
+              loading="lazy"
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
 
@@ -462,7 +467,63 @@ require("config.php");
 
       </div>
 
+    </section>
+
+    <!-- Botão para voltar ao Home -->
+    <a href="#home" id="backHomeBtn" class="back-home-btn">⮝</a>
+
+    <!-- Pre-Footer -->
+    <section class="prefooter">
+      <div class="prefooter-container">
+
+        <!-- Coluna ESQUERDA -->
+        <div class="prefooter-left">
+          <img src="Imagens/logo.png" alt="Logo" class="prefooter-logo">
+          <h3>Want To Taste<br>Our Food?</h3>
+          <button class="btt-padrao-login" id="prefooter">ORDER ONLINE</button>
+        </div>
+
+        <!-- Coluna 1 -->
+        <div class="prefooter-col">
+          <h4>ABOUT</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Hire Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 2 -->
+        <div class="prefooter-col">
+          <h4>RESOURCES</h4>
+          <ul>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Privacy</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3 -->
+        <div class="prefooter-col">
+          <h4>CONTACT</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Email Us</a></li>
+          </ul>
+        </div>
+
+      </div>
+      
+    </section>
+
   </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Cantinho Deolinda — Todos os direitos reservados</p>
+  </footer>
 
   <script src="Js/ModoEscuro.js"></script>
   <script src="Js/loader.js"></script>
@@ -470,6 +531,7 @@ require("config.php");
   <script src="Js/menu.js"></script>
   <script src="Js/Modal_reservas.js"></script>
   <script src="Js/contacto.js"></script>
+  <script src="Js/backhome.js"></script>
 
 </body>
 

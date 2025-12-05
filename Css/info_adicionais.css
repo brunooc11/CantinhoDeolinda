@@ -9,12 +9,12 @@ body {
 .info_adicionais-wrapper {
     width: 90%;
     max-width: 1400px;
-    margin: 60px auto;
+    margin: 30px auto;
     background-color: #111;
     border-radius: 25px;
     border: 1px solid #ffb40055;
     box-shadow: 0 0 20px #ffb40033;
-    padding: 60px 40px 70px 40px;
+    padding: 15px 25px 20px 25px;
 }
 
 /* Títulos */
@@ -25,11 +25,12 @@ body {
     color: #ffb400;
     font-weight: 600;
     text-shadow: 0 0 8px #ffb400aa;
+    margin-bottom: 15px;
 }
 
 .info_adicionais-title {
     text-align: center;
-    font-size: 45px;
+    font-size: 34px;
     margin-top: 10px;
     font-weight: 700;
     color: #ffb400;
@@ -38,7 +39,7 @@ body {
 
 /* Cards internos */
 .info_adicionais-cards {
-    margin-top: 60px;
+    margin-top: 25px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 35px;
@@ -46,13 +47,13 @@ body {
 
 .info_adicionais-card {
     background: #0d0d0d;
-    padding: 32px;
+    padding: 14px;
     border-radius: 18px;
     border: 1px solid #ffb40055;
     box-shadow: 0 0 15px #ffb40022;
     position: relative;
     color: white;
-    min-height: 150px;
+    min-height: 90px;
     text-align: left;
     transition: 0.3s ease;
 }
@@ -99,7 +100,7 @@ body {
 }
 
 .info_adicionais-card:nth-child(1) {
-    padding-top: 50px;     /* desce o conteúdo */
+    padding-top: 25px;     /* desce o conteúdo */
     padding-bottom: 20px;  /* remove espaço extra em baixo */
 }
 
@@ -114,7 +115,7 @@ body {
 .contact-section {
     display: flex;
     gap: 35px;
-    margin-top: 60px;
+    margin-top: 10px;
     align-items: stretch; /* faz o mapa ficar do mesmo tamanho dos 2 retângulos */
 }
 
@@ -123,7 +124,7 @@ body {
     width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 20px;
 }
 
 /* O card que contém o mapa */
@@ -152,4 +153,10 @@ body {
     margin-top: 10px;
     color: #ddd;
     opacity: 0.9;
+}
+
+/* para ficar centrado quando clico na navbar*/
+
+#localizacao {
+    scroll-margin-top: 20px; 
 }
