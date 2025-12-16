@@ -8,6 +8,24 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+
+//nao deixa fazer reserva se estiver na lista negra
+$cliente_id = $_SESSION['id'];
+
+$check = mysqli_query(
+    $con,
+    "SELECT lista_negra FROM Cliente WHERE id = $cliente_id LIMIT 1"
+);
+
+$user = mysqli_fetch_assoc($check);
+
+if ($user && $user['lista_negra'] == 1) {
+    header("Location: ../index.php?erro=lista_negra");
+    exit;
+}
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $cliente_id = $_SESSION['id'];

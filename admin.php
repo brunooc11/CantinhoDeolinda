@@ -41,9 +41,9 @@ if (isset($_GET['presenca']) && isset($_GET['reserva'])) {
         );
         $faltas = mysqli_fetch_assoc($faltasSQL)['faltas'];
 
-        // BLOQUEAR AUTOMÁTICO APÓS 2 FALTAS
+        // BLOQUEAR O USER PARA NAO PODER RESERVAR, AUTOMÁTICO APÓS 2 FALTAS
         if ($faltas >= 2) {
-            mysqli_query($con, "UPDATE Cliente SET estado = 0 WHERE id = $clienteID");
+            mysqli_query($con, "UPDATE Cliente SET lista_negra = 1 WHERE id = $clienteID");
         }
     }
 
