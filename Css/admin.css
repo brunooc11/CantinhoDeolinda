@@ -85,11 +85,11 @@ a.action-btn:hover {
 }
 
 .green-btn {
-    background: #5cb85c;
+    background: #5cb85c !important;
 }
 
 .green-btn:hover {
-    background: #449d48;
+    background: #449d48 !important;
 }
 
 .top-buttons {

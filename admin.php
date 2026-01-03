@@ -137,7 +137,9 @@ if (isset($_GET['reset_faltas'])) {
            AND estado = 'nao_compareceu'"
     );
 
-    echo "<script>alert('Faltas do utilizador foram resetadas!'); window.location.href='admin.php';</script>";
+    mysqli_query($con, "UPDATE Cliente SET lista_negra = 0 WHERE id = $id");
+
+    echo "<script>alert('Faltas do utilizador foram resetadas!\nO User Foi removido da Lista negra'); window.location.href='admin.php';</script>";
     exit();
 }
 ?>
@@ -148,8 +150,8 @@ if (isset($_GET['reset_faltas'])) {
     <meta charset="UTF-8">
     <title>Painel de Administração</title>
     <link rel="stylesheet" href="Css/admin.css">
-    <link rel="stylesheet" href="Css/bttlogin.css"
-        </head>
+    <link rel="stylesheet" href="Css/bttlogin.css">
+</head>
 
 <body>
 
@@ -176,13 +178,14 @@ if (isset($_GET['reset_faltas'])) {
                 <th>Estado</th>
                 <th>Tipo</th>
                 <th>Faltas</th>
+                <th>Lista Negra</th>
                 <th>Reset</th>
                 <th>Ação</th>
                 <th>Role</th>
             </tr>
 
             <?php
-            $sql = "SELECT id, nome, email, telefone, estado, permissoes FROM Cliente ORDER BY nome ASC";
+            $sql = "SELECT id, nome, email, telefone, estado, permissoes, lista_negra FROM Cliente ORDER BY nome ASC";
             $res = mysqli_query($con, $sql);
 
             while ($user = mysqli_fetch_assoc($res)) {
@@ -214,24 +217,31 @@ if (isset($_GET['reset_faltas'])) {
                 // Mostrar faltas
                 echo "<td style='color:$corFaltasUser; font-weight:bold;'>$faltasUser</td>";
 
-
-                echo "<td>";
-                if ($user['estado'] == 1) {
-                    echo "<a class='action-btn' href='admin.php?bloquear={$user['id']}'>Bloquear</a>";
+                // Lista negra
+                if ($user['lista_negra'] == 1) {
+                    echo "<td style='color:red; font-weight:bold;'>Sim</td>";
                 } else {
-                    echo "<a class='action-btn green-btn' href='admin.php?desbloquear={$user['id']}'>Desbloquear</a>";
+                    echo "<td style='color:lightgreen; font-weight:bold;'>Não</td>";
                 }
-                echo "</td>";
 
                 // Mostrar botão de reset se houver faltas
                 echo "<td>";
                 if ($faltasUser > 0) {
                     echo "<a class='action-btn blue-btn' 
-             href='admin.php?reset_faltas={$user['id']}'>
-             Resetar Faltas
-          </a>";
+                        href='admin.php?reset_faltas={$user['id']}'>
+                        Resetar Faltas
+                        </a>";
                 } else {
                     echo "<span style='color:gray;'>Sem faltas</span>";
+                }
+                echo "</td>";
+
+                //Btt de bloquear/Desbloquear
+                echo "<td>";
+                if ($user['estado'] == 1) {
+                    echo "<a class='action-btn' href='admin.php?bloquear={$user['id']}'>Bloquear</a>";
+                } else {
+                    echo "<a class='action-btn green-btn' href='admin.php?desbloquear={$user['id']}'>Desbloquear</a>";
                 }
                 echo "</td>";
 
