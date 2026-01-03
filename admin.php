@@ -139,7 +139,7 @@ if (isset($_GET['reset_faltas'])) {
 
     mysqli_query($con, "UPDATE Cliente SET lista_negra = 0 WHERE id = $id");
 
-    echo "<script>alert('Faltas do utilizador foram resetadas!\nO User Foi removido da Lista negra'); window.location.href='admin.php';</script>";
+    echo "<script>alert('Faltas resetadas e utilizador removido da lista negra.'); window.location.href='admin.php';</script>";
     exit();
 }
 ?>
