@@ -5,7 +5,7 @@ require("config.php");
 
 <?php
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
-    echo "<script>
+  echo "<script>
         alert('⚠ Não pode efetuar reservas devido a faltas anteriores.');
     </script>";
 }
@@ -37,6 +37,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/backhome.css">
   <link rel="stylesheet" href="Css/footer.css">
   <link rel="stylesheet" href="Css/prefooter.css">
+  <link rel="stylesheet" href="Css/chatbot.css">
 
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
@@ -479,6 +480,36 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
     </section>
 
+    <!-- BOTÃO CHAT -->
+    <div class="back-home-btn show" id="btnChat" title="Falar com o suporte">💬</div>
+
+    <!-- CHAT -->
+    <div class="chat-box hidden" id="chatBox">
+
+      <div class="chat-header">
+        🤖 Assistente Cantinho Deolinda
+        <span id="closeChat">✖</span>
+      </div>
+
+      <div class="chat-messages">
+        <div class="msg bot">
+          Olá 👋 Posso ajudar com reservas, horários ou dúvidas?
+        </div>
+
+        <div class="quick-btns">
+          <button>📅 Reservas</button>
+          <button>🍽️ Menu</button>
+          <button>📍 Localização</button>
+          <button>📞 Contactos</button>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" placeholder="Escreve a tua mensagem...">
+      </div>
+
+    </div>
+
     <!-- Botão para voltar ao Home -->
     <a href="#home" id="backHomeBtn" class="back-home-btn">⮝</a>
 
@@ -525,7 +556,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         </div>
 
       </div>
-      
+
     </section>
 
   </main>
@@ -542,6 +573,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <script src="Js/Modal_reservas.js"></script>
   <script src="Js/contacto.js"></script>
   <script src="Js/backhome.js"></script>
+  <script src="Js/chatbot.js"></script>
 
 </body>
 
