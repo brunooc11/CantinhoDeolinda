@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                 // Inserir novo utilizador com verificação pendente
                 $insertQuery = "INSERT INTO Cliente 
                 (nome, email, telefone, password, data, verificado, token_verificacao_conta, permissoes, estado)
-                VALUES (?, ?, ?, ?, ?, 0, ?, 'user', 1)";
+                VALUES (?, ?, ?, ?, ?, 0, ?, 'cliente', 1)";
                 $insertStmt = mysqli_prepare($con, $insertQuery);
                 if (!$insertStmt) die("Erro na query (insert): " . mysqli_error($con));
 
