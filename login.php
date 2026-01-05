@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
 
         if ($verificado == 0) {
-            echo "<script>alert('⚠ Por favor, verifique o seu e-mail antes de fazer login.');</script>";
+            echo "<script>alert('⚠ Por favor, verifique o seu e-mail antes de fazer login.');</script>";  
         } else if (password_verify($password, $hashedPassword)) {
             $_SESSION['id'] = $id;
             $_SESSION['nome'] = $nome;
