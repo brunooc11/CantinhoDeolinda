@@ -1,23 +1,39 @@
 console.log("CONTACTO.JS CARREGADO");
 
-document.getElementById("contactForm").addEventListener("submit", function (e) {
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     console.log("SUBMIT DETETADO");
 
-    let formData = new FormData(this);
+    const formData = new FormData(form);
 
+    // 1️⃣ Pedido rápido (BD)
     fetch("contacto.php", {
         method: "POST",
         body: formData
     })
     .then(r => r.text())
     .then(data => {
-        console.log("RESPOSTA DO PHP:", data);
+        console.log("RESPOSTA DO contacto.php:", data);
 
         if (data.trim() === "OK") {
             alert("Mensagem enviada com sucesso!");
-            this.reset();
+            form.reset();
+
+            // 2️⃣ Email em background (não bloqueia)
+            fetch("email_contacto.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nome: formData.get("nome"),
+                    email: formData.get("email"),
+                    assunto: formData.get("assunto"),
+                    mensagem: formData.get("mensagem")
+                })
+            });
+
         } else {
             alert("Erro ao enviar mensagem.\n\n" + data);
         }

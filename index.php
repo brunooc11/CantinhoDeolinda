@@ -501,6 +501,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <button>🍽️ Menu</button>
           <button>📍 Localização</button>
           <button>📞 Contactos</button>
+          <button>❓ Outro/a</button>
         </div>
       </div>
 
