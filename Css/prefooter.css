@@ -8,6 +8,7 @@
 .prefooter-container {
     display: flex;
     justify-content: space-between;
+    align-items: center; /* MUITO IMPORTANTE */
     width: 100%;
     max-width: 1300px;
     gap: 40px;

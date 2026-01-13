@@ -5,6 +5,7 @@ body {
   font-family: "Poppins", Arial, sans-serif;
 }
 
+/* Botão padrão login */
 .btt-padrao-login {
   position: fixed;
   top: 25px;
@@ -36,4 +37,56 @@ body {
 .btt-padrao-login:active {
   transform: scale(0.98);
   box-shadow: 0 0 5px rgba(245, 166, 35, 0.6);
+}
+
+/* ===================== PASSWORD + OLHO ===================== */
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Input */
+.password-wrapper input {
+  width: 100%;
+  padding-right: 46px;
+}
+
+/* Botão do olho */
+.toggle-pass {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  translate: 0 -50%;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  color: #bdbdbd;
+  transition: color 0.2s ease, scale 0.15s ease;
+}
+
+/* SVG */
+.toggle-pass svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+/* Hover */
+.toggle-pass:hover {
+  color: #f5a623;
+}
+
+/* Active */
+.toggle-pass:active {
+  scale: 0.9;
+}
+
+/* Focus acessível */
+.toggle-pass:focus-visible {
+  outline: 2px solid #f5a623;
+  outline-offset: 3px;
 }

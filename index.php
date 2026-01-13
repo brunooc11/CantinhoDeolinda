@@ -38,9 +38,13 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/footer.css">
   <link rel="stylesheet" href="Css/prefooter.css">
   <link rel="stylesheet" href="Css/chatbot.css">
+  <link rel="stylesheet" href="Css/btts.css">
 
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> <!-- btts animados do prefooter -->
+
 </head>
 
 <body>
@@ -525,7 +529,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <button class="btt-padrao-login" id="prefooter">ORDER ONLINE</button>
         </div>
 
-        <!-- Coluna 1 -->
+        <!-- ABOUT -->
         <div class="prefooter-col">
           <h4>ABOUT</h4>
           <ul>
@@ -536,7 +540,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           </ul>
         </div>
 
-        <!-- Coluna 2 -->
+        <!-- RESOURCES -->
         <div class="prefooter-col">
           <h4>RESOURCES</h4>
           <ul>
@@ -546,19 +550,33 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           </ul>
         </div>
 
-        <!-- Coluna 3 -->
+        <!-- CONTACT -->
         <div class="prefooter-col">
           <h4>CONTACT</h4>
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Email Us</a></li>
-          </ul>
+
+          <!-- ÍCONES SOCIAIS -->
+          <div class="pf-icons">
+            <a href="#" style="--pf-color:#1877f2" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+
+            <a href="#" style="--pf-color:#25d366" aria-label="WhatsApp">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+
+            <a href="#" style="--pf-color:#34e0a1" aria-label="TripAdvisor">
+              <i class="fa-brands fa-tripadvisor"></i>
+            </a>
+
+            <a href="#" style="--pf-color:#ffffff" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
         </div>
 
       </div>
-
     </section>
+
 
   </main>
 

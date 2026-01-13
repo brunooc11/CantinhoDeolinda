@@ -245,7 +245,37 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                 pattern="[0-9]{9}"
                 title="O número deve ter exatamente 9 dígitos"
                 required>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="password-wrapper">
+                <input type="password" id="signupPassword" name="password" placeholder="Password" required>
+
+                <button type="button"
+                    class="toggle-pass"
+                    data-target="signupPassword"
+                    aria-label="Mostrar password">
+
+                    <!-- olho aberto -->
+                    <svg class="eye-open" viewBox="0 0 24 24">
+                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="12" cy="12" r="3.5"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+
+                    <!-- olho fechado -->
+                    <svg class="eye-closed" viewBox="0 0 24 24" style="display:none">
+                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="12" cy="12" r="3.5"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <line x1="3" y1="3" x2="21" y2="21"
+                            stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+
+                </button>
+
+            </div>
+
 
             <label style="font-size:14px; display:block; margin:10px 0;">
                 <input type="checkbox" name="termos" required>
@@ -264,7 +294,37 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             <h1>Sign in</h1>
 
             <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="password-wrapper">
+                <input type="password" id="signinPassword" name="password" placeholder="Password" required>
+
+                <button type="button"
+                    class="toggle-pass"
+                    data-target="signinPassword"
+                    aria-label="Mostrar password">
+
+                    <!-- olho aberto -->
+                    <svg class="eye-open" viewBox="0 0 24 24">
+                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="12" cy="12" r="3.5"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                    </svg>
+
+                    <!-- olho fechado -->
+                    <svg class="eye-closed" viewBox="0 0 24 24" style="display:none">
+                        <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="12" cy="12" r="3.5"
+                            fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <line x1="3" y1="3" x2="21" y2="21"
+                            stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+
+                </button>
+
+            </div>
+
 
             <a href="recuperacao/forgot_password.php">Forgot your password?</a>
 
@@ -299,4 +359,5 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
     </p>
 </footer>
 
-<script src="Js/login.js"></script>
+<!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
+<script src="Js/login.js" defer></script>
