@@ -29,3 +29,10 @@
         0 0 20px var(--pf-color),
         0 0 40px var(--pf-color);
 }
+
+.tripadvisor-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+  transform: scaleX(0.95) translateY(1px);
+}
