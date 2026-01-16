@@ -527,8 +527,12 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <!-- Coluna ESQUERDA -->
         <div class="prefooter-left">
           <img src="Imagens/logo.png" alt="Logo" class="prefooter-logo">
-          <h3>Want To Taste<br>Our Food?</h3>
-          <button class="btt-padrao-login" id="prefooter">ORDER ONLINE</button>
+
+          <!-- 🔑 WRAPPER NECESSÁRIO -->
+          <div class="prefooter-text">
+            <h3>Want To Taste<br>Our Food?</h3>
+            <button class="btt-padrao-login" id="prefooter">ORDER ONLINE</button>
+          </div>
         </div>
 
         <!-- ABOUT -->
@@ -580,14 +584,11 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <a href="#" style="--pf-color:#ffffff" aria-label="GitHub">
               <i class="fab fa-github"></i>
             </a>
-
           </div>
         </div>
 
       </div>
     </section>
-
-
   </main>
 
   <!-- Footer -->
