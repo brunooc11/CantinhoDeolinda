@@ -3,15 +3,21 @@ const triggerSection = document.getElementById("banner");
 
 function checkButton() {
     const rect = triggerSection.getBoundingClientRect();
+    const offset = 100; // pixels depois de entrar no banner
 
-    // Quando a secção banner entrou no ecrã (mesmo só um bocadinho)
-    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+    // Quando já estamos dentro do banner (não logo no início)
+    // OU quando já passámos completamente o banner
+    if (
+        (rect.top <= window.innerHeight - offset && rect.bottom >= 0) ||
+        rect.bottom < 0
+    ) {
         backBtn.classList.add("show");
     } 
-    else if (window.scrollY < triggerSection.offsetTop) {
-        // enquanto não estiveres acima da secção, mantém o botão
+    else {
+        // quando ainda estamos no topo do banner
         backBtn.classList.remove("show");
     }
 }
 
 window.addEventListener("scroll", checkButton);
+window.addEventListener("load", checkButton); // quando a pagina é aberta , o btt fica ativo , se já estiver abaixo do menu

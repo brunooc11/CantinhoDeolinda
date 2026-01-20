@@ -16,7 +16,7 @@
 .prefooter-container {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    align-items: center;
+    align-items: start;
     width: 100%;
     max-width: 1300px;
     gap: 60px;
@@ -26,39 +26,24 @@
    COLUNA ESQUERDA (FINAL REAL)
 ======================= */
 
-.prefooter-left {
-    display: flex;
-    align-items: stretch;
-    gap: 22px;
-}
-
-/* LOGO */
-.prefooter-logo {
-    width: 100px;
-    height: 100%;
-    object-fit: contain;
-    align-self: stretch;
-}
-
-
-
-/* BLOCO TEXTO + BOTÃO */
 .prefooter-text {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    align-items: flex-start;
+    gap: 14px;
 }
-
 
 /* TEXTO */
 .prefooter-text h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
     font-size: 30px;
     line-height: 1.2;
     margin: 0 0 16px 0;
     color: #ffffff;
     max-width: 260px;
     text-align: left;
+    margin-left: 20px;
 }
 
 /* BOTÃO */
@@ -69,7 +54,16 @@
     font-size: 14px;
     text-align: center;
     position: static;
+    margin-top: 6px;
 }
+
+/* Logo reutilizado apenas no PRE-FOOTER */
+#logo-prefooter {
+    margin-bottom: 14px;
+    transform: scale(0.9);
+    transform-origin: left center;
+}
+
 
 
 /* =======================
@@ -80,34 +74,39 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    text-align: left; 
 }
+
 
 /* TÍTULOS */
 .prefooter-col h4 {
     color: #ffffff;
-    font-size: 14px;
+    font-size: 15px;      /* antes 14px */
     font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
+    letter-spacing: 2.5px; /* ligeiramente mais espaçado */
+    margin: 0 0 18px 0;
     text-transform: uppercase;
 }
 
 /* LISTAS */
 .prefooter-col ul {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .prefooter-col ul li {
-    margin: 10px 0;
+    margin: 6px 0;
 }
+
 
 .prefooter-col a {
     color: #94a3b8;
-    font-size: 14px;
+    font-size: 20px;
     text-decoration: none;
     transition: color 0.2s ease;
+    color: rgba(148, 163, 184, 0.9);
 }
 
 .prefooter-col a:hover {
@@ -118,16 +117,25 @@
    LINHAS VERTICAIS
 ======================= */
 
-.prefooter-col:nth-child(2)::after,
-.prefooter-col:nth-child(3)::after {
+.prefooter-col::before {
     content: "";
     position: absolute;
-    right: -30px;
-    top: 10%;
-    height: 80%;
+    left: -30px;
+    top: 32px;
+    height: calc(100% - 32px);
     width: 1px;
     background: rgba(255, 255, 255, 0.08);
 }
+
+.prefooter-col:first-of-type::before {
+    display: none;
+}
+
+.pf-icons {
+    margin-top: 12px;
+}
+
+
 
 /* =======================
    RESPONSIVO

@@ -43,6 +43,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
 
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+
   <link
     rel="stylesheet"
     href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -523,13 +526,13 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
     <!-- Pre-Footer -->
     <section class="prefooter">
       <div class="prefooter-container">
-
         <!-- Coluna ESQUERDA -->
         <div class="prefooter-left">
-          <img src="Imagens/logo.png" alt="Logo" class="prefooter-logo">
-
-          <!-- 🔑 WRAPPER NECESSÁRIO -->
           <div class="prefooter-text">
+            <div class="logo" id="logo-prefooter">
+              <span class="logo-circle">C</span>
+              <span class="logo-text">antinho_Deolinda</span>
+            </div>
             <h3>Want To Taste<br>Our Food?</h3>
             <button class="btt-padrao-login" id="prefooter">ORDER ONLINE</button>
           </div>
