@@ -216,8 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 <link rel="stylesheet" href="Css/login.css">
 <link rel="stylesheet" href="Css/bttlogin.css">
 
-<h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
-
 <?php
 if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
     echo '
@@ -277,13 +275,18 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             </div>
 
 
-            <label style="font-size:14px; display:block; margin:10px 0;">
-                <input type="checkbox" name="termos" required>
-                Li e aceito os
-                <a href="Termos/termos.php" target="_blank">Termos de Uso</a>
-                e a
-                <a href="Termos/politica.php" target="_blank">Política de Privacidade</a>.
-            </label>
+            <div class="terms">
+                <label>
+                    <input type="checkbox" name="termos" required>
+                    <span>
+                        Li e aceito os
+                        <a href="Termos/termos.php" target="_blank">Termos de Uso</a>
+                        e a
+                        <a href="Termos/politica.php" target="_blank">Política de Privacidade</a>.
+                    </span>
+                </label>
+            </div>
+
 
             <button type="submit" name="signup">Sign Up</button>
         </form>
@@ -353,10 +356,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 </div>
 
 <footer>
-    <p>
-        Created with <i class="fa fa-heart"></i> by
-        <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-    </p>
+    <p>© 2025 Cantinho Deolinda — Todos os direitos reservados</p>
 </footer>
 
 <!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->

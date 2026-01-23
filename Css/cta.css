@@ -1,0 +1,77 @@
+/* Cantinho Deolinda – Trust Section */
+.cd-trust {
+  margin: 90px auto;
+  max-width: 1100px;
+  text-align: center;
+}
+
+.cd-trust-title {
+  color: #f5b631;
+  font-size: 32px;
+  letter-spacing: 0.6px;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.cd-trust-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #f5b631;
+  margin: 12px auto 0;
+  border-radius: 3px;
+}
+
+
+.cd-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.cd-trust-card {
+  background: #1b1b1b;
+  border-radius: 18px;
+  padding: 35px 25px;
+  border: 1px solid rgba(245,182,49,0.35);
+  box-shadow: 0 0 25px rgba(245,182,49,0.15);
+  transition: transform 0.3s ease;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cd-trust-card:hover {
+  transform: translateY(-6px);
+}
+
+.cd-trust-icon {
+  font-size: 36px;
+  color: #f5b631;
+  margin-bottom: 12px;
+}
+
+.cd-trust-heading {
+  color: #f5b631;
+   font-size: 18px;;
+}
+
+.cd-trust-text {
+  color: #ccc;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* Banner largo de fundo */
+.cd-trust-strip {
+  width: 100%;
+  background: linear-gradient(135deg, #111, #1b1b1b);
+  padding: 60px 0;
+}
+
+/* Conteúdo centrado */
+.cd-trust-strip-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}

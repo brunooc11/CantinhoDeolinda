@@ -39,6 +39,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/prefooter.css">
   <link rel="stylesheet" href="Css/chatbot.css">
   <link rel="stylesheet" href="Css/btts.css">
+  <link rel="stylesheet" href="Css/cta.css">
 
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
@@ -436,6 +437,46 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           </div>
 
         </div>
+
+      </div>
+    </section>
+
+
+    <section class="cd-trust-strip">
+      <div class="cd-trust-strip-inner">
+
+        <section class="cd-trust">
+          <h2 class="cd-trust-title">Porque escolher o Cantinho Deolinda?</h2>
+
+          <div class="cd-trust-grid">
+            <div class="cd-trust-card">
+              <span class="cd-trust-icon">⭐</span>
+              <h3 class="cd-trust-heading">4.1 no Google</h3>
+              <p class="cd-trust-text">Clientes satisfeitos todos os dias</p>
+            </div>
+
+            <div class="cd-trust-card">
+              <span class="cd-trust-icon">🍽</span>
+              <h3 class="cd-trust-heading">Cozinha Tradicional</h3>
+              <p class="cd-trust-text">Receitas portuguesas autênticas</p>
+            </div>
+
+            <div class="cd-trust-card">
+              <span class="cd-trust-icon">🕯</span>
+              <h3 class="cd-trust-heading">Ambiente Acolhedor</h3>
+              <p class="cd-trust-text">Perfeito para família e amigos</p>
+            </div>
+
+            <div class="cd-trust-card">
+              <i class="cd-trust-icon fa-solid fa-wine-glass"></i>
+              <h3 class="cd-trust-heading">Ideal para Ocasiões</h3>
+              <p class="cd-trust-text">
+                Perfeito para jantares em grupo e celebrações.
+              </p>
+            </div>
+
+          </div>
+        </section>
 
       </div>
     </section>
