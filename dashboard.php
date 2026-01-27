@@ -8,6 +8,68 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+
+// 🔔 POPUP de reservas confirmadas / recusadas
+$idCliente = $_SESSION['id'];
+
+$sqlPopup = "
+    SELECT confirmado
+    FROM reservas
+    WHERE cliente_id = ?
+      AND notificado_reserva = 0
+      AND confirmado != 0
+";
+
+$stmtPopup = mysqli_prepare($con, $sqlPopup);
+mysqli_stmt_bind_param($stmtPopup, "i", $idCliente);
+mysqli_stmt_execute($stmtPopup);
+$resPopup = mysqli_stmt_get_result($stmtPopup);
+
+$temAceite = false;
+$temRecusada = false;
+
+while ($row = mysqli_fetch_assoc($resPopup)) {
+    if ($row['confirmado'] == 1) {
+        $temAceite = true;
+    }
+    if ($row['confirmado'] == -1) {
+        $temRecusada = true;
+    }
+}
+
+mysqli_stmt_close($stmtPopup);
+
+if ($temAceite || $temRecusada) {
+
+    if ($temAceite && $temRecusada) {
+        $msg = "🔔 Tem atualizações nas suas reservas.\n\n"
+             . "✔ Algumas reservas foram confirmadas.\n"
+             . "❌ Algumas reservas foram recusadas.";
+    } elseif ($temAceite) {
+        $msg = "✅ A sua reserva foi confirmada pelo restaurante!";
+    } else {
+        $msg = "❌ A sua reserva foi recusada pelo restaurante.";
+    }
+
+    echo "<script>
+        alert(" . json_encode($msg) . ");
+    </script>";
+
+    // marcar como notificado
+    $sqlUpdate = "
+        UPDATE reservas
+        SET notificado_reserva = 1
+        WHERE cliente_id = ?
+          AND notificado_reserva = 0
+          AND confirmado != 0
+    ";
+    $stmtUpdate = mysqli_prepare($con, $sqlUpdate);
+    mysqli_stmt_bind_param($stmtUpdate, "i", $idCliente);
+    mysqli_stmt_execute($stmtUpdate);
+    mysqli_stmt_close($stmtUpdate);
+}
+
+
 // Logout
 if (isset($_GET['logout'])) {
     session_destroy();

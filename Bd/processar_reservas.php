@@ -70,7 +70,7 @@ if ($numero_pessoas > 30) {
     if (mysqli_stmt_execute($stmt)) {
         // Reserva criada com sucesso
         echo "<script>
-                alert('Reserva efetuada! Aguarde confirmação do restaurante.');
+                alert('Reserva efetuada!\\nSe a reserva for aceite será enviado um email.\\nReceberá também uma notificação quando voltar a entrar no site');
                 window.location.href='../dashboard.php?tab=Reservas';
               </script>";
     } else {

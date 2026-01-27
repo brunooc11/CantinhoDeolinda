@@ -1,7 +1,7 @@
 <?php
 session_start();
 require('Bd/ligar.php');
-require("config.php");
+//require("config.php");
 date_default_timezone_set('Europe/Lisbon');
 
 // PHPMailer

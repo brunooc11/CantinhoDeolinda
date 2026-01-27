@@ -1,9 +1,6 @@
 <?php
 require("config.php");
-?>
 
-
-<?php
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   echo "<script>
         alert('⚠ Não pode efetuar reservas devido a faltas anteriores.');

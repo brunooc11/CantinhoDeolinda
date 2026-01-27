@@ -27,6 +27,7 @@ $sql = "SELECT r.id, c.nome, c.email, r.data_reserva, r.hora_reserva, r.numero_p
         FROM reservas r
         JOIN Cliente c ON r.cliente_id = c.id
         WHERE r.confirmado = 0
+        AND r.estado = 'pendente'
         ORDER BY r.data_reserva ASC";
 
 $result = $con->query($sql);
@@ -69,7 +70,11 @@ if (isset($_GET['confirmar'])) {
     }
 
     // Confirmar na BD
-    $sql = "UPDATE reservas SET confirmado = 1 WHERE id=?";
+    $sql = "UPDATE reservas 
+        SET confirmado = 1,
+            estado = 'pendente',
+            notificado_reserva = 0
+        WHERE id=?";
     $stmt2 = $con->prepare($sql);
     $stmt2->bind_param("i", $id);
     $stmt2->execute();
@@ -228,13 +233,23 @@ if (isset($_GET['confirmar'])) {
 
 
 
-// Recusa reserva
+// Recusa reserva (NÃO APAGA)
 if (isset($_GET['recusar'])) {
-    $id = $_GET['recusar'];
-    $sql = "DELETE FROM reservas WHERE id=?";
+    $id = (int)$_GET['recusar'];
+
+    $sql = "UPDATE reservas
+            SET confirmado = -1,
+                estado = 'recusada',
+                notificado_reserva = 0
+            WHERE id=?";
     $stmt = $con->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
+    $stmt->close();
 
-    echo "<script>alert('Reserva recusada!'); window.location.href='confirmar_reservas.php';</script>";
+    echo "<script>
+        alert('Reserva recusada!');
+        window.location.href='confirmar_reservas.php';
+    </script>";
+    exit;
 }
