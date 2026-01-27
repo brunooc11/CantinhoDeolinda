@@ -301,8 +301,17 @@ if (isset($_GET['reset_faltas'])) {
 
 
                 /* confirmaçao da reserva */
-                $confLabel = ($r['confirmado'] == 1) ? "Confirmada" : "Não confirmada";
-                $confColor = ($r['confirmado'] == 1) ? "green" : "red";
+                if ($r['confirmado'] == 1) {
+                    $confLabel = "Confirmada";
+                    $confColor = "green";
+                } elseif ($r['confirmado'] == -1) {
+                    $confLabel = "Recusada";
+                    $confColor = "red";
+                } else {
+                    $confLabel = "Pendente";
+                    $confColor = "orange";
+                }
+
 
 
                 /* tabela */
