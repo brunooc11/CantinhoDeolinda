@@ -43,8 +43,8 @@ if ($temAceite || $temRecusada) {
 
     if ($temAceite && $temRecusada) {
         $msg = "🔔 Tem atualizações nas suas reservas.\n\n"
-             . "✔ Algumas reservas foram confirmadas.\n"
-             . "❌ Algumas reservas foram recusadas.";
+            . "✔ Algumas reservas foram confirmadas.\n"
+            . "❌ Algumas reservas foram recusadas.";
     } elseif ($temAceite) {
         $msg = "✅ A sua reserva foi confirmada pelo restaurante!";
     } else {
@@ -275,12 +275,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                                 <!-- Coluna de Confirmação -->
                                 <td>
                                     <?php
-                                    if ($reserva['confirmado']) {
+                                    if ($reserva['confirmado'] == 1) {
                                         echo '<span style="color:#28a745; font-weight:bold;">✔ Confirmada</span>';
+                                    } elseif ($reserva['confirmado'] == -1) {
+                                        echo '<span style="color:#dc3545; font-weight:bold;">❌ Recusada</span>';
                                     } else {
-                                        echo '<span style="color:#ffc107; font-weight:bold;">❌ Pendente</span>';
+                                        echo '<span style="color:#ffc107; font-weight:bold;">⏳ Pendente</span>';
                                     }
                                     ?>
+
                                 </td>
 
                                 <td class="acao-col">

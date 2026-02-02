@@ -572,7 +572,11 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               <span class="logo-text">antinho_Deolinda</span>
             </div>
             <h3>Want To Taste<br>Our Food?</h3>
-            <button class="btt-padrao-login" id="prefooter">ORDER ONLINE</button>
+            <?php if (isset($_SESSION['id'])): ?>
+              <button class="btt-padrao-login" id="prefooter" onclick="document.getElementById('openReservaModal').click()">Reservar Agora</button>
+            <?php else: ?>
+              <a href="login.php" class="btt-padrao-login" id="prefooter">Reservar Agora</a>
+            <?php endif; ?>
           </div>
         </div>
 
