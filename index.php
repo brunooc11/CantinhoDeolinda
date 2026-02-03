@@ -205,7 +205,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                 <a href="login.php" class="btn filled">Reserva Agora</a>
               <?php endif; ?>
 
-              <button class="btn" onclick="window.location.href='#localizacao'">Our Location</button>
+              <button class="btn" onclick="window.location.href='#localizacao'">Localização</button>
             </div>
           </div>
         </div>
