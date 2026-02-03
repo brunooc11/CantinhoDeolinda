@@ -92,7 +92,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
           <!-- Header -->
           <div class="reserva-modal-header">
-            <h2>Make A Reservation</h2>
+            <h2>Faz Uma Reserva</h2>
           </div>
 
           <!-- Body -->
@@ -145,9 +145,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <!-- Footer -->
             <div class="reserva-modal-footer">
               <p>
-                Apparently we had reached a great height in the atmos, for the sky was a dead black, and the stars had twinkle. By which lifts the light.
+                Reserve a sua mesa e deixe o resto connosco. Uma experiência pensada para si.
               </p>
-              <button type="submit" id="confirmBtn2">Submit</button>
+              <button type="submit" id="confirmBtn2">Confirmar Reserva</button>
             </div>
           </form>
         </div>
@@ -188,18 +188,21 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <img src="Imagens/plate.png" alt="Prato de comida">
           </div>
           <div class="right">
-            <h1>The Spectacle <strong>Before Us Was Indeed</strong> Sublime.</h1>
+            <h1>
+              Cada momento à mesa é <strong>realmente inesquecível</strong>.
+            </h1>
             <p>
-              Apparently, we had reached a great height in the atmosphere, for the sky
-              was a dead black, and which lifts the horizon of the sea to the level of
-              the spectator on a hillside.
+              No Cantinho Deolinda, procuramos criar momentos únicos à mesa, juntando
+              tradição, qualidade e um ambiente acolhedor, pensado para quem aprecia
+              boa comida e boas memórias.
             </p>
+
             <div class="buttons">
 
               <?php if (isset($_SESSION['id'])): ?>
-                <button class="btn filled" id="openReservaModal">Reservar Agora</button>
+                <button class="btn filled" id="openReservaModal">Reserva Agora</button>
               <?php else: ?>
-                <a href="login.php" class="btn filled">Reservar Agora</a>
+                <a href="login.php" class="btn filled">Reserva Agora</a>
               <?php endif; ?>
 
               <button class="btn" onclick="window.location.href='#localizacao'">Our Location</button>
@@ -213,7 +216,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
     <!-- Menu com carrossel -->
     <section id="menu_carrosel" class="menu-section">
       <h3>Menu</h3>
-      <h1>Taste Our Foods & Enjoy</h1>
+      <h1>Prove os nossos pratos e desfrute</h1>
 
       <div class="carousel-container">
         <div class="carousel" id="carousel">
@@ -342,15 +345,15 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
     <section class="banner" id="banner">
       <img src="Imagens/batata.png" alt="French Fries">
       <div class="banner-text">
-        <h4>Hungry?</h4>
-        <h2>We will home deliver!</h2>
+        <h4>Fome?</h4>
+        <h2>Nós tratamos disso</h2>
         <?php if (isset($_SESSION['id'])): ?>
           <button id="batatas-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
-            Reservar Agora
+            Reserva Agora
           </button>
         <?php else: ?>
           <button id="batatas-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
-            Reservar Agora
+            Reserva Agora
           <?php endif; ?>
       </div>
     </section>
@@ -360,19 +363,19 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       <div class="catering-wrapper">
         <div class="catering-info">
           <h5>Catering</h5>
-          <h2>We Manage Your Events</h2>
+          <h2>O seu evento, nas melhores mãos</h2>
           <p>
-            We deliver the perfect private dinner or experience at your home,
-            or simply add flavor to your office meeting, wedding, or boat trip.
-            Partnering with our sibling location, we can offer a full array of bar
-            and beverage selections. Email us to learn more.
+            Criamos a experiência perfeita para almoços/jantares de grupo.
+            Acrescentamos sabor a reuniões de empresa, casamentos ou Festas.
+            Disponibilizamos um serviço completo e flexível, adaptado às necessidades de cada evento.
           </p>
+
         </div>
 
         <div class="catering-box">
           <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Catering Image">
-          <p>We Cater in Weddings, Corporate Functions and Events</p>
-          <button>HIRE US NOW</button>
+          <p>Criamos experiências gastronómicas para eventos especiais e empresariais</p>
+          <button>Fale Connosco</button>
         </div>
       </div>
     </section>
@@ -393,25 +396,25 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <div class="contact-left">
 
             <div class="info_adicionais-card">
-              <div class="info_adicionais-card-title">Hours of Service</div>
-              <p><strong>Monday to Saturday</strong><br>1:00 pm – 3:00 pm<br>7:00 pm – 11:00 pm</p>
-              <p><strong>Sunday</strong><br>12:30 pm – 3:30 pm</p>
+              <div class="info_adicionais-card-title">Horas de Serviço</div>
+              <p><strong>Segunda-Sábado</strong><br>8:00 – 24:00</p>
+              <p><strong>Domingo</strong><br>8:00 - 17:00</p>
             </div>
 
             <div class="info_adicionais-card">
-              <div class="info_adicionais-card-title">Support</div>
-              <p><strong>Monday to Saturday</strong></p>
+              <div class="info_adicionais-card-title">Suporte</div>
+              <p><strong>Segunda - Domingo</strong></p>
               <p>📞 +511 442-2777</p>
-              <p>✉️ mail@restaurantpro.com</p>
+              <p>✉️ Cantinhodeolina@gmail.com</p>
               <p>📍 Rua Carlos Alberto Martins Vicente, 2580-355 Alenquer</p>
 
               <?php if (isset($_SESSION['id'])): ?>
                 <button id="info_adicionais-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
-                  Reservar Agora
+                  Reserva Agora
                 </button>
               <?php else: ?>
                 <button id="info_adicionais-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
-                  Reservar Agora
+                  Reserva Agora
                 </button>
               <?php endif; ?>
 
@@ -571,39 +574,39 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               <span class="logo-circle">C</span>
               <span class="logo-text">antinho_Deolinda</span>
             </div>
-            <h3>Want To Taste<br>Our Food?</h3>
+            <h3>Queres provar a<br>Nossa Comida?</h3>
             <?php if (isset($_SESSION['id'])): ?>
-              <button class="btt-padrao-login" id="prefooter" onclick="document.getElementById('openReservaModal').click()">Reservar Agora</button>
+              <button class="btt-padrao-login" id="prefooter" onclick="document.getElementById('openReservaModal').click()">Reserva Agora</button>
             <?php else: ?>
-              <a href="login.php" class="btt-padrao-login" id="prefooter">Reservar Agora</a>
+              <a href="login.php" class="btt-padrao-login" id="prefooter">Reserva Agora</a>
             <?php endif; ?>
           </div>
         </div>
 
         <!-- ABOUT -->
         <div class="prefooter-col">
-          <h4>ABOUT</h4>
+          <h4>Sobre Nós</h4>
           <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Hire Us</a></li>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Serviços</a></li>
+            <li><a href="#">Carreira</a></li>
+            <li><a href="#">Fale Connosco</a></li>
           </ul>
         </div>
 
         <!-- RESOURCES -->
         <div class="prefooter-col">
-          <h4>RESOURCES</h4>
+          <h4>Recursos</h4>
           <ul>
-            <li><a href="#">Terms</a></li>
-            <li><a href="#">Help</a></li>
-            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Termos</a></li>
+            <li><a href="#">Ajuda</a></li>
+            <li><a href="#">Privacidade</a></li>
           </ul>
         </div>
 
         <!-- CONTACT -->
         <div class="prefooter-col">
-          <h4>CONTACT</h4>
+          <h4>Contacto</h4>
 
           <!-- ÍCONES SOCIAIS -->
           <div class="pf-icons">
