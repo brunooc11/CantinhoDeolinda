@@ -232,7 +232,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
     <div class="form-container sign-up-container">
         <form action="" method="POST">
-            <h1>Create Account</h1>
+            <h1>Criar Conta</h1>
 
             <input type="text" name="name" placeholder="Nome" required>
             <input type="email" name="email" placeholder="Email" required>
@@ -294,7 +294,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
     <div class="form-container sign-in-container">
         <form action="" method="POST">
-            <h1>Sign in</h1>
+            <h1>Iniciar Sessão</h1>
 
             <input type="email" name="email" placeholder="Email" required>
             <div class="password-wrapper">
@@ -329,9 +329,9 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             </div>
 
 
-            <a href="recuperacao/forgot_password.php">Forgot your password?</a>
+            <a href="recuperacao/forgot_password.php">Esqueci-me da palavra-passe?</a>
 
-            <button type="submit" name="signin">Login</button>
+            <button type="submit" name="signin">Entrar</button>
         </form>
     </div>
 
@@ -339,15 +339,15 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
         <div class="overlay">
 
             <div class="overlay-panel overlay-left">
-                <h1>Welcome Back!</h1>
-                <p>To keep connected with us please login with your personal info</p>
-                <button class="ghost" id="signIn">Login</button>
+                <h1>Olá Novamente!</h1>
+                <p>Para se manter ligado a nós, inicie sessão com os seus dados pessoais.</p>
+                <button class="ghost" id="signIn">Entrar</button>
             </div>
 
             <div class="overlay-panel overlay-right">
-                <h1>Hello, Friend!</h1>
-                <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+                <h1>Bem-vindo!</h1>
+                <p>Introduza os seus dados pessoais e comece a sua jornada connosco.</p>
+                <button class="ghost" id="signUp">Criar conta</button>
             </div>
 
         </div>
