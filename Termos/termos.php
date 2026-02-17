@@ -1,5 +1,10 @@
 <?php
 require("../config.php");  
+
+// Se existir página anterior (login, index, menu, etc.) volta para lá.
+// Caso a página seja aberta diretamente, volta por defeito para o login.
+$voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -8,43 +13,7 @@ require("../config.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Termos de Uso - Cantinho_Deolinda</title>
     <link rel="stylesheet" href="Css/home.css">
-    <style>
-        body {
-            background-color: #1b1d1e;
-            color: #fff;
-            font-family: 'Poppins', Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #fbbd33;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        a.voltar-btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 25px;
-            background: linear-gradient(135deg, #f5a623, #ffcc33);
-            color: #000;
-            text-decoration: none;
-            border-radius: 40px;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
-        }
-        a.voltar-btn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #ffcc33, #f5a623);
-        }
-        .container-termos {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="../Css/termos.css">
 </head>
 <body>
     <div class="container-termos">
@@ -73,7 +42,8 @@ require("../config.php");
         <h2>7. Contato</h2>
         <p>Para dúvidas sobre os termos de uso, entre em contato conosco através do e-mail: contato@cantinhodeolinda.com.</p>
 
-        <a href="../login.php" class="voltar-btn">Voltar</a>
+        <!-- regressa à página anterior do utilizador -->
+        <a href="<?php echo $voltar; ?>" class="voltar-btn">Voltar</a>
     </div>
 </body>
 </html>

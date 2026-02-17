@@ -598,9 +598,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="prefooter-col">
           <h4>Recursos</h4>
           <ul>
-            <li><a href="#">Termos</a></li>
+            <li><a href="Termos/termos.php">Termos</a></li>
             <li><a href="#">Ajuda</a></li>
-            <li><a href="#">Privacidade</a></li>
+            <li><a href="Termos/politica.php">Privacidade</a></li>
           </ul>
         </div>
 

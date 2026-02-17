@@ -280,9 +280,9 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                     <input type="checkbox" name="termos" required>
                     <span>
                         Li e aceito os
-                        <a href="Termos/termos.php" target="_blank">Termos de Uso</a>
+                        <a href="Termos/termos.php">Termos de Uso</a>
                         e a
-                        <a href="Termos/politica.php" target="_blank">Política de Privacidade</a>.
+                        <a href="Termos/politica.php">Política de Privacidade</a>.
                     </span>
                 </label>
             </div>
