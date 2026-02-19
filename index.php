@@ -135,8 +135,8 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                 required>
               <small id="avisoPessoas" style="color:red; display:none; font-size:14px; margin-top:4px;">
                 ⚠️ Máximo permitido: 30 pessoas. Para grupos maiores, contacte o restaurante.
-              </small>
-            </div>
+              </small> 
+            </div> 
 
 
             <!-- Linha 4: Email (apenas visual) -->
