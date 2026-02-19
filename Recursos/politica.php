@@ -13,9 +13,10 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Política de Privacidade - Cantinho_Deolinda</title>
     <link rel="stylesheet" href="../Css/home.css">
+    <link rel="stylesheet" href="../Css/bttlogin.css">
     <link rel="stylesheet" href="../Css/politica.css">
 </head>
-<body>
+<body class="pagina-politica">
     <div class="container-privacidade">
         <h1>Política de Privacidade</h1>
 
@@ -37,12 +38,12 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
         <p>O site pode utilizar cookies para melhorar a experiência do usuário, lembrar preferências e analisar o tráfego do site.</p>
 
         <h2>6. Direitos do Usuário</h2>
-        <p>Você pode acessar, corrigir ou solicitar a exclusão de suas informações pessoais entrando em contato conosco pelo e-mail: contato@cantinhodeolinda.com.</p>
+        <p>Você pode acessar, corrigir ou solicitar a exclusão de suas informações pessoais entrando em contato conosco pelo e-mail: cantinhodeolina@gmail.com.</p>
 
         <h2>7. Alterações</h2>
         <p>Esta política de privacidade pode ser atualizada periodicamente. As alterações serão publicadas nesta página.</p>
 
-        <a href="<?php echo $voltar; ?>" class="voltar-btn">Voltar</a><!-- Botão do codigo lá de cima: regressa à página anterior do utilizador -->
+        <a href="<?php echo $voltar; ?>" id="btt-politica" class="btt-padrao-login">Voltar</a><!-- Botão do codigo lá de cima: regressa à página anterior do utilizador -->
     </div>
 </body>
 </html>

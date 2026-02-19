@@ -165,7 +165,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       </div>
 
       <ul class="menu">
-        <li><a href="#home">Home</a></li>
+        <li><a href="#home">Início</a></li>
         <li><a href="#menu_carrosel">Menu</a></li>
         <li><a href="#eventos">Eventos</a></li>
         <li><a href="#localizacao">Localização</a></li>
@@ -354,6 +354,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <?php else: ?>
           <button id="batatas-btn" class="btt-padrao-login" onclick="window.location.href='login.php'">
             Reserva Agora
+          </button>
           <?php endif; ?>
       </div>
     </section>
@@ -404,9 +405,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <div class="info_adicionais-card">
               <div class="info_adicionais-card-title">Suporte</div>
               <p><strong>Segunda - Domingo</strong></p>
-              <p>📞 +511 442-2777</p>
-              <p>✉️ Cantinhodeolina@gmail.com</p>
-              <p>📍 Rua Carlos Alberto Martins Vicente, 2580-355 Alenquer</p>
+              <p>📞 <a id="support-phone-link" class="contact-link-animated" href="tel:+351966545510" target="_blank" rel="noopener noreferrer">+351 966 545 510</a></p>
+              <p>✉️ <a class="contact-link-animated" href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3Acantinhodeolina%40gmail.com" target="_blank" rel="noopener noreferrer">cantinhodeolina@gmail.com</a></p>
+              <p>📍 <a class="contact-link-animated" href="https://maps.google.com/?q=Rua+Carlos+Alberto+Martins+Vicente,+2580-355+Alenquer" target="_blank" rel="noopener noreferrer">Rua Carlos Alberto Martins Vicente, 2580-355 Alenquer</a></p>
 
               <?php if (isset($_SESSION['id'])): ?>
                 <button id="info_adicionais-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
@@ -417,7 +418,6 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                   Reserva Agora
                 </button>
               <?php endif; ?>
-
             </div>
 
           </div>
@@ -433,7 +433,6 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
-
           </div>
 
         </div>
@@ -598,9 +597,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="prefooter-col">
           <h4>Recursos</h4>
           <ul>
-            <li><a href="Termos/termos.php">Termos</a></li>
-            <li><a href="#">Ajuda</a></li>
-            <li><a href="Termos/politica.php">Privacidade</a></li>
+            <li><a href="Recursos/termos.php">Termos</a></li>
+            <li><a href="Recursos/ajuda.php">Ajuda</a></li>
+            <li><a href="Recursos/politica.php">Privacidade</a></li>
           </ul>
         </div>
 
@@ -610,15 +609,15 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
           <!-- ÍCONES SOCIAIS -->
           <div class="pf-icons">
-            <a href="#" style="--pf-color:#1877f2" aria-label="Facebook">
+            <a href="https://web.facebook.com/ocantinhodaddeolinda/?locale=pt_BR&_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer" style="--pf-color:#1877f2" aria-label="Facebook">
               <i class="fab fa-facebook-f"></i>
             </a>
 
-            <a href="#" style="--pf-color:#25d366" aria-label="WhatsApp">
+            <a id="whatsapp-link" href="https://wa.me/351966545510" target="_blank" rel="noopener noreferrer" style="--pf-color:#25d366" aria-label="WhatsApp">
               <i class="fab fa-whatsapp"></i>
             </a>
 
-            <a href="#" style="--pf-color:#34e0a1" aria-label="TripAdvisor">
+            <a href="https://www.tripadvisor.com.br/Restaurant_Review-g2067688-d14935140-Reviews-O_Cantinho_da_D_Deolinda-Alenquer_Lisbon_District_Central_Portugal.html" target="_blank" rel="noopener noreferrer" style="--pf-color:#34e0a1" aria-label="TripAdvisor">
               <svg
                 class="tripadvisor-icon"
                 viewBox="0 0 1827.74 1173.72"
@@ -629,7 +628,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               </svg>
             </a>
 
-            <a href="#" style="--pf-color:#ffffff" aria-label="GitHub">
+            <a href="https://github.com/brunooc11/CantinhoDeolinda" target="_blank" rel="noopener noreferrer" style="--pf-color:#ffffff" aria-label="GitHub">
               <i class="fab fa-github"></i>
             </a>
           </div>
@@ -645,6 +644,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   </footer>
 
   <script src="Js/ModoEscuro.js"></script>
+  <script src="Js/whatsapp-link.js"></script>
   <script src="Js/loader.js"></script>
   <script src="Js/carrosel.js"></script>
   <script src="Js/menu.js"></script>

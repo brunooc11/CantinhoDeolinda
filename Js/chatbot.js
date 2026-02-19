@@ -56,7 +56,7 @@ function respostaBot(texto) {
     return "📍 Estamos em Alenquer.";
   }
   if (msg.includes("contacto") || msg.includes("telefone")) {
-    return "📞 Telefone: +511 442-2777\n✉️ mail@restaurantpro.com";
+    return "📞 Telefone: +511 442-2777\n✉️ cantinhodeolina@gmail.com";
   }
 
   return "🤖 Ainda estou a aprender 🙂 Usa os botões rápidos!";

@@ -12,10 +12,11 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Termos de Uso - Cantinho_Deolinda</title>
-    <link rel="stylesheet" href="Css/home.css">
+    <link rel="stylesheet" href="../Css/home.css">
+    <link rel="stylesheet" href="../Css/bttlogin.css">
     <link rel="stylesheet" href="../Css/termos.css">
 </head>
-<body>
+<body class="pagina-termos">
     <div class="container-termos">
         <h1>Termos de Uso</h1>
 
@@ -40,10 +41,10 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
         <p>O Cantinho_Deolinda não se responsabiliza por danos diretos ou indiretos decorrentes do uso do site, falhas técnicas ou informações incorretas.</p>
 
         <h2>7. Contato</h2>
-        <p>Para dúvidas sobre os termos de uso, entre em contato conosco através do e-mail: contato@cantinhodeolinda.com.</p>
+        <p>Para dúvidas sobre os termos de uso, entre em contato conosco através do e-mail: cantinhodeolina@gmail.com.</p>
 
         <!-- regressa à página anterior do utilizador -->
-        <a href="<?php echo $voltar; ?>" class="voltar-btn">Voltar</a>
+        <a href="<?php echo $voltar; ?>" id="btt-termos" class="btt-padrao-login">Voltar</a>
     </div>
 </body>
 </html>

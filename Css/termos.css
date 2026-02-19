@@ -1,4 +1,4 @@
-body {
+.pagina-termos {
     background-color: #1b1d1e;
     color: #fff;
     font-family: 'Poppins', Arial, sans-serif;
@@ -6,40 +6,28 @@ body {
     padding: 20px;
 }
 
-h1 {
+.pagina-termos h1 {
     color: #fbbd33;
     text-align: center;
     margin-bottom: 20px;
 }
 
-h2 {
+.pagina-termos h2 {
     color: #fbbd33;
     margin-top: 25px;
 }
 
-p {
+.pagina-termos p {
     line-height: 1.6;
     margin-bottom: 15px;
 }
 
-.container-termos {
+.pagina-termos .container-termos {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.voltar-btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 25px;
-    background: linear-gradient(135deg, #f5a623, #ffcc33);
-    color: #000;
-    text-decoration: none;
-    border-radius: 40px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-}
-
-.voltar-btn:hover {
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #ffcc33, #f5a623);
+.pagina-termos #btt-termos {
+    top: 25px;
+    right: 25px;
 }

@@ -154,7 +154,7 @@ if (isset($_GET['confirmar'])) {
 
     $headers  = "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: Cantinho Deolinda <no-reply@cantinho.pt>\r\n";
+    $headers .= "From: Cantinho Deolinda <cantinhodeolina@gmail.com>\r\n";
 
     mail($para, $assunto, $mensagem_email, $headers);
 

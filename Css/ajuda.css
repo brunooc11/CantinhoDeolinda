@@ -1,4 +1,4 @@
-.pagina-politica {
+.pagina-ajuda {
     background-color: #1b1d1e;
     color: #fff;
     font-family: 'Poppins', Arial, sans-serif;
@@ -6,28 +6,28 @@
     padding: 20px;
 }
 
-.pagina-politica h1 {
+.pagina-ajuda h1 {
     color: #fbbd33;
     text-align: center;
     margin-bottom: 20px;
 }
 
-.pagina-politica h2 {
+.pagina-ajuda h2 {
     color: #fbbd33;
     margin-top: 25px;
 }
 
-.pagina-politica p {
+.pagina-ajuda p {
     line-height: 1.6;
     margin-bottom: 15px;
 }
 
-.pagina-politica .container-privacidade {
+.pagina-ajuda .container-ajuda {
     max-width: 800px;
     margin: 0 auto;
 }
 
-.pagina-politica #btt-politica {
+.pagina-ajuda #btt-ajuda {
     top: 25px;
     right: 25px;
 }
