@@ -96,6 +96,61 @@ input {
 	color: #fff;
 }
 
+select {
+	background-color: #3a3a3a;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+	color: #fff;
+}
+
+.phone-country-row {
+	display: flex;
+	gap: 8px;
+	width: 100%;
+	margin: 8px 0;
+	align-items: stretch;
+}
+
+.country-code-box {
+	background-color: #3a3a3a;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 8px;
+	width: 102px;
+	height: 44px;
+	flex: 0 0 102px;
+}
+
+.country-flag {
+	width: 18px;
+	height: 14px;
+	flex: 0 0 18px;
+	display: block;
+	object-fit: cover;
+	border-radius: 2px;
+}
+
+#codigoPaisInput {
+	margin: 0;
+	width: 100%;
+	flex: 1;
+	background-color: transparent;
+	padding: 0;
+	height: 100%;
+	font-size: 14px;
+	line-height: 1.2;
+}
+
+.phone-country-row input[name="telefone"] {
+	margin: 0;
+	flex: 1;
+	height: 44px;
+}
+
 input::placeholder {
 	color: #aaa;
 }

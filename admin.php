@@ -1,19 +1,24 @@
 <?php
 session_start();
 
-// Se não estiver logado
+// Se nao estiver logado
 if (!isset($_SESSION['permissoes'])) {
     header("Location: login.php");
     exit();
 }
 
-// Se não for admin
+// Se nao for admin
 if ($_SESSION['permissoes'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
 require("Bd/ligar.php");
+
+function esc($value)
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
 
 
 // --- MARCAR COMPARECEU / NAO COMPARECEU ---
@@ -24,7 +29,7 @@ if (isset($_GET['presenca']) && isset($_GET['reserva'])) {
     // Atualiza o estado da reserva
     mysqli_query($con, "UPDATE reservas SET estado = '$estado' WHERE id = $idReserva");
 
-    // Se NÃO compareceu → contar faltas
+    // Se NAO compareceu -> contar faltas
     if ($estado === 'nao_compareceu') {
 
         // Buscar o cliente da reserva
@@ -41,7 +46,7 @@ if (isset($_GET['presenca']) && isset($_GET['reserva'])) {
         );
         $faltas = mysqli_fetch_assoc($faltasSQL)['faltas'];
 
-        // BLOQUEAR O USER PARA NAO PODER RESERVAR, AUTOMÁTICO APÓS 2 FALTAS
+        // BLOQUEAR O USER PARA NAO PODER RESERVAR, AUTOMATICO APOS 2 FALTAS
         if ($faltas >= 2) {
             mysqli_query($con, "UPDATE Cliente SET lista_negra = 1 WHERE id = $clienteID");
         }
@@ -58,7 +63,7 @@ if (isset($_GET['bloquear'])) {
 
     // Impedir autobloqueio
     if ($id == $_SESSION['id']) {
-        echo "<script>alert('Não te podes bloquear a ti próprio!'); window.location.href='admin.php';</script>";
+        echo "<script>alert('Nao te podes bloquear a ti proprio!'); window.location.href='admin.php';</script>";
         exit();
     }
 
@@ -79,7 +84,7 @@ if (isset($_GET['desbloquear'])) {
 if (isset($_GET['role_admin'])) {
     $id = intval($_GET['role_admin']);
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'admin' WHERE id = $id");
-    echo "<script>alert('Utilizador agora é admin!'); window.location.href='admin.php';</script>";
+    echo "<script>alert('Utilizador agora e admin!'); window.location.href='admin.php';</script>";
     exit();
 }
 
@@ -89,7 +94,7 @@ if (isset($_GET['role_user'])) {
 
     //impefir o admin de se autodespromover 
     if ($id == $_SESSION['id']) {
-        echo "<script>alert('Não te podes remover a ti próprio como admin!'); window.location.href='admin.php';</script>";
+        echo "<script>alert('Nao te podes remover a ti proprio como admin!'); window.location.href='admin.php';</script>";
         exit();
     }
 
@@ -97,12 +102,12 @@ if (isset($_GET['role_user'])) {
     $row = mysqli_fetch_assoc($check);
 
     if ($row['total'] <= 1) {
-        echo "<script>alert('Não podes remover o último admin!'); window.location.href='admin.php';</script>";
+        echo "<script>alert('Nao podes remover o ultimo admin!'); window.location.href='admin.php';</script>";
         exit();
     }
 
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'cliente' WHERE id = $id");
-    echo "<script>alert('Utilizador agora é cliente!'); window.location.href='admin.php';</script>";
+    echo "<script>alert('Utilizador agora e cliente!'); window.location.href='admin.php';</script>";
     exit();
 }
 
@@ -142,35 +147,94 @@ if (isset($_GET['reset_faltas'])) {
     echo "<script>alert('Faltas resetadas e utilizador removido da lista negra.'); window.location.href='admin.php';</script>";
     exit();
 }
+
+// KPI simples para topo do painel
+$kpiTotalUsers = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) AS total FROM Cliente"))['total'] ?? 0);
+$kpiUsersAtivos = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) AS total FROM Cliente WHERE estado = 1"))['total'] ?? 0);
+$kpiListaNegra = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) AS total FROM Cliente WHERE lista_negra = 1"))['total'] ?? 0);
+$kpiReservasPendentes = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) AS total FROM reservas WHERE confirmado = 0"))['total'] ?? 0);
+$kpiReservasHoje = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) AS total FROM reservas WHERE data_reserva = CURDATE()"))['total'] ?? 0);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
 
 <head>
     <meta charset="UTF-8">
-    <title>Painel de Administração</title>
+    <title>Painel de Administracao</title>
     <link rel="stylesheet" href="Css/admin.css">
     <link rel="stylesheet" href="Css/bttlogin.css">
 </head>
 
-<body>
+<body class="cdol-admin">
 
     <div class="container">
-        <h2>Painel de Administração</h2>
-        <p>Use este painel para gerir o site.</p>
+        <div class="admin-hero">
+            <div>
+                <h2>Painel de Administracao</h2>
+                <p>Gestao central de clientes, reservas e estado do site.</p>
+            </div>
+            <div class="admin-kpis">
+                <div class="admin-kpi-card">
+                    <span>Total clientes</span>
+                    <strong><?php echo $kpiTotalUsers; ?></strong>
+                </div>
+                <div class="admin-kpi-card">
+                    <span>Clientes ativos</span>
+                    <strong><?php echo $kpiUsersAtivos; ?></strong>
+                </div>
+                <div class="admin-kpi-card">
+                    <span>Lista negra</span>
+                    <strong><?php echo $kpiListaNegra; ?></strong>
+                </div>
+                <div class="admin-kpi-card">
+                    <span>Reservas pendentes</span>
+                    <strong><?php echo $kpiReservasPendentes; ?></strong>
+                </div>
+                <div class="admin-kpi-card">
+                    <span>Reservas hoje</span>
+                    <strong><?php echo $kpiReservasHoje; ?></strong>
+                </div>
+            </div>
+        </div>
 
+        <section class="admin-section">
         <h3>Estado do Site</h3>
-        <form method="post">
+        <form method="post" class="admin-site-state">
             <?php if ($bloqueado == 0): ?>
-                <button type="submit" name="bloquear_site" class="btn danger">🔒 Bloquear Site</button>
+                <button type="submit" name="bloquear_site" class="btn danger">Bloquear Site</button>
             <?php else: ?>
-                <button type="submit" name="ativar_site" class="btn success">🔓 Ativar Site</button>
+                <button type="submit" name="ativar_site" class="btn success">Ativar Site</button>
             <?php endif; ?>
         </form>
+        </section>
 
+        <section class="admin-section">
         <h3>Utilizadores</h3>
+        <div class="admin-search-bar">
+            <input type="text" id="adminUsersSearchInput" placeholder="Procurar utilizador (nome, email, telefone...)">
+            <button type="button" class="btn" id="adminUsersSearchBtn">Procurar</button>
+        </div>
+        <div class="admin-filter-bar">
+            <select id="adminUsersEstadoFilter">
+                <option value="">Estado: Todos</option>
+                <option value="ativo">Ativo</option>
+                <option value="bloqueado">Bloqueado</option>
+            </select>
+            <select id="adminUsersTipoFilter">
+                <option value="">Tipo: Todos</option>
+                <option value="admin">Admin</option>
+                <option value="cliente">Cliente</option>
+            </select>
+            <select id="adminUsersListaNegraFilter">
+                <option value="">Lista Negra: Todos</option>
+                <option value="sim">Sim</option>
+                <option value="nao">Nao</option>
+            </select>
+            <button type="button" class="btn admin-clear-btn" id="adminUsersClearBtn">Limpar</button>
+        </div>
 
-        <table>
+        <div class="admin-table-wrap">
+        <table id="adminUsersTable" class="admin-table">
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
@@ -180,64 +244,80 @@ if (isset($_GET['reset_faltas'])) {
                 <th>Faltas</th>
                 <th>Lista Negra</th>
                 <th>Reset</th>
-                <th>Ação</th>
+                <th>Acao</th>
                 <th>Role</th>
             </tr>
+            <tbody>
 
             <?php
-            $sql = "SELECT id, nome, email, telefone, estado, permissoes, lista_negra FROM Cliente ORDER BY nome ASC";
+            $sql = "SELECT 
+                        c.id, c.nome, c.email, c.telefone, c.estado, c.permissoes, c.lista_negra,
+                        COALESCE(f.faltas, 0) AS faltas
+                    FROM Cliente c
+                    LEFT JOIN (
+                        SELECT cliente_id, COUNT(*) AS faltas
+                        FROM reservas
+                        WHERE estado = 'nao_compareceu'
+                        GROUP BY cliente_id
+                    ) f ON f.cliente_id = c.id
+                    ORDER BY c.nome ASC";
             $res = mysqli_query($con, $sql);
 
             while ($user = mysqli_fetch_assoc($res)) {
+                $estadoUserTexto = $user['estado'] == 1 ? 'ativo' : 'bloqueado';
+                $listaNegraTexto = $user['lista_negra'] == 1 ? 'sim' : 'nao';
+                $searchUserText = strtolower(trim(
+                    $user['nome'] . ' ' .
+                    $user['email'] . ' ' .
+                    $user['telefone'] . ' ' .
+                    $estadoUserTexto . ' ' .
+                    $user['permissoes'] . ' ' .
+                    $listaNegraTexto
+                ));
 
-                echo "<tr>";
-                echo "<td>{$user['nome']}</td>";
-                echo "<td>{$user['email']}</td>";
-                echo "<td>{$user['telefone']}</td>";
+                echo "<tr 
+                        data-admin-search='" . esc($searchUserText) . "'
+                        data-estado='" . esc($estadoUserTexto) . "'
+                        data-tipo='" . esc(strtolower($user['permissoes'])) . "'
+                        data-lista-negra='" . esc($listaNegraTexto) . "'>";
+                echo "<td>" . esc($user['nome']) . "</td>";
+                echo "<td>" . esc($user['email']) . "</td>";
+                echo "<td>" . esc($user['telefone']) . "</td>";
 
                 echo $user['estado'] == 1
-                    ? "<td style='color:lightgreen;'>Ativo</td>"
-                    : "<td style='color:red;'>Bloqueado</td>";
+                    ? "<td><span class='status-chip ok'>Ativo</span></td>"
+                    : "<td><span class='status-chip bad'>Bloqueado</span></td>";
 
-                echo "<td>" . strtoupper($user['permissoes']) . "</td>";
+                $roleClass = $user['permissoes'] === 'admin' ? 'warn' : 'neutral';
+                echo "<td><span class='status-chip $roleClass'>" . esc(strtoupper($user['permissoes'])) . "</span></td>";
 
-                // Contar faltas do utilizador
-                $faltasQuery = mysqli_query(
-                    $con,
-                    "SELECT COUNT(*) AS total 
-                    FROM reservas 
-                    WHERE cliente_id = {$user['id']} 
-                    AND estado = 'nao_compareceu'"
-                );
-                $faltasUser = mysqli_fetch_assoc($faltasQuery)['total'];
+                $faltasUser = (int)$user['faltas'];
 
                 // Cor das faltas 
-                $corFaltasUser = $faltasUser >= 2 ? 'red' : 'white';
-
-                // Mostrar faltas
-                echo "<td style='color:$corFaltasUser; font-weight:bold;'>$faltasUser</td>";
+                $classeFalta = $faltasUser >= 2 ? 'bad' : 'neutral';
+                echo "<td><span class='status-chip $classeFalta'>$faltasUser</span></td>";
 
                 // Lista negra
                 if ($user['lista_negra'] == 1) {
-                    echo "<td style='color:red; font-weight:bold;'>Sim</td>";
+                    echo "<td><span class='status-chip bad'>Sim</span></td>";
                 } else {
-                    echo "<td style='color:lightgreen; font-weight:bold;'>Não</td>";
+                    echo "<td><span class='status-chip ok'>Nao</span></td>";
                 }
 
-                // Mostrar botão de reset se houver faltas
-                echo "<td>";
+                // Mostrar botao de reset se houver faltas
+                echo "<td class='admin-actions-cell'>";
                 if ($faltasUser > 0) {
                     echo "<a class='action-btn blue-btn' 
                         href='admin.php?reset_faltas={$user['id']}'>
                         Resetar Faltas
                         </a>";
                 } else {
-                    echo "<span style='color:gray;'>Sem faltas</span>";
+                    echo "<span class='status-chip neutral'>Sem faltas</span>";
                 }
                 echo "</td>";
 
                 //Btt de bloquear/Desbloquear
-                echo "<td>";
+                echo "<td class='admin-actions-cell'>";
                 if ($user['estado'] == 1) {
                     echo "<a class='action-btn' href='admin.php?bloquear={$user['id']}'>Bloquear</a>";
                 } else {
@@ -246,7 +326,7 @@ if (isset($_GET['reset_faltas'])) {
                 echo "</td>";
 
 
-                echo "<td>";
+                echo "<td class='admin-actions-cell'>";
                 if ($user['permissoes'] === 'admin') {
                     echo "<a class='action-btn blue-btn' href='admin.php?role_user={$user['id']}'>Tornar Cliente</a>";
                 } else {
@@ -257,21 +337,48 @@ if (isset($_GET['reset_faltas'])) {
                 echo "</tr>";
             }
             ?>
+            </tbody>
         </table>
+        </div>
+        <p id="adminUsersSearchEmpty" class="admin-search-empty">Sem resultados para utilizadores.</p>
+        </section>
 
-        <h3>Gestão de Reservas</h3>
+        <section class="admin-section">
+        <h3>Gestao de Reservas</h3>
+        <div class="admin-search-bar">
+            <input type="text" id="adminReservasSearchInput" placeholder="Procurar reserva (id, cliente, data, hora...)">
+            <button type="button" class="btn" id="adminReservasSearchBtn">Procurar</button>
+        </div>
+        <div class="admin-filter-bar">
+            <select id="adminReservasConfirmacaoFilter">
+                <option value="">Confirmacao: Todas</option>
+                <option value="confirmada">Confirmada</option>
+                <option value="pendente">Pendente</option>
+                <option value="recusada">Recusada</option>
+            </select>
+            <select id="adminReservasEstadoFilter">
+                <option value="">Estado: Todos</option>
+                <option value="pendente">Pendente</option>
+                <option value="compareceu">Compareceu</option>
+                <option value="nao_compareceu">Nao compareceu</option>
+                <option value="perdoado(reset)">Perdoado (reset)</option>
+            </select>
+            <button type="button" class="btn admin-clear-btn" id="adminReservasClearBtn">Limpar</button>
+        </div>
 
-        <table>
+        <div class="admin-table-wrap">
+        <table id="adminReservasTable" class="admin-table">
             <tr>
                 <th>ID</th>
                 <th>Cliente</th>
                 <th>Data</th>
                 <th>Hora</th>
                 <th>Pessoas</th>
-                <th>Confirmação</th>
+                <th>Confirmacao</th>
                 <th>Estado</th>
-                <th>Ação</th>
+                <th>Acao</th>
             </tr>
+            <tbody>
 
             <?php
             // Buscar todas as reservas com dados do cliente
@@ -284,60 +391,64 @@ if (isset($_GET['reset_faltas'])) {
             );
 
             while ($r = mysqli_fetch_assoc($reservas)) {
-                /* cor do estado da reserva */
-                switch ($r['estado']) {
-                    case 'compareceu':
-                        $corEstado = 'green';
-                        break;
-                    case 'nao_compareceu':
-                        $corEstado = 'red';
-                        break;
-                    case 'perdoado(reset)':
-                        $corEstado = 'yellow';
-                        break;
-                    default:
-                        $corEstado = 'orange'; // pendente
-                }
-
-
-                /* confirmaçao da reserva */
+                /* confirmacao da reserva */
                 if ($r['confirmado'] == 1) {
                     $confLabel = "Confirmada";
-                    $confColor = "green";
                 } elseif ($r['confirmado'] == -1) {
                     $confLabel = "Recusada";
-                    $confColor = "red";
                 } else {
                     $confLabel = "Pendente";
-                    $confColor = "orange";
                 }
 
 
 
                 /* tabela */
-                echo "<tr>";
+                $searchReservaText = strtolower(trim(
+                    $r['id'] . ' ' .
+                    $r['nome'] . ' ' .
+                    $r['data_reserva'] . ' ' .
+                    $r['hora_reserva'] . ' ' .
+                    $r['numero_pessoas'] . ' ' .
+                    $confLabel . ' ' .
+                    $r['estado']
+                ));
+                if ($r['estado'] === 'compareceu') {
+                    $estadoLabel = 'Compareceu';
+                } elseif ($r['estado'] === 'nao_compareceu') {
+                    $estadoLabel = 'Nao compareceu';
+                } elseif ($r['estado'] === 'perdoado(reset)') {
+                    $estadoLabel = 'Perdoado (reset)';
+                } else {
+                    $estadoLabel = 'Pendente';
+                }
+                echo "<tr 
+                        data-admin-search='" . esc($searchReservaText) . "'
+                        data-confirmacao='" . esc(strtolower($confLabel)) . "'
+                        data-estado='" . esc(strtolower($r['estado'])) . "'>";
 
-                echo "<td>{$r['id']}</td>";
-                echo "<td>{$r['nome']}</td>";
-                echo "<td>{$r['data_reserva']}</td>";
-                echo "<td>{$r['hora_reserva']}</td>";
-                echo "<td>{$r['numero_pessoas']}</td>";
+                echo "<td>" . esc($r['id']) . "</td>";
+                echo "<td>" . esc($r['nome']) . "</td>";
+                echo "<td>" . esc($r['data_reserva']) . "</td>";
+                echo "<td>" . esc($r['hora_reserva']) . "</td>";
+                echo "<td>" . esc($r['numero_pessoas']) . "</td>";
 
-                // Confirmação
-                echo "<td style='color:$confColor; font-weight:bold;'>$confLabel</td>";
+                // Confirmacao
+                $confClass = $r['confirmado'] == 1 ? 'ok' : ($r['confirmado'] == -1 ? 'bad' : 'warn');
+                echo "<td><span class='status-chip $confClass'>" . esc($confLabel) . "</span></td>";
 
                 // Estado
-                echo "<td style='color:$corEstado; font-weight:bold;'>{$r['estado']}</td>";
+                $estadoClass = $r['estado'] === 'compareceu' ? 'ok' : (($r['estado'] === 'nao_compareceu') ? 'bad' : 'warn');
+                echo "<td><span class='status-chip $estadoClass'>" . esc($estadoLabel) . "</span></td>";
 
 
                 /* btts */
-                echo "<td>";
+                echo "<td class='admin-actions-cell'>";
 
                 $estadoAtual = $r['estado'];
 
-                // Mostrar botões APENAS se:
-                // - Reserva está confirmada
-                // - Estado ainda é pendente
+                // Mostrar botoes APENAS se:
+                // - Reserva esta confirmada
+                // - Estado ainda e pendente
                 if ($r['confirmado'] == 1 && $estadoAtual === 'pendente') {
 
                     echo "<a class='action-btn green-btn' 
@@ -347,12 +458,12 @@ if (isset($_GET['reset_faltas'])) {
 
                     echo "<a class='action-btn danger' 
                     href='admin.php?presenca=nao_compareceu&reserva={$r['id']}'>
-                    Não Compareceu
+                    Nao Compareceu
                     </a>";
                 } else {
 
-                    // Estado final → Não mostrar botões
-                    echo "<span style='color:gray;'>Sem ações disponíveis</span>";
+                    // Estado final -> Nao mostrar botoes
+                    echo "<span class='status-chip neutral'>Sem acoes</span>";
                 }
 
                 echo "</td>";
@@ -361,16 +472,23 @@ if (isset($_GET['reset_faltas'])) {
                 echo "</tr>";
             }
             ?>
+            </tbody>
         </table>
+        </div>
+        <p id="adminReservasSearchEmpty" class="admin-search-empty">Sem resultados para reservas.</p>
+        </section>
 
 
         <div class="botoesNav">
-            <a href="index.php" id="btnInicio">← Início</a>
-            <a href="dashboard.php" id="btnDashboard">← Dashboard</a>
-            <a href="Bd/confirmar_reservas.php" id="btnDashboard">← confirmar_reservas</a>
+            <a href="index.php" id="btnInicio">&larr; Inicio</a>
+            <a href="dashboard.php" id="btnDashboard">&larr; Dashboard</a>
+            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas">&larr; Confirmar Reservas</a>
         </div>
 
     </div>
+    <script src="Js/admin_search.js"></script>
 </body>
 
 </html>
+
+

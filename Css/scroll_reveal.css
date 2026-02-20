@@ -1,0 +1,26 @@
+.cdol-reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  filter: blur(2px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s ease,
+    filter 0.65s ease;
+  transition-delay: var(--cdol-reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.cdol-reveal-on-scroll.cdol-reveal-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdol-reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}

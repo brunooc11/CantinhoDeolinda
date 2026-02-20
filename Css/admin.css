@@ -33,6 +33,36 @@ h2, h3 {
 .danger { background: #d9534f; color: #fff; }
 .success { background: #5cb85c; color: #fff; }
 
+.admin-search-bar {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.admin-search-bar input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.admin-search-bar input:focus {
+    outline: none;
+    border-color: #ffcf33;
+    box-shadow: 0 0 0 2px rgba(255, 207, 51, 0.2);
+}
+
+.admin-search-empty {
+    display: none;
+    margin-top: 8px;
+    color: #f0a0a0;
+    font-weight: bold;
+}
+
 table {
     width: 100%;
     margin-top: 25px;
@@ -118,7 +148,8 @@ a.action-btn:hover {
 
 
 #btnDashboard,
-#btnInicio {
+#btnInicio,
+#btnConfirmarReservas {
     padding: 12px 28px;
     border-radius: 40px;
     background: linear-gradient(135deg, #f5a623, #ffcc33);
@@ -136,7 +167,8 @@ a.action-btn:hover {
 
 /* HOVER */
 #btnDashboard:hover,
-#btnInicio:hover {
+#btnInicio:hover,
+#btnConfirmarReservas:hover {
     transform: translateY(-3px) scale(1.05);
     background: linear-gradient(135deg, #ffcc33, #f5a623);
     color: #111;
@@ -144,6 +176,414 @@ a.action-btn:hover {
 
 /* ACTIVE */
 #btnDashboard:active,
-#btnInicio:active {
+#btnInicio:active,
+#btnConfirmarReservas:active {
     transform: scale(0.98);
+}
+
+/* --------- Visual polish --------- */
+.container {
+    width: min(1180px, 92%);
+    margin: 32px auto;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid #3a2f09;
+    background:
+      radial-gradient(1200px 200px at 10% -10%, rgba(255, 207, 51, 0.10), transparent 55%),
+      #121212;
+}
+
+.container > p {
+    margin-top: 4px;
+    margin-bottom: 20px;
+    color: #cfcfcf;
+}
+
+h2 {
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 0.3px;
+}
+
+h3 {
+    margin-top: 24px;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.admin-search-bar {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.admin-search-bar input {
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #2e2e2e;
+    background: #181818;
+}
+
+.admin-search-bar .btn {
+    height: 42px;
+    padding: 0 18px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f5a623, #ffcc33);
+    color: #101010;
+}
+
+table {
+    margin-top: 8px;
+    border: 1px solid #2b2b2b;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+td {
+    padding: 11px 10px;
+    vertical-align: middle;
+}
+
+a.action-btn {
+    border-radius: 8px;
+    margin-top: 0;
+}
+
+.botoesNav {
+    margin-top: 30px;
+}
+
+@media (max-width: 900px) {
+    .container {
+        width: 96%;
+        padding: 18px;
+    }
+
+    .admin-search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-search-bar .btn {
+        width: 100%;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* ===== Admin UI Refresh (scoped) ===== */
+.cdol-admin {
+    background:
+      radial-gradient(1200px 380px at 10% -18%, rgba(255, 207, 51, 0.14), transparent 56%),
+      radial-gradient(900px 300px at 90% -20%, rgba(255, 207, 51, 0.08), transparent 62%),
+      #0b0c0e;
+    color: #f2f2f2;
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.cdol-admin .container {
+    width: min(1240px, 94%);
+    margin: 24px auto;
+    padding: 24px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 207, 51, 0.22);
+    background: linear-gradient(160deg, rgba(20, 20, 20, 0.95), rgba(12, 12, 12, 0.96));
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.45);
+}
+
+.cdol-admin .admin-hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.cdol-admin h2 {
+    margin: 0;
+    font-size: clamp(26px, 3vw, 34px);
+    color: #ffd45a;
+    text-shadow: 0 0 14px rgba(255, 207, 51, 0.24);
+}
+
+.cdol-admin .admin-hero p {
+    margin: 8px 0 0;
+    color: #cdcdcd;
+}
+
+.cdol-admin .admin-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.cdol-admin .admin-kpi-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+
+.cdol-admin .admin-kpi-card span {
+    display: block;
+    font-size: 12px;
+    color: #b8b8b8;
+}
+
+.cdol-admin .admin-kpi-card strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 22px;
+    color: #fff;
+}
+
+.cdol-admin .admin-section {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.cdol-admin h3 {
+    margin: 0 0 12px;
+    font-size: 22px;
+    color: #ffd45a;
+}
+
+.cdol-admin .admin-site-state {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cdol-admin .btn {
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+}
+
+.cdol-admin .admin-search-bar {
+    margin-bottom: 12px;
+}
+
+.cdol-admin .admin-search-bar input {
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #2f2f2f;
+    background: #131313;
+}
+
+.cdol-admin .admin-search-bar .btn {
+    height: 44px;
+    background: linear-gradient(135deg, #f5b42f, #ffd45a);
+    color: #101010;
+}
+
+.cdol-admin .admin-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.cdol-admin .admin-filter-bar select {
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #2f2f2f;
+    background: #131313;
+    color: #f2f2f2;
+    min-width: 180px;
+}
+
+.cdol-admin .admin-filter-bar select:focus {
+    outline: none;
+    border-color: #ffd45a;
+    box-shadow: 0 0 0 2px rgba(255, 212, 90, 0.2);
+}
+
+.cdol-admin .admin-clear-btn {
+    height: 40px;
+    background: #242424;
+    color: #f2f2f2;
+    border: 1px solid #3a3a3a;
+}
+
+.cdol-admin .admin-table-wrap {
+    overflow-x: auto;
+}
+
+.cdol-admin .admin-table {
+    margin-top: 0;
+    min-width: 920px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cdol-admin .admin-table th {
+    background: linear-gradient(135deg, #f5b42f, #ffd45a);
+    color: #101010;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    padding: 12px 10px;
+}
+
+.cdol-admin .admin-table td {
+    padding: 10px;
+}
+
+.cdol-admin .admin-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.cdol-admin .admin-table tbody tr:hover {
+    background: rgba(245, 180, 47, 0.08);
+}
+
+.cdol-admin .status-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 78px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.cdol-admin .status-chip.ok {
+    color: #9df1bc;
+    background: rgba(50, 178, 102, 0.15);
+    border-color: rgba(50, 178, 102, 0.32);
+}
+
+.cdol-admin .status-chip.bad {
+    color: #ffb2bb;
+    background: rgba(220, 53, 69, 0.15);
+    border-color: rgba(220, 53, 69, 0.32);
+}
+
+.cdol-admin .status-chip.warn {
+    color: #ffe39f;
+    background: rgba(255, 193, 7, 0.16);
+    border-color: rgba(255, 193, 7, 0.35);
+}
+
+.cdol-admin .status-chip.neutral {
+    color: #dadada;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.cdol-admin a.action-btn {
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+.cdol-admin .admin-actions-cell {
+    white-space: nowrap;
+}
+
+.cdol-admin .admin-actions-cell .action-btn {
+    margin: 3px 4px 3px 0;
+}
+
+/* Users table: fit content without horizontal scroll */
+.cdol-admin #adminUsersTable {
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.cdol-admin #adminUsersTable th,
+.cdol-admin #adminUsersTable td {
+    font-size: 11px;
+    word-break: break-word;
+}
+
+.cdol-admin #adminUsersTable .admin-actions-cell {
+    white-space: normal;
+}
+
+.cdol-admin #adminUsersTable .status-chip {
+    min-width: 56px;
+    padding: 4px 8px;
+    font-size: 11px;
+}
+
+.cdol-admin .admin-search-empty {
+    margin-top: 10px;
+}
+
+.cdol-admin .admin-pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.cdol-admin .admin-pagination .btn {
+    height: 36px;
+    padding: 0 12px;
+}
+
+.cdol-admin .admin-pagination .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.cdol-admin .admin-pagination span {
+    color: #cfcfcf;
+    font-size: 13px;
+}
+
+.cdol-admin .botoesNav {
+    margin-top: 20px;
+}
+
+@media (max-width: 980px) {
+    .cdol-admin .admin-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .cdol-admin .admin-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cdol-admin .admin-search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cdol-admin .admin-search-bar .btn {
+        width: 100%;
+    }
+
+    .cdol-admin .admin-filter-bar {
+        flex-direction: column;
+    }
+
+    .cdol-admin .admin-filter-bar select,
+    .cdol-admin .admin-clear-btn {
+        width: 100%;
+    }
+
+    .cdol-admin .admin-pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }

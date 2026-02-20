@@ -1,15 +1,16 @@
 <?php
 require_once("config.php");
 require_once("Bd/ligar.php");
+date_default_timezone_set('Europe/Lisbon');
 
-// Verifica se o usuário está logado
+// Verifica se o usuario esta logado
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
 
 
-// 🔔 POPUP de reservas confirmadas / recusadas
+// POPUP de reservas confirmadas / recusadas
 $idCliente = $_SESSION['id'];
 
 $sqlPopup = "
@@ -42,13 +43,13 @@ mysqli_stmt_close($stmtPopup);
 if ($temAceite || $temRecusada) {
 
     if ($temAceite && $temRecusada) {
-        $msg = "🔔 Tem atualizações nas suas reservas.\n\n"
-            . "✔ Algumas reservas foram confirmadas.\n"
-            . "❌ Algumas reservas foram recusadas.";
+        $msg = "Tem atualizacoes nas suas reservas.\n\n"
+            . "Algumas reservas foram confirmadas.\n"
+            . "Algumas reservas foram recusadas.";
     } elseif ($temAceite) {
-        $msg = "✅ A sua reserva foi confirmada pelo restaurante!";
+        $msg = "A sua reserva foi confirmada pelo restaurante!";
     } else {
-        $msg = "❌ A sua reserva foi recusada pelo restaurante.";
+        $msg = "A sua reserva foi recusada pelo restaurante.";
     }
 
     echo "<script>
@@ -100,13 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
     if (empty($senha_atual) || empty($nova_senha) || empty($confirmar_senha)) {
         $mensagem = "Por favor, preencha todos os campos.";
     } elseif ($nova_senha !== $confirmar_senha) {
-        $mensagem = "As novas senhas não coincidem.";
+        $mensagem = "As novas senhas nao coincidem.";
     } else {
         $id = $_SESSION['id'];
         $query = "SELECT password FROM Cliente WHERE id = ?";
         $stmt = mysqli_prepare($con, $query);
         if (!$stmt) {
-            die("Erro na preparação da query: " . mysqli_error($con));
+            die("Erro na preparacao da query: " . mysqli_error($con));
         }
 
         mysqli_stmt_bind_param($stmt, "i", $id);
@@ -116,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
         mysqli_stmt_close($stmt);
 
         if (!password_verify($senha_atual, $senha_bd)) {
-            $mensagem = "A senha atual está incorreta.";
+            $mensagem = "A senha atual esta incorreta.";
         } else {
             // Atualiza a password
             $nova_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
@@ -126,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
 
-            // Termina a sessão após alterar a password
+            // Termina a sessao apos alterar a password
             session_destroy();
 
             // Redireciona para login com aviso
@@ -161,14 +162,35 @@ mysqli_stmt_close($stmt);
 
 // Cancelar reserva
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) {
-    $id_reserva = intval($_POST['id_reserva']); // garante que é um número
+    $id_reserva = intval($_POST['id_reserva']);
+
+    $queryData = "SELECT data_reserva FROM reservas WHERE id = ? AND cliente_id = ? LIMIT 1";
+    $stmtData = mysqli_prepare($con, $queryData);
+    mysqli_stmt_bind_param($stmtData, "ii", $id_reserva, $_SESSION['id']);
+    mysqli_stmt_execute($stmtData);
+    mysqli_stmt_bind_result($stmtData, $data_reserva_cancelar);
+    $encontrou = mysqli_stmt_fetch($stmtData);
+    mysqli_stmt_close($stmtData);
+
+    if (!$encontrou) {
+        header("Location: dashboard.php?tab=Reservas&erro_cancelamento=nao_encontrada");
+        exit();
+    }
+
+    $hojeStr = date('Y-m-d');
+    $dataReservaStr = date('Y-m-d', strtotime($data_reserva_cancelar));
+
+    if (!$dataReservaStr || $dataReservaStr <= $hojeStr) {
+        header("Location: dashboard.php?tab=Reservas&erro_cancelamento=prazo");
+        exit();
+    }
+
     $query = "DELETE FROM reservas WHERE id = ? AND cliente_id = ?";
     $stmt = mysqli_prepare($con, $query);
     mysqli_stmt_bind_param($stmt, "ii", $id_reserva, $_SESSION['id']);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    // Atualiza a página mostrando a aba Reservas
     header("Location: dashboard.php?tab=Reservas");
     exit();
 }
@@ -185,11 +207,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <link rel="stylesheet" href="Css/bttlogin.css">
 </head>
 
-<body>
+<body class="cdol-dash">
 
     <div class="dashboard-header">
-        <h1>Olá, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
-        <a href="index.php" id="bttInicio" class="btt-padrao-login">← Voltar ao Início</a>
+        <h1>Ola, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
+        <a href="index.php" id="bttInicio" class="btt-padrao-login">&larr; Voltar ao Inicio</a>
     </div>
 
     <div class="dashboard-menu">
@@ -205,63 +227,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             <h3>Minha Conta</h3>
 
             <?php if (!empty($mensagem)): ?>
-                <p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? 'green' : 'red'; ?>;">
+                <p class="dash-alert <?php echo strpos($mensagem, 'sucesso') !== false ? 'success' : 'danger'; ?>">
                     <?php echo htmlspecialchars($mensagem); ?>
                 </p>
             <?php endif; ?>
 
-            <p>Nome: <?php echo htmlspecialchars($_SESSION['nome']); ?></p>
-            <p>Email: <?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></p>
-            <p>Conta criada em: <?php echo date("d/m/Y H:i", strtotime($_SESSION['data'] ?? '')); ?></p>
+            <div class="conta-info-grid">
+                <div class="conta-info-item">
+                    <span class="label">Nome</span>
+                    <strong><?php echo htmlspecialchars($_SESSION['nome']); ?></strong>
+                </div>
+                <div class="conta-info-item">
+                    <span class="label">Email</span>
+                    <strong><?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></strong>
+                </div>
+                <div class="conta-info-item">
+                    <span class="label">Conta criada em</span>
+                    <strong><?php echo date("d/m/Y H:i", strtotime($_SESSION['data'] ?? '')); ?></strong>
+                </div>
+            </div>
 
-            <button type="button" class="btt-alterar-senha" onclick="toggleFormSenha()">Alterar Senha</button>
+            <div class="conta-actions">
+                <button type="button" class="btt-alterar-senha" onclick="toggleFormSenha()">Alterar Senha</button>
 
-            <div class="form-lateral-card" id="formSenhaCard">
-                <form method="POST">
-                    <h3>Alterar Senha</h3>
-                    <input type="password" name="senha_atual" placeholder="Senha atual" required><br><br>
-                    <input type="password" name="nova_senha" placeholder="Nova senha" required><br><br>
-                    <input type="password" name="confirmar_senha" placeholder="Confirmar nova senha" required><br><br>
-                    <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
-                        Confirmar Alteração
+                <form method="POST" action="?logout=1">
+                    <button type="submit" class="btt-sair" id="bttsair">Sair</button>
+                </form>
+
+                <form method="POST" onsubmit="return confirmarExclusao();">
+                    <button type="submit" name="excluir" class="btn btn-excluir" id="btt_excluir_conta">
+                        Excluir Conta
                     </button>
                 </form>
             </div>
 
-            <form method="POST" action="?logout=1">
-                <button type="submit" class="btt-sair" id="bttsair">Sair</button>
-            </form>
+            <div class="form-lateral-card" id="formSenhaCard">
+                <form method="POST" class="senha-form">
+                    <div class="senha-form-head">
+                        <h3>Alterar Senha</h3>
+                        <p>Atualize a sua senha para manter a conta segura.</p>
+                    </div>
 
-            <form method="POST" onsubmit="return confirmarExclusao();">
-                <button type="submit" name="excluir" class="btn btn-excluir" id="btt_excluir_conta">
-                    Excluir Conta
-                </button>
-            </form>
+                    <div class="senha-form-grid">
+                        <label class="senha-field">
+                            <span>Senha atual</span>
+                            <input type="password" name="senha_atual" placeholder="Digite a senha atual" required>
+                        </label>
+                        <label class="senha-field">
+                            <span>Nova senha</span>
+                            <input type="password" name="nova_senha" placeholder="Digite a nova senha" required>
+                        </label>
+                        <label class="senha-field">
+                            <span>Confirmar nova senha</span>
+                            <input type="password" name="confirmar_senha" placeholder="Repita a nova senha" required>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
+                        Guardar Alteracao
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
     <div id="Reservas" class="tabcontent">
-        <div class="card">
+            <div class="card">
             <?php
             if (isset($_GET['confirmada']) && $_GET['confirmada'] == 1) {
-                echo '<p style="color: green; font-weight: bold;">✔ Reserva confirmada com sucesso!</p>';
+                echo '<p class="dash-alert success">Reserva confirmada com sucesso.</p>';
             }
 
             if (isset($_GET['erro']) && $_GET['erro'] == 1) {
-                echo '<p style="color: red; font-weight: bold;">Erro ao confirmar a reserva.</p>';
+                echo '<p class="dash-alert danger">Erro ao confirmar a reserva.</p>';
+            }
+
+            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'prazo') {
+                echo '<p class="dash-alert danger">Nao e possivel cancelar no dia da reserva ou depois.</p>';
+            }
+
+            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'nao_encontrada') {
+                echo '<p class="dash-alert danger">Reserva nao encontrada.</p>';
             }
             ?>
-            <h3>Reservas</h3>
+            <div class="reservas-header">
+                <h3>Reservas</h3>
+                <div class="reservas-acoes">
+                    <a href="index.php?abrir_reserva=1" class="btt-padrao-login" id="bttNovaReserva">
+                        Fazer nova reserva
+                    </a>
+                </div>
+            </div>
 
             <?php if (!empty($reservas)): ?>
-                <table class="tabela-reservas">
+                <div class="table-wrap">
+                    <table class="tabela-reservas">
                     <thead>
                         <tr>
                             <th>Data</th>
                             <th>Hora</th>
                             <th>Pessoas</th>
-                            <th>Confirmação</th>
-                            <th>Ações</th>
+                            <th>Confirmacao</th>
+                            <th>Acoes</th>
                         </tr>
                     </thead>
 
@@ -272,36 +339,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                                 <td><?php echo substr($reserva['hora'], 0, 5); ?></td>
                                 <td><?php echo htmlspecialchars($reserva['pessoas']); ?></td>
 
-                                <!-- Coluna de Confirmação -->
+                                <!-- Coluna de Confirmacao -->
                                 <td>
                                     <?php
                                     if ($reserva['confirmado'] == 1) {
-                                        echo '<span style="color:#28a745; font-weight:bold;">✔ Confirmada</span>';
+                                        echo '<span class="status-badge confirmed">Confirmada</span>';
                                     } elseif ($reserva['confirmado'] == -1) {
-                                        echo '<span style="color:#dc3545; font-weight:bold;">❌ Recusada</span>';
+                                        echo '<span class="status-badge rejected">Recusada</span>';
                                     } else {
-                                        echo '<span style="color:#ffc107; font-weight:bold;">⏳ Pendente</span>';
+                                        echo '<span class="status-badge pending">Pendente</span>';
                                     }
                                     ?>
 
                                 </td>
 
                                 <td class="acao-col">
-                                    <form method="POST">
-                                        <input type="hidden" name="id_reserva" value="<?php echo $reserva['id']; ?>">
+                                    <?php
+                                    $hojeStr = date('Y-m-d');
+                                    $dataReservaStr = date('Y-m-d', strtotime($reserva['data']));
+                                    $pode_cancelar = ($dataReservaStr > $hojeStr);
+                                    ?>
 
-                                        <button class="btn-cancelar" name="cancelar_reserva">
-                                            <i class="fa-solid fa-xmark"></i> Cancelar
-                                        </button>
-                                    </form>
+                                    <?php if ($pode_cancelar): ?>
+                                        <form method="POST" class="acao-form">
+                                            <input type="hidden" name="id_reserva" value="<?php echo $reserva['id']; ?>">
+
+                                            <button class="btn-cancelar" name="cancelar_reserva">
+                                                <i class="fa-solid fa-xmark"></i> Cancelar
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <span class="status-badge expired">Prazo expirado</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
 
-                </table>
+                    </table>
+                </div>
             <?php else: ?>
-                <p>Ainda não há reservas.</p>
+                <p>Ainda nao ha reservas.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -310,14 +388,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <div id="Favoritos" class="tabcontent">
         <div class="card">
             <h3>Meus Favoritos</h3>
-            <p>Ainda não há favoritos.</p>
+            <p>Ainda nao ha favoritos.</p>
         </div>
     </div>
 
     <div id="Pedidos" class="tabcontent">
         <div class="card">
             <h3>Meus Pedidos</h3>
-            <p>Ainda não há pedidos.</p>
+            <p>Ainda nao ha pedidos.</p>
         </div>
     </div>
 

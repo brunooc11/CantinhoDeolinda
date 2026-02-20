@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require("config.php");
 
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
@@ -37,6 +37,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/chatbot.css">
   <link rel="stylesheet" href="Css/btts.css">
   <link rel="stylesheet" href="Css/cta.css">
+  <link rel="stylesheet" href="Css/scroll_reveal.css">
 
 
   <link rel="icon" type="image/png" href="Imagens/logo.png">
@@ -652,6 +653,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <script src="Js/contacto.js"></script>
   <script src="Js/backhome.js"></script>
   <script src="Js/chatbot.js"></script>
+  <script src="Js/scroll_reveal.js"></script>
 
 </body>
 

@@ -24,15 +24,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
         $nome     = $_POST['name'];
         $email    = $_POST['email'];
-        $telefone = $_POST['telefone'];
+        $codigo_pais = $_POST['codigo_pais'] ?? '';
+        $telefone_local = $_POST['telefone'] ?? '';
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $data     = date('Y-m-d H:i:s');
         $token    = bin2hex(random_bytes(16)); // 🔥 token único
 
-        if (!preg_match('/^[0-9]{9}$/', $telefone)) {
+        $codigo_pais = preg_replace('/\D+/', '', $codigo_pais);
+        $telefone_local = preg_replace('/\D+/', '', $telefone_local);
+        $telefone_completo = $codigo_pais . $telefone_local;
+        $regras_telefone = [
+            '351' => ['min' => 9, 'max' => 9],
+            '34' => ['min' => 9, 'max' => 9],
+            '33' => ['min' => 9, 'max' => 9],
+            '49' => ['min' => 10, 'max' => 11],
+            '44' => ['min' => 10, 'max' => 10],
+            '1' => ['min' => 10, 'max' => 10],
+            '55' => ['min' => 10, 'max' => 11],
+            '244' => ['min' => 9, 'max' => 9],
+            '258' => ['min' => 9, 'max' => 9],
+            '238' => ['min' => 7, 'max' => 7],
+        ];
+        $regra = $regras_telefone[$codigo_pais] ?? ['min' => 4, 'max' => 14];
+        $min_local = $regra['min'];
+        $max_local = $regra['max'];
 
-            echo "<script>alert('O número de telemóvel deve ter exatamente 9 dígitos!');</script>";
+        if (!preg_match('/^\d{1,4}$/', $codigo_pais)) {
+
+            echo "<script>alert('Indicativo de pais invalido.');</script>";
+        } elseif (!preg_match('/^\d+$/', $telefone_local)) {
+
+            echo "<script>alert('Numero de telefone invalido.');</script>";
+        } elseif (strlen($telefone_local) < $min_local || strlen($telefone_local) > $max_local) {
+
+            echo "<script>alert('Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.');</script>";
+        } elseif (strlen($telefone_completo) < 8 || strlen($telefone_completo) > 15) {
+
+            echo "<script>alert('Telefone invalido (deve ter entre 8 e 15 digitos no total).');</script>";
         } else {
+            $telefone = '+' . $telefone_completo;
 
             // Verificar se o e-mail já existe
             $checkQuery = "SELECT id FROM Cliente WHERE email = ?";
@@ -236,13 +266,29 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
             <input type="text" name="name" placeholder="Nome" required>
             <input type="email" name="email" placeholder="Email" required>
-            <input
-                type="text"
-                name="telefone"
-                placeholder="Telefone"
-                pattern="[0-9]{9}"
-                title="O número deve ter exatamente 9 dígitos"
-                required>
+            <div class="phone-country-row">
+                <div class="country-code-box">
+                    <img id="countryFlag" class="country-flag" src="https://flagcdn.com/w20/un.png" alt="Selecionar pais">
+                    <input
+                        type="text"
+                        id="codigoPaisInput"
+                        name="codigo_pais"
+                        placeholder="+351"
+                        maxlength="5"
+                        autocomplete="off"
+                        pattern="\\+[0-9]{1,4}"
+                        title="Indicativo no formato +351"
+                        required>
+                </div>
+                <input
+                    type="text"
+                    id="telefoneInput"
+                    name="telefone"
+                    placeholder="Numero de telemovel"
+                    pattern="[0-9]{4,14}"
+                    title="Introduza apenas digitos do numero local (4 a 14)"
+                    required>
+            </div>
             <div class="password-wrapper">
                 <input type="password" id="signupPassword" name="password" placeholder="Password" required>
 

@@ -259,6 +259,17 @@ body {
     font-size: 28px;
 }
 
+#Reservas .reservas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+#Reservas .reservas-header h3 {
+    margin: 0;
+}
 /* Tabela Premium */
 .tabela-reservas {
     width: 100%;
@@ -327,6 +338,31 @@ body {
     box-shadow: 0 6px 15px rgba(255, 50, 50, 0.7);
 }
 
+.acao-col {
+    vertical-align: middle;
+}
+
+.acao-col form {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reservas-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0;
+}
+
+#bttNovaReserva {
+    position: static;
+    top: auto;
+    right: auto;
+    margin: 0;
+    z-index: auto;
+}
+
 /* Animação entrar */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -341,3 +377,550 @@ body {
 
 
 
+
+/* ===== Dashboard Visual Refresh (scoped) ===== */
+.cdol-dash {
+    background:
+      radial-gradient(900px 320px at 15% -10%, rgba(251, 189, 51, 0.12), transparent 55%),
+      radial-gradient(700px 260px at 85% -18%, rgba(251, 189, 51, 0.07), transparent 62%),
+      #0f0f10;
+    color: #f5f5f5;
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+.cdol-dash .dashboard-header {
+    background: rgba(7, 7, 7, 0.88);
+    border-bottom: 1px solid rgba(251, 189, 51, 0.18);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: 14px 24px;
+}
+
+.cdol-dash .dashboard-header h1 {
+    font-size: clamp(20px, 2.6vw, 28px);
+    letter-spacing: 0.2px;
+}
+
+.cdol-dash #bttInicio {
+    margin-top: 0;
+    position: static;
+    right: auto;
+    top: auto;
+    z-index: auto;
+    padding: 10px 18px;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+}
+
+.cdol-dash .dashboard-menu {
+    background: rgba(20, 20, 20, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    position: sticky;
+    top: 73px;
+    z-index: 19;
+}
+
+.cdol-dash .dashboard-menu button {
+    background: transparent;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    font-weight: 600;
+}
+
+.cdol-dash .dashboard-menu button:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.cdol-dash .dashboard-menu button.active {
+    background: linear-gradient(135deg, #f5b42f, #ffd256);
+    color: #121212;
+}
+
+.cdol-dash .tabcontent {
+    padding: 26px 20px 34px;
+}
+
+.cdol-dash .card {
+    background: linear-gradient(155deg, rgba(28, 28, 28, 0.94), rgba(19, 19, 19, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+    border-radius: 14px;
+}
+
+.cdol-dash #Conta .card,
+.cdol-dash #Reservas .card,
+.cdol-dash #Favoritos .card,
+.cdol-dash #Pedidos .card {
+    max-width: 1000px;
+    width: min(1000px, 95%);
+    margin: 10px auto 20px;
+}
+
+.cdol-dash #Reservas .card h3 {
+    font-size: clamp(21px, 2.8vw, 26px);
+}
+
+.cdol-dash .tabela-reservas {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cdol-dash .tabela-reservas thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.cdol-dash .tabela-reservas tbody tr:hover {
+    transform: none;
+}
+
+.cdol-dash .btn-cancelar {
+    min-width: 120px;
+}
+
+.cdol-dash #bttsair,
+.cdol-dash #btt_excluir_conta {
+    right: 18px;
+}
+
+@media (max-width: 900px) {
+    .cdol-dash .dashboard-header {
+        gap: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cdol-dash .dashboard-menu {
+        top: 0;
+        position: relative;
+    }
+
+    .cdol-dash #bttInicio {
+        align-self: flex-start;
+    }
+
+    .cdol-dash #bttsair,
+    .cdol-dash #btt_excluir_conta {
+        position: static;
+        margin-top: 8px;
+    }
+}
+
+/* ===== Dashboard Micro Polish ===== */
+.cdol-dash .dashboard-header h1 {
+    font-weight: 700;
+    text-shadow: 0 0 14px rgba(251, 189, 51, 0.22);
+}
+
+.cdol-dash .dashboard-menu button {
+    position: relative;
+    transition: background-color 0.22s ease, color 0.22s ease;
+}
+
+.cdol-dash .dashboard-menu button.active::after {
+    content: "";
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: 0;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 2px 2px 0 0;
+}
+
+.cdol-dash #Conta .card p {
+    line-height: 1.55;
+    color: #e4e4e4;
+}
+
+.cdol-dash .form-lateral-card form {
+    min-width: min(440px, 92vw);
+    background: #191919;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cdol-dash .form-lateral-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.cdol-dash .form-lateral-card input {
+    width: 100%;
+    background: #101010;
+    color: #f0f0f0;
+    border: 1px solid #2f2f2f;
+    border-radius: 10px;
+    padding: 11px 12px;
+}
+
+.cdol-dash .form-lateral-card input:focus {
+    outline: none;
+    border-color: #f5b42f;
+    box-shadow: 0 0 0 2px rgba(245, 180, 47, 0.2);
+}
+
+.cdol-dash .reservas-header {
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    margin-bottom: 16px;
+}
+
+.cdol-dash #bttNovaReserva {
+    padding: 10px 16px;
+    font-size: 13px;
+}
+
+.cdol-dash .tabela-reservas thead th {
+    font-size: 13px;
+    letter-spacing: 0.6px;
+}
+
+.cdol-dash .tabela-reservas tbody td {
+    font-size: 14px;
+}
+
+.cdol-dash .tabela-reservas tbody tr td:first-child,
+.cdol-dash .tabela-reservas tbody tr td:nth-child(2) {
+    font-variant-numeric: tabular-nums;
+}
+
+.cdol-dash .acao-col > span {
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ===== Final Visual Refresh ===== */
+.cdol-dash {
+    background:
+      radial-gradient(1100px 420px at 12% -18%, rgba(245, 180, 47, 0.16), transparent 58%),
+      radial-gradient(900px 320px at 88% -22%, rgba(245, 180, 47, 0.09), transparent 62%),
+      #0d0d0e;
+}
+
+.cdol-dash .dashboard-header {
+    padding: 18px 24px;
+}
+
+.cdol-dash .dashboard-header h1 {
+    font-size: clamp(22px, 2.7vw, 30px);
+    letter-spacing: 0.3px;
+}
+
+.cdol-dash .dashboard-menu {
+    max-width: 1040px;
+    margin: 14px auto 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.cdol-dash .dashboard-menu button {
+    padding: 14px 10px;
+    font-size: 15px;
+}
+
+.cdol-dash .tabcontent {
+    padding: 24px 16px 36px;
+}
+
+.cdol-dash .card {
+    border-radius: 16px;
+    padding: 24px;
+    background: linear-gradient(160deg, rgba(26, 26, 26, 0.96), rgba(15, 15, 15, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
+}
+
+.cdol-dash #Conta .card p {
+    margin: 6px 0;
+}
+
+.cdol-dash .btt-alterar-senha,
+.cdol-dash .btt-sair,
+.cdol-dash #btt_excluir_conta {
+    position: static;
+    top: auto;
+    right: auto;
+    margin-top: 10px;
+    margin-right: 8px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    text-transform: none;
+}
+
+.cdol-dash #btt_excluir_conta {
+    background: linear-gradient(135deg, #e14e4e, #b93737);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(225, 78, 78, 0.35);
+}
+
+.cdol-dash .reservas-header {
+    align-items: center;
+}
+
+.cdol-dash #bttNovaReserva {
+    background: linear-gradient(135deg, #f5b42f, #ffd460);
+    color: #111;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(245, 180, 47, 0.28);
+}
+
+.cdol-dash .tabela-reservas {
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+}
+
+.cdol-dash .tabela-reservas thead th {
+    background: linear-gradient(135deg, #f5b42f, #ffd460);
+    color: #111;
+    font-size: 12.5px;
+}
+
+.cdol-dash .tabela-reservas tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.015);
+}
+
+.cdol-dash .tabela-reservas tbody tr:hover {
+    background: rgba(245, 180, 47, 0.08);
+}
+
+.cdol-dash .btn-cancelar {
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    min-width: 108px;
+}
+
+.cdol-dash .form-lateral-card form {
+    background: #141414;
+}
+
+@media (max-width: 900px) {
+    .cdol-dash .dashboard-menu {
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+
+    .cdol-dash .dashboard-menu button {
+        font-size: 14px;
+        padding: 12px 8px;
+    }
+
+    .cdol-dash .card {
+        padding: 18px;
+    }
+
+    .cdol-dash .tabela-reservas {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* ===== Structured Components ===== */
+.cdol-dash .dash-alert {
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    border: 1px solid transparent;
+}
+
+.cdol-dash .dash-alert.success {
+    background: rgba(50, 178, 102, 0.15);
+    color: #9df1bc;
+    border-color: rgba(50, 178, 102, 0.35);
+}
+
+.cdol-dash .dash-alert.danger {
+    background: rgba(220, 53, 69, 0.16);
+    color: #ffb2bb;
+    border-color: rgba(220, 53, 69, 0.38);
+}
+
+.cdol-dash .conta-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.cdol-dash .conta-info-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.cdol-dash .conta-info-item .label {
+    display: block;
+    font-size: 12px;
+    color: #bbbbbb;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.cdol-dash .conta-info-item strong {
+    display: block;
+    font-size: 14px;
+    color: #f1f1f1;
+    word-break: break-word;
+}
+
+.cdol-dash .conta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.cdol-dash .conta-actions form {
+    margin: 0;
+}
+
+.cdol-dash .conta-actions .btt-alterar-senha,
+.cdol-dash .conta-actions .btt-sair,
+.cdol-dash .conta-actions #btt_excluir_conta {
+    margin: 0;
+}
+
+/* Conta: senha panel aligned with dashboard style */
+.cdol-dash #formSenhaCard {
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    margin-top: 14px;
+    width: 100%;
+}
+
+.cdol-dash #formSenhaCard:not(.aberto) {
+    display: none;
+}
+
+.cdol-dash #formSenhaCard.aberto {
+    display: block;
+}
+
+.cdol-dash .senha-form {
+    background: linear-gradient(160deg, rgba(19, 19, 19, 0.98), rgba(15, 15, 15, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.cdol-dash .senha-form-head h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #ffd568;
+}
+
+.cdol-dash .senha-form-head p {
+    margin: 6px 0 0;
+    color: #c9c9c9;
+    font-size: 13px;
+}
+
+.cdol-dash .senha-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.cdol-dash .senha-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cdol-dash .senha-field span {
+    font-size: 12px;
+    color: #d2d2d2;
+}
+
+.cdol-dash .senha-field input {
+    width: 100%;
+    background: #111;
+    color: #f3f3f3;
+    border: 1px solid #313131;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.cdol-dash .senha-field input:focus {
+    outline: none;
+    border-color: #f5b42f;
+    box-shadow: 0 0 0 2px rgba(245, 180, 47, 0.2);
+}
+
+.cdol-dash .senha-form #bttConfirmar {
+    margin-top: 14px;
+}
+
+.cdol-dash .table-wrap {
+    overflow-x: auto;
+}
+
+.cdol-dash .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    border: 1px solid transparent;
+}
+
+.cdol-dash .status-badge.confirmed {
+    color: #9df1bc;
+    background: rgba(50, 178, 102, 0.14);
+    border-color: rgba(50, 178, 102, 0.36);
+}
+
+.cdol-dash .status-badge.rejected {
+    color: #ffb2bb;
+    background: rgba(220, 53, 69, 0.14);
+    border-color: rgba(220, 53, 69, 0.36);
+}
+
+.cdol-dash .status-badge.pending {
+    color: #ffe097;
+    background: rgba(255, 193, 7, 0.14);
+    border-color: rgba(255, 193, 7, 0.32);
+}
+
+.cdol-dash .status-badge.expired {
+    color: #d1d1d1;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+    min-width: 110px;
+}
+
+.cdol-dash .acao-form {
+    margin: 0;
+}
+
+@media (max-width: 900px) {
+    .cdol-dash .conta-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cdol-dash .senha-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -60,6 +60,63 @@ if ($numero_pessoas > 30) {
 }
 
 
+// Valida formato da data e impede reservas em datas anteriores a hoje
+$dataObj = DateTime::createFromFormat('Y-m-d', $data_reserva);
+$errosData = DateTime::getLastErrors();
+$warnings = is_array($errosData) ? $errosData['warning_count'] : 0;
+$errors = is_array($errosData) ? $errosData['error_count'] : 0;
+
+if (
+    !$dataObj ||
+    $warnings > 0 ||
+    $errors > 0
+) {
+    echo "<script>
+            alert('Erro: data de reserva invÃ¡lida.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+$hoje = new DateTime('today');
+if ($dataObj < $hoje) {
+    echo "<script>
+            alert('Erro: nÃ£o Ã© possÃ­vel reservar para uma data anterior a hoje.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+// Valida a hora (HH:MM), intervalo e regras de horario
+if (!preg_match('/^([01]\d|2[0-3]):([0-5]\d)$/', $hora_reserva)) {
+    echo "<script>
+            alert('Erro: hora de reserva invalida.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+$partesHora = explode(':', $hora_reserva);
+$hora = (int)$partesHora[0];
+$minuto = (int)$partesHora[1];
+$minutosTotais = ($hora * 60) + $minuto;
+$minutosTotais = (int)(round($minutosTotais / 5) * 5); // arredonda para o multiplo de 5 mais proximo
+$hora = intdiv($minutosTotais, 60);
+$minuto = $minutosTotais % 60;
+$hora_reserva = sprintf('%02d:%02d', $hora, $minuto);
+
+$minimoPermitido = (8 * 60); // 08:00
+$diaSemana = (int)$dataObj->format('w'); // 0 = domingo
+$maximoPermitido = ($diaSemana === 0) ? (17 * 60) : (23 * 60 + 55);
+
+if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
+    echo "<script>
+            alert('Erro: hora fora do horario permitido para reservas.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
     // Cria reserva pendente (confirmado = 0)
     $sql = "INSERT INTO reservas (cliente_id, data_reserva, hora_reserva, numero_pessoas, confirmado)
             VALUES (?, ?, ?, ?, 0)";
