@@ -264,27 +264,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             <div class="form-lateral-card" id="formSenhaCard">
                 <form method="POST" class="senha-form">
                     <div class="senha-form-head">
-                        <h3>Alterar Senha</h3>
-                        <p>Atualize a sua senha para manter a conta segura.</p>
+                        <h3>Alterar Palavra-passe</h3>
+                        <p>Atualize a sua palavra-passe para manter a conta segura.</p>
                     </div>
 
                     <div class="senha-form-grid">
                         <label class="senha-field">
-                            <span>Senha atual</span>
-                            <input type="password" name="senha_atual" placeholder="Digite a senha atual" required>
+                            <span>Palavra-passe atual</span>
+                            <div class="senha-input-wrap">
+                                <input id="senhaAtualInput" type="password" name="senha_atual" placeholder="Digite a palavra-passe atual" required>
+                                <button type="button" class="senha-toggle" data-target="senhaAtualInput" aria-label="Mostrar ou ocultar palavra-passe atual">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
                         </label>
                         <label class="senha-field">
-                            <span>Nova senha</span>
-                            <input type="password" name="nova_senha" placeholder="Digite a nova senha" required>
+                            <span>Nova palavra-passe</span>
+                            <div class="senha-input-wrap">
+                                <input id="novaSenhaInput" type="password" name="nova_senha" placeholder="Digite a nova palavra-passe" required>
+                                <button type="button" class="senha-toggle" data-target="novaSenhaInput" aria-label="Mostrar ou ocultar nova palavra-passe">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
                         </label>
                         <label class="senha-field">
-                            <span>Confirmar nova senha</span>
-                            <input type="password" name="confirmar_senha" placeholder="Repita a nova senha" required>
+                            <span>Confirmar nova palavra-passe</span>
+                            <div class="senha-input-wrap">
+                                <input id="confirmarSenhaInput" type="password" name="confirmar_senha" placeholder="Confirme a nova palavra-passe" required>
+                                <button type="button" class="senha-toggle" data-target="confirmarSenhaInput" aria-label="Mostrar ou ocultar confirmacao da palavra-passe">
+                                    <i class="fa-regular fa-eye"></i>
+                                </button>
+                            </div>
                         </label>
                     </div>
 
+                    <ul class="senha-checklist" id="senhaChecklist" aria-live="polite">
+                        <li id="ruleLength">Minimo 8 caracteres</li>
+                        <li id="ruleUpper">Tem letra maiuscula</li>
+                        <li id="ruleLower">Tem letra minuscula</li>
+                        <li id="ruleNumber">Tem numero</li>
+                        <li id="ruleSymbol">Tem simbolo (!@#...)</li>
+                        <li id="ruleCurrentMatch">Palavra-passe atual correta</li>
+                        <li id="ruleMatch">Confirmacao coincide</li>
+                    </ul>
+
                     <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
-                        Guardar Alteracao
+                        Guardar
                     </button>
                 </form>
             </div>
@@ -400,8 +425,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     </div>
 
 
-    <script src="Js/dashboard.js"></script>
-    <script src="Js/alterar_senha.js"></script>
+    <script src="Js/dashboard.js?v=<?php echo filemtime(__DIR__ . '/Js/dashboard.js'); ?>"></script>
+    <script src="Js/alterar_senha.js?v=<?php echo filemtime(__DIR__ . '/Js/alterar_senha.js'); ?>"></script>
 
     <script>
         window.onload = function() {

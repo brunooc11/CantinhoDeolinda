@@ -13,6 +13,7 @@ require("phpmailer/src/SMTP.php");
 require("phpmailer/src/Exception.php");
 
 $env = parse_ini_file("Seguranca/config.env");
+$signup_inline_error = '';
 
 // --- SIGN-UP ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         $email    = $_POST['email'];
         $codigo_pais = $_POST['codigo_pais'] ?? '';
         $telefone_local = $_POST['telefone'] ?? '';
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $password_raw = $_POST['password'] ?? '';
         $data     = date('Y-m-d H:i:s');
         $token    = bin2hex(random_bytes(16)); // 🔥 token único
 
@@ -55,6 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         } elseif (!preg_match('/^\d+$/', $telefone_local)) {
 
             echo "<script>alert('Numero de telefone invalido.');</script>";
+        } elseif (strlen($password_raw) < 8
+            || !preg_match('/[A-Z]/', $password_raw)
+            || !preg_match('/[a-z]/', $password_raw)
+            || !preg_match('/[0-9]/', $password_raw)
+            || !preg_match('/[^A-Za-z0-9]/', $password_raw)) {
+
+            $signup_inline_error = 'A password deve ter minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo.';
         } elseif (strlen($telefone_local) < $min_local || strlen($telefone_local) > $max_local) {
 
             echo "<script>alert('Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.');</script>";
@@ -62,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
             echo "<script>alert('Telefone invalido (deve ter entre 8 e 15 digitos no total).');</script>";
         } else {
+            $password = password_hash($password_raw, PASSWORD_DEFAULT);
             $telefone = '+' . $telefone_completo;
 
             // Verificar se o e-mail já existe
@@ -276,7 +285,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                         placeholder="+351"
                         maxlength="5"
                         autocomplete="off"
-                        pattern="\\+[0-9]{1,4}"
+                        pattern="\+[0-9]{1,4}"
                         title="Indicativo no formato +351"
                         required>
                 </div>
@@ -290,7 +299,16 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                     required>
             </div>
             <div class="password-wrapper">
-                <input type="password" id="signupPassword" name="password" placeholder="Password" required>
+                <input
+                    type="password"
+                    id="signupPassword"
+                    name="password"
+                    placeholder="Password"
+                    minlength="8"
+                    pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+                    title="Minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo."
+                    required>
+                <button type="button" class="pass-info-icon" aria-label="Regras da password">?</button>
 
                 <button type="button"
                     class="toggle-pass"
@@ -318,6 +336,16 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
                 </button>
 
+                <div class="pass-tooltip" role="tooltip">
+                    <strong>Regras da password</strong>
+                    <ul>
+                        <li>Minimo 8 caracteres</li>
+                        <li>Pelo menos 1 maiuscula</li>
+                        <li>Pelo menos 1 minuscula</li>
+                        <li>Pelo menos 1 numero</li>
+                        <li>Pelo menos 1 simbolo (!@#...)</li>
+                    </ul>
+                </div>
             </div>
 
 
@@ -374,7 +402,6 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
             </div>
 
-
             <a href="recuperacao/forgot_password.php">Esqueci-me da palavra-passe?</a>
 
             <button type="submit" name="signin">Entrar</button>
@@ -400,6 +427,25 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
     </div>
 
 </div>
+
+<?php if ($signup_inline_error !== ''): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('container');
+        const signupPassword = document.getElementById('signupPassword');
+        if (container) {
+            container.classList.add('right-panel-active');
+        }
+        if (signupPassword) {
+            signupPassword.setCustomValidity(<?php echo json_encode($signup_inline_error); ?>);
+            signupPassword.reportValidity();
+            signupPassword.addEventListener('input', function() {
+                signupPassword.setCustomValidity('');
+            }, { once: true });
+        }
+    });
+</script>
+<?php endif; ?>
 
 <footer>
     <p>© 2025 Cantinho Deolinda — Todos os direitos reservados</p>

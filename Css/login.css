@@ -438,5 +438,72 @@ footer a {
   text-decoration: underline;
 }
 
+.pass-info-icon {
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 182, 49, 0.55);
+  background: rgba(245, 182, 49, 0.1);
+  color: #f5b631;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  line-height: 1;
+  cursor: help;
+  z-index: 3;
+}
+
+.pass-tooltip {
+  position: absolute;
+  right: 46px;
+  top: calc(100% + 6px);
+  width: min(250px, 88vw);
+  background: #121212;
+  border: 1px solid rgba(245, 182, 49, 0.35);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  z-index: 12;
+}
+
+.pass-tooltip strong {
+  display: block;
+  color: #f5b631;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.pass-tooltip ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.pass-tooltip li {
+  color: #d6d6d6;
+  font-size: 12px;
+  margin: 2px 0;
+}
+
+#signupPassword {
+  padding-right: 84px;
+}
+
+.pass-info-icon:hover + .toggle-pass + .pass-tooltip,
+.pass-info-icon:focus-visible + .toggle-pass + .pass-tooltip,
+.pass-tooltip:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
 
 
