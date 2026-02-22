@@ -3,8 +3,9 @@ const chatBox = document.getElementById("chatBox");
 const closeChat = document.getElementById("closeChat");
 const chatMessages = document.querySelector(".chat-messages");
 const chatInput = document.querySelector(".chat-input input");
+const sendChat = document.getElementById("sendChat");
 
-if (!btnChat || !chatBox || !closeChat || !chatMessages || !chatInput) {
+if (!btnChat || !chatBox || !closeChat || !chatMessages || !chatInput || !sendChat) {
   console.warn("Chatbot: elementos nao encontrados.");
 } else {
   const conversationHistory = [];
@@ -115,6 +116,7 @@ if (!btnChat || !chatBox || !closeChat || !chatMessages || !chatInput) {
 
     waitingForBot = true;
     chatInput.disabled = true;
+    sendChat.disabled = true;
 
     addMessage(texto, "user");
     guardarChat(texto, "user");
@@ -135,14 +137,23 @@ if (!btnChat || !chatBox || !closeChat || !chatMessages || !chatInput) {
       guardarChat(resposta, "bot");
       conversationHistory.push({ role: "assistant", content: resposta });
       chatInput.disabled = false;
+      sendChat.disabled = false;
       chatInput.focus();
       waitingForBot = false;
     }
   }
 
-  chatInput.addEventListener("keypress", (e) => {
+  chatInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && chatInput.value.trim() !== "") {
+      e.preventDefault();
       enviarMensagem(chatInput.value.trim());
+    }
+  });
+
+  sendChat.addEventListener("click", () => {
+    const texto = chatInput.value.trim();
+    if (texto !== "") {
+      enviarMensagem(texto);
     }
   });
 

@@ -1,56 +1,54 @@
 .menu-categorias {
   text-align: center;
-  padding: 80px 20px;
-  background: #000;
-  color: #fff; /* alterado de #333 para branco */
+  padding: 96px 20px;
+  background: linear-gradient(180deg, #090909, #0f0f0f);
+  color: #fff;
 }
 
 .menu-categorias h2 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-  color: #b8860b;
+  font-size: clamp(2rem, 3.4vw, 2.7rem);
+  margin-bottom: 12px;
+  color: #f2bf58;
+  letter-spacing: 0.3px;
 }
 
 .menu-categorias p {
-  font-size: 1.1rem;
-  margin-bottom: 30px;
-  color: #fff; /* alterado de #555 para branco */
+  font-size: 1.06rem;
+  margin-bottom: 34px;
+  color: #e8dcc0;
 }
 
-/* Botões das categorias */
 .menu-tabs {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 42px;
 }
 
 .tab-btn {
-  background: transparent;
-  border: 2px solid #b8860b;
-  color: #b8860b;
-  font-size: 1rem;
-  padding: 10px 18px;
-  border-radius: 25px;
+  background: rgba(244, 185, 66, 0.06);
+  border: 1px solid rgba(244, 185, 66, 0.65);
+  color: #f2bf58;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-.tab-btn:hover {
-  background: #b8860b;
-  color: #ffeecf;
-}
-
+.tab-btn:hover,
 .tab-btn.active {
-  background: #b8860b;
-  color: #ffeecf;
+  background: linear-gradient(135deg, #ffd67a, #f4b942);
+  border-color: transparent;
+  color: #201305;
 }
 
-/* Conteúdo das categorias */
 .menu-content {
   display: none;
-  animation: fadeIn 0.4s ease-in-out;
+  animation: fadeIn 0.34s ease-in-out;
 }
 
 .menu-content.active {
@@ -59,40 +57,85 @@
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  max-width: 1060px;
   margin: 0 auto;
+  align-items: stretch;
 }
 
 .item {
-  background: #1c1c1c;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  background: linear-gradient(180deg, #1d1a15, #15120f);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(244, 185, 66, 0.2);
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 124px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-color: rgba(244, 185, 66, 0.45);
 }
 
 .item h3 {
   display: flex;
   justify-content: space-between;
-  font-size: 1.1rem;
-  color: #fff; /* alterado de #222 para branco */
-  margin-bottom: 8px;
+  gap: 12px;
+  font-size: 1.04rem;
+  color: #fff7e5;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .item span {
-  color: #b8860b;
-  font-weight: bold;
+  color: #f2bf58;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.menu-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  border-bottom: 1px dashed rgba(244, 185, 66, 0.22);
+  padding-bottom: 6px;
+}
+
+.menu-list li span {
+  color: #f7efdc;
+  white-space: normal;
+}
+
+.menu-list li strong {
+  color: #f2bf58;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 @keyframes fadeIn {
-  from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

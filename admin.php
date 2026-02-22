@@ -235,18 +235,20 @@ $kpiReservasHoje = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) 
 
         <div class="admin-table-wrap">
         <table id="adminUsersTable" class="admin-table">
-            <tr>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Telefone</th>
-                <th>Estado</th>
-                <th>Tipo</th>
-                <th>Faltas</th>
-                <th>Lista Negra</th>
-                <th>Reset</th>
-                <th>Acao</th>
-                <th>Role</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Estado</th>
+                    <th>Tipo</th>
+                    <th>Faltas</th>
+                    <th>Lista Negra</th>
+                    <th>Reset</th>
+                    <th>Acao</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
             <tbody>
 
             <?php
@@ -344,6 +346,71 @@ $kpiReservasHoje = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) 
         </section>
 
         <section class="admin-section">
+        <h3>Lista Negra</h3>
+        <div class="admin-table-wrap">
+        <table id="adminBlacklistTable" class="admin-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Faltas</th>
+                    <th>Ultima Falta</th>
+                    <th>Acao</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            $sqlListaNegra = "
+                SELECT
+                    c.id,
+                    c.nome,
+                    c.email,
+                    c.telefone,
+                    COALESCE(f.faltas, 0) AS faltas,
+                    f.ultima_falta
+                FROM Cliente c
+                LEFT JOIN (
+                    SELECT
+                        cliente_id,
+                        COUNT(*) AS faltas,
+                        MAX(data_reserva) AS ultima_falta
+                    FROM reservas
+                    WHERE estado = 'nao_compareceu'
+                    GROUP BY cliente_id
+                ) f ON f.cliente_id = c.id
+                WHERE c.lista_negra = 1
+                ORDER BY f.ultima_falta DESC, c.nome ASC
+            ";
+
+            $resListaNegra = mysqli_query($con, $sqlListaNegra);
+
+            if ($resListaNegra && mysqli_num_rows($resListaNegra) > 0) {
+                while ($ln = mysqli_fetch_assoc($resListaNegra)) {
+                    $ultimaFalta = !empty($ln['ultima_falta']) ? esc($ln['ultima_falta']) : '-';
+                    echo "<tr>";
+                    echo "<td>" . esc($ln['nome']) . "</td>";
+                    echo "<td>" . esc($ln['email']) . "</td>";
+                    echo "<td>" . esc($ln['telefone']) . "</td>";
+                    echo "<td><span class='status-chip bad'>" . (int)$ln['faltas'] . "</span></td>";
+                    echo "<td>" . $ultimaFalta . "</td>";
+                    echo "<td class='admin-actions-cell'>
+                            <a class='action-btn blue-btn' href='admin.php?reset_faltas=" . (int)$ln['id'] . "'>
+                                Remover da Lista Negra
+                            </a>
+                          </td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='6'><span class='status-chip ok'>Sem utilizadores na lista negra</span></td></tr>";
+            }
+            ?>
+            </tbody>
+        </table>
+        </div>
+        </section>
+
+        <section class="admin-section">
         <h3>Gestao de Reservas</h3>
         <div class="admin-search-bar">
             <input type="text" id="adminReservasSearchInput" placeholder="Procurar reserva (id, cliente, data, hora...)">
@@ -368,16 +435,18 @@ $kpiReservasHoje = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) 
 
         <div class="admin-table-wrap">
         <table id="adminReservasTable" class="admin-table">
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Pessoas</th>
-                <th>Confirmacao</th>
-                <th>Estado</th>
-                <th>Acao</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Pessoas</th>
+                    <th>Confirmacao</th>
+                    <th>Estado</th>
+                    <th>Acao</th>
+                </tr>
+            </thead>
             <tbody>
 
             <?php

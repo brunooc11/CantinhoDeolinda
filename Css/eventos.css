@@ -43,18 +43,42 @@
   text-align: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
   max-width: 320px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(244, 185, 66, 0.14);
   transition: 0.3s ease;
 }
 
+.catering-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(130deg, rgba(244, 185, 66, 0.14), transparent 45%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
 .catering-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 40px rgba(244, 185, 66, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.45);
+  border-color: rgba(244, 185, 66, 0.34);
+}
+
+.catering-box:hover::before {
+  opacity: 1;
 }
 
 .catering-box img {
   width: 100%;
   border-radius: 15px;
   margin-bottom: 20px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.catering-box:hover img {
+  transform: scale(1.02);
+  filter: saturate(1.06);
 }
 
 .catering-box p {

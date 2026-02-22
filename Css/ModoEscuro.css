@@ -16,9 +16,9 @@ body.escuro {
   color: #f1f1f1;
 }
 
-/* Controlo de botões */
+/* Controlo de botoes */
 .controlo {
-  position: fixed;       /* já deve estar fixo */
+  position: fixed;       /* deve estar fixo */
   top: 10px;
   left: 10px;
   display: flex;
@@ -52,8 +52,39 @@ body.escuro {
   transform: scale(1.2);
 }
 
-/* Botão ativo (selecionado) */
+/* Botao ativo (selecionado) */
 .tema-btn.active {
   background: rgba(255, 152, 0, 0.2);
   box-shadow: 0 0 8px rgba(255, 152, 0, 0.7);
+}
+
+/* Escuro: garantir efeito visivel nas secoes principais */
+body.escuro .landing-page {
+  background: radial-gradient(circle at 78% 14%, rgba(244, 185, 66, 0.12), transparent 42%), #121212;
+}
+
+body.escuro .landing-page .right h1 {
+  color: #f4eee1;
+}
+
+body.escuro .landing-page .right h1 strong {
+  color: #ffd57a;
+}
+
+body.escuro .landing-page .right p {
+  color: #d8cab0;
+}
+
+body.escuro .landing-page .btn {
+  color: #ffd57a;
+  border-color: #f4b942;
+}
+
+body.escuro .landing-page .btn.filled {
+  color: #1f1305;
+}
+
+body.escuro .prefooter,
+body.escuro .footer {
+  filter: brightness(0.92);
 }

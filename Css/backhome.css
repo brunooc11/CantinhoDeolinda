@@ -2,25 +2,26 @@
   position: fixed;
   bottom: 25px;
   right: 25px;
-  width: 35px;
-  height: 35px;
-  background: #f4b942;
-  color: white;
-  font-size: 22px;
+  width: 58px;
+  height: 58px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 18px;
   text-decoration: none;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2b1a05;
+  background: linear-gradient(135deg, #ffd57a, #f4b942);
+  border: 1px solid rgba(255, 241, 210, 0.5);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.3);
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
   transition: all 1s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   z-index: 9999;
 }
 
-/* Quando aparece */
 .back-home-btn.show {
   opacity: 1;
   pointer-events: auto;
@@ -30,9 +31,20 @@
 .back-home-btn:hover {
   background: #ffcf4a;
   transform: translateY(0) scale(1.12);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+}
+
+#backHomeBtn {
+  background: radial-gradient(circle at 28% 22%, #ffd67b, #e3a827 68%, #bf8213);
 }
 
 #btnChat {
   bottom: 65px !important;
+}
+
+@media (max-width: 640px) {
+  .back-home-btn {
+    width: 54px;
+    height: 54px;
+  }
 }

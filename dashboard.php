@@ -164,11 +164,11 @@ mysqli_stmt_close($stmt);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) {
     $id_reserva = intval($_POST['id_reserva']);
 
-    $queryData = "SELECT data_reserva FROM reservas WHERE id = ? AND cliente_id = ? LIMIT 1";
+    $queryData = "SELECT data_reserva, hora_reserva FROM reservas WHERE id = ? AND cliente_id = ? LIMIT 1";
     $stmtData = mysqli_prepare($con, $queryData);
     mysqli_stmt_bind_param($stmtData, "ii", $id_reserva, $_SESSION['id']);
     mysqli_stmt_execute($stmtData);
-    mysqli_stmt_bind_result($stmtData, $data_reserva_cancelar);
+    mysqli_stmt_bind_result($stmtData, $data_reserva_cancelar, $hora_reserva_cancelar);
     $encontrou = mysqli_stmt_fetch($stmtData);
     mysqli_stmt_close($stmtData);
 
@@ -177,11 +177,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         exit();
     }
 
-    $hojeStr = date('Y-m-d');
-    $dataReservaStr = date('Y-m-d', strtotime($data_reserva_cancelar));
+    $timezone = new DateTimeZone('Europe/Lisbon');
+    $agora = new DateTime('now', $timezone);
+    $reservaDateTime = DateTime::createFromFormat(
+        'Y-m-d H:i:s',
+        $data_reserva_cancelar . ' ' . $hora_reserva_cancelar,
+        $timezone
+    );
 
-    if (!$dataReservaStr || $dataReservaStr <= $hojeStr) {
-        header("Location: dashboard.php?tab=Reservas&erro_cancelamento=prazo");
+    if (!$reservaDateTime) {
+        $timestampReserva = strtotime($data_reserva_cancelar . ' ' . $hora_reserva_cancelar);
+        if ($timestampReserva === false) {
+            header("Location: dashboard.php?tab=Reservas&erro_cancelamento=nao_encontrada");
+            exit();
+        }
+        $reservaDateTime = new DateTime('@' . $timestampReserva);
+        $reservaDateTime->setTimezone($timezone);
+    }
+
+    $limiteCancelamento = clone $reservaDateTime;
+    $limiteCancelamento->modify('-2 hours');
+
+    if ($agora >= $reservaDateTime) {
+        header("Location: dashboard.php?tab=Reservas&erro_cancelamento=apos_horario");
+        exit();
+    }
+
+    if ($agora >= $limiteCancelamento) {
+        header("Location: dashboard.php?tab=Reservas&erro_cancelamento=final_2h");
         exit();
     }
 
@@ -327,8 +350,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                 echo '<p class="dash-alert danger">Erro ao confirmar a reserva.</p>';
             }
 
+            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'final_2h') {
+                echo '<p class="dash-alert danger">Cancelamento online indisponivel nas 2h finais. Contacte: +351 966 545 510.</p>';
+            }
+
+            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'apos_horario') {
+                echo '<p class="dash-alert danger">Nao e possivel cancelar apos o horario da reserva.</p>';
+            }
+
             if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'prazo') {
-                echo '<p class="dash-alert danger">Nao e possivel cancelar no dia da reserva ou depois.</p>';
+                echo '<p class="dash-alert danger">Cancelamento fora do prazo permitido.</p>';
             }
 
             if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'nao_encontrada') {
@@ -380,9 +411,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
                                 <td class="acao-col">
                                     <?php
-                                    $hojeStr = date('Y-m-d');
-                                    $dataReservaStr = date('Y-m-d', strtotime($reserva['data']));
-                                    $pode_cancelar = ($dataReservaStr > $hojeStr);
+                                    $agoraTs = time();
+                                    $reservaTs = strtotime($reserva['data'] . ' ' . $reserva['hora']);
+                                    $faltamSegundos = $reservaTs - $agoraTs;
+                                    $pode_cancelar = ($reservaTs !== false && $faltamSegundos > 7200);
+                                    $apos_horario = ($reservaTs !== false && $faltamSegundos <= 0);
                                     ?>
 
                                     <?php if ($pode_cancelar): ?>
@@ -393,8 +426,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                                                 <i class="fa-solid fa-xmark"></i> Cancelar
                                             </button>
                                         </form>
-                                    <?php else: ?>
+                                    <?php elseif ($apos_horario): ?>
                                         <span class="status-badge expired">Prazo expirado</span>
+                                    <?php else: ?>
+                                        <span class="status-badge pending">Contacte: +351 966 545 510</span>
                                     <?php endif; ?>
                                 </td>
                             </tr>

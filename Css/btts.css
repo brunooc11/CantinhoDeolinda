@@ -2,8 +2,6 @@
     display: flex;
     gap: 20px;
     align-items: center;
-
-    /* força para a direita */
     margin-left: auto;
 }
 
@@ -14,10 +12,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     font-size: 1.5rem;
     text-decoration: none;
     color: var(--pf-color);
+    border: none;
+    background: transparent;
     transition: 0.3s ease;
 }
 

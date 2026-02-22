@@ -2,16 +2,26 @@ const lightBtn = document.getElementById("claro-btn");
 const darkBtn = document.getElementById("escuro-btn");
 const body = document.body;
 
-lightBtn.addEventListener("click", () => {
-  body.classList.add("claro");
-  body.classList.remove("escuro");
-  lightBtn.classList.add("active");
-  darkBtn.classList.remove("active");
-});
+if (lightBtn && darkBtn && body) {
+  const THEME_KEY = "cdol_theme";
 
-darkBtn.addEventListener("click", () => {
-  body.classList.add("escuro");
-  body.classList.remove("claro");
-  darkBtn.classList.add("active");
-  lightBtn.classList.remove("active");
-});
+  function applyTheme(theme) {
+    const isDark = theme === "escuro";
+
+    body.classList.toggle("escuro", isDark);
+    body.classList.toggle("claro", !isDark);
+
+    darkBtn.classList.toggle("active", isDark);
+    lightBtn.classList.toggle("active", !isDark);
+
+    localStorage.setItem(THEME_KEY, isDark ? "escuro" : "claro");
+  }
+
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  applyTheme(savedTheme === "escuro" ? "escuro" : "claro");
+
+  lightBtn.addEventListener("click", () => applyTheme("claro"));
+  darkBtn.addEventListener("click", () => applyTheme("escuro"));
+} else {
+  console.warn("ModoEscuro: botoes de tema nao encontrados.");
+}

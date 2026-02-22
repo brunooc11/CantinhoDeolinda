@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require("config.php");
 
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
@@ -265,39 +265,35 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       <p>Escolhe uma categoria para explorares os nossos pratos.</p>
 
       <div class="menu-tabs">
-        <button class="tab-btn active" data-target="especialidades">🍳 Especialidades</button>
-        <button class="tab-btn" data-target="menus-dia">🍽️ Menus do Dia</button>
-        <button class="tab-btn" data-target="menu-estudante">🎓 Menu Estudante</button>
-        <button class="tab-btn" data-target="sopas">🥣 Sopas</button>
-        <button class="tab-btn" data-target="bebidas">🍷 Bebidas</button>
+        <button class="tab-btn active" data-target="especialidades">Especialidades</button>
+        <button class="tab-btn" data-target="menu-estudante">Menu Estudante</button>
+        <button class="tab-btn" data-target="sopas">Sopas</button>
+        <button class="tab-btn" data-target="bebidas">Bebidas</button>
       </div>
 
       <div class="menu-content active" id="especialidades">
         <div class="menu-grid">
           <div class="item">
-            <h3>Bife à Casa <span>€12.50</span></h3>
-            <p>Bife grelhado com molho de alho e batatas fritas.</p>
+            <h3>Peixe</h3>
+            <ul class="menu-list">
+              <li><span>Bacalhau a Casa</span><strong>18.50&euro;</strong></li>
+              <li><span>Bacalhau a Lagareiro</span><strong>18.50&euro;</strong></li>
+              <li><span>Açorda de Bacalhau com Gambas (no pao)</span><strong>18.50&euro;</strong></li>
+              <li><span>Polvo a Lagareiro</span><strong>18.50&euro;</strong></li>
+            </ul>
+            <p>Nota: Açorda de bacalhau com gambas so por encomenda.</p>
           </div>
           <div class="item">
-            <h3>Bacalhau com Natas <span>€11.00</span></h3>
-            <p>Receita tradicional portuguesa cremosa e deliciosa.</p>
-          </div>
-          <div class="item">
-            <h3>Arroz de Pato <span>€10.50</span></h3>
-            <p>Arroz de forno com pato desfiado e crosta dourada.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-content" id="menus-dia">
-        <div class="menu-grid">
-          <div class="item">
-            <h3>Menu 1 <span>€8.50</span></h3>
-            <p>Prato principal + bebida + sobremesa.</p>
-          </div>
-          <div class="item">
-            <h3>Menu 2 <span>€9.00</span></h3>
-            <p>Prato de carne ou peixe com acompanhamento.</p>
+            <h3>Carne</h3>
+            <ul class="menu-list">
+              <li><span>Bife a Casa</span><strong>18.50&euro;</strong></li>
+              <li><span>Espetadas de Porco Preto</span><strong>18.50&euro;</strong></li>
+              <li><span>Picanha</span><strong>18.50&euro;</strong></li>
+              <li><span>Costeleta de Novilho</span><strong>18.50&euro;</strong></li>
+              <li><span>Secretos</span><strong>18.50&euro;</strong></li>
+              <li><span>Cozido a Portuguesa</span><strong>18.50&euro;</strong></li>
+            </ul>
+            <p>Nota: Cozido a Portuguesa apenas quintas-feiras e domingos.</p>
           </div>
         </div>
       </div>
@@ -305,39 +301,23 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       <div class="menu-content" id="menu-estudante">
         <div class="menu-grid">
           <div class="item">
-            <h3>Menu Estudante <span>€6.00</span></h3>
-            <p>Prato do dia + bebida + sobremesa.</p>
-          </div>
-          <div class="item">
-            <h3>Menu Light <span>€5.50</span></h3>
-            <p>Salada + sopa + sumo natural.</p>
+            <h3>Mini-prato + bebida <span>7.50&euro;</span></h3>
+            <p>Apenas durante o periodo escolar, de segunda a sexta-feira.</p>
           </div>
         </div>
       </div>
 
       <div class="menu-content" id="sopas">
         <div class="menu-grid">
-          <div class="item">
-            <h3>Sopa de Legumes <span>€2.00</span></h3>
-            <p>Receita caseira com ingredientes frescos.</p>
-          </div>
-          <div class="item">
-            <h3>Caldo Verde <span>€2.20</span></h3>
-            <p>Tradicional sopa portuguesa com chouriço.</p>
-          </div>
+          <div class="item"><h3>Sopa de Legumes <span>1.50&euro;</span></h3></div>
+          <div class="item"><h3>Sopa de Peixe <span>2.50&euro;</span></h3></div>
         </div>
       </div>
 
       <div class="menu-content" id="bebidas">
         <div class="menu-grid">
-          <div class="item">
-            <h3>Vinho da Casa <span>€3.50</span></h3>
-            <p>Tinto ou branco, servido à temperatura ideal.</p>
-          </div>
-          <div class="item">
-            <h3>Sumo Natural <span>€2.50</span></h3>
-            <p>Feito com frutas frescas da estação.</p>
-          </div>
+          <div class="item"><h3>Vinho da Casa <span>3.50&euro;</span></h3><p>Nao faz parte do menu.</p></div>
+          <div class="item"><h3>Sumo Natural <span>2.50&euro;</span></h3></div>
         </div>
       </div>
     </section>
@@ -556,7 +536,8 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       </div>
 
       <div class="chat-input">
-        <input type="text" placeholder="Escreve a tua mensagem...">
+        <input type="text" placeholder="Escreve a tua mensagem..." aria-label="Mensagem para o assistente">
+        <button type="button" id="sendChat" aria-label="Enviar mensagem">></button>
       </div>
 
     </div>
@@ -649,6 +630,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <script src="Js/loader.js"></script>
   <script src="Js/carrosel.js"></script>
   <script src="Js/menu.js"></script>
+  <script src="Js/navbar.js"></script>
   <script src="Js/Modal_reservas.js"></script>
   <script src="Js/contacto.js"></script>
   <script src="Js/backhome.js"></script>
