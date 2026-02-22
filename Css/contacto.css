@@ -217,3 +217,118 @@ body {
     text-align: center;
   }
 }
+
+/* ===== Contacto Visual Refresh (scoped) ===== */
+#contacto {
+  --contact-left-stack-height: 216px;
+  background:
+    radial-gradient(900px 430px at 0% 0%, rgba(255, 186, 62, 0.12), transparent 55%),
+    radial-gradient(780px 420px at 100% 100%, rgba(255, 186, 62, 0.08), transparent 60%),
+    #0f0f0f;
+  padding: 14px 0 28px;
+}
+
+#contacto .contact-wrapper {
+  min-height: auto;
+  padding: 54px 20px 42px;
+  background: transparent;
+}
+
+#contacto .contact-card {
+  max-width: 1040px;
+  border-radius: 20px;
+  border: 1px solid rgba(244, 185, 66, 0.3);
+  background: linear-gradient(165deg, #151515, #101010 62%, #0d0d0d);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  padding: 34px 34px 30px;
+}
+
+#contacto .contact-card h1 {
+  margin-bottom: 6px;
+}
+
+#contacto .contact-card .subtitle {
+  margin-bottom: 22px;
+  font-size: 0.95rem;
+  color: #d8c9af;
+}
+
+#contacto .form-grid {
+  grid-template-columns: 1fr 1.2fr;
+  gap: 14px;
+}
+
+#contacto .left-col,
+#contacto .right-col {
+  gap: 12px;
+}
+
+#contacto .right-col {
+  height: 100%;
+}
+
+#contacto .right-col .form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: var(--contact-left-stack-height);
+}
+
+#contacto .form-group label {
+  color: #f5dfb3;
+  font-size: 0.82rem;
+  margin-bottom: 5px;
+}
+
+#contacto .form-group input,
+#contacto .form-group textarea {
+  border: 1px solid rgba(244, 185, 66, 0.24);
+  background: linear-gradient(180deg, #1a1a1a, #141414);
+  border-radius: 11px;
+  color: #fff;
+}
+
+#contacto .form-group input {
+  height: 46px;
+}
+
+#contacto .form-group textarea {
+  min-height: 0;
+  height: auto;
+  flex: 1;
+}
+
+#contacto .form-group input::placeholder,
+#contacto .form-group textarea::placeholder {
+  color: #a89c87;
+}
+
+#contacto .form-group input:focus,
+#contacto .form-group textarea:focus {
+  border-color: rgba(244, 185, 66, 0.9);
+  background: linear-gradient(180deg, #1e1e1e, #171717);
+  box-shadow: 0 0 0 3px rgba(244, 185, 66, 0.19);
+}
+
+#contacto #btt-contact-pos {
+  margin-top: 14px;
+}
+
+@media (max-width: 780px) {
+  #contacto .contact-wrapper {
+    padding: 44px 14px 32px;
+  }
+
+  #contacto .contact-card {
+    padding: 22px 18px 20px;
+    border-radius: 16px;
+  }
+
+  #contacto .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #contacto .right-col .form-group {
+    min-height: 188px;
+  }
+}

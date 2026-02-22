@@ -94,6 +94,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <!-- Header -->
           <div class="reserva-modal-header">
             <h2>Faz Uma Reserva</h2>
+            <button type="button" id="closeReserva" class="reserva-close" aria-label="Fechar modal">×</button>
           </div>
 
           <!-- Body -->
