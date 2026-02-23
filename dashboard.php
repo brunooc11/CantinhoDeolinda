@@ -1,6 +1,7 @@
 <?php
 require_once("config.php");
 require_once("Bd/ligar.php");
+require_once("Bd/popup_helper.php");
 date_default_timezone_set('Europe/Lisbon');
 
 // Verifica se o usuario esta logado
@@ -52,9 +53,7 @@ if ($temAceite || $temRecusada) {
         $msg = "A sua reserva foi recusada pelo restaurante.";
     }
 
-    echo "<script>
-        alert(" . json_encode($msg) . ");
-    </script>";
+    cd_popup($msg, 'info');
 
     // marcar como notificado
     $sqlUpdate = "
@@ -159,6 +158,155 @@ while (mysqli_stmt_fetch($stmt)) {
 }
 mysqli_stmt_close($stmt);
 
+// Acoes de favoritos na dashboard
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_todos_favoritos'])) {
+    $checkTabelaFavoritos = mysqli_query($con, "SHOW TABLES LIKE 'favoritos'");
+    if ($checkTabelaFavoritos && mysqli_num_rows($checkTabelaFavoritos) > 0) {
+        $stmtRemoverTodos = mysqli_prepare($con, "DELETE FROM favoritos WHERE cliente_id = ?");
+        if ($stmtRemoverTodos) {
+            mysqli_stmt_bind_param($stmtRemoverTodos, "i", $id_cliente);
+            mysqli_stmt_execute($stmtRemoverTodos);
+            mysqli_stmt_close($stmtRemoverTodos);
+        }
+    }
+
+    header("Location: dashboard.php?tab=Favoritos");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_favorito'])) {
+    $itemIdRemover = trim($_POST['item_id'] ?? '');
+    $checkTabelaFavoritos = mysqli_query($con, "SHOW TABLES LIKE 'favoritos'");
+
+    if ($itemIdRemover !== '' && $checkTabelaFavoritos && mysqli_num_rows($checkTabelaFavoritos) > 0) {
+        $sqlRemover = "
+            DELETE FROM favoritos
+            WHERE cliente_id = ?
+              AND (
+                  item_id = ?
+                  OR item_id LIKE CONCAT(?, '-%')
+                  OR item_id LIKE CONCAT('%-', ?)
+              )
+        ";
+        $stmtRemover = mysqli_prepare($con, $sqlRemover);
+        if ($stmtRemover) {
+            mysqli_stmt_bind_param($stmtRemover, "isss", $id_cliente, $itemIdRemover, $itemIdRemover, $itemIdRemover);
+            mysqli_stmt_execute($stmtRemover);
+            mysqli_stmt_close($stmtRemover);
+        }
+    }
+
+    header("Location: dashboard.php?tab=Favoritos");
+    exit();
+}
+
+// Buscar favoritos do utilizador
+$favoritos = [];
+$favoritosVistos = [];
+$menuItensAtivos = [
+    "bacalhau-a-casa" => "Bacalhau a Casa",
+    "bacalhau-a-lagareiro" => "Bacalhau a Lagareiro",
+    "acorda-de-bacalhau-com-gambas-no-pao" => "Acorda de Bacalhau com Gambas (no pao)",
+    "polvo-a-lagareiro" => "Polvo a Lagareiro",
+    "bife-a-casa" => "Bife a Casa",
+    "espetadas-de-porco-preto" => "Espetadas de Porco Preto",
+    "picanha" => "Picanha",
+    "costeleta-de-novilho" => "Costeleta de Novilho",
+    "secretos" => "Secretos",
+    "cozido-a-portuguesa" => "Cozido a Portuguesa",
+    "mini-prato-bebida" => "Mini-prato + bebida",
+    "sopa-de-legumes" => "Sopa de Legumes",
+    "sopa-de-peixe" => "Sopa de Peixe",
+    "vinho-da-casa" => "Vinho da Casa",
+    "sumo-natural" => "Sumo Natural"
+];
+
+function normalizarFavoritoId(string $rawId, array $idsAtivos): ?string
+{
+    if (isset($idsAtivos[$rawId])) {
+        return $rawId;
+    }
+
+    foreach ($idsAtivos as $idAtivo => $_nome) {
+        $prefixo = $idAtivo . "-";
+        $sufixo = "-" . $idAtivo;
+        $comecaCom = strpos($rawId, $prefixo) === 0;
+        $terminaCom = substr($rawId, -strlen($sufixo)) === $sufixo;
+
+        if ($comecaCom || $terminaCom) {
+            return $idAtivo;
+        }
+    }
+
+    return null;
+}
+
+$temTabelaFavoritos = false;
+$temColunaNomeFavorito = false;
+$tabelaFavoritosQuery = mysqli_query($con, "SHOW TABLES LIKE 'favoritos'");
+if ($tabelaFavoritosQuery && mysqli_num_rows($tabelaFavoritosQuery) > 0) {
+    $temTabelaFavoritos = true;
+}
+
+if ($temTabelaFavoritos) {
+    $colunaNomeFavoritoQuery = mysqli_query($con, "SHOW COLUMNS FROM favoritos LIKE 'item_nome'");
+    if ($colunaNomeFavoritoQuery && mysqli_num_rows($colunaNomeFavoritoQuery) > 0) {
+        $temColunaNomeFavorito = true;
+    }
+}
+
+if ($temTabelaFavoritos && $temColunaNomeFavorito) {
+    $queryFavoritos = "SELECT item_id, item_nome, criado_em FROM favoritos WHERE cliente_id = ? ORDER BY criado_em DESC";
+    $stmtFavoritos = mysqli_prepare($con, $queryFavoritos);
+    if ($stmtFavoritos) {
+        mysqli_stmt_bind_param($stmtFavoritos, "i", $id_cliente);
+        mysqli_stmt_execute($stmtFavoritos);
+        mysqli_stmt_bind_result($stmtFavoritos, $favId, $favNome, $favData);
+        while (mysqli_stmt_fetch($stmtFavoritos)) {
+            $favNormalizado = normalizarFavoritoId((string) $favId, $menuItensAtivos);
+            if ($favNormalizado === null) {
+                continue;
+            }
+            if (isset($favoritosVistos[$favNormalizado])) {
+                continue;
+            }
+            $favoritosVistos[$favNormalizado] = true;
+
+            $favoritos[] = [
+                'item_id' => $favNormalizado,
+                'nome' => $menuItensAtivos[$favNormalizado],
+                'data' => $favData
+            ];
+        }
+        mysqli_stmt_close($stmtFavoritos);
+    }
+} elseif ($temTabelaFavoritos) {
+    $queryFavoritos = "SELECT item_id, criado_em FROM favoritos WHERE cliente_id = ? ORDER BY criado_em DESC";
+    $stmtFavoritos = mysqli_prepare($con, $queryFavoritos);
+    if ($stmtFavoritos) {
+        mysqli_stmt_bind_param($stmtFavoritos, "i", $id_cliente);
+        mysqli_stmt_execute($stmtFavoritos);
+        mysqli_stmt_bind_result($stmtFavoritos, $favId, $favData);
+        while (mysqli_stmt_fetch($stmtFavoritos)) {
+            $favNormalizado = normalizarFavoritoId((string) $favId, $menuItensAtivos);
+            if ($favNormalizado === null) {
+                continue;
+            }
+            if (isset($favoritosVistos[$favNormalizado])) {
+                continue;
+            }
+            $favoritosVistos[$favNormalizado] = true;
+
+            $favoritos[] = [
+                'item_id' => $favNormalizado,
+                'nome' => $menuItensAtivos[$favNormalizado],
+                'data' => $favData
+            ];
+        }
+        mysqli_stmt_close($stmtFavoritos);
+    }
+}
+
 
 // Cancelar reserva
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) {
@@ -238,10 +386,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     </div>
 
     <div class="dashboard-menu">
-        <button class="tablink" onclick="openTab('Conta')">Conta</button>
-        <button class="tablink" onclick="openTab('Reservas')">Reservas</button>
-        <button class="tablink" onclick="openTab('Favoritos')">Favoritos</button>
-        <button class="tablink" onclick="openTab('Pedidos')">Pedidos</button>
+        <button class="tablink" onclick="openTab('Conta')"><i class="fa-solid fa-user" aria-hidden="true"></i> Conta</button>
+        <button class="tablink" onclick="openTab('Reservas')"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Reservas</button>
+        <button class="tablink" onclick="openTab('Favoritos')"><i class="fa-solid fa-heart" aria-hidden="true"></i> Favoritos</button>
+        <button class="tablink" onclick="openTab('Pedidos')"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Pedidos</button>
     </div>
 
     <!-- Abas -->
@@ -447,8 +595,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
     <div id="Favoritos" class="tabcontent">
         <div class="card">
-            <h3>Meus Favoritos</h3>
-            <p>Ainda nao ha favoritos.</p>
+            <div class="favoritos-header">
+                <h3>Meus Favoritos</h3>
+                <?php if (!empty($favoritos)): ?>
+                    <form method="POST" class="favoritos-header-form" onsubmit="return confirm('Tem a certeza que quer remover todos os favoritos?');">
+                        <button type="submit" name="remover_todos_favoritos" class="btn-remover-todos-fav">
+                            <i class="fa-solid fa-trash-can"></i> Remover todos
+                        </button>
+                    </form>
+                <?php endif; ?>
+            </div>
+            <?php if (!empty($favoritos)): ?>
+                <div class="favoritos-lista">
+                    <?php foreach ($favoritos as $fav): ?>
+                        <div class="favorito-item">
+                            <div class="favorito-topo">
+                                <form method="POST" class="favorito-remover-form">
+                                    <input type="hidden" name="item_id" value="<?php echo htmlspecialchars($fav['item_id']); ?>">
+                                    <button type="submit" name="remover_favorito" class="btn-remover-fav" title="Remover dos favoritos" aria-label="Remover dos favoritos">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </button>
+                                </form>
+                                <strong><?php echo htmlspecialchars($fav['nome']); ?></strong>
+                            </div>
+                            <small>
+                                Guardado em <?php echo date("d/m/Y H:i", strtotime($fav['data'])); ?>
+                            </small>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p>Ainda nao ha favoritos.</p>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -460,6 +638,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     </div>
 
 
+    <script src="Js/popup_alert.js"></script>
     <script src="Js/dashboard.js?v=<?php echo filemtime(__DIR__ . '/Js/dashboard.js'); ?>"></script>
     <script src="Js/alterar_senha.js?v=<?php echo filemtime(__DIR__ . '/Js/alterar_senha.js'); ?>"></script>
 

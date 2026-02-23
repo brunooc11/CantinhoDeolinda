@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("ligar.php");
+require_once("popup_helper.php");
 
 if (!isset($_SESSION['permissoes'])) {
     header("Location: ../login.php");
@@ -13,8 +14,7 @@ if ($_SESSION['permissoes'] !== 'admin') {
 }
 
 function redirect_with_alert(string $message): void {
-    $safe = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
-    echo "<script>alert('{$safe}'); window.location.href='confirmar_reservas.php';</script>";
+    cd_popup($message, 'info', 'confirmar_reservas.php');
     exit;
 }
 

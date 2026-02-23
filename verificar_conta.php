@@ -1,6 +1,7 @@
 <?php
 require('Bd/ligar.php');
 require("config.php");  
+require_once("Bd/popup_helper.php");
 
 if (isset($_GET['token'])) {
     $token = $_GET['token'];
@@ -18,20 +19,11 @@ if (isset($_GET['token'])) {
         mysqli_stmt_bind_param($stmt2, "s", $token);
         mysqli_stmt_execute($stmt2);
 
-        echo "<script>
-                alert('✔ Conta verificada com sucesso! Já pode fazer login.');
-                window.location.href = 'login.php';
-              </script>";
+        cd_popup('Conta verificada com sucesso! Já pode fazer login.', 'success', 'login.php');
     } else {
-        echo "<script>
-                alert('❌ Link inválido ou já usado.');
-                window.location.href = 'login.php';
-              </script>";
+        cd_popup('Link inválido ou já usado.', 'error', 'login.php');
     }
 } else {
-    echo "<script>
-            alert('❌ Token não fornecido.');
-            window.location.href = 'login.php';
-          </script>";
+    cd_popup('Token não fornecido.', 'error', 'login.php');
 }
 ?>

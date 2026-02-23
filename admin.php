@@ -14,6 +14,7 @@ if ($_SESSION['permissoes'] !== 'admin') {
 }
 
 require("Bd/ligar.php");
+require_once("Bd/popup_helper.php");
 
 function esc($value)
 {
@@ -63,12 +64,12 @@ if (isset($_GET['bloquear'])) {
 
     // Impedir autobloqueio
     if ($id == $_SESSION['id']) {
-        echo "<script>alert('Nao te podes bloquear a ti proprio!'); window.location.href='admin.php';</script>";
+        cd_popup('Nao te podes bloquear a ti proprio!', 'error', 'admin.php');
         exit();
     }
 
     mysqli_query($con, "UPDATE Cliente SET estado = 0 WHERE id = $id");
-    echo "<script>alert('Utilizador bloqueado!'); window.location.href='admin.php';</script>";
+    cd_popup('Utilizador bloqueado!', 'success', 'admin.php');
     exit();
 }
 
@@ -76,7 +77,7 @@ if (isset($_GET['bloquear'])) {
 if (isset($_GET['desbloquear'])) {
     $id = intval($_GET['desbloquear']);
     mysqli_query($con, "UPDATE Cliente SET estado = 1 WHERE id = $id");
-    echo "<script>alert('Utilizador desbloqueado!'); window.location.href='admin.php';</script>";
+    cd_popup('Utilizador desbloqueado!', 'success', 'admin.php');
     exit();
 }
 
@@ -84,7 +85,7 @@ if (isset($_GET['desbloquear'])) {
 if (isset($_GET['role_admin'])) {
     $id = intval($_GET['role_admin']);
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'admin' WHERE id = $id");
-    echo "<script>alert('Utilizador agora e admin!'); window.location.href='admin.php';</script>";
+    cd_popup('Utilizador agora e admin!', 'success', 'admin.php');
     exit();
 }
 
@@ -94,7 +95,7 @@ if (isset($_GET['role_user'])) {
 
     //impefir o admin de se autodespromover 
     if ($id == $_SESSION['id']) {
-        echo "<script>alert('Nao te podes remover a ti proprio como admin!'); window.location.href='admin.php';</script>";
+        cd_popup('Nao te podes remover a ti proprio como admin!', 'error', 'admin.php');
         exit();
     }
 
@@ -102,12 +103,12 @@ if (isset($_GET['role_user'])) {
     $row = mysqli_fetch_assoc($check);
 
     if ($row['total'] <= 1) {
-        echo "<script>alert('Nao podes remover o ultimo admin!'); window.location.href='admin.php';</script>";
+        cd_popup('Nao podes remover o ultimo admin!', 'error', 'admin.php');
         exit();
     }
 
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'cliente' WHERE id = $id");
-    echo "<script>alert('Utilizador agora e cliente!'); window.location.href='admin.php';</script>";
+    cd_popup('Utilizador agora e cliente!', 'success', 'admin.php');
     exit();
 }
 
@@ -119,13 +120,13 @@ $bloqueado = $row['bloqueado'];
 
 if (isset($_POST['bloquear_site'])) {
     mysqli_query($con, "UPDATE estado_site SET bloqueado = 1");
-    echo "<script>alert('Site bloqueado!'); window.location.href='admin.php';</script>";
+    cd_popup('Site bloqueado!', 'success', 'admin.php');
     exit();
 }
 
 if (isset($_POST['ativar_site'])) {
     mysqli_query($con, "UPDATE estado_site SET bloqueado = 0");
-    echo "<script>alert('Site ativado!'); window.location.href='admin.php';</script>";
+    cd_popup('Site ativado!', 'success', 'admin.php');
     exit();
 }
 
@@ -144,7 +145,7 @@ if (isset($_GET['reset_faltas'])) {
 
     mysqli_query($con, "UPDATE Cliente SET lista_negra = 0 WHERE id = $id");
 
-    echo "<script>alert('Faltas resetadas e utilizador removido da lista negra.'); window.location.href='admin.php';</script>";
+    cd_popup('Faltas resetadas e utilizador removido da lista negra.', 'success', 'admin.php');
     exit();
 }
 
@@ -555,6 +556,7 @@ $kpiReservasHoje = (int)(mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*) 
         </div>
 
     </div>
+    <script src="Js/popup_alert.js"></script>
     <script src="Js/admin_search.js"></script>
 </body>
 

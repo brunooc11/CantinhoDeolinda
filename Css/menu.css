@@ -110,9 +110,9 @@
 
 .menu-list li {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
-  align-items: baseline;
+  align-items: center;
   border-bottom: 1px dashed rgba(244, 185, 66, 0.22);
   padding-bottom: 6px;
 }
@@ -126,6 +126,39 @@
   color: #f2bf58;
   font-weight: 700;
   white-space: nowrap;
+  margin-left: auto;
+}
+
+.fav-btn {
+  border: 1px solid rgba(244, 185, 66, 0.38);
+  background: rgba(244, 185, 66, 0.06);
+  color: #f4b942;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.fav-btn:hover {
+  transform: translateY(-1px) scale(1.04);
+  background: rgba(244, 185, 66, 0.2);
+  border-color: rgba(244, 185, 66, 0.74);
+}
+
+.fav-btn.is-favorite {
+  color: #2a1700;
+  background: linear-gradient(135deg, #ffd67a, #f4b942);
+  border-color: transparent;
+}
+
+.item h3 .fav-btn {
+  margin-left: 8px;
 }
 
 @keyframes fadeIn {

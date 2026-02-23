@@ -76,6 +76,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 6px;
+  position: relative;
 }
 
 .menu li {
@@ -92,7 +93,7 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-weight: 500;
-  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  transition: color 0.22s ease, background 0.22s ease, transform 0.22s ease;
 }
 
 .menu a::after {
@@ -109,6 +110,25 @@ body {
   transition: transform 0.22s ease;
 }
 
+.menu-indicator {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f4b942, #ffd67a);
+  box-shadow: 0 0 14px rgba(244, 185, 66, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), width 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.2s ease;
+}
+
+.menu-indicator.is-visible {
+  opacity: 1;
+}
+
 .menu a:hover,
 .menu a.active {
   color: #ffe1a2;
@@ -118,7 +138,7 @@ body {
 
 .menu a:hover::after,
 .menu a.active::after {
-  transform: scaleX(1);
+  transform: scaleX(0);
 }
 
 .btn-reserva {
@@ -168,6 +188,11 @@ body {
     justify-content: flex-start;
     padding-bottom: 4px;
     scrollbar-width: thin;
+  }
+
+  .menu-indicator {
+    bottom: 1px;
+    height: 2px;
   }
 
   .menu a {

@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
+  function showReservaPopup(message, type = "error") {
+    if (typeof window.__cdShowPopup === "function") {
+      window.__cdShowPopup(message, type);
+      return;
+    }
+    window.alert(message);
+  }
+
   const modal = document.getElementById("reservaModal");
   const btn = document.getElementById("openReservaModal");
   const closeBtn = document.getElementById("closeReserva");
@@ -128,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (confirmBtn2 && horaMinInput) {
     confirmBtn2.addEventListener("click", (event) => {
       if (!horaMinInput.value) {
-        alert("Selecione uma hora para a reserva.");
+        showReservaPopup("Selecione uma hora para a reserva.");
         horaMinInput.classList.add("invalid");
         event.preventDefault();
         return;
@@ -136,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const validFormat = /^([01]\d|2[0-3]):([0-5]\d)$/.test(horaMinInput.value);
       if (!validFormat) {
-        alert("Hora invalida. Use o formato HH:MM.");
+        showReservaPopup("Hora invalida. Use o formato HH:MM.");
         horaMinInput.classList.add("invalid");
         event.preventDefault();
         return;
@@ -149,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const maxAllowed = timeToMinutes(getMaxTimeForDate(dateInput ? dateInput.value : ""));
 
       if (minutes < minAllowed || minutes > maxAllowed) {
-        alert("Hora fora do horario permitido para reservas.");
+        showReservaPopup("Hora fora do horario permitido para reservas.");
         horaMinInput.classList.add("invalid");
         event.preventDefault();
         return;

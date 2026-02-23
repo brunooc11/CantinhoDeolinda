@@ -1,6 +1,7 @@
 <?php
 require("../config.php");  
 include("ligar.php");
+require_once("popup_helper.php");
 
 // Verifica se o utilizador está autenticado
 if (!isset($_SESSION['id'])) {
@@ -35,27 +36,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validações simples
 if (empty($data_reserva) || empty($hora_reserva) || empty($numero_pessoas)) {
-    echo "<script>
-            alert('Erro: todos os campos obrigatórios devem ser preenchidos.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: todos os campos obrigatórios devem ser preenchidos.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
-// 🧩 Validação do número de pessoas
+// Validacao do numero de pessoas
 if ($numero_pessoas < 1) {
-    echo "<script>
-            alert('Erro: número de pessoas inválido.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: número de pessoas inválido.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
 if ($numero_pessoas > 30) {
-    echo "<script>
-            alert('Erro: limite máximo de 30 pessoas por reserva. Contacte o restaurante.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: limite máximo de 30 pessoas por reserva. Contacte o restaurante.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
@@ -71,28 +63,19 @@ if (
     $warnings > 0 ||
     $errors > 0
 ) {
-    echo "<script>
-            alert('Erro: data de reserva invÃ¡lida.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: data de reserva inválida.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
 $hoje = new DateTime('today');
 if ($dataObj < $hoje) {
-    echo "<script>
-            alert('Erro: nÃ£o Ã© possÃ­vel reservar para uma data anterior a hoje.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: não é possível reservar para uma data anterior a hoje.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
 // Valida a hora (HH:MM), intervalo e regras de horario
 if (!preg_match('/^([01]\d|2[0-3]):([0-5]\d)$/', $hora_reserva)) {
-    echo "<script>
-            alert('Erro: hora de reserva invalida.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: hora de reserva invalida.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
@@ -110,10 +93,7 @@ $diaSemana = (int)$dataObj->format('w'); // 0 = domingo
 $maximoPermitido = ($diaSemana === 0) ? (17 * 60) : (23 * 60 + 55);
 
 if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
-    echo "<script>
-            alert('Erro: hora fora do horario permitido para reservas.');
-            window.history.back();
-          </script>";
+    cd_popup('Erro: hora fora do horario permitido para reservas.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
@@ -126,10 +106,7 @@ if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
 
     if (mysqli_stmt_execute($stmt)) {
         // Reserva criada com sucesso
-        echo "<script>
-                alert('Reserva efetuada!\\nSe a reserva for aceite será enviado um email.\\nReceberá também uma notificação quando voltar a entrar no site');
-                window.location.href='../dashboard.php?tab=Reservas';
-              </script>";
+        cd_popup('Reserva efetuada!\nSe a reserva for aceite será enviado um email.\nReceberá também uma notificação quando voltar a entrar no site', 'success', '../dashboard.php?tab=Reservas');
     } else {
         die('Erro ao efetuar reserva: ' . mysqli_error($con));
     }
@@ -142,3 +119,4 @@ if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
     exit;
 }
 ?>
+

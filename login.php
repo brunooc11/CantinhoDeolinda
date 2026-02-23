@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('Bd/ligar.php');
+require_once('Bd/popup_helper.php');
 //require("config.php");
 date_default_timezone_set('Europe/Lisbon');
 
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
     if (!isset($_POST['termos'])) {
 
-        echo "<script>alert('Para criar a conta, é necessário aceitar os Termos de Uso e a Política de Privacidade!');</script>";
+        cd_popup('Para criar a conta, é necessário aceitar os Termos de Uso e a Política de Privacidade!', 'error');
     } else {
 
         $nome     = $_POST['name'];
@@ -70,10 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
         if (!preg_match('/^\d{1,4}$/', $codigo_pais)) {
 
-            echo "<script>alert('Indicativo de pais invalido.');</script>";
+            cd_popup('Indicativo de pais invalido.', 'error');
         } elseif (!preg_match('/^\d+$/', $telefone_local)) {
 
-            echo "<script>alert('Numero de telefone invalido.');</script>";
+            cd_popup('Numero de telefone invalido.', 'error');
         } elseif (strlen($password_raw) < 8
             || !preg_match('/[A-Z]/', $password_raw)
             || !preg_match('/[a-z]/', $password_raw)
@@ -83,10 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             $signup_inline_error = 'A password deve ter minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo.';
         } elseif (strlen($telefone_local) < $min_local || strlen($telefone_local) > $max_local) {
 
-            echo "<script>alert('Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.');</script>";
+            cd_popup("Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.", 'error');
         } elseif (strlen($telefone_completo) < 8 || strlen($telefone_completo) > 15) {
 
-            echo "<script>alert('Telefone invalido (deve ter entre 8 e 15 digitos no total).');</script>";
+            cd_popup('Telefone invalido (deve ter entre 8 e 15 digitos no total).', 'error');
         } else {
             $password = password_hash($password_raw, PASSWORD_DEFAULT);
             $telefone = '+' . $telefone_completo;
@@ -104,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
             if (mysqli_stmt_num_rows($stmt) > 0) {
 
-                echo "<script>alert('Email já cadastrado!');</script>";
+                cd_popup('Email já cadastrado!', 'error');
             } else {
 
                 // Inserir novo utilizador com verificação pendente
@@ -172,9 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     $mail->AltBody = 'Confirme a sua conta através do link enviado por email.';
 
                     if ($mail->send()) {
-                        echo "<script>alert('Conta criada! Verifique o seu e-mail para ativar a conta.');</script>";
+                        cd_popup('Conta criada! Verifique o seu e-mail para ativar a conta.', 'success');
                     } else {
-                        echo "<script>alert('Erro ao enviar email: {$mail->ErrorInfo}');</script>";
+                        cd_popup("Erro ao enviar email: {$mail->ErrorInfo}", 'error');
                     }
 
                     mysqli_stmt_close($insertStmt);
@@ -226,19 +227,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
         if ($estado == 0) {
 
-            echo "<script>
-                alert('A sua conta está bloqueada pelo administrador.');
-                window.location.href = 'index.php';
-            </script>";
+            cd_popup('A sua conta está bloqueada pelo administrador.', 'error', 'index.php');
             exit();
         }
 
         if ($verificado == 0) {
 
-            echo "<script>alert('⚠ Por favor, verifique o seu e-mail antes de fazer login.');</script>";
+            cd_popup('Por favor, verifique o seu e-mail antes de fazer login.', 'error');
         } elseif (!is_string($hashedPassword)) {
 
-            echo "<script>alert('Erro na password da conta.');</script>";
+            cd_popup('Erro na password da conta.', 'error');
         } elseif (password_verify($password, $hashedPassword)) {
 
             $_SESSION['id']         = $id;
@@ -259,11 +257,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
             exit();
         } else {
 
-            echo "<script>alert('Password incorreta!');</script>";
+            cd_popup('Password incorreta!', 'error');
         }
     } else {
 
-        echo "<script>alert('Email não encontrado!');</script>";
+        cd_popup('Email não encontrado!', 'error');
     }
 
     mysqli_stmt_close($stmt);
@@ -639,4 +637,5 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 </footer>
 
 <!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
+<script src="Js/popup_alert.js"></script>
 <script src="Js/login.js" defer></script>

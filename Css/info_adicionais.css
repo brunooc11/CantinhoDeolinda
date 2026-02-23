@@ -248,6 +248,37 @@ body {
     border-bottom: 1px dashed rgba(255, 186, 62, 0.5);
 }
 
+#localizacao .contact-line {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    column-gap: 10px;
+    margin: 0 0 9px;
+}
+
+#localizacao .contact-icon {
+    width: 24px;
+    text-align: center;
+    line-height: 1;
+    color: #ffb400;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#localizacao .contact-icon i {
+    width: 1em;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1;
+}
+
+#localizacao .contact-line a {
+    display: block;
+    margin: 0;
+    line-height: 1.45;
+}
+
 #localizacao .contact-link-animated:hover {
     color: #ffd98e;
     border-bottom-color: #ffd98e;

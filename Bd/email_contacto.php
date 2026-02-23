@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require __DIR__ . "/../config.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -10,7 +10,42 @@ require __DIR__ . '/../phpmailer/src/SMTP.php';
 
 $env = parse_ini_file(__DIR__ . "/../Seguranca/config.env");
 
-// 🔥 LER DADOS DO sendBeacon()
+function podeEnviarFeedback(mysqli $con, int $clienteId): bool
+{
+    $sql = "
+        SELECT 1
+        FROM reservas
+        WHERE cliente_id = ?
+          AND confirmado = 1
+          AND TIMESTAMP(data_reserva, hora_reserva) <= NOW()
+        LIMIT 1
+    ";
+
+    $stmt = $con->prepare($sql);
+    if (!$stmt) {
+        return false;
+    }
+
+    $stmt->bind_param("i", $clienteId);
+    $stmt->execute();
+    $stmt->store_result();
+    $ok = $stmt->num_rows > 0;
+    $stmt->close();
+
+    return $ok;
+}
+
+if (!isset($_SESSION['id'])) {
+    http_response_code(401);
+    exit;
+}
+
+$clienteId = (int) $_SESSION['id'];
+if (!podeEnviarFeedback($con, $clienteId)) {
+    http_response_code(403);
+    exit;
+}
+
 $raw = file_get_contents("php://input");
 $data = json_decode($raw, true);
 
@@ -23,11 +58,10 @@ if (!$data) {
     exit;
 }
 
-// ✅ Agora as variáveis EXISTEM
-$nome = $data['nome'];
-$email = $data['email'];
-$assunto = $data['assunto'];
-$mensagem = $data['mensagem'];
+$nome = $data['nome'] ?? '';
+$email = $data['email'] ?? '';
+$assunto = $data['assunto'] ?? '';
+$mensagem = $data['mensagem'] ?? '';
 
 try {
     $mail = new PHPMailer(true);
@@ -73,7 +107,7 @@ try {
 
         <tr>
           <td style='background:#000;padding:15px;text-align:center;font-size:13px;color:#f4b942;'>
-            © " . date("Y") . " Cantinho Deolinda
+            &copy; " . date("Y") . " Cantinho Deolinda
           </td>
         </tr>
 

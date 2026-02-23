@@ -159,7 +159,7 @@ if (!btnChat || !chatBox || !closeChat || !chatMessages || !chatInput || !sendCh
 
   document.querySelectorAll(".quick-btns button").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const texto = btn.innerText.trim();
+      const texto = (btn.dataset.message || btn.innerText || "").trim();
       if (texto) {
         enviarMensagem(texto);
       }

@@ -994,6 +994,94 @@ body {
     margin: 0;
 }
 
+.cdol-dash #Favoritos .card {
+    background:
+      radial-gradient(120% 140% at 0% 0%, rgba(251, 189, 51, 0.12), transparent 50%),
+      linear-gradient(160deg, rgba(24, 24, 24, 0.98), rgba(14, 14, 14, 0.98));
+    border: 1px solid rgba(251, 189, 51, 0.2);
+}
+
+.cdol-dash #Favoritos .card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.cdol-dash #Favoritos .card h3::before {
+    content: "★";
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #18120a;
+    background: linear-gradient(140deg, #ffd777, #f5b42f);
+    box-shadow: 0 6px 16px rgba(245, 180, 47, 0.35);
+    font-size: 13px;
+}
+
+.cdol-dash .favoritos-lista {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.cdol-dash .favorito-item {
+    position: relative;
+    border: 1px solid rgba(255, 205, 105, 0.24);
+    border-radius: 14px;
+    padding: 13px 14px;
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cdol-dash .favorito-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 210, 125, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.28);
+}
+
+.cdol-dash .favorito-topo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 6px;
+}
+
+.cdol-dash .favorito-topo strong {
+    color: #f8f0e0;
+    font-size: 15px;
+    line-height: 1.35;
+}
+
+.cdol-dash .favorito-icone {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #2a1b08;
+    background: linear-gradient(135deg, #ffd777, #f5b42f);
+    box-shadow: 0 5px 12px rgba(245, 180, 47, 0.28);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.cdol-dash .favorito-item small {
+    display: inline-block;
+    color: #cdbf9d;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    border-top: 1px solid rgba(255, 214, 142, 0.15);
+    padding-top: 8px;
+    width: 100%;
+}
+
 @media (max-width: 900px) {
     .cdol-dash .conta-info-grid {
         grid-template-columns: 1fr;
@@ -1001,5 +1089,310 @@ body {
 
     .cdol-dash .senha-form-grid {
         grid-template-columns: 1fr;
+    }
+
+    .cdol-dash .favoritos-lista {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== Dashboard Polish v2 ===== */
+.cdol-dash .dashboard-header {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.cdol-dash .dashboard-header h1 {
+    font-weight: 700;
+    color: #ffd777;
+}
+
+.cdol-dash .dashboard-menu {
+    padding: 4px;
+    gap: 4px;
+    border-radius: 12px;
+    width: min(1000px, 95%);
+    margin: 14px auto 0;
+    background: rgba(14, 14, 14, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cdol-dash .dashboard-menu button {
+    border-radius: 9px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.cdol-dash .dashboard-menu button:hover {
+    border-color: rgba(255, 203, 91, 0.28);
+}
+
+.cdol-dash .dashboard-menu button.active {
+    background: linear-gradient(140deg, #ffd777, #f5b42f);
+    color: #1a1309;
+    box-shadow: 0 8px 18px rgba(245, 180, 47, 0.28);
+}
+
+.cdol-dash .tabcontent.ativo {
+    animation: dashFadeUp 0.25s ease;
+}
+
+@keyframes dashFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cdol-dash .card h3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 14px;
+}
+
+.cdol-dash .conta-info-item {
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cdol-dash .conta-info-item strong {
+    color: #f6f1e6;
+}
+
+.cdol-dash .conta-info-item .label {
+    color: #d0c39f;
+}
+
+.cdol-dash .conta-actions {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 16px;
+    padding-top: 14px;
+}
+
+.cdol-dash #Reservas .card,
+.cdol-dash #Pedidos .card {
+    background:
+      radial-gradient(120% 140% at 0% 0%, rgba(251, 189, 51, 0.08), transparent 48%),
+      linear-gradient(160deg, rgba(24, 24, 24, 0.98), rgba(14, 14, 14, 0.98));
+}
+
+.cdol-dash .tabela-reservas {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cdol-dash .tabela-reservas tbody td {
+    font-size: 14px;
+}
+
+.cdol-dash #Pedidos .card p,
+.cdol-dash #Favoritos .card > p {
+    margin: 16px 0 0;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 208, 108, 0.28);
+    color: #d9cfb8;
+    text-align: center;
+}
+
+/* ===== Dashboard Polish v3 ===== */
+.cdol-dash {
+    color: #f3f1ea;
+}
+
+.cdol-dash .dashboard-header,
+.cdol-dash .dashboard-menu,
+.cdol-dash .card {
+    max-width: 1040px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cdol-dash .dashboard-header {
+    border-radius: 0 0 14px 14px;
+}
+
+.cdol-dash .tabcontent {
+    padding-top: 18px;
+}
+
+.cdol-dash .card {
+    position: relative;
+    overflow: hidden;
+}
+
+.cdol-dash .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0));
+}
+
+.cdol-dash .card h3 {
+    font-size: clamp(20px, 2.2vw, 26px);
+    letter-spacing: 0.2px;
+}
+
+.cdol-dash .dashboard-menu button {
+    min-height: 46px;
+}
+
+.cdol-dash .dashboard-menu button i {
+    margin-right: 7px;
+    color: #ffd777;
+}
+
+.cdol-dash .dashboard-menu button.active i {
+    color: #1a1309;
+}
+
+.cdol-dash .dashboard-menu button:focus-visible,
+.cdol-dash .btt-alterar-senha:focus-visible,
+.cdol-dash .btt-sair:focus-visible,
+.cdol-dash #btt_excluir_conta:focus-visible,
+.cdol-dash .btn-cancelar:focus-visible {
+    outline: 2px solid rgba(255, 211, 118, 0.7);
+    outline-offset: 2px;
+}
+
+.cdol-dash a:focus-visible,
+.cdol-dash button:focus-visible,
+.cdol-dash input:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 211, 118, 0.3);
+}
+
+.cdol-dash .conta-info-grid {
+    gap: 12px;
+}
+
+.cdol-dash .conta-info-item {
+    border-radius: 12px;
+    padding: 12px 13px;
+}
+
+.cdol-dash .conta-info-item strong {
+    font-size: 15px;
+}
+
+.cdol-dash .conta-info-item .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.cdol-dash .tabela-reservas thead th {
+    font-size: 13px;
+}
+
+.cdol-dash .tabela-reservas tbody td {
+    font-size: 13px;
+}
+
+.cdol-dash .btn-cancelar {
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+}
+
+.cdol-dash #Favoritos .favorito-item {
+    border-radius: 16px;
+}
+
+.cdol-dash #Favoritos .favorito-topo strong {
+    font-size: 15px;
+}
+
+.cdol-dash #Favoritos .favorito-item small {
+    font-size: 12px;
+    color: #e1d4b6;
+}
+
+@media (max-width: 900px) {
+    .cdol-dash .dashboard-header {
+        border-radius: 0 0 10px 10px;
+    }
+
+    .cdol-dash .dashboard-menu {
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+
+    .cdol-dash .tabcontent {
+        padding-top: 12px;
+    }
+}
+
+/* ===== Favoritos Actions ===== */
+.cdol-dash .favoritos-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cdol-dash .favoritos-header h3 {
+    margin-bottom: 0;
+}
+
+.cdol-dash .favoritos-header-form,
+.cdol-dash .favorito-remover-form {
+    margin: 0;
+}
+
+.cdol-dash .btn-remover-todos-fav {
+    border: 1px solid rgba(255, 108, 122, 0.42);
+    background: linear-gradient(135deg, rgba(255, 101, 120, 0.22), rgba(255, 78, 98, 0.16));
+    color: #ffd8de;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cdol-dash .btn-remover-todos-fav:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 122, 136, 0.65);
+    background: linear-gradient(135deg, rgba(255, 106, 126, 0.3), rgba(255, 88, 109, 0.24));
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.cdol-dash .btn-remover-fav {
+    margin-left: 0;
+    margin-right: 2px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 133, 147, 0.38);
+    background: linear-gradient(145deg, rgba(255, 92, 113, 0.2), rgba(255, 70, 94, 0.16));
+    color: #ffc2cb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.cdol-dash .btn-remover-fav:hover {
+    transform: scale(1.06);
+    color: #ffe3e8;
+    border-color: rgba(255, 155, 166, 0.62);
+    background: linear-gradient(145deg, rgba(255, 108, 126, 0.3), rgba(255, 80, 102, 0.24));
+}
+
+@media (max-width: 700px) {
+    .cdol-dash .favoritos-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }

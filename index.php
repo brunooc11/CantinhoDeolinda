@@ -1,10 +1,9 @@
 <?php
 require("config.php");
+require_once("Bd/popup_helper.php");
 
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
-  echo "<script>
-        alert('⚠ Não pode efetuar reservas devido a faltas anteriores.');
-    </script>";
+  cd_popup('Nao pode efetuar reservas devido a faltas anteriores.', 'error');
 }
 ?>
 
@@ -51,7 +50,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
 </head>
 
-<body>
+<body data-logged-in="<?php echo isset($_SESSION['id']) ? '1' : '0'; ?>">
 
   <!-- Loader -->
   <div class="loader-wrapper" id="loaderWrapper">
@@ -63,7 +62,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="fumo"></div>
       </div>
       <div class="ovo"></div>
-      <div class="texto">🍴 A Cozinha está a Trabalhar 🍴...</div>
+      <div class="texto"><i class="fa-solid fa-utensils" aria-hidden="true"></i> A Cozinha esta a Trabalhar <i class="fa-solid fa-utensils" aria-hidden="true"></i></div>
     </div>
   </div>
 
@@ -82,9 +81,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
     <?php if (isset($_SESSION['id'])): ?>
       <?php if ($_SESSION['permissoes'] === 'admin'): ?>
-        <a href="admin.php" class="btt-padrao-login">⚙️ Admin</a>
+        <a href="admin.php" class="btt-padrao-login"><i class="fa-solid fa-gear" aria-hidden="true"></i> Admin</a>
       <?php else: ?>
-        <a href="dashboard.php" class="btt-padrao-login">⚙️ Conta</a>
+        <a href="dashboard.php" class="btt-padrao-login"><i class="fa-solid fa-gear" aria-hidden="true"></i> Conta</a>
       <?php endif; ?>
 
       <!-- Modal de Reserva -->
@@ -94,7 +93,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <!-- Header -->
           <div class="reserva-modal-header">
             <h2>Faz Uma Reserva</h2>
-            <button type="button" id="closeReserva" class="reserva-close" aria-label="Fechar modal">×</button>
+            <button type="button" id="closeReserva" class="reserva-close" aria-label="Fechar modal">&times;</button>
           </div>
 
           <!-- Body -->
@@ -136,7 +135,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                 min="1"
                 required>
               <small id="avisoPessoas" style="color:red; display:none; font-size:14px; margin-top:4px;">
-                ⚠️ Máximo permitido: 30 pessoas. Para grupos maiores, contacte o restaurante.
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Máximo permitido: 30 pessoas. Para grupos maiores, contacte o restaurante.
               </small> 
             </div> 
 
@@ -225,32 +224,32 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
           <div class="card">
             <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Iogurte com frutas">
-            <div class="overlay">🍓 Iogurte com Frutas</div>
+            <div class="overlay"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Iogurte com Frutas</div>
           </div>
 
           <div class="card">
             <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b" alt="Prato de massa">
-            <div class="overlay">🍝 Massa Especial</div>
+            <div class="overlay"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> Massa Especial</div>
           </div>
 
           <div class="card">
             <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Iogurte com frutas">
-            <div class="overlay">🥗 Salada Fresca</div>
+            <div class="overlay"><i class="fa-solid fa-leaf" aria-hidden="true"></i> Salada Fresca</div>
           </div>
 
           <div class="card">
             <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b" alt="Prato de massa">
-            <div class="overlay">🥩 Bife Grelhado</div>
+            <div class="overlay"><i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i> Bife Grelhado</div>
           </div>
 
           <div class="card">
             <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Iogurte com frutas">
-            <div class="overlay">🍰 Sobremesa Doce</div>
+            <div class="overlay"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i> Sobremesa Doce</div>
           </div>
 
           <div class="card">
             <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b" alt="Prato de massa">
-            <div class="overlay">🍷 Vinho da Casa</div>
+            <div class="overlay"><i class="fa-solid fa-wine-glass" aria-hidden="true"></i> Vinho da Casa</div>
           </div>
 
         </div>
@@ -279,10 +278,10 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <ul class="menu-list">
               <li><span>Bacalhau a Casa</span><strong>18.50&euro;</strong></li>
               <li><span>Bacalhau a Lagareiro</span><strong>18.50&euro;</strong></li>
-              <li><span>Açorda de Bacalhau com Gambas (no pao)</span><strong>18.50&euro;</strong></li>
+              <li><span>Açorda de Bacalhau com Gambas (no pão)</span><strong>18.50&euro;</strong></li>
               <li><span>Polvo a Lagareiro</span><strong>18.50&euro;</strong></li>
             </ul>
-            <p>Nota: Açorda de bacalhau com gambas so por encomenda.</p>
+            <p>Nota: Açorda de bacalhau com gambas só por encomenda.</p>
           </div>
           <div class="item">
             <h3>Carne</h3>
@@ -323,7 +322,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       </div>
     </section>
 
-    <!-- 🔥 Novo Banner (batatas fritas) -->
+    <!-- Novo Banner (batatas fritas) -->
     <section class="banner" id="banner">
       <img src="Imagens/batata.png" alt="French Fries">
       <div class="banner-text">
@@ -341,7 +340,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       </div>
     </section>
 
-    <!-- 🔥 Novo bloco: Catering -->
+    <!-- Novo bloco: Catering -->
     <section class="catering" id="eventos">
       <div class="catering-wrapper">
         <div class="catering-info">
@@ -349,7 +348,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <h2>O seu evento, nas melhores mãos</h2>
           <p>
             Criamos a experiência perfeita para almoços/jantares de grupo.
-            Acrescentamos sabor a reuniões de empresa, casamentos ou Festas.
+            Acrescentamos sabor a reuniões de empresa, casamentos ou festas.
             Disponibilizamos um serviço completo e flexível, adaptado às necessidades de cada evento.
           </p>
 
@@ -358,7 +357,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="catering-box">
           <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Catering Image">
           <p>Criamos experiências gastronómicas para eventos especiais e empresariais</p>
-          <button>Fale Connosco</button>
+          <button onclick="window.location.href='#localizacao'">Fale Connosco</button>
         </div>
       </div>
     </section>
@@ -380,16 +379,25 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
             <div class="info_adicionais-card">
               <div class="info_adicionais-card-title">Horas de Serviço</div>
-              <p><strong>Segunda-Sábado</strong><br>8:00 – 24:00</p>
+              <p><strong>Segunda-Sábado</strong><br>8:00 - 24:00</p>
               <p><strong>Domingo</strong><br>8:00 - 17:00</p>
             </div>
 
             <div class="info_adicionais-card">
               <div class="info_adicionais-card-title">Suporte</div>
               <p><strong>Segunda - Domingo</strong></p>
-              <p>📞 <a id="support-phone-link" class="contact-link-animated" href="tel:+351966545510" target="_blank" rel="noopener noreferrer">+351 966 545 510</a></p>
-              <p>✉️ <a class="contact-link-animated" href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3Acantinhodeolina%40gmail.com" target="_blank" rel="noopener noreferrer">cantinhodeolina@gmail.com</a></p>
-              <p>📍 <a class="contact-link-animated" href="https://maps.google.com/?q=Rua+Carlos+Alberto+Martins+Vicente,+2580-355+Alenquer" target="_blank" rel="noopener noreferrer">Rua Carlos Alberto Martins Vicente, 2580-355 Alenquer</a></p>
+              <p class="contact-line">
+                <span class="contact-icon"><i class="fa-solid fa-phone"></i></span>
+                <a id="support-phone-link" class="contact-link-animated" href="tel:+351966545510" target="_blank" rel="noopener noreferrer">+351 966 545 510</a>
+              </p>
+              <p class="contact-line">
+                <span class="contact-icon"><i class="fa-solid fa-envelope"></i></span>
+                <a class="contact-link-animated" href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3Acantinhodeolinda%40gmail.com" target="_blank" rel="noopener noreferrer">cantinhodeolinda@gmail.com</a>
+              </p>
+              <p class="contact-line">
+                <span class="contact-icon"><i class="fa-solid fa-location-dot"></i></span>
+                <a class="contact-link-animated" href="https://maps.google.com/?q=Rua+Carlos+Alberto+Martins+Vicente,+2580-355+Alenquer" target="_blank" rel="noopener noreferrer">Rua Carlos Alberto Martins Vicente, 2580-355 Alenquer</a>
+              </p>
 
               <?php if (isset($_SESSION['id'])): ?>
                 <button id="info_adicionais-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
@@ -404,7 +412,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
           </div>
 
-          <!-- com o loading lazy ,o mapa carrega apenas quando aparece no ecrã. -->
+          <!-- com o loading lazy, o mapa carrega apenas quando aparece no ecrã. -->
           <div class="info_adicionais-card contact-map">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.627227445397!2d-9.006716523513655!3d39.05388597170578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd18f6cd5b0cf3ef%3A0x7a3d7a0f54818651!2sR.%20Carlos%20Alberto%20Martins%20Vicente%202580-355%20Alenquer!5e0!3m2!1spt-PT!2spt!4v1733340000000!5m2!1spt-PT!2spt"
@@ -431,19 +439,19 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
           <div class="cd-trust-grid">
             <div class="cd-trust-card">
-              <span class="cd-trust-icon">⭐</span>
+              <i class="cd-trust-icon fa-solid fa-star" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">4.1 no Google</h3>
               <p class="cd-trust-text">Clientes satisfeitos todos os dias</p>
             </div>
 
             <div class="cd-trust-card">
-              <span class="cd-trust-icon">🍽</span>
+              <i class="cd-trust-icon fa-solid fa-utensils" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">Cozinha Tradicional</h3>
               <p class="cd-trust-text">Receitas portuguesas autênticas</p>
             </div>
 
             <div class="cd-trust-card">
-              <span class="cd-trust-icon">🕯</span>
+              <i class="cd-trust-icon fa-solid fa-candle-holder" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">Ambiente Acolhedor</h3>
               <p class="cd-trust-text">Perfeito para família e amigos</p>
             </div>
@@ -477,17 +485,26 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <div class="left-col">
               <div class="form-group">
                 <label>Nome</label>
-                <input type="text" name="nome" placeholder="O teu nome" required>
+                <input type="text" name="nome" placeholder="O teu nome" value="<?php echo htmlspecialchars($_SESSION['nome'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" <?php echo isset($_SESSION['id']) ? 'readonly' : ''; ?> required>
               </div>
 
               <div class="form-group">
                 <label>Assunto</label>
-                <input type="text" name="assunto" placeholder="Assunto" required>
+                <select name="assunto" required>
+                  <option value="">Seleciona um assunto</option>
+                  <option value="Reserva">Reserva</option>
+                  <option value="Experiência no restaurante">Experiência no restaurante</option>
+                  <option value="Qualidade da comida">Qualidade da comida</option>
+                  <option value="Atendimento">Atendimento</option>
+                  <option value="Sugestão">Sugestão</option>
+                  <option value="Reclamação">Reclamação</option>
+                  <option value="Outro">Outro</option>
+                </select>
               </div>
 
               <div class="form-group">
                 <label>Email</label>
-                <input type="email" name="email" placeholder="email@exemplo.com" required>
+                <input type="email" name="email" placeholder="email@exemplo.com" value="<?php echo htmlspecialchars($_SESSION['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" <?php echo isset($_SESSION['id']) ? 'readonly' : ''; ?> required>
               </div>
             </div>
 
@@ -512,27 +529,27 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
     </section>
 
     <!-- BOTÃO CHAT -->
-    <div class="back-home-btn show" id="btnChat" title="Falar com o suporte">💬</div>
+    <div class="back-home-btn show" id="btnChat" title="Falar com o suporte"><i class="fa-solid fa-comments" aria-hidden="true"></i></div>
 
     <!-- CHAT -->
     <div class="chat-box hidden" id="chatBox">
 
       <div class="chat-header">
-        🤖 Assistente Cantinho Deolinda
-        <span id="closeChat">✖</span>
+        <i class="fa-solid fa-robot" aria-hidden="true"></i> Assistente Cantinho Deolinda
+        <span id="closeChat" aria-label="Fechar chat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
       </div>
 
       <div class="chat-messages">
         <div class="msg bot">
-          Olá 👋 Posso ajudar com reservas, horários ou dúvidas?
+          Ola. Posso ajudar com reservas, horarios ou duvidas sobre o restaurante.
         </div>
 
         <div class="quick-btns">
-          <button>📅 Reservas</button>
-          <button>🍽️ Menu</button>
-          <button>📍 Localização</button>
-          <button>📞 Contactos</button>
-          <button>❓ Outro/a</button>
+          <button data-message="Reservas"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Reservas</button>
+          <button data-message="Menu"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Menu</button>
+          <button data-message="Localizacao"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Localizacao</button>
+          <button data-message="Contactos"><i class="fa-solid fa-phone" aria-hidden="true"></i> Contactos</button>
+          <button data-message="Outro"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Outro/a</button>
         </div>
       </div>
 
@@ -544,7 +561,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
     </div>
 
     <!-- Botão para voltar ao Home -->
-    <a href="#home" id="backHomeBtn" class="back-home-btn">⮝</a>
+    <a href="#home" id="backHomeBtn" class="back-home-btn"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
 
     <!-- Pre-Footer -->
     <section class="prefooter">
@@ -623,13 +640,15 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2025 Cantinho Deolinda — Todos os direitos reservados</p>
+    <p>&copy; 2025 Cantinho Deolinda - Todos os direitos reservados</p>
   </footer>
 
+  <script src="Js/popup_alert.js"></script>
   <script src="Js/ModoEscuro.js"></script>
   <script src="Js/whatsapp-link.js"></script>
   <script src="Js/loader.js"></script>
-  <script src="Js/carrosel.js"></script>
+  <script src="Js/carrosel.js?v=20260223b"></script>
+  <script src="Js/favoritos.js?v=20260223b"></script>
   <script src="Js/menu.js"></script>
   <script src="Js/navbar.js"></script>
   <script src="Js/Modal_reservas.js"></script>
@@ -641,3 +660,4 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 </body>
 
 </html>
+

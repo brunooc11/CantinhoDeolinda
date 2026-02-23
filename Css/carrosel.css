@@ -26,11 +26,43 @@ p {
   margin: 44px auto;
   overflow: hidden;
   border-radius: 22px;
+  padding: 6px 0;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(244, 185, 66, 0.12), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.12));
+  border: 1px solid rgba(244, 185, 66, 0.2);
+}
+
+.carousel-container::before,
+.carousel-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 72px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.carousel-container::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(10, 10, 10, 0.7), transparent);
+}
+
+.carousel-container::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(10, 10, 10, 0.7), transparent);
 }
 
 .carousel {
   display: flex;
-  transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.56s cubic-bezier(0.18, 0.88, 0.22, 1);
+  will-change: transform;
+  padding: 2px 0;
+}
+
+.carousel.is-sliding .card {
+  transform: translateY(-1px);
 }
 
 /* Cards do carrossel */
@@ -39,10 +71,38 @@ p {
   min-width: 25%;
   padding: 12px;
   box-sizing: border-box;
-  transition: transform 0.26s ease;
+  transition: transform 0.26s ease, filter 0.26s ease;
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
+  isolation: isolate;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 220, 150, 0.12);
+  pointer-events: none;
+  z-index: 2;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 46%;
+  height: calc(100% - 24px);
+  border-radius: 16px;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+  opacity: 0;
+  transform: translateX(-16px);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .card img {
@@ -50,39 +110,65 @@ p {
   height: 350px;
   border-radius: 16px;
   object-fit: cover;
-  transition: transform 0.35s ease, filter 0.35s ease;
+  backface-visibility: hidden;
+  border: 1px solid rgba(255, 214, 125, 0.18);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34);
+  transition: transform 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 
 /* Overlay inicial invisivel */
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(3, 3, 3, 0.15), rgba(3, 3, 3, 0.72));
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  width: auto;
+  height: auto;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 10%, rgba(0, 0, 0, 0.82) 82%);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-size: 0.98rem;
   font-weight: 600;
-  letter-spacing: 0.2px;
-  opacity: 0;
-  transition: opacity 0.28s ease;
-  border-radius: 16px;
+  letter-spacing: 0.15px;
+  opacity: 1;
+  transform: translateY(6px);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+  border-radius: 12px;
   text-align: center;
-  padding: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 219, 152, 0.25);
+  backdrop-filter: blur(3px);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65);
+  z-index: 3;
+}
+
+.overlay i {
+  margin-right: 7px;
 }
 
 /* Efeito hover */
 .card:hover img {
-  filter: brightness(0.62);
-  transform: scale(1.045);
+  filter: brightness(0.7);
+  transform: scale(1.03);
+  border-color: rgba(255, 214, 125, 0.45);
+  box-shadow: 0 20px 34px rgba(0, 0, 0, 0.45);
+}
+
+.card:hover::before {
+  border-color: rgba(255, 214, 125, 0.36);
+  box-shadow: inset 0 0 0 1px rgba(255, 214, 125, 0.16);
+}
+
+.card:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .card:hover .overlay {
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* Botoes do carrossel */
@@ -94,13 +180,15 @@ p {
   height: 46px;
   display: grid;
   place-items: center;
-  background: rgba(12, 12, 12, 0.72);
-  border: 1px solid rgba(244, 185, 66, 0.45);
+  background: linear-gradient(180deg, rgba(25, 25, 25, 0.9), rgba(8, 8, 8, 0.9));
+  border: 1px solid rgba(244, 185, 66, 0.58);
   color: #ffe3a4;
   cursor: pointer;
   font-size: 22px;
   border-radius: 50%;
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.32);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.42);
+  z-index: 3;
+  backdrop-filter: blur(2px);
   transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -117,6 +205,58 @@ p {
 
 .carousel-container .next {
   right: 10px;
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 4px;
+  position: relative;
+  z-index: 4;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 130, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: width 0.24s ease, transform 0.24s ease, border-color 0.24s ease;
+}
+
+.carousel-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ffd777, #f5b42f);
+  transform: scaleX(0.3);
+  transform-origin: left center;
+  opacity: 0.55;
+  transition: transform 0.24s ease, opacity 0.24s ease;
+}
+
+.carousel-dot.active {
+  width: 24px;
+  border-color: #ffd777;
+  transform: translateY(-1px);
+}
+
+.carousel-dot.active::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.carousel-container .btn:focus-visible,
+.carousel-dot:focus-visible {
+  outline: 2px solid rgba(255, 217, 130, 0.95);
+  outline-offset: 2px;
 }
 
 /* Seccao do menu */
@@ -180,5 +320,15 @@ p {
 
   .carousel-container .next {
     right: 6px;
+  }
+
+  .carousel-indicators {
+    gap: 7px;
+    margin-top: 6px;
+  }
+
+  .carousel-dot {
+    width: 9px;
+    height: 9px;
   }
 }
