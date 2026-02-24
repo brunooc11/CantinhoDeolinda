@@ -604,6 +604,8 @@ button.action-btn {
     min-width: 56px;
     padding: 4px 8px;
     font-size: 11px;
+    white-space: nowrap;
+    word-break: normal;
 }
 
 .cdol-admin .admin-email-text {
