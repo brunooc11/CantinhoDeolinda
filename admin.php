@@ -64,7 +64,7 @@ if (isset($_GET['bloquear'])) {
 
     // Impedir autobloqueio
     if ($id == $_SESSION['id']) {
-        cd_popup('Nao te podes bloquear a ti proprio!', 'error', 'admin.php');
+        cd_popup('Não te podes bloquear a ti próprio!', 'error', 'admin.php');
         exit();
     }
 
@@ -85,7 +85,7 @@ if (isset($_GET['desbloquear'])) {
 if (isset($_GET['role_admin'])) {
     $id = intval($_GET['role_admin']);
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'admin' WHERE id = $id");
-    cd_popup('Utilizador agora e admin!', 'success', 'admin.php');
+    cd_popup('Utilizador agora é admin!', 'success', 'admin.php');
     exit();
 }
 
@@ -95,7 +95,7 @@ if (isset($_GET['role_user'])) {
 
     //impefir o admin de se autodespromover 
     if ($id == $_SESSION['id']) {
-        cd_popup('Nao te podes remover a ti proprio como admin!', 'error', 'admin.php');
+        cd_popup('Não te podes remover a ti próprio como admin!', 'error', 'admin.php');
         exit();
     }
 
@@ -103,12 +103,12 @@ if (isset($_GET['role_user'])) {
     $row = mysqli_fetch_assoc($check);
 
     if ($row['total'] <= 1) {
-        cd_popup('Nao podes remover o ultimo admin!', 'error', 'admin.php');
+        cd_popup('Não podes remover o último admin!', 'error', 'admin.php');
         exit();
     }
 
     mysqli_query($con, "UPDATE Cliente SET permissoes = 'cliente' WHERE id = $id");
-    cd_popup('Utilizador agora e cliente!', 'success', 'admin.php');
+    cd_popup('Utilizador agora é cliente!', 'success', 'admin.php');
     exit();
 }
 

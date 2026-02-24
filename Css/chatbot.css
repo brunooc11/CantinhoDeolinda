@@ -61,34 +61,62 @@
   position: relative;
   padding: 18px 18px 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   color: var(--chat-text);
-  font-family: "Playfair Display", serif;
-  font-size: 18px;
-  letter-spacing: 0.15px;
   border-bottom: 1px solid rgba(244, 185, 66, 0.22);
   background: linear-gradient(135deg, rgba(244, 185, 66, 0.18), rgba(244, 185, 66, 0.03));
 }
 
-.chat-header > i {
-  margin-right: 8px;
+.chat-header-main {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.chat-header::after {
-  content: "online";
+.chat-header-main > i {
+  width: 24px;
+  height: 24px;
   position: absolute;
-  left: 18px;
-  bottom: 6px;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.chat-header-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.1;
+}
+
+.chat-title {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  letter-spacing: 0.15px;
+  color: var(--chat-text);
+}
+
+.chat-status {
   font-family: "Poppins", sans-serif;
   font-size: 11px;
   font-weight: 500;
   color: rgba(255, 248, 232, 0.72);
   text-transform: uppercase;
   letter-spacing: 0.8px;
+  margin-top: 3px;
 }
 
 #closeChat {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 28px;
   height: 28px;
   border-radius: 9px;
@@ -98,12 +126,11 @@
   color: var(--chat-gold-strong);
   cursor: pointer;
   background: rgba(244, 185, 66, 0.11);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 #closeChat:hover {
   background: rgba(244, 185, 66, 0.24);
-  transform: scale(1.06);
 }
 
 .chat-messages {

@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
     if (empty($senha_atual) || empty($nova_senha) || empty($confirmar_senha)) {
         $mensagem = "Por favor, preencha todos os campos.";
     } elseif ($nova_senha !== $confirmar_senha) {
-        $mensagem = "As novas senhas nao coincidem.";
+        $mensagem = "As novas palavras-passe nao coincidem.";
     } else {
         $id = $_SESSION['id'];
         $query = "SELECT password FROM Cliente WHERE id = ?";
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
         mysqli_stmt_close($stmt);
 
         if (!password_verify($senha_atual, $senha_bd)) {
-            $mensagem = "A senha atual esta incorreta.";
+            $mensagem = "A palavra-passe atual esta incorreta.";
         } else {
             // Atualiza a password
             $nova_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
@@ -253,6 +253,34 @@ if ($temTabelaFavoritos) {
     if ($colunaNomeFavoritoQuery && mysqli_num_rows($colunaNomeFavoritoQuery) > 0) {
         $temColunaNomeFavorito = true;
     }
+}
+
+if (!empty($mensagem)) {
+    cd_popup($mensagem, 'error');
+}
+
+if (isset($_GET['confirmada']) && $_GET['confirmada'] == 1) {
+    cd_popup('Reserva confirmada com sucesso.', 'success');
+}
+
+if (isset($_GET['erro']) && $_GET['erro'] == 1) {
+    cd_popup('Erro ao confirmar a reserva.', 'error');
+}
+
+if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'final_2h') {
+    cd_popup('Cancelamento online indisponivel nas 2h finais. Contacte: +351 966 545 510.', 'error');
+}
+
+if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'apos_horario') {
+    cd_popup('Nao e possivel cancelar apos o horario da reserva.', 'error');
+}
+
+if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'prazo') {
+    cd_popup('Cancelamento fora do prazo permitido.', 'error');
+}
+
+if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'nao_encontrada') {
+    cd_popup('Reserva nao encontrada.', 'error');
 }
 
 if ($temTabelaFavoritos && $temColunaNomeFavorito) {
@@ -397,12 +425,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         <div class="card">
             <h3>Minha Conta</h3>
 
-            <?php if (!empty($mensagem)): ?>
-                <p class="dash-alert <?php echo strpos($mensagem, 'sucesso') !== false ? 'success' : 'danger'; ?>">
-                    <?php echo htmlspecialchars($mensagem); ?>
-                </p>
-            <?php endif; ?>
-
             <div class="conta-info-grid">
                 <div class="conta-info-item">
                     <span class="label">Nome</span>
@@ -489,31 +511,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
     <div id="Reservas" class="tabcontent">
             <div class="card">
-            <?php
-            if (isset($_GET['confirmada']) && $_GET['confirmada'] == 1) {
-                echo '<p class="dash-alert success">Reserva confirmada com sucesso.</p>';
-            }
-
-            if (isset($_GET['erro']) && $_GET['erro'] == 1) {
-                echo '<p class="dash-alert danger">Erro ao confirmar a reserva.</p>';
-            }
-
-            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'final_2h') {
-                echo '<p class="dash-alert danger">Cancelamento online indisponivel nas 2h finais. Contacte: +351 966 545 510.</p>';
-            }
-
-            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'apos_horario') {
-                echo '<p class="dash-alert danger">Nao e possivel cancelar apos o horario da reserva.</p>';
-            }
-
-            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'prazo') {
-                echo '<p class="dash-alert danger">Cancelamento fora do prazo permitido.</p>';
-            }
-
-            if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'nao_encontrada') {
-                echo '<p class="dash-alert danger">Reserva nao encontrada.</p>';
-            }
-            ?>
             <div class="reservas-header">
                 <h3>Reservas</h3>
                 <div class="reservas-acoes">

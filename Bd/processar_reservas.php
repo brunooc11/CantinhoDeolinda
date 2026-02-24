@@ -75,7 +75,7 @@ if ($dataObj < $hoje) {
 
 // Valida a hora (HH:MM), intervalo e regras de horario
 if (!preg_match('/^([01]\d|2[0-3]):([0-5]\d)$/', $hora_reserva)) {
-    cd_popup('Erro: hora de reserva invalida.', 'error', '__HISTORY_BACK__');
+    cd_popup('Erro: hora de reserva inválida.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
@@ -93,7 +93,7 @@ $diaSemana = (int)$dataObj->format('w'); // 0 = domingo
 $maximoPermitido = ($diaSemana === 0) ? (17 * 60) : (23 * 60 + 55);
 
 if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
-    cd_popup('Erro: hora fora do horario permitido para reservas.', 'error', '__HISTORY_BACK__');
+    cd_popup('Erro: hora fora do horário permitido para reservas.', 'error', '__HISTORY_BACK__');
     exit;
 }
 
@@ -106,7 +106,7 @@ if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
 
     if (mysqli_stmt_execute($stmt)) {
         // Reserva criada com sucesso
-        cd_popup('Reserva efetuada!\nSe a reserva for aceite será enviado um email.\nReceberá também uma notificação quando voltar a entrar no site', 'success', '../dashboard.php?tab=Reservas');
+        cd_popup('Reserva efetuada!\nSe a reserva for aceite, será enviado um email.\nReceberá também uma notificação quando voltar a entrar no site.', 'success', '../dashboard.php?tab=Reservas');
     } else {
         die('Erro ao efetuar reserva: ' . mysqli_error($con));
     }

@@ -71,10 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
         if (!preg_match('/^\d{1,4}$/', $codigo_pais)) {
 
-            cd_popup('Indicativo de pais invalido.', 'error');
+            cd_popup('Indicativo de país inválido.', 'error');
         } elseif (!preg_match('/^\d+$/', $telefone_local)) {
 
-            cd_popup('Numero de telefone invalido.', 'error');
+            cd_popup('Número de telefone inválido.', 'error');
         } elseif (strlen($password_raw) < 8
             || !preg_match('/[A-Z]/', $password_raw)
             || !preg_match('/[a-z]/', $password_raw)
@@ -84,10 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             $signup_inline_error = 'A password deve ter minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo.';
         } elseif (strlen($telefone_local) < $min_local || strlen($telefone_local) > $max_local) {
 
-            cd_popup("Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.", 'error');
+            cd_popup("Número local inválido para este país. Deve ter entre {$min_local} e {$max_local} dígitos.", 'error');
         } elseif (strlen($telefone_completo) < 8 || strlen($telefone_completo) > 15) {
 
-            cd_popup('Telefone invalido (deve ter entre 8 e 15 digitos no total).', 'error');
+            cd_popup('Telefone inválido (deve ter entre 8 e 15 dígitos no total).', 'error');
         } else {
             $password = password_hash($password_raw, PASSWORD_DEFAULT);
             $telefone = '+' . $telefone_completo;
@@ -257,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
             exit();
         } else {
 
-            cd_popup('Password incorreta!', 'error');
+            cd_popup('Password incorreta.', 'error');
         }
     } else {
 
@@ -273,11 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
 <?php
 if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
-    echo '
-        <p style="color: green; font-weight: bold; text-align:center; font-size:18px; margin-top:10px;">
-            Password alterada com sucesso! Faça login novamente.
-        </p>
-    ';
+    cd_popup('Password alterada com sucesso. Faça login novamente.', 'success');
 }
 ?>
 

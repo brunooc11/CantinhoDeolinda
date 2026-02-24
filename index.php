@@ -3,7 +3,7 @@ require("config.php");
 require_once("Bd/popup_helper.php");
 
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
-  cd_popup('Nao pode efetuar reservas devido a faltas anteriores.', 'error');
+  cd_popup('Não pode efetuar reservas devido a faltas anteriores.', 'error');
 }
 ?>
 
@@ -451,7 +451,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             </div>
 
             <div class="cd-trust-card">
-              <i class="cd-trust-icon fa-solid fa-candle-holder" aria-hidden="true"></i>
+              <i class="cd-trust-icon fa-solid fa-mug-hot" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">Ambiente Acolhedor</h3>
               <p class="cd-trust-text">Perfeito para família e amigos</p>
             </div>
@@ -535,7 +535,13 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
     <div class="chat-box hidden" id="chatBox">
 
       <div class="chat-header">
-        <i class="fa-solid fa-robot" aria-hidden="true"></i> Assistente Cantinho Deolinda
+        <div class="chat-header-main">
+          <i class="fa-solid fa-robot" aria-hidden="true"></i>
+          <div class="chat-header-copy">
+            <span class="chat-title">Assistente Cantinho Deolinda</span>
+            <span class="chat-status">Online</span>
+          </div>
+        </div>
         <span id="closeChat" aria-label="Fechar chat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></span>
       </div>
 

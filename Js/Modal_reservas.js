@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const validFormat = /^([01]\d|2[0-3]):([0-5]\d)$/.test(horaMinInput.value);
       if (!validFormat) {
-        showReservaPopup("Hora invalida. Use o formato HH:MM.");
+        showReservaPopup("Hora inválida. Use o formato HH:MM.");
         horaMinInput.classList.add("invalid");
         event.preventDefault();
         return;
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const maxAllowed = timeToMinutes(getMaxTimeForDate(dateInput ? dateInput.value : ""));
 
       if (minutes < minAllowed || minutes > maxAllowed) {
-        showReservaPopup("Hora fora do horario permitido para reservas.");
+        showReservaPopup("Hora fora do horário permitido para reservas.");
         horaMinInput.classList.add("invalid");
         event.preventDefault();
         return;

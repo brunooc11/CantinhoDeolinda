@@ -3,6 +3,11 @@ console.log("CONTACTO.JS CARREGADO");
 const form = document.getElementById("contactForm");
 
 function showFeedbackPopup(message, type = "info", onClose = null) {
+    if (typeof window.__cdShowPopup === "function") {
+        window.__cdShowPopup(message, type, onClose);
+        return;
+    }
+
     let popup = document.getElementById("feedbackPopup");
 
     if (!popup) {
@@ -63,14 +68,14 @@ form.addEventListener("submit", function (e) {
 
         if (result !== "OK") {
             if (result === "LOGIN_REQUIRED") {
-                showFeedbackPopup("Precisa de iniciar sess\u00e3o para enviar feedback.", "error", () => {
+                showFeedbackPopup("Precisa de iniciar sessão para enviar feedback.", "error", () => {
                     window.location.href = "login.php";
                 });
                 return;
             }
 
             if (result === "RESERVA_REQUIRED") {
-                showFeedbackPopup("Para enviar feedback, precisa de ter uma reserva confirmada e j\u00e1 comparecida.", "error");
+                showFeedbackPopup("Para enviar feedback, precisa de ter uma reserva confirmada e já comparecida.", "error");
                 return;
             }
 
@@ -101,4 +106,3 @@ form.addEventListener("submit", function (e) {
     });
 });
 }
-
