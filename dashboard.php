@@ -10,6 +10,30 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+function dash_csrf_token(): string
+{
+    return (string)($_SESSION['csrf_token'] ?? '');
+}
+
+function dash_csrf_input(): string
+{
+    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(dash_csrf_token(), ENT_QUOTES, 'UTF-8') . '">';
+}
+
+function dash_verify_csrf_or_fail(): void
+{
+    $token = (string)($_POST['csrf_token'] ?? '');
+    $sessionToken = dash_csrf_token();
+    if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
+        cd_popup('Pedido invalido (CSRF). Atualize a pagina e tente novamente.', 'error', 'dashboard.php');
+        exit();
+    }
+}
+
 
 // POPUP de reservas confirmadas / recusadas
 $idCliente = $_SESSION['id'];
@@ -71,7 +95,8 @@ if ($temAceite || $temRecusada) {
 
 
 // Logout
-if (isset($_GET['logout'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    dash_verify_csrf_or_fail();
     session_destroy();
     header("Location: login.php");
     exit();
@@ -79,6 +104,7 @@ if (isset($_GET['logout'])) {
 
 // Excluir conta
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir'])) {
+    dash_verify_csrf_or_fail();
     $id = $_SESSION['id'];
     $query = "DELETE FROM Cliente WHERE id = ?";
     $stmt = mysqli_prepare($con, $query);
@@ -93,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir'])) {
 
 // Alterar senha
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
+    dash_verify_csrf_or_fail();
     $senha_atual = $_POST['senha_atual'] ?? '';
     $nova_senha = $_POST['nova_senha'] ?? '';
     $confirmar_senha = $_POST['confirmar_senha'] ?? '';
@@ -160,6 +187,7 @@ mysqli_stmt_close($stmt);
 
 // Acoes de favoritos na dashboard
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_todos_favoritos'])) {
+    dash_verify_csrf_or_fail();
     $checkTabelaFavoritos = mysqli_query($con, "SHOW TABLES LIKE 'favoritos'");
     if ($checkTabelaFavoritos && mysqli_num_rows($checkTabelaFavoritos) > 0) {
         $stmtRemoverTodos = mysqli_prepare($con, "DELETE FROM favoritos WHERE cliente_id = ?");
@@ -175,6 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_todos_favorit
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_favorito'])) {
+    dash_verify_csrf_or_fail();
     $itemIdRemover = trim($_POST['item_id'] ?? '');
     $checkTabelaFavoritos = mysqli_query($con, "SHOW TABLES LIKE 'favoritos'");
 
@@ -338,6 +367,7 @@ if ($temTabelaFavoritos && $temColunaNomeFavorito) {
 
 // Cancelar reserva
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) {
+    dash_verify_csrf_or_fail();
     $id_reserva = intval($_POST['id_reserva']);
 
     $queryData = "SELECT data_reserva, hora_reserva FROM reservas WHERE id = ? AND cliente_id = ? LIMIT 1";
@@ -443,11 +473,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             <div class="conta-actions">
                 <button type="button" class="btt-alterar-senha" onclick="toggleFormSenha()">Alterar Senha</button>
 
-                <form method="POST" action="?logout=1">
-                    <button type="submit" class="btt-sair" id="bttsair">Sair</button>
+                <form method="POST">
+                    <?php echo dash_csrf_input(); ?>
+                    <button type="submit" name="logout" class="btt-sair" id="bttsair">Sair</button>
                 </form>
 
                 <form method="POST" onsubmit="return confirmarExclusao();">
+                    <?php echo dash_csrf_input(); ?>
                     <button type="submit" name="excluir" class="btn btn-excluir" id="btt_excluir_conta">
                         Excluir Conta
                     </button>
@@ -456,6 +488,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
             <div class="form-lateral-card" id="formSenhaCard">
                 <form method="POST" class="senha-form">
+                    <?php echo dash_csrf_input(); ?>
                     <div class="senha-form-head">
                         <h3>Alterar Palavra-passe</h3>
                         <p>Atualize a sua palavra-passe para manter a conta segura.</p>
@@ -565,6 +598,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
                                     <?php if ($pode_cancelar): ?>
                                         <form method="POST" class="acao-form">
+                                            <?php echo dash_csrf_input(); ?>
                                             <input type="hidden" name="id_reserva" value="<?php echo $reserva['id']; ?>">
 
                                             <button class="btn-cancelar" name="cancelar_reserva">
@@ -596,6 +630,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                 <h3>Meus Favoritos</h3>
                 <?php if (!empty($favoritos)): ?>
                     <form method="POST" class="favoritos-header-form" onsubmit="return confirm('Tem a certeza que quer remover todos os favoritos?');">
+                        <?php echo dash_csrf_input(); ?>
                         <button type="submit" name="remover_todos_favoritos" class="btn-remover-todos-fav">
                             <i class="fa-solid fa-trash-can"></i> Remover todos
                         </button>
@@ -608,6 +643,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                         <div class="favorito-item">
                             <div class="favorito-topo">
                                 <form method="POST" class="favorito-remover-form">
+                                    <?php echo dash_csrf_input(); ?>
                                     <input type="hidden" name="item_id" value="<?php echo htmlspecialchars($fav['item_id']); ?>">
                                     <button type="submit" name="remover_favorito" class="btn-remover-fav" title="Remover dos favoritos" aria-label="Remover dos favoritos">
                                         <i class="fa-solid fa-heart"></i>

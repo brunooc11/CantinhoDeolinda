@@ -1,0 +1,380 @@
+.cdol-logs .admin-hero {
+    position: relative;
+    padding: 6px;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 85% 15%, rgba(255, 212, 90, 0.12), transparent 38%),
+      radial-gradient(circle at 12% 85%, rgba(255, 212, 90, 0.08), transparent 42%);
+}
+
+.cdol-logs .admin-kpi-card {
+    backdrop-filter: blur(2px);
+    border-color: rgba(255, 212, 90, 0.22);
+}
+
+.cdol-logs .logs-filters-section,
+.cdol-logs .logs-results-section {
+    border: 1px solid rgba(255, 212, 90, 0.16);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
+}
+
+.cdol-logs .logs-subtle {
+    margin: -2px 0 14px;
+    color: #d6d6d6;
+    font-size: 12px;
+}
+
+.cdol-logs .logs-filters-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 12px;
+    align-items: center;
+}
+
+.cdol-logs .logs-filters-grid input[type="text"] {
+    grid-column: span 2;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 12px;
+    border: 1px solid #3a3a3a;
+    background: #101114;
+    color: #f6f6f6;
+}
+
+.cdol-logs .logs-filters-grid select,
+.cdol-logs .logs-filters-grid input[type="date"] {
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid #3a3a3a;
+    background: #101114;
+    color: #f6f6f6;
+}
+
+.cdol-logs .logs-filters-grid input[type="text"]:focus,
+.cdol-logs .logs-filters-grid select:focus,
+.cdol-logs .logs-filters-grid input[type="date"]:focus {
+    outline: none;
+    border-color: #ffd45a;
+    box-shadow: 0 0 0 3px rgba(255, 212, 90, 0.15);
+}
+
+.cdol-logs .logs-filter-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.cdol-logs .logs-btn {
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 212, 90, 0.28);
+    background: rgba(255, 212, 90, 0.1);
+    color: #f9e8bd;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: all 0.18s ease;
+}
+
+.cdol-logs .logs-btn:hover {
+    background: rgba(255, 212, 90, 0.2);
+    border-color: rgba(255, 212, 90, 0.46);
+    transform: translateY(-1px);
+}
+
+.cdol-logs .logs-reset-link {
+    color: #cfcfcf;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 4px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.28);
+}
+
+.cdol-logs .logs-reset-link:hover {
+    color: #ffffff;
+    border-bottom-color: rgba(255, 212, 90, 0.8);
+}
+
+.cdol-logs .logs-table-wrap {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow-x: hidden;
+}
+
+.cdol-logs .logs-table {
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.cdol-logs .logs-table th {
+    background: linear-gradient(135deg, #f6be48, #ffd45a);
+    color: #0f0f10;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.cdol-logs .logs-table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.cdol-logs .logs-table tbody tr:hover {
+    background: rgba(255, 212, 90, 0.08);
+}
+
+.cdol-logs .logs-table td {
+    font-size: 12px;
+    vertical-align: top;
+    word-break: break-word;
+    overflow: hidden;
+}
+
+.cdol-logs .logs-table th:nth-child(1),
+.cdol-logs .logs-table td:nth-child(1) { width: 4%; }
+
+.cdol-logs .logs-table th:nth-child(2),
+.cdol-logs .logs-table td:nth-child(2) { width: 11%; }
+
+.cdol-logs .logs-table th:nth-child(3),
+.cdol-logs .logs-table td:nth-child(3) { width: 13%; }
+
+.cdol-logs .logs-table th:nth-child(4),
+.cdol-logs .logs-table td:nth-child(4) { width: 15%; }
+
+.cdol-logs .logs-table th:nth-child(5),
+.cdol-logs .logs-table td:nth-child(5) { width: 10%; }
+
+.cdol-logs .logs-table th:nth-child(6),
+.cdol-logs .logs-table td:nth-child(6) { width: 14%; }
+
+.cdol-logs .logs-table th:nth-child(7),
+.cdol-logs .logs-table td:nth-child(7) { width: 16%; }
+
+.cdol-logs .logs-table th:nth-child(8),
+.cdol-logs .logs-table td:nth-child(8) { width: 17%; }
+
+.cdol-logs .logs-table .status-chip.warn {
+    background: rgba(255, 212, 90, 0.18);
+    color: #ffe9b6;
+    border-color: rgba(255, 212, 90, 0.35);
+    min-width: 120px;
+    max-width: none;
+    white-space: nowrap;
+    word-break: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
+
+.cdol-logs .logs-detail-cell {
+    text-align: left;
+    max-width: none;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.cdol-logs .logs-email-text {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+@media (max-width: 980px) {
+    .cdol-logs .logs-filters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cdol-logs .logs-filters-grid input[type="text"] {
+        grid-column: auto;
+    }
+
+    .cdol-logs .logs-filter-actions {
+        justify-content: stretch;
+    }
+
+    .cdol-logs .logs-filter-actions .btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .cdol-logs .logs-reset-link {
+        text-align: center;
+    }
+}
+
+/* ===== Logs Visual Refresh v2 ===== */
+.cdol-logs .container {
+    background:
+      radial-gradient(1200px 280px at 5% -15%, rgba(255, 212, 90, 0.16), transparent 56%),
+      radial-gradient(900px 260px at 98% -18%, rgba(255, 212, 90, 0.08), transparent 64%),
+      linear-gradient(165deg, rgba(18, 20, 24, 0.98), rgba(10, 11, 14, 0.98));
+}
+
+.cdol-logs .admin-hero {
+    border: 1px solid rgba(255, 212, 90, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+}
+
+.cdol-logs .admin-kpi-card {
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.cdol-logs .admin-kpi-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 212, 90, 0.36);
+}
+
+.cdol-logs .logs-filters-section,
+.cdol-logs .logs-results-section {
+    border-radius: 16px;
+}
+
+.cdol-logs .logs-filters-section h3,
+.cdol-logs .logs-results-section h3 {
+    position: relative;
+    padding-left: 14px;
+}
+
+.cdol-logs .logs-filters-section h3::before,
+.cdol-logs .logs-results-section h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #ffd45a, #ffbe39);
+}
+
+.cdol-logs .logs-filters-grid input[type="text"],
+.cdol-logs .logs-filters-grid select,
+.cdol-logs .logs-filters-grid input[type="date"] {
+    background: linear-gradient(180deg, #13161b, #101319);
+    border-color: rgba(255, 255, 255, 0.13);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.cdol-logs .logs-btn {
+    background: linear-gradient(135deg, #ffd35a, #ffbf39);
+    color: #121212;
+    border-color: rgba(255, 212, 90, 0.68);
+    box-shadow: 0 9px 18px rgba(0, 0, 0, 0.28);
+}
+
+.cdol-logs .logs-btn:hover {
+    background: linear-gradient(135deg, #ffe087, #ffd35a);
+    transform: translateY(-1px);
+}
+
+.cdol-logs .logs-reset-link {
+    color: #ebedf2;
+    border-bottom-color: rgba(255, 212, 90, 0.5);
+}
+
+.cdol-logs .logs-table-wrap {
+    border-color: rgba(255, 212, 90, 0.24);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.cdol-logs .logs-table {
+    border-radius: 12px;
+}
+
+.cdol-logs .logs-table th {
+    background: linear-gradient(135deg, #ffd45a, #ffbe39);
+    letter-spacing: 0.4px;
+}
+
+.cdol-logs .logs-table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cdol-logs .logs-table tbody tr {
+    transition: background-color 0.16s ease;
+}
+
+.cdol-logs .logs-table tbody tr:hover {
+    background: rgba(255, 212, 90, 0.11);
+}
+
+.cdol-logs .logs-table .status-chip.warn {
+    border-width: 1px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.cdol-logs .botoesNav a {
+    border: 1px solid rgba(255, 212, 90, 0.45);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Logs Visual Refresh v3 (fine tuning) ===== */
+.cdol-logs .admin-hero p,
+.cdol-logs .logs-subtle {
+    color: #d6dce6;
+}
+
+.cdol-logs .logs-filters-grid input[type="text"]::placeholder {
+    color: #aeb7c4;
+}
+
+.cdol-logs .logs-filters-grid input[type="text"],
+.cdol-logs .logs-filters-grid select,
+.cdol-logs .logs-filters-grid input[type="date"] {
+    transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.cdol-logs .logs-filters-grid input[type="text"]:focus,
+.cdol-logs .logs-filters-grid select:focus,
+.cdol-logs .logs-filters-grid input[type="date"]:focus {
+    box-shadow: 0 0 0 3px rgba(255, 212, 90, 0.16);
+}
+
+.cdol-logs .logs-btn {
+    transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
+}
+
+.cdol-logs .logs-btn:hover {
+    filter: brightness(1.04);
+}
+
+.cdol-logs .logs-table th {
+    font-size: 11px;
+    text-transform: none;
+}
+
+.cdol-logs .logs-table td {
+    color: #e9edf3;
+}
+
+.cdol-logs .logs-detail-cell {
+    color: #d5dce7;
+}
+
+.cdol-logs .botoesNav a {
+    position: relative;
+    overflow: hidden;
+}
+
+.cdol-logs .botoesNav a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.28) 50%, transparent 100%);
+    transform: translateX(-120%);
+    transition: transform 0.5s ease;
+}
+
+.cdol-logs .botoesNav a:hover::after {
+    transform: translateX(120%);
+}

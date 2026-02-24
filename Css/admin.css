@@ -90,19 +90,25 @@ tr:hover {
     background: #252525;
 }
 
-a.action-btn {
+a.action-btn,
+button.action-btn {
     padding: 6px 12px;
     background: #d9534f;
     color: white;
+    border: none;
     border-radius: 5px;
     text-decoration: none;
     font-size: 14px;
     font-weight: bold;
+    font-family: inherit;
+    line-height: 1.2;
+    cursor: pointer;
     display: inline-block;
     margin-top: 5px;
 }
 
-a.action-btn:hover {
+a.action-btn:hover,
+button.action-btn:hover {
     background: #c9302c;
 }
 
@@ -149,7 +155,8 @@ a.action-btn:hover {
 
 #btnDashboard,
 #btnInicio,
-#btnConfirmarReservas {
+#btnConfirmarReservas,
+#btnLogs {
     padding: 12px 28px;
     border-radius: 40px;
     background: linear-gradient(135deg, #f5a623, #ffcc33);
@@ -168,7 +175,8 @@ a.action-btn:hover {
 /* HOVER */
 #btnDashboard:hover,
 #btnInicio:hover,
-#btnConfirmarReservas:hover {
+#btnConfirmarReservas:hover,
+#btnLogs:hover {
     transform: translateY(-3px) scale(1.05);
     background: linear-gradient(135deg, #ffcc33, #f5a623);
     color: #111;
@@ -177,7 +185,8 @@ a.action-btn:hover {
 /* ACTIVE */
 #btnDashboard:active,
 #btnInicio:active,
-#btnConfirmarReservas:active {
+#btnConfirmarReservas:active,
+#btnLogs:active {
     transform: scale(0.98);
 }
 
@@ -249,7 +258,8 @@ td {
     vertical-align: middle;
 }
 
-a.action-btn {
+a.action-btn,
+button.action-btn {
     border-radius: 8px;
     margin-top: 0;
 }
@@ -404,7 +414,28 @@ a.action-btn {
     min-width: 180px;
 }
 
+.cdol-admin .admin-filter-bar select option {
+    color: #111319;
+    background: #ffffff;
+}
+
+.cdol-admin .admin-filter-bar input[type="date"] {
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #2f2f2f;
+    background: #131313;
+    color: #f2f2f2;
+    min-width: 170px;
+}
+
 .cdol-admin .admin-filter-bar select:focus {
+    outline: none;
+    border-color: #ffd45a;
+    box-shadow: 0 0 0 2px rgba(255, 212, 90, 0.2);
+}
+
+.cdol-admin .admin-filter-bar input[type="date"]:focus {
     outline: none;
     border-color: #ffd45a;
     box-shadow: 0 0 0 2px rgba(255, 212, 90, 0.2);
@@ -487,10 +518,16 @@ a.action-btn {
     border-color: rgba(255, 255, 255, 0.12);
 }
 
-.cdol-admin a.action-btn {
+.cdol-admin a.action-btn,
+.cdol-admin button.action-btn {
     border-radius: 8px;
     padding: 7px 10px;
     font-size: 12px;
+}
+
+.cdol-admin .admin-inline-form {
+    display: inline-block;
+    margin: 3px 4px 3px 0;
 }
 
 .cdol-admin .admin-actions-cell {
@@ -499,6 +536,8 @@ a.action-btn {
 
 .cdol-admin .admin-actions-cell .action-btn {
     margin: 3px 4px 3px 0;
+    white-space: nowrap;
+    word-break: normal;
 }
 
 /* Users table: fit content without horizontal scroll */
@@ -524,8 +563,119 @@ a.action-btn {
     font-size: 11px;
 }
 
+.cdol-admin #adminUsersTable td:nth-child(10) .status-chip {
+    white-space: nowrap;
+    word-break: normal;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(11),
+.cdol-admin #adminUsersTable td:nth-child(11) {
+    width: 100px;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(12),
+.cdol-admin #adminUsersTable td:nth-child(12) {
+    width: 112px;
+}
+
+/* Reservas table: fit content without horizontal scroll */
+.cdol-admin #adminReservasTable {
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.cdol-admin #adminReservasTable th,
+.cdol-admin #adminReservasTable td {
+    font-size: 11px;
+    word-break: break-word;
+}
+
+.cdol-admin #adminReservasTable th {
+    word-break: normal;
+    white-space: nowrap;
+}
+
+.cdol-admin #adminReservasTable .admin-actions-cell {
+    white-space: normal;
+}
+
+.cdol-admin #adminReservasTable .status-chip {
+    min-width: 56px;
+    padding: 4px 8px;
+    font-size: 11px;
+}
+
+.cdol-admin .admin-email-text {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.cdol-admin #adminAuditTable {
+    min-width: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.cdol-admin #adminAuditTable th,
+.cdol-admin #adminAuditTable td {
+    font-size: 11px;
+    word-break: break-word;
+}
+
+.cdol-admin #adminAuditTable th:nth-child(1),
+.cdol-admin #adminAuditTable td:nth-child(1) { width: 4%; }
+
+.cdol-admin #adminAuditTable th:nth-child(2),
+.cdol-admin #adminAuditTable td:nth-child(2) { width: 11%; }
+
+.cdol-admin #adminAuditTable th:nth-child(3),
+.cdol-admin #adminAuditTable td:nth-child(3) { width: 13%; }
+
+.cdol-admin #adminAuditTable th:nth-child(4),
+.cdol-admin #adminAuditTable td:nth-child(4) { width: 18%; }
+
+.cdol-admin #adminAuditTable th:nth-child(5),
+.cdol-admin #adminAuditTable td:nth-child(5) { width: 10%; }
+
+.cdol-admin #adminAuditTable th:nth-child(6),
+.cdol-admin #adminAuditTable td:nth-child(6) { width: 14%; }
+
+.cdol-admin #adminAuditTable th:nth-child(7),
+.cdol-admin #adminAuditTable td:nth-child(7) { width: 16%; }
+
+.cdol-admin #adminAuditTable th:nth-child(8),
+.cdol-admin #adminAuditTable td:nth-child(8) { width: 14%; }
+
+.cdol-admin #adminAuditTable .status-chip.warn {
+    display: inline-block;
+    min-width: 0;
+    max-width: none;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+    line-height: 1.25;
+    text-align: center;
+}
+
 .cdol-admin .admin-search-empty {
     margin-top: 10px;
+}
+
+.cdol-admin .admin-filter-help {
+    margin: -2px 0 12px;
+    color: #cfcfcf;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.cdol-admin .admin-filter-help strong {
+    color: #ffe19a;
+    font-weight: 700;
 }
 
 .cdol-admin .admin-pagination {
@@ -586,4 +736,324 @@ a.action-btn {
         justify-content: center;
         flex-wrap: wrap;
     }
+
+}
+
+/* ===== Admin Visual Refresh v2 ===== */
+.cdol-admin {
+    --cd-bg: #090a0c;
+    --cd-panel: #111316;
+    --cd-panel-soft: #171a1f;
+    --cd-border: rgba(255, 212, 90, 0.20);
+    --cd-border-soft: rgba(255, 255, 255, 0.10);
+    --cd-text: #f2f4f8;
+    --cd-text-soft: #b9c0cb;
+    --cd-accent: #ffd45a;
+    --cd-accent-strong: #ffbf38;
+}
+
+.cdol-admin .container {
+    background:
+      radial-gradient(1400px 320px at 12% -12%, rgba(255, 212, 90, 0.14), transparent 58%),
+      radial-gradient(1000px 280px at 92% -18%, rgba(255, 212, 90, 0.07), transparent 62%),
+      linear-gradient(165deg, rgba(18, 20, 24, 0.98), rgba(10, 11, 14, 0.98));
+    border-color: var(--cd-border);
+}
+
+.cdol-admin .admin-hero {
+    padding: 16px;
+    border: 1px solid var(--cd-border-soft);
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+}
+
+.cdol-admin .admin-kpi-card {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 212, 90, 0.18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.cdol-admin .admin-kpi-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 212, 90, 0.34);
+}
+
+.cdol-admin .admin-section {
+    border-color: rgba(255, 212, 90, 0.14);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012));
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26);
+}
+
+.cdol-admin h3 {
+    position: relative;
+    padding-left: 14px;
+}
+
+.cdol-admin h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, var(--cd-accent), var(--cd-accent-strong));
+}
+
+.cdol-admin .admin-search-bar input,
+.cdol-admin .admin-filter-bar select,
+.cdol-admin .admin-filter-bar input[type="date"] {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: linear-gradient(180deg, #12151a, #0f1216);
+}
+
+.cdol-admin .admin-search-bar .btn,
+.cdol-admin .admin-site-state .btn.success,
+.cdol-admin .admin-site-state .btn.danger {
+    border: 1px solid rgba(255, 212, 90, 0.35);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.cdol-admin .admin-clear-btn {
+    background: linear-gradient(180deg, #21252b, #171b21);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.cdol-admin .admin-table-wrap {
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+.cdol-admin .admin-table {
+    border: 0;
+    border-radius: 12px;
+    min-width: 0;
+}
+
+.cdol-admin .admin-table th {
+    background: linear-gradient(135deg, #ffcf59, #ffbe39);
+    letter-spacing: 0.45px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.cdol-admin .admin-table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cdol-admin .admin-table tbody tr {
+    transition: background-color 0.16s ease;
+}
+
+.cdol-admin .admin-table tbody tr:hover {
+    background: rgba(255, 212, 90, 0.10);
+}
+
+.cdol-admin a.action-btn {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.24);
+    transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+.cdol-admin a.action-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+}
+
+.cdol-admin .botoesNav {
+    margin-top: 26px;
+    gap: 14px;
+}
+
+.cdol-admin #btnDashboard,
+.cdol-admin #btnInicio,
+.cdol-admin #btnConfirmarReservas,
+.cdol-admin #btnLogs {
+    border: 1px solid rgba(255, 212, 90, 0.45);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.34);
+}
+
+@keyframes cdFadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cdol-admin .admin-section {
+    animation: cdFadeSlide 0.28s ease both;
+}
+
+/* ===== Admin Visual Refresh v3 (fine tuning) ===== */
+.cdol-admin .container {
+    backdrop-filter: blur(2px);
+}
+
+.cdol-admin h2 {
+    letter-spacing: 0.2px;
+}
+
+.cdol-admin .admin-hero p {
+    color: #d2d8e1;
+}
+
+.cdol-admin .admin-kpi-card span {
+    color: #c8ced8;
+    letter-spacing: 0.15px;
+}
+
+.cdol-admin .admin-kpi-card strong {
+    font-size: clamp(20px, 2vw, 26px);
+}
+
+.cdol-admin .admin-search-bar .btn,
+.cdol-admin .admin-clear-btn,
+.cdol-admin .admin-site-state .btn {
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cdol-admin .admin-search-bar .btn:hover,
+.cdol-admin .admin-clear-btn:hover,
+.cdol-admin .admin-site-state .btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+}
+
+.cdol-admin .admin-search-bar input:focus,
+.cdol-admin .admin-filter-bar select:focus,
+.cdol-admin .admin-filter-bar input[type="date"]:focus {
+    box-shadow: 0 0 0 3px rgba(255, 212, 90, 0.16);
+}
+
+.cdol-admin .admin-table th {
+    font-size: 11px;
+    text-transform: none;
+}
+
+.cdol-admin .admin-table td {
+    color: #e9edf3;
+}
+
+.cdol-admin .status-chip {
+    font-weight: 600;
+    letter-spacing: 0.15px;
+}
+
+.cdol-admin .admin-filter-help {
+    color: #d7dde6;
+}
+
+.cdol-admin .botoesNav a {
+    position: relative;
+    overflow: hidden;
+}
+
+.cdol-admin .botoesNav a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.28) 50%, transparent 100%);
+    transform: translateX(-120%);
+    transition: transform 0.5s ease;
+}
+
+.cdol-admin .botoesNav a:hover::after {
+    transform: translateX(120%);
+}
+
+.cdol-admin .quick-date-buttons {
+    display: flex;
+    gap: 8px;
+    margin: -2px 0 12px;
+    flex-wrap: wrap;
+}
+
+.cdol-admin .quick-date-btn {
+    height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 212, 90, 0.34);
+    background: rgba(255, 212, 90, 0.10);
+    color: #f3e6be;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cdol-admin .quick-date-btn:hover {
+    background: rgba(255, 212, 90, 0.20);
+}
+
+.cdol-admin .sortable-th {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 20px;
+}
+
+.cdol-admin .sortable-th::after {
+    content: "↕";
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    opacity: 0.45;
+}
+
+.cdol-admin .sortable-th[data-sort="asc"]::after {
+    content: "↑";
+    opacity: 0.95;
+}
+
+.cdol-admin .sortable-th[data-sort="desc"]::after {
+    content: "↓";
+    opacity: 0.95;
+}
+
+.cdol-admin .email-copyable {
+    cursor: pointer;
+    border-bottom: 1px dashed rgba(255, 212, 90, 0.45);
+}
+
+.cdol-admin .email-copyable.copied {
+    color: #9df1bc;
+    border-bottom-color: rgba(157, 241, 188, 0.8);
+}
+
+/* Footer nav: use btt-padrao-login style, only reposition */
+.cdol-admin #navFim {
+    margin-top: 26px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+}
+
+.cdol-admin #navFim .btt-padrao-login {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    z-index: auto !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.6), 0 0 20px rgba(245, 166, 35, 0.3) !important;
+}
+
+.cdol-admin #navFim .btt-padrao-login:hover {
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.9), 0 0 40px rgba(245, 166, 35, 0.5) !important;
+}
+
+.cdol-admin #navFim .btt-padrao-login:active {
+    box-shadow: 0 0 5px rgba(245, 166, 35, 0.6) !important;
+}
+
+.cdol-admin #navFim .btt-padrao-login::after {
+    content: none !important;
 }

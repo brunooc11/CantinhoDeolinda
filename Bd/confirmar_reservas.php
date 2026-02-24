@@ -13,13 +13,34 @@ if ($_SESSION['permissoes'] !== 'admin') {
     exit();
 }
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+function csrf_token(): string {
+    return (string)($_SESSION['csrf_token'] ?? '');
+}
+
+function csrf_input(): string {
+    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') . '">';
+}
+
+function verify_csrf_or_fail(): void {
+    $token = (string)($_POST['csrf_token'] ?? '');
+    $sessionToken = csrf_token();
+    if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
+        redirect_with_alert('Pedido invalido (CSRF).');
+    }
+}
+
 function redirect_with_alert(string $message): void {
     cd_popup($message, 'info', 'confirmar_reservas.php');
     exit;
 }
 
-if (isset($_GET['confirmar'])) {
-    $id = (int)$_GET['confirmar'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
+    verify_csrf_or_fail();
+    $id = (int)$_POST['confirmar'];
 
     $sql = "SELECT r.*, c.nome, c.email, c.telefone
             FROM reservas r
@@ -102,8 +123,9 @@ if (isset($_GET['confirmar'])) {
     redirect_with_alert('Reserva confirmada! Email enviado ao cliente.');
 }
 
-if (isset($_GET['recusar'])) {
-    $id = (int)$_GET['recusar'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recusar'])) {
+    verify_csrf_or_fail();
+    $id = (int)$_POST['recusar'];
 
     $sql = "UPDATE reservas
             SET confirmado = -1,
@@ -263,6 +285,10 @@ if ($result && $result->num_rows > 0) {
       flex-wrap: wrap;
     }
 
+    .action-form {
+      margin: 0;
+    }
+
     .btn {
       text-decoration: none;
       border-radius: 10px;
@@ -270,6 +296,9 @@ if ($result && $result->num_rows > 0) {
       font-size: 0.88rem;
       padding: 9px 12px;
       border: 1px solid transparent;
+      font-family: inherit;
+      cursor: pointer;
+      line-height: 1.1;
     }
 
     .btn-ok {
@@ -296,7 +325,7 @@ if ($result && $result->num_rows > 0) {
     </section>
 
     <?php if (count($reservas) === 0): ?>
-      <p class="empty">Nao ha reservas pendentes.</p>
+      <p class="empty">Não há reservas pendentes.</p>
     <?php else: ?>
       <section class="grid">
         <?php foreach ($reservas as $row): ?>
@@ -320,8 +349,14 @@ if ($result && $result->num_rows > 0) {
             </div>
 
             <div class="actions">
-              <a class="btn btn-ok" href="confirmar_reservas.php?confirmar=<?php echo (int)$row['id']; ?>">Confirmar</a>
-              <a class="btn btn-no" href="confirmar_reservas.php?recusar=<?php echo (int)$row['id']; ?>">Recusar</a>
+              <form method="post" class="action-form">
+                <?php echo csrf_input(); ?>
+                <button type="submit" class="btn btn-ok" name="confirmar" value="<?php echo (int)$row['id']; ?>">Confirmar</button>
+              </form>
+              <form method="post" class="action-form">
+                <?php echo csrf_input(); ?>
+                <button type="submit" class="btn btn-no" name="recusar" value="<?php echo (int)$row['id']; ?>">Recusar</button>
+              </form>
             </div>
           </article>
         <?php endforeach; ?>

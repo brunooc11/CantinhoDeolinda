@@ -9,6 +9,12 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["ok" => false, "error" => "METHOD_NOT_ALLOWED"]);
+    exit;
+}
+
 $clienteId = (int) $_SESSION['id'];
 $raw = file_get_contents("php://input");
 $json = json_decode($raw, true);
@@ -16,7 +22,7 @@ if (!is_array($json)) {
     $json = [];
 }
 
-$acao = $_GET['acao'] ?? ($_POST['acao'] ?? ($json['acao'] ?? ''));
+$acao = $json['acao'] ?? ($_POST['acao'] ?? '');
 
 if ($acao === 'listar') {
     $ids = [];

@@ -16,12 +16,23 @@ require("phpmailer/src/Exception.php");
 $env = parse_ini_file("Seguranca/config.env");
 $signup_inline_error = '';
 
+function cd_has_column($con, $table, $column)
+{
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $table) || !preg_match('/^[A-Za-z0-9_]+$/', $column)) {
+        return false;
+    }
+
+    $sql = "SHOW COLUMNS FROM `$table` LIKE '$column'";
+    $res = mysqli_query($con, $sql);
+    return $res && mysqli_num_rows($res) > 0;
+}
+
 // --- SIGN-UP ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
     if (!isset($_POST['termos'])) {
 
-        cd_popup('Para criar a conta, é necessário aceitar os Termos de Uso e a Política de Privacidade!', 'error');
+        cd_popup('Para criar a conta, e necessario aceitar os Termos de Uso e a Politica de Privacidade!', 'error');
     } else {
 
         $nome     = $_POST['name'];
@@ -30,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         $telefone_local = $_POST['telefone'] ?? '';
         $password_raw = $_POST['password'] ?? '';
         $data     = date('Y-m-d H:i:s');
-        $token    = bin2hex(random_bytes(16)); // 🔥 token único
+        $token    = bin2hex(random_bytes(16)); // token unico
 
         $codigo_pais = preg_replace('/\D+/', '', $codigo_pais);
         $telefone_local = preg_replace('/\D+/', '', $telefone_local);
@@ -71,10 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
         if (!preg_match('/^\d{1,4}$/', $codigo_pais)) {
 
-            cd_popup('Indicativo de país inválido.', 'error');
+            cd_popup('Indicativo de pais invalido.', 'error');
         } elseif (!preg_match('/^\d+$/', $telefone_local)) {
 
-            cd_popup('Número de telefone inválido.', 'error');
+            cd_popup('Numero de telefone invalido.', 'error');
         } elseif (strlen($password_raw) < 8
             || !preg_match('/[A-Z]/', $password_raw)
             || !preg_match('/[a-z]/', $password_raw)
@@ -84,15 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             $signup_inline_error = 'A password deve ter minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo.';
         } elseif (strlen($telefone_local) < $min_local || strlen($telefone_local) > $max_local) {
 
-            cd_popup("Número local inválido para este país. Deve ter entre {$min_local} e {$max_local} dígitos.", 'error');
+            cd_popup("Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.", 'error');
         } elseif (strlen($telefone_completo) < 8 || strlen($telefone_completo) > 15) {
 
-            cd_popup('Telefone inválido (deve ter entre 8 e 15 dígitos no total).', 'error');
+            cd_popup('Telefone invalido (deve ter entre 8 e 15 digitos no total).', 'error');
         } else {
             $password = password_hash($password_raw, PASSWORD_DEFAULT);
             $telefone = '+' . $telefone_completo;
 
-            // Verificar se o e-mail já existe
+            // Verificar se o e-mail ja existe
             $checkQuery = "SELECT id FROM Cliente WHERE email = ?";
             $stmt = mysqli_prepare($con, $checkQuery);
             if (!$stmt) {
@@ -105,13 +116,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
             if (mysqli_stmt_num_rows($stmt) > 0) {
 
-                cd_popup('Email já cadastrado!', 'error');
+                cd_popup('Email ja cadastrado!', 'error');
             } else {
 
-                // Inserir novo utilizador com verificação pendente
+                // Inserir novo utilizador com verificacao pendente
                 $insertQuery = "
                     INSERT INTO Cliente 
-                    (nome, email, telefone, password, data, verificado, token_verificacao_conta, permissoes, estado)
+                    (nome, email, telefone, password, `Data`, verificado, token_verificacao_conta, permissoes, estado)
                     VALUES (?, ?, ?, ?, ?, 0, ?, 'cliente', 1)
                 ";
 
@@ -133,18 +144,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
                 if (mysqli_stmt_execute($insertStmt)) {
 
-                    // Envia e-mail de verificação
+                    // Envia e-mail de verificacao
                     $link = "https://aluno15696.damiaodegoes.pt/verificar_conta.php?token=$token";
                     $assunto = "Verifique a sua conta";
 
                     $mensagem = "
                         <html>
                         <body>
-                            <h3>Olá, $nome 👋</h3>
+                            <h3>Ola, $nome</h3>
                             <p>Obrigado por se registar! Confirme o seu e-mail clicando no link abaixo:</p>
                             <p><a href='$link'>Verificar Conta</a></p>
                             <br>
-                            <p>Se não criou esta conta, ignore este e-mail.</p>
+                            <p>Se nao criou esta conta, ignore este e-mail.</p>
                         </body>
                         </html>
                     ";
@@ -170,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     $mail->isHTML(true);
                     $mail->Subject = $assunto;
                     $mail->Body    = $mensagem;
-                    $mail->AltBody = 'Confirme a sua conta através do link enviado por email.';
+                    $mail->AltBody = 'Confirme a sua conta atraves do link enviado por email.';
 
                     if ($mail->send()) {
                         cd_popup('Conta criada! Verifique o seu e-mail para ativar a conta.', 'success');
@@ -194,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
     $password = $_POST['password'];
 
     $checkQuery = "
-        SELECT id, nome, email, telefone, data, password, verificado, permissoes, estado
+        SELECT id, nome, email, telefone, `Data` AS data, password, verificado, permissoes, estado
         FROM Cliente
         WHERE email = ?
     ";
@@ -227,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
         if ($estado == 0) {
 
-            cd_popup('A sua conta está bloqueada pelo administrador.', 'error', 'index.php');
+            cd_popup('A sua conta esta bloqueada pelo administrador.', 'error', 'index.php');
             exit();
         }
 
@@ -238,6 +249,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
             cd_popup('Erro na password da conta.', 'error');
         } elseif (password_verify($password, $hashedPassword)) {
+
+            if (cd_has_column($con, 'Cliente', 'ultimo_login')) {
+                $updateLoginStmt = mysqli_prepare($con, "UPDATE Cliente SET ultimo_login = NOW() WHERE id = ?");
+                if ($updateLoginStmt) {
+                    mysqli_stmt_bind_param($updateLoginStmt, "i", $id);
+                    mysqli_stmt_execute($updateLoginStmt);
+                    mysqli_stmt_close($updateLoginStmt);
+                }
+            }
 
             $_SESSION['id']         = $id;
             $_SESSION['nome']       = $nome;
@@ -261,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
         }
     } else {
 
-        cd_popup('Email não encontrado!', 'error');
+        cd_popup('Email nao encontrado!', 'error');
     }
 
     mysqli_stmt_close($stmt);
@@ -273,11 +293,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
 <?php
 if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
-    cd_popup('Password alterada com sucesso. Faça login novamente.', 'success');
+    cd_popup('Password alterada com sucesso. Faca login novamente.', 'success');
 }
 ?>
 
-<a href="index.php" class="btn-voltar">← Voltar</a>
+<a href="index.php" class="btn-voltar">&larr; Voltar</a>
 
 <div class="container" id="container">
 
@@ -537,7 +557,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                         Li e aceito os
                         <a href="Recursos/termos.php">Termos de Uso</a>
                         e a
-                        <a href="Recursos/politica.php">Política de Privacidade</a>.
+                        <a href="Recursos/politica.php">Politica de Privacidade</a>.
                     </span>
                 </label>
             </div>
@@ -549,7 +569,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
     <div class="form-container sign-in-container">
         <form action="" method="POST">
-            <h1>Iniciar Sessão</h1>
+            <h1>Iniciar Sessao</h1>
 
             <input type="email" name="email" placeholder="Email" required>
             <div class="password-wrapper">
@@ -593,8 +613,8 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
         <div class="overlay">
 
             <div class="overlay-panel overlay-left">
-                <h1>Olá Novamente!</h1>
-                <p>Para se manter ligado a nós, inicie sessão com os seus dados pessoais.</p>
+                <h1>Ola Novamente!</h1>
+                <p>Para se manter ligado a nos, inicie sessao com os seus dados pessoais.</p>
                 <button class="ghost" id="signIn">Entrar</button>
             </div>
 
@@ -629,9 +649,10 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 <?php endif; ?>
 
 <footer>
-    <p>© 2025 Cantinho Deolinda — Todos os direitos reservados</p>
+    <p>(C) 2025 Cantinho Deolinda - Todos os direitos reservados</p>
 </footer>
 
-<!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
+<!-- defer garante que o JavaScript so executa depois do HTML estar totalmente carregado -->
 <script src="Js/popup_alert.js"></script>
 <script src="Js/login.js" defer></script>
+

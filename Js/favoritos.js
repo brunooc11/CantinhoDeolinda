@@ -122,8 +122,11 @@
 
   async function loadFavoritos() {
     if (!isLoggedIn) return;
-    const res = await fetch(`Bd/favoritos.php?acao=listar&ts=${Date.now()}`, {
-      cache: "no-store"
+    const res = await fetch("Bd/favoritos.php", {
+      method: "POST",
+      cache: "no-store",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ acao: "listar", ts: Date.now() })
     });
     if (!res.ok) return;
     const data = await res.json();
