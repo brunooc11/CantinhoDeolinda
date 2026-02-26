@@ -52,12 +52,11 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
                     <span class="legenda-item"><i class="dot ocupada"></i>Ocupada</span>
                 </div>
                 <div class="mapa-actions">
-                    <p class="mapa-tip">Arrasta para posicionar. Clique alterna estados: Livre &rarr; Reservada &rarr; Ocupada. </p>
+                    <p class="mapa-tip">Arrasta para posicionar. Clique alterna estados: Livre &rarr; Reservada &rarr; Ocupada.</p>
                     <button type="button" id="mapaResetBtn" class="mapa-reset-btn">Resetar layout</button>
                 </div>
             </div>
             <div class="mapa-merge-toolbar">
-                <button type="button" id="mapaMoveModeBtn" class="mapa-merge-btn">Modo mover: OFF</button>
                 <button type="button" id="mapaMergeModeBtn" class="mapa-merge-btn">Modo juntar mesas: OFF</button>
                 <button type="button" id="mapaMergeCreateBtn" class="mapa-merge-btn" disabled>Criar conjunto</button>
                 <button type="button" id="mapaMergeClearBtn" class="mapa-merge-btn mapa-merge-btn-danger" disabled>Limpar conjuntos</button>
