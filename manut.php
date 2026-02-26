@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+    <link rel="icon" type="image/png" href="Imagens/logo.png">
     <title>Site em Manutenção</title>
     <link rel="stylesheet" href="Css/manut.css">
 </head>

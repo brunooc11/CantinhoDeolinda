@@ -1,0 +1,474 @@
+:root {
+    --mapa-gold: #ffcc4d;
+    --mapa-gold-soft: rgba(255, 204, 77, 0.2);
+    --mapa-panel: #101318;
+    --mapa-panel-2: #161a22;
+    --mapa-line: rgba(255, 255, 255, 0.08);
+    --mapa-text: #eef1f6;
+    --mapa-muted: #b6c0d0;
+}
+
+.cdol-admin.cdol-mapa .container {
+    background:
+        radial-gradient(circle at 8% 10%, rgba(255, 204, 77, 0.07), transparent 28%),
+        radial-gradient(circle at 90% 12%, rgba(95, 146, 255, 0.07), transparent 30%),
+        radial-gradient(circle at 75% 90%, rgba(74, 224, 162, 0.06), transparent 26%),
+        #0f1218;
+}
+
+.cdol-admin.cdol-mapa h2,
+.cdol-admin.cdol-mapa .mapa-card-title {
+    font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+    letter-spacing: 0.25px;
+}
+
+.mapa-wrap {
+    padding-top: 18px;
+}
+
+.cdol-admin.cdol-mapa .admin-hero {
+    position: relative;
+    border: 1px solid rgba(255, 204, 77, 0.3);
+    background:
+        radial-gradient(circle at 8% 10%, rgba(255, 204, 77, 0.14), transparent 36%),
+        linear-gradient(135deg, #171d28, #0f131a);
+    overflow: hidden;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.34);
+}
+
+.cdol-admin.cdol-mapa .admin-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.06) 45%, transparent 80%);
+    transform: translateX(-120%);
+    animation: mapaHeroShine 7s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.cdol-admin.cdol-mapa .admin-kpis {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cdol-admin.cdol-mapa .admin-kpi-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 204, 77, 0.28);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    min-height: 84px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.cdol-admin.cdol-mapa .admin-kpi-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 204, 77, 0.44);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.34);
+}
+
+.cdol-admin.cdol-mapa .admin-kpi-card span {
+    min-height: 26px;
+    line-height: 1.2;
+    display: flex;
+    align-items: flex-start;
+    white-space: nowrap;
+    font-size: 11px;
+}
+
+.cdol-admin.cdol-mapa .admin-kpi-card strong {
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.4px;
+    margin-top: 4px;
+}
+
+.mapa-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--mapa-line);
+    background: linear-gradient(130deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015));
+    backdrop-filter: blur(2px);
+}
+
+.mapa-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.mapa-legenda {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 6px;
+}
+
+.legenda-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #dce4f1;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(32, 36, 44, 0.92);
+    line-height: 1;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+}
+
+.dot.livre { background: #39d98a; }
+.dot.reservada { background: #ffc247; }
+.dot.ocupada { background: #ff6464; }
+
+.mapa-tip {
+    margin: 0;
+    color: var(--mapa-muted);
+    font-size: 0.92rem;
+    white-space: nowrap;
+}
+
+.mapa-reset-btn {
+    border: 1px solid rgba(255, 212, 90, 0.55);
+    border-radius: 999px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #f5a623, #ffcc33);
+    color: #171717;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.28);
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mapa-reset-btn:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.33);
+}
+
+.mapa-merge-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--mapa-line);
+    background: linear-gradient(130deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012));
+    flex-wrap: wrap;
+    backdrop-filter: blur(2px);
+}
+
+.mapa-merge-btn {
+    border: 1px solid rgba(255, 212, 90, 0.5);
+    border-radius: 999px;
+    padding: 7px 12px;
+    background: rgba(255, 212, 90, 0.12);
+    color: #f3e7bf;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mapa-merge-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.mapa-merge-btn.is-active {
+    background: linear-gradient(135deg, #f5a623, #ffcc33);
+    color: #1a1a1a;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
+}
+
+.mapa-merge-btn-danger {
+    border-color: rgba(255, 120, 120, 0.6);
+    color: #ffd2d2;
+}
+
+.mapa-merge-hint {
+    color: var(--mapa-muted);
+    font-size: 0.82rem;
+}
+
+.mapa-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.mapa-card {
+    background:
+        radial-gradient(circle at 10% 8%, rgba(255, 204, 77, 0.08), transparent 34%),
+        linear-gradient(145deg, var(--mapa-panel-2), var(--mapa-panel));
+    border: 1px solid rgba(255, 207, 51, 0.24);
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.28);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: mapaCardIn 0.5s ease forwards;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+}
+
+.mapa-card:nth-child(2) { animation-delay: 0.06s; }
+.mapa-card:nth-child(3) { animation-delay: 0.12s; }
+
+.mapa-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 207, 51, 0.38);
+    box-shadow: 0 20px 34px rgba(0, 0, 0, 0.34);
+}
+
+.mapa-card::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255, 208, 94, 0.7), transparent);
+    opacity: 0.55;
+}
+
+.mapa-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.mapa-card-title {
+    margin: 0;
+    color: #ffdd84;
+    font-size: 1.06rem;
+    letter-spacing: 0.2px;
+    text-shadow: 0 0 8px rgba(255, 204, 77, 0.25);
+}
+
+.mapa-room-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.mapa-room-meta span {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #d9e2ef;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.restaurante-canvas {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 207, 51, 0.22);
+    background:
+        radial-gradient(circle at 12% 18%, rgba(255, 207, 51, 0.12), transparent 30%),
+        radial-gradient(circle at 88% 84%, rgba(255, 207, 51, 0.08), transparent 35%),
+        linear-gradient(145deg, #151515, #0f0f0f);
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.32);
+}
+
+.restaurante-canvas::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 26px 26px;
+    pointer-events: none;
+}
+
+.restaurante-canvas::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.36);
+    pointer-events: none;
+}
+
+.zona-bar,
+.zona-entrada {
+    position: absolute;
+    border-radius: 10px;
+    border: 1px dashed rgba(255, 255, 255, 0.26);
+    color: #e9e9e9;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    z-index: 5;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.22);
+}
+
+.zona-bar { background: rgba(100, 170, 255, 0.12); }
+.zona-entrada { background: rgba(255, 255, 255, 0.1); }
+
+.zona-bar.dragging,
+.zona-entrada.dragging {
+    cursor: grabbing;
+    z-index: 55;
+}
+
+.mesa {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border: 0;
+    color: #101010;
+    font-weight: 900;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, outline-color 0.2s ease;
+    z-index: 10;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.mesa.redonda { border-radius: 999px; }
+.mesa.quadrada { border-radius: 10px; }
+.mesa.retangular { border-radius: 12px; }
+
+.mesa.cap-2.redonda { width: 34px; height: 34px; }
+.mesa.cap-4.quadrada { width: 46px; height: 46px; }
+.mesa.cap-6.retangular { width: 72px; height: 44px; }
+.mesa.cap-8.retangular { width: 92px; height: 52px; }
+
+.mesa.livre {
+    background: linear-gradient(135deg, #8df4bd, #39d98a);
+    box-shadow: 0 8px 18px rgba(57, 217, 138, 0.34), 0 0 0 1px rgba(190, 255, 219, 0.3) inset;
+}
+
+.mesa.reservada {
+    background: linear-gradient(135deg, #ffe09f, #ffc247);
+    box-shadow: 0 8px 18px rgba(255, 194, 71, 0.34), 0 0 0 1px rgba(255, 238, 184, 0.35) inset;
+}
+
+.mesa.ocupada {
+    background: linear-gradient(135deg, #ffacac, #ff6464);
+    box-shadow: 0 8px 18px rgba(255, 100, 100, 0.34), 0 0 0 1px rgba(255, 212, 212, 0.35) inset;
+}
+
+.mesa:hover {
+    transform: translate(-50%, -50%) scale(1.12);
+    filter: saturate(1.1);
+}
+
+.mesa:active { transform: translate(-50%, -50%) scale(1.03); }
+
+.mesa.dragging {
+    cursor: grabbing;
+    z-index: 60;
+}
+
+.mesa.merge-select {
+    outline: 2px solid rgba(120, 205, 255, 0.95);
+    outline-offset: 2px;
+}
+
+.mesa.merge-grouped {
+    box-shadow: 0 0 0 2px rgba(255, 214, 103, 0.95), 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.mesa.merge-grouped::after {
+    content: attr(data-group);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: #ffd25e;
+    color: #191919;
+    font-size: 10px;
+    font-weight: 900;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
+@keyframes mapaCardIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes mapaHeroShine {
+    0% { transform: translateX(-120%); }
+    32% { transform: translateX(120%); }
+    100% { transform: translateX(120%); }
+}
+
+@media (max-width: 1180px) {
+    .mapa-grid {
+        grid-template-columns: repeat(2, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .cdol-admin.cdol-mapa .admin-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mapa-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mapa-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    .mapa-tip {
+        font-size: 0.82rem;
+    }
+
+    .mapa-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mapa-room-meta span {
+        font-size: 10px;
+    }
+}

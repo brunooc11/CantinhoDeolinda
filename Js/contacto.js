@@ -1,52 +1,69 @@
 console.log("CONTACTO.JS CARREGADO");
 
 const form = document.getElementById("contactForm");
+const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+const defaultSubmitLabel = submitBtn ? submitBtn.textContent.trim() : "";
+const statusEl = document.getElementById("contactFormStatus");
+
+function initSectionCardReveal() {
+    if (!document.body) return;
+
+    const targets = Array.from(
+        document.querySelectorAll(
+            "#localizacao .info_adicionais-wrapper, #localizacao .info_adicionais-card, #localizacao .contact-map, #contacto .contact-card"
+        )
+    );
+
+    if (targets.length === 0) return;
+    document.body.classList.add("js-reveal-enabled");
+
+    if (!("IntersectionObserver" in window)) {
+        targets.forEach((el) => el.classList.add("is-revealed"));
+        return;
+    }
+
+    const observer = new IntersectionObserver(
+        (entries, obs) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("is-revealed");
+                obs.unobserve(entry.target);
+            });
+        },
+        {
+            root: null,
+            threshold: 0.08,
+            rootMargin: "0px 0px -8% 0px"
+        }
+    );
+
+    targets.forEach((el) => observer.observe(el));
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSectionCardReveal);
+} else {
+    initSectionCardReveal();
+}
 
 function showFeedbackPopup(message, type = "info", onClose = null) {
     if (typeof window.__cdShowPopup === "function") {
         window.__cdShowPopup(message, type, onClose);
         return;
     }
+    alert(message);
+    if (typeof onClose === "function") onClose();
+}
 
-    let popup = document.getElementById("feedbackPopup");
-
-    if (!popup) {
-        popup = document.createElement("div");
-        popup.id = "feedbackPopup";
-        popup.className = "feedback-popup";
-        popup.innerHTML = `
-            <div class="feedback-popup__box" role="alertdialog" aria-live="polite" aria-modal="false">
-                <div class="feedback-popup__icon" aria-hidden="true"></div>
-                <p class="feedback-popup__message"></p>
-                <button type="button" class="feedback-popup__btn">Fechar</button>
-            </div>
-        `;
-        document.body.appendChild(popup);
+function setContactSubmitLoading(isLoading) {
+    if (!submitBtn) return;
+    submitBtn.disabled = isLoading;
+    submitBtn.classList.toggle("is-loading", isLoading);
+    submitBtn.setAttribute("aria-busy", isLoading ? "true" : "false");
+    submitBtn.textContent = isLoading ? "A enviar..." : defaultSubmitLabel;
+    if (statusEl) {
+        statusEl.textContent = isLoading ? "A enviar mensagem." : "";
     }
-
-    const box = popup.querySelector(".feedback-popup__box");
-    const messageEl = popup.querySelector(".feedback-popup__message");
-    const closeBtn = popup.querySelector(".feedback-popup__btn");
-
-    box.classList.remove("is-success", "is-error", "is-info");
-    box.classList.add(`is-${type}`);
-    messageEl.textContent = message;
-
-    popup.classList.add("is-visible");
-
-    const closePopup = () => {
-        popup.classList.remove("is-visible");
-        closeBtn.removeEventListener("click", closePopup);
-        popup.removeEventListener("click", outsideClick);
-        if (typeof onClose === "function") onClose();
-    };
-
-    const outsideClick = (event) => {
-        if (event.target === popup) closePopup();
-    };
-
-    closeBtn.addEventListener("click", closePopup);
-    popup.addEventListener("click", outsideClick);
 }
 
 if (!form) {
@@ -55,6 +72,7 @@ if (!form) {
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
+    setContactSubmitLoading(true);
 
     const formData = new FormData(form);
 
@@ -67,6 +85,9 @@ form.addEventListener("submit", function (e) {
         const result = data.trim();
 
         if (result !== "OK") {
+            if (statusEl) {
+                statusEl.textContent = "Nao foi possivel enviar a mensagem.";
+            }
             if (result === "LOGIN_REQUIRED") {
                 showFeedbackPopup("Precisa de iniciar sessão para enviar feedback.", "error", () => {
                     window.location.href = "login.php";
@@ -102,7 +123,21 @@ form.addEventListener("submit", function (e) {
         );
 
         showFeedbackPopup("Mensagem enviada com sucesso!", "success");
+        if (statusEl) {
+            statusEl.textContent = "Mensagem enviada com sucesso.";
+        }
         form.reset();
+    })
+    .catch(() => {
+        showFeedbackPopup("Erro de rede. Tente novamente.", "error");
+        if (statusEl) {
+            statusEl.textContent = "Erro de rede ao enviar mensagem.";
+        }
+    })
+    .finally(() => {
+        setContactSubmitLoading(false);
     });
 });
 }
+
+

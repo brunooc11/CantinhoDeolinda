@@ -1,4 +1,4 @@
-ï»¿<?php
+<?php
 session_start();
 
 if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
@@ -47,9 +47,9 @@ function cd_human_action($acao)
     $map = [
         'bloquear_utilizador' => 'Bloquear utilizador',
         'desbloquear_utilizador' => 'Desbloquear utilizador',
-        'alterar_role' => 'Alterar permissÃµes',
+        'alterar_role' => 'Alterar permissões',
         'reset_faltas' => 'Resetar faltas',
-        'marcar_presenca' => 'Marcar presenÃ§a',
+        'marcar_presenca' => 'Marcar presença',
         'estado_site' => 'Alterar estado do site'
     ];
     if (isset($map[$acao])) {
@@ -279,7 +279,7 @@ if (isset($_GET['export']) && $_GET['export'] === 'csv') {
 
     $out = fopen('php://output', 'w');
     fwrite($out, "\xEF\xBB\xBF");
-    fputcsv($out, ['ID', 'Data/Hora', 'Admin', 'AÃ§Ã£o', 'Tipo Alvo', 'ID Alvo', 'Nome', 'Email', 'Detalhes'], ';');
+    fputcsv($out, ['ID', 'Data/Hora', 'Admin', 'Ação', 'Tipo Alvo', 'ID Alvo', 'Nome', 'Email', 'Detalhes'], ';');
 
     foreach ($csvRows as $row) {
         $adminLabel = $row['admin_nome'] . ' (#' . (int)$row['admin_id'] . ')';
@@ -330,6 +330,7 @@ function cd_qs(array $overrides = [])
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="Imagens/logo.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logs de Auditoria</title>
     <link rel="stylesheet" href="Css/admin.css">
@@ -341,7 +342,7 @@ function cd_qs(array $overrides = [])
         <div class="admin-hero">
             <div>
                 <h2>Logs de Auditoria</h2>
-                <p>HistÃ³rico completo das aÃ§Ãµes administrativas.</p>
+                <p>Histórico completo das ações administrativas.</p>
             </div>
             <div class="admin-kpis">
                 <div class="admin-kpi-card">
@@ -349,11 +350,11 @@ function cd_qs(array $overrides = [])
                     <strong><?php echo (int)$total; ?></strong>
                 </div>
                 <div class="admin-kpi-card">
-                    <span>PÃ¡gina</span>
+                    <span>Página</span>
                     <strong><?php echo (int)$page . '/' . (int)$totalPages; ?></strong>
                 </div>
                 <div class="admin-kpi-card">
-                    <span>Por pÃ¡gina</span>
+                    <span>Por página</span>
                     <strong><?php echo (int)$perPage; ?></strong>
                 </div>
             </div>
@@ -361,17 +362,17 @@ function cd_qs(array $overrides = [])
 
         <section class="admin-section logs-filters-section">
             <h3>Filtros</h3>
-            <p class="logs-subtle">Use combinaÃ§Ãµes de filtros para investigar alteraÃ§Ãµes especÃ­ficas.</p>
+            <p class="logs-subtle">Use combinações de filtros para investigar alterações específicas.</p>
             <p class="logs-subtle">
-                Dica: os dois campos de data filtram a Data da Reserva (inÃ­cio e fim).
+                Dica: os dois campos de data filtram a Data da Reserva (início e fim).
             </p>
             <div class="quick-date-buttons">
                 <button type="button" class="btn quick-date-btn" id="logsQuickHoje">Hoje</button>
-                <button type="button" class="btn quick-date-btn" id="logsQuick7">Ãšltimos 7 dias</button>
-                <button type="button" class="btn quick-date-btn" id="logsQuick30">Ãšltimos 30 dias</button>
+                <button type="button" class="btn quick-date-btn" id="logsQuick7">Últimos 7 dias</button>
+                <button type="button" class="btn quick-date-btn" id="logsQuick30">Últimos 30 dias</button>
             </div>
             <form method="get" class="admin-filter-bar logs-filters-grid">
-                <input type="text" name="q" value="<?php echo esc($q); ?>" placeholder="Pesquisar em admin, aÃ§Ã£o, alvo e detalhes">
+                <input type="text" name="q" value="<?php echo esc($q); ?>" placeholder="Pesquisar em admin, ação, alvo e detalhes">
 
                 <select name="admin_nome">
                     <option value="">Admin: Todos</option>
@@ -383,7 +384,7 @@ function cd_qs(array $overrides = [])
                 </select>
 
                 <select name="acao">
-                    <option value="">AÃ§Ã£o: Todas</option>
+                    <option value="">Ação: Todas</option>
                     <?php foreach ($acoes as $a): ?>
                         <option value="<?php echo esc($a['acao']); ?>" <?php echo $acao === $a['acao'] ? 'selected' : ''; ?>>
                             <?php echo esc($a['acao']); ?>
@@ -406,7 +407,7 @@ function cd_qs(array $overrides = [])
                 <select name="per_page">
                     <?php foreach ($allowedPerPage as $n): ?>
                         <option value="<?php echo $n; ?>" <?php echo $perPage === $n ? 'selected' : ''; ?>>
-                            <?php echo $n; ?>/pÃ¡gina
+                            <?php echo $n; ?>/página
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -428,7 +429,7 @@ function cd_qs(array $overrides = [])
                             <th>ID</th>
                             <th>Data/Hora</th>
                             <th>Admin</th>
-                            <th>AÃ§Ã£o</th>
+                            <th>Ação</th>
                             <th>Alvo</th>
                             <th>Nome</th>
                             <th>Email</th>
@@ -475,8 +476,12 @@ function cd_qs(array $overrides = [])
         </section>
 
         <div class="botoesNav" id="navFim">
-            <a href="admin.php" id="btnDashboard" class="btt-padrao-login">&larr; Voltar ao Admin</a>
-            <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; InÃ­cio</a>
+            <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
+            <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
+            <a href="admin.php" id="btnAdmin" class="btt-padrao-login">&larr; Admin</a>
+            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">&larr; Confirmar Reservas</a>
+            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">&larr; Todas as Reservas</a>
+            <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">&larr; Mapa de Mesas</a>
         </div>
     </div>
     <script src="Js/admin_logs.js"></script>

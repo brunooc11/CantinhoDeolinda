@@ -29,7 +29,7 @@ function verify_csrf_or_fail(): void {
     $token = (string)($_POST['csrf_token'] ?? '');
     $sessionToken = csrf_token();
     if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
-        redirect_with_alert('Pedido invalido (CSRF).');
+        redirect_with_alert('Pedido inválido (CSRF).');
     }
 }
 
@@ -159,8 +159,11 @@ if ($result && $result->num_rows > 0) {
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../Imagens/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmar Reservas</title>
+  <link rel="stylesheet" href="../Css/admin.css">
+  <link rel="stylesheet" href="../Css/bttlogin.css">
   <style>
     :root {
       --bg: #0f1115;
@@ -314,7 +317,7 @@ if ($result && $result->num_rows > 0) {
     }
   </style>
 </head>
-<body>
+<body class="cdol-admin">
   <main class="page">
     <section class="header">
       <div class="title">
@@ -363,5 +366,13 @@ if ($result && $result->num_rows > 0) {
       </section>
     <?php endif; ?>
   </main>
+  <div class="botoesNav" id="navFim">
+    <a href="../index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
+    <a href="../dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
+    <a href="../admin.php" id="btnAdmin" class="btt-padrao-login">&larr; Admin</a>
+    <a href="../admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">&larr; Todas as Reservas</a>
+    <a href="../admin_logs.php" id="btnLogs" class="btt-padrao-login">&larr; Logs</a>
+    <a href="../admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">&larr; Mapa de Mesas</a>
+  </div>
 </body>
 </html>

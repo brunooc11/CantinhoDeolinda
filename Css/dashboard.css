@@ -255,8 +255,8 @@ body {
 }
 
 #Reservas .card h3::before {
-    content: "📅";
-    font-size: 28px;
+    content: "";
+    display: none;
 }
 
 #Reservas .reservas-header {
@@ -1396,3 +1396,5 @@ body {
         flex-direction: column;
     }
 }
+
+

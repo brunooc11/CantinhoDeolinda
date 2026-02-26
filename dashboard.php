@@ -430,6 +430,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="Imagens/logo.png">
     <title>Dashboard - Cantinho_Deolinda</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="Css/dashboard.css">
@@ -453,7 +454,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <!-- Abas -->
     <div id="Conta" class="tabcontent">
         <div class="card">
-            <h3>Minha Conta</h3>
+            <h3><i class="fa-solid fa-user" aria-hidden="true"></i> Minha Conta</h3>
 
             <div class="conta-info-grid">
                 <div class="conta-info-item">
@@ -545,7 +546,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <div id="Reservas" class="tabcontent">
             <div class="card">
             <div class="reservas-header">
-                <h3>Reservas</h3>
+                <h3><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Reservas</h3>
                 <div class="reservas-acoes">
                     <a href="index.php?abrir_reserva=1" class="btt-padrao-login" id="bttNovaReserva">
                         Fazer nova reserva

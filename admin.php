@@ -313,6 +313,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="Imagens/logo.png">
     <title>Painel de Administra&ccedil;&atilde;o</title>
     <link rel="stylesheet" href="Css/admin.css">
     <link rel="stylesheet" href="Css/bttlogin.css">
@@ -590,7 +591,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
         </section>
 
         <section class="admin-section">
-        <h3>Gest&atilde;o de Reservas</h3>
+        <h3>Gest&atilde;o de Reservas (&uacute;ltimas 30)</h3>
         <div class="admin-search-bar">
             <input type="text" id="adminReservasSearchInput" placeholder="Procurar reserva (id, cliente, data, hora...)">
             <button type="button" class="btn" id="adminReservasSearchBtn">Procurar</button>
@@ -652,13 +653,14 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
             <tbody>
 
             <?php
-            // Buscar todas as reservas com dados do cliente
+            // Buscar apenas as últimas 30 reservas com dados do cliente
             $reservasRows = cd_fetch_all(
                 $con,
                 "SELECT r.*, c.nome, c.email, c.telefone, r.criado_em AS criada_em_admin
                 FROM reservas r
                 JOIN Cliente c ON r.cliente_id = c.id
-                ORDER BY r.data_reserva DESC, r.hora_reserva DESC"
+                ORDER BY r.criado_em DESC
+                LIMIT 30"
             );
 
             foreach ($reservasRows as $r) {
@@ -837,10 +839,12 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 
 
         <div class="botoesNav" id="navFim">
-            <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; Inicio</a>
+            <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
             <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
             <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">&larr; Confirmar Reservas</a>
+            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">&larr; Todas as Reservas</a>
             <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">&larr; Logs</a>
+            <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">&larr; Mapa de Mesas</a>
         </div>
 
     </div>

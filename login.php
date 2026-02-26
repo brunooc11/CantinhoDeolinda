@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
     if (!isset($_POST['termos'])) {
 
-        cd_popup('Para criar a conta, e necessario aceitar os Termos de Uso e a Politica de Privacidade!', 'error');
+        cd_popup('Para criar a conta, é necessário aceitar os Termos de Uso e a Política de Privacidade!', 'error');
     } else {
 
         $nome     = $_POST['name'];
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         $telefone_local = $_POST['telefone'] ?? '';
         $password_raw = $_POST['password'] ?? '';
         $data     = date('Y-m-d H:i:s');
-        $token    = bin2hex(random_bytes(16)); // token unico
+        $token    = bin2hex(random_bytes(16)); // token único
 
         $codigo_pais = preg_replace('/\D+/', '', $codigo_pais);
         $telefone_local = preg_replace('/\D+/', '', $telefone_local);
@@ -49,32 +49,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         $regras_telefone = [
             '351' => ['min' => 9, 'max' => 9],   // Portugal
             '34'  => ['min' => 9, 'max' => 9],   // Espanha
-            '33'  => ['min' => 9, 'max' => 9],   // Franca
+            '33'  => ['min' => 9, 'max' => 9],   // França
             '49'  => ['min' => 10, 'max' => 11], // Alemanha
             '44'  => ['min' => 10, 'max' => 10], // Reino Unido
-            '1'   => ['min' => 10, 'max' => 10], // EUA/Canada
+            '1'   => ['min' => 10, 'max' => 10], // EUA/Canadá
             '55'  => ['min' => 10, 'max' => 11], // Brasil
             '244' => ['min' => 9, 'max' => 9],   // Angola
-            '258' => ['min' => 9, 'max' => 9],   // Mocambique
+            '258' => ['min' => 9, 'max' => 9],   // Moçambique
             '238' => ['min' => 7, 'max' => 7],   // Cabo Verde
-            '245' => ['min' => 7, 'max' => 7],   // Guine-Bissau
-            '239' => ['min' => 7, 'max' => 7],   // Sao Tome e Principe
+            '245' => ['min' => 7, 'max' => 7],   // Guiné-Bissau
+            '239' => ['min' => 7, 'max' => 7],   // São Tomé e Príncipe
             '670' => ['min' => 7, 'max' => 8],   // Timor-Leste
-            '39'  => ['min' => 9, 'max' => 10],  // Italia
-            '31'  => ['min' => 9, 'max' => 9],   // Paises Baixos
-            '32'  => ['min' => 8, 'max' => 9],   // Belgica
-            '41'  => ['min' => 9, 'max' => 9],   // Suica
-            '43'  => ['min' => 10, 'max' => 13], // Austria
+            '39'  => ['min' => 9, 'max' => 10],  // Itália
+            '31'  => ['min' => 9, 'max' => 9],   // Países Baixos
+            '32'  => ['min' => 8, 'max' => 9],   // Bélgica
+            '41'  => ['min' => 9, 'max' => 9],   // Suíça
+            '43'  => ['min' => 10, 'max' => 13], // Áustria
             '352' => ['min' => 9, 'max' => 9],   // Luxemburgo
             '353' => ['min' => 9, 'max' => 9],   // Irlanda
-            '52'  => ['min' => 10, 'max' => 10], // Mexico
+            '52'  => ['min' => 10, 'max' => 10], // México
             '54'  => ['min' => 10, 'max' => 11], // Argentina
             '56'  => ['min' => 9, 'max' => 9],   // Chile
             '57'  => ['min' => 10, 'max' => 10], // Colombia
             '58'  => ['min' => 10, 'max' => 10], // Venezuela
             '51'  => ['min' => 9, 'max' => 9],   // Peru
-            '61'  => ['min' => 9, 'max' => 9],   // Australia
-            '27'  => ['min' => 9, 'max' => 9],   // Africa do Sul
+            '61'  => ['min' => 9, 'max' => 9],   // Austrália
+            '27'  => ['min' => 9, 'max' => 9],   // África do Sul
         ];
         $regra = $regras_telefone[$codigo_pais] ?? ['min' => 4, 'max' => 14];
         $min_local = $regra['min'];
@@ -82,28 +82,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
         if (!preg_match('/^\d{1,4}$/', $codigo_pais)) {
 
-            cd_popup('Indicativo de pais invalido.', 'error');
+            cd_popup('Indicativo de país inválido.', 'error');
         } elseif (!preg_match('/^\d+$/', $telefone_local)) {
 
-            cd_popup('Numero de telefone invalido.', 'error');
+            cd_popup('Número de telefone inválido.', 'error');
         } elseif (strlen($password_raw) < 8
             || !preg_match('/[A-Z]/', $password_raw)
             || !preg_match('/[a-z]/', $password_raw)
             || !preg_match('/[0-9]/', $password_raw)
             || !preg_match('/[^A-Za-z0-9]/', $password_raw)) {
 
-            $signup_inline_error = 'A password deve ter minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo.';
+            $signup_inline_error = 'A password deve ter mínimo 8 caracteres, 1 maiúscula, 1 minúscula, 1 número e 1 símbolo.';
         } elseif (strlen($telefone_local) < $min_local || strlen($telefone_local) > $max_local) {
 
-            cd_popup("Numero local invalido para este pais. Deve ter entre {$min_local} e {$max_local} digitos.", 'error');
+            cd_popup("Número local inválido para este país. Deve ter entre {$min_local} e {$max_local} dígitos.", 'error');
         } elseif (strlen($telefone_completo) < 8 || strlen($telefone_completo) > 15) {
 
-            cd_popup('Telefone invalido (deve ter entre 8 e 15 digitos no total).', 'error');
+            cd_popup('Telefone inválido (deve ter entre 8 e 15 dígitos no total).', 'error');
         } else {
             $password = password_hash($password_raw, PASSWORD_DEFAULT);
             $telefone = '+' . $telefone_completo;
 
-            // Verificar se o e-mail ja existe
+            // Verificar se o e-mail já existe
             $checkQuery = "SELECT id FROM Cliente WHERE email = ?";
             $stmt = mysqli_prepare($con, $checkQuery);
             if (!$stmt) {
@@ -116,10 +116,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
             if (mysqli_stmt_num_rows($stmt) > 0) {
 
-                cd_popup('Email ja cadastrado!', 'error');
+                cd_popup('Email já cadastrado!', 'error');
             } else {
 
-                // Inserir novo utilizador com verificacao pendente
+                // Inserir novo utilizador com verificação pendente
                 $insertQuery = "
                     INSERT INTO Cliente 
                     (nome, email, telefone, password, `Data`, verificado, token_verificacao_conta, permissoes, estado)
@@ -144,18 +144,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
                 if (mysqli_stmt_execute($insertStmt)) {
 
-                    // Envia e-mail de verificacao
+                    // Envia e-mail de verificação
                     $link = "https://aluno15696.damiaodegoes.pt/verificar_conta.php?token=$token";
                     $assunto = "Verifique a sua conta";
 
                     $mensagem = "
                         <html>
                         <body>
-                            <h3>Ola, $nome</h3>
+                            <h3>Olá, $nome</h3>
                             <p>Obrigado por se registar! Confirme o seu e-mail clicando no link abaixo:</p>
                             <p><a href='$link'>Verificar Conta</a></p>
                             <br>
-                            <p>Se nao criou esta conta, ignore este e-mail.</p>
+                            <p>Se não criou esta conta, ignore este e-mail.</p>
                         </body>
                         </html>
                     ";
@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     $mail->isHTML(true);
                     $mail->Subject = $assunto;
                     $mail->Body    = $mensagem;
-                    $mail->AltBody = 'Confirme a sua conta atraves do link enviado por email.';
+                    $mail->AltBody = 'Confirme a sua conta através do link enviado por email.';
 
                     if ($mail->send()) {
                         cd_popup('Conta criada! Verifique o seu e-mail para ativar a conta.', 'success');
@@ -203,6 +203,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
     $email    = $_POST['email'];
     $password = $_POST['password'];
+    $genericLoginError = 'Credenciais inválidas.';
+    $failLogin = static function () use ($genericLoginError) {
+        usleep(350000); // atraso uniforme para reduzir enumeração por tempo de resposta
+        cd_popup($genericLoginError, 'error');
+    };
 
     $checkQuery = "
         SELECT id, nome, email, telefone, `Data` AS data, password, verificado, permissoes, estado
@@ -238,7 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
         if ($estado == 0) {
 
-            cd_popup('A sua conta esta bloqueada pelo administrador.', 'error', 'index.php');
+            cd_popup('A sua conta está bloqueada pelo administrador.', 'error', 'index.php');
             exit();
         }
 
@@ -247,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
             cd_popup('Por favor, verifique o seu e-mail antes de fazer login.', 'error');
         } elseif (!is_string($hashedPassword)) {
 
-            cd_popup('Erro na password da conta.', 'error');
+            $failLogin();
         } elseif (password_verify($password, $hashedPassword)) {
 
             if (cd_has_column($con, 'Cliente', 'ultimo_login')) {
@@ -277,11 +282,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
             exit();
         } else {
 
-            cd_popup('Password incorreta.', 'error');
+            $failLogin();
         }
     } else {
 
-        cd_popup('Email nao encontrado!', 'error');
+        $failLogin();
     }
 
     mysqli_stmt_close($stmt);
@@ -293,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 
 <?php
 if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
-    cd_popup('Password alterada com sucesso. Faca login novamente.', 'success');
+    cd_popup('Password alterada com sucesso. Faça login novamente.', 'success');
 }
 ?>
 
@@ -309,7 +314,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             <input type="email" name="email" placeholder="Email" required>
             <div class="phone-country-row">
                 <div class="country-code-box">
-                    <img id="countryFlag" class="country-flag" src="https://flagcdn.com/w20/un.png" alt="Selecionar pais">
+                    <img id="countryFlag" class="country-flag" src="https://flagcdn.com/w20/un.png" alt="Selecionar país">
                     <input
                         type="text"
                         id="codigoPaisInput"
@@ -322,37 +327,37 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                         title="Indicativo no formato +351"
                         required>
                     <datalist id="listaCodigosPais">
-                        <option value="+93">Afeganistao (+93)</option>
-                        <option value="+27">Africa do Sul (+27)</option>
-                        <option value="+355">Albania (+355)</option>
+                        <option value="+93">Afeganistão (+93)</option>
+                        <option value="+27">África do Sul (+27)</option>
+                        <option value="+355">Albânia (+355)</option>
                         <option value="+49">Alemanha (+49)</option>
                         <option value="+376">Andorra (+376)</option>
                         <option value="+244">Angola (+244)</option>
-                        <option value="+966">Arabia Saudita (+966)</option>
-                        <option value="+213">Argelia (+213)</option>
+                        <option value="+966">Arábia Saudita (+966)</option>
+                        <option value="+213">Argélia (+213)</option>
                         <option value="+54">Argentina (+54)</option>
-                        <option value="+374">Armenia (+374)</option>
-                        <option value="+61">Australia (+61)</option>
-                        <option value="+43">Austria (+43)</option>
-                        <option value="+994">Azerbaijao (+994)</option>
-                        <option value="+973">Bahrein (+973)</option>
+                        <option value="+374">Arménia (+374)</option>
+                        <option value="+61">Austrália (+61)</option>
+                        <option value="+43">Áustria (+43)</option>
+                        <option value="+994">Azerbaijão (+994)</option>
+                        <option value="+973">Barém (+973)</option>
                         <option value="+880">Bangladesh (+880)</option>
-                        <option value="+375">Bielorrussia (+375)</option>
-                        <option value="+32">Belgica (+32)</option>
+                        <option value="+375">Bielorrússia (+375)</option>
+                        <option value="+32">Bélgica (+32)</option>
                         <option value="+229">Benim (+229)</option>
-                        <option value="+591">Bolivia (+591)</option>
-                        <option value="+387">Bosnia e Herzegovina (+387)</option>
+                        <option value="+591">Bolívia (+591)</option>
+                        <option value="+387">Bósnia e Herzegovina (+387)</option>
                         <option value="+267">Botswana (+267)</option>
                         <option value="+55">Brasil (+55)</option>
                         <option value="+673">Brunei (+673)</option>
                         <option value="+359">Bulgaria (+359)</option>
                         <option value="+226">Burkina Faso (+226)</option>
                         <option value="+257">Burundi (+257)</option>
-                        <option value="+975">Butao (+975)</option>
+                        <option value="+975">Butão (+975)</option>
                         <option value="+238">Cabo Verde (+238)</option>
-                        <option value="+237">Camaroes (+237)</option>
+                        <option value="+237">Camarões (+237)</option>
                         <option value="+855">Camboja (+855)</option>
-                        <option value="+1">Canada (+1)</option>
+                        <option value="+1">Canadá (+1)</option>
                         <option value="+974">Catar (+974)</option>
                         <option value="+235">Chade (+235)</option>
                         <option value="+56">Chile (+56)</option>
@@ -366,60 +371,60 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                         <option value="+82">Coreia do Sul (+82)</option>
                         <option value="+506">Costa Rica (+506)</option>
                         <option value="+225">Costa do Marfim (+225)</option>
-                        <option value="+385">Croacia (+385)</option>
+                        <option value="+385">Croácia (+385)</option>
                         <option value="+53">Cuba (+53)</option>
                         <option value="+45">Dinamarca (+45)</option>
                         <option value="+253">Djibouti (+253)</option>
                         <option value="+20">Egito (+20)</option>
                         <option value="+503">El Salvador (+503)</option>
-                        <option value="+971">Emirados Arabes Unidos (+971)</option>
+                        <option value="+971">Emirados Árabes Unidos (+971)</option>
                         <option value="+593">Equador (+593)</option>
                         <option value="+291">Eritreia (+291)</option>
-                        <option value="+421">Eslovaquia (+421)</option>
-                        <option value="+386">Eslovenia (+386)</option>
+                        <option value="+421">Eslováquia (+421)</option>
+                        <option value="+386">Eslovénia (+386)</option>
                         <option value="+34">Espanha (+34)</option>
                         <option value="+1">Estados Unidos (+1)</option>
-                        <option value="+372">Estonia (+372)</option>
-                        <option value="+251">Etiopia (+251)</option>
+                        <option value="+372">Estónia (+372)</option>
+                        <option value="+251">Etiópia (+251)</option>
                         <option value="+679">Fiji (+679)</option>
                         <option value="+63">Filipinas (+63)</option>
-                        <option value="+358">Finlandia (+358)</option>
-                        <option value="+33">Franca (+33)</option>
-                        <option value="+241">Gabao (+241)</option>
+                        <option value="+358">Finlândia (+358)</option>
+                        <option value="+33">França (+33)</option>
+                        <option value="+241">Gabão (+241)</option>
                         <option value="+220">Gambia (+220)</option>
-                        <option value="+995">Georgia (+995)</option>
+                        <option value="+995">Geórgia (+995)</option>
                         <option value="+233">Gana (+233)</option>
-                        <option value="+30">Grecia (+30)</option>
+                        <option value="+30">Grécia (+30)</option>
                         <option value="+502">Guatemala (+502)</option>
-                        <option value="+224">Guine (+224)</option>
-                        <option value="+245">Guine-Bissau (+245)</option>
-                        <option value="+240">Guine Equatorial (+240)</option>
+                        <option value="+224">Guiné (+224)</option>
+                        <option value="+245">Guiné-Bissau (+245)</option>
+                        <option value="+240">Guiné Equatorial (+240)</option>
                         <option value="+592">Guiana (+592)</option>
                         <option value="+509">Haiti (+509)</option>
                         <option value="+504">Honduras (+504)</option>
                         <option value="+36">Hungria (+36)</option>
-                        <option value="+91">India (+91)</option>
-                        <option value="+62">Indonesia (+62)</option>
-                        <option value="+98">Irao (+98)</option>
+                        <option value="+91">Índia (+91)</option>
+                        <option value="+62">Indonésia (+62)</option>
+                        <option value="+98">Irão (+98)</option>
                         <option value="+964">Iraque (+964)</option>
                         <option value="+353">Irlanda (+353)</option>
                         <option value="+354">Islandia (+354)</option>
                         <option value="+972">Israel (+972)</option>
-                        <option value="+39">Italia (+39)</option>
+                        <option value="+39">Itália (+39)</option>
                         <option value="+1">Jamaica (+1)</option>
-                        <option value="+81">Japao (+81)</option>
-                        <option value="+962">Jordania (+962)</option>
-                        <option value="+254">Kenya (+254)</option>
+                        <option value="+81">Japão (+81)</option>
+                        <option value="+962">Jordânia (+962)</option>
+                        <option value="+254">Quénia (+254)</option>
                         <option value="+965">Kuwait (+965)</option>
                         <option value="+856">Laos (+856)</option>
-                        <option value="+371">Letonia (+371)</option>
-                        <option value="+961">Libano (+961)</option>
+                        <option value="+371">Letónia (+371)</option>
+                        <option value="+961">Líbano (+961)</option>
                         <option value="+231">Liberia (+231)</option>
-                        <option value="+218">Libia (+218)</option>
+                        <option value="+218">Líbia (+218)</option>
                         <option value="+423">Liechtenstein (+423)</option>
-                        <option value="+370">Lituania (+370)</option>
+                        <option value="+370">Lituânia (+370)</option>
                         <option value="+352">Luxemburgo (+352)</option>
-                        <option value="+389">Macedonia do Norte (+389)</option>
+                        <option value="+389">Macedónia do Norte (+389)</option>
                         <option value="+261">Madagascar (+261)</option>
                         <option value="+60">Malasia (+60)</option>
                         <option value="+265">Malawi (+265)</option>
@@ -427,66 +432,66 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                         <option value="+223">Mali (+223)</option>
                         <option value="+356">Malta (+356)</option>
                         <option value="+212">Marrocos (+212)</option>
-                        <option value="+230">Mauricia (+230)</option>
+                        <option value="+230">Maurícia (+230)</option>
                         <option value="+222">Mauritania (+222)</option>
-                        <option value="+52">Mexico (+52)</option>
-                        <option value="+373">Moldavia (+373)</option>
-                        <option value="+377">Monaco (+377)</option>
-                        <option value="+976">Mongolia (+976)</option>
+                        <option value="+52">México (+52)</option>
+                        <option value="+373">Moldávia (+373)</option>
+                        <option value="+377">Mónaco (+377)</option>
+                        <option value="+976">Mongólia (+976)</option>
                         <option value="+382">Montenegro (+382)</option>
-                        <option value="+258">Mocambique (+258)</option>
+                        <option value="+258">Moçambique (+258)</option>
                         <option value="+95">Myanmar (+95)</option>
-                        <option value="+264">Namibia (+264)</option>
+                        <option value="+264">Namíbia (+264)</option>
                         <option value="+977">Nepal (+977)</option>
                         <option value="+505">Nicaragua (+505)</option>
                         <option value="+234">Nigeria (+234)</option>
                         <option value="+47">Noruega (+47)</option>
-                        <option value="+64">Nova Zelandia (+64)</option>
-                        <option value="+968">Oma (+968)</option>
-                        <option value="+31">Paises Baixos (+31)</option>
-                        <option value="+92">Paquistao (+92)</option>
-                        <option value="+507">Panama (+507)</option>
-                        <option value="+675">Papua-Nova Guine (+675)</option>
+                        <option value="+64">Nova Zelândia (+64)</option>
+                        <option value="+968">Omã (+968)</option>
+                        <option value="+31">Países Baixos (+31)</option>
+                        <option value="+92">Paquistão (+92)</option>
+                        <option value="+507">Panamá (+507)</option>
+                        <option value="+675">Papua-Nova Guiné (+675)</option>
                         <option value="+595">Paraguai (+595)</option>
                         <option value="+51">Peru (+51)</option>
-                        <option value="+48">Polonia (+48)</option>
+                        <option value="+48">Polónia (+48)</option>
                         <option value="+351">Portugal (+351)</option>
                         <option value="+44">Reino Unido (+44)</option>
-                        <option value="+236">Republica Centro-Africana (+236)</option>
-                        <option value="+420">Republica Checa (+420)</option>
-                        <option value="+40">Romania (+40)</option>
+                        <option value="+236">República Centro-Africana (+236)</option>
+                        <option value="+420">República Checa (+420)</option>
+                        <option value="+40">Roménia (+40)</option>
                         <option value="+250">Ruanda (+250)</option>
-                        <option value="+7">Russia (+7)</option>
+                        <option value="+7">Rússia (+7)</option>
                         <option value="+685">Samoa (+685)</option>
                         <option value="+378">San Marino (+378)</option>
-                        <option value="+239">Sao Tome e Principe (+239)</option>
+                        <option value="+239">São Tomé e Príncipe (+239)</option>
                         <option value="+221">Senegal (+221)</option>
                         <option value="+232">Serra Leoa (+232)</option>
-                        <option value="+381">Servia (+381)</option>
+                        <option value="+381">Sérvia (+381)</option>
                         <option value="+65">Singapura (+65)</option>
-                        <option value="+963">Siria (+963)</option>
+                        <option value="+963">Síria (+963)</option>
                         <option value="+252">Somalia (+252)</option>
                         <option value="+94">Sri Lanka (+94)</option>
-                        <option value="+249">Sudao (+249)</option>
-                        <option value="+211">Sudao do Sul (+211)</option>
-                        <option value="+46">Suecia (+46)</option>
-                        <option value="+41">Suica (+41)</option>
+                        <option value="+249">Sudão (+249)</option>
+                        <option value="+211">Sudão do Sul (+211)</option>
+                        <option value="+46">Suécia (+46)</option>
+                        <option value="+41">Suíça (+41)</option>
                         <option value="+597">Suriname (+597)</option>
                         <option value="+268">Eswatini (+268)</option>
-                        <option value="+66">Tailandia (+66)</option>
+                        <option value="+66">Tailândia (+66)</option>
                         <option value="+886">Taiwan (+886)</option>
-                        <option value="+255">Tanzania (+255)</option>
+                        <option value="+255">Tanzânia (+255)</option>
                         <option value="+670">Timor-Leste (+670)</option>
                         <option value="+228">Togo (+228)</option>
-                        <option value="+216">Tunisia (+216)</option>
+                        <option value="+216">Tunísia (+216)</option>
                         <option value="+90">Turquia (+90)</option>
-                        <option value="+380">Ucrania (+380)</option>
+                        <option value="+380">Ucrânia (+380)</option>
                         <option value="+256">Uganda (+256)</option>
                         <option value="+598">Uruguai (+598)</option>
                         <option value="+58">Venezuela (+58)</option>
                         <option value="+84">Vietname (+84)</option>
-                        <option value="+967">Iemen (+967)</option>
-                        <option value="+260">Zambia (+260)</option>
+                        <option value="+967">Iémen (+967)</option>
+                        <option value="+260">Zâmbia (+260)</option>
                         <option value="+263">Zimbabwe (+263)</option>
                     </datalist>
                 </div>
@@ -494,9 +499,9 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                     type="text"
                     id="telefoneInput"
                     name="telefone"
-                    placeholder="Numero de telemovel"
+                    placeholder="Número de telemóvel"
                     pattern="[0-9]{4,14}"
-                    title="Introduza apenas digitos do numero local (4 a 14)"
+                    title="Introduza apenas dígitos do número local (4 a 14)"
                     required>
             </div>
             <div class="password-wrapper">
@@ -507,7 +512,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                     placeholder="Password"
                     minlength="8"
                     pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
-                    title="Minimo 8 caracteres, 1 maiuscula, 1 minuscula, 1 numero e 1 simbolo."
+                    title="Mínimo 8 caracteres, 1 maiúscula, 1 minúscula, 1 número e 1 símbolo."
                     required>
                 <button type="button" class="pass-info-icon" aria-label="Regras da password">?</button>
 
@@ -540,11 +545,11 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                 <div class="pass-tooltip" role="tooltip">
                     <strong>Regras da password</strong>
                     <ul>
-                        <li>Minimo 8 caracteres</li>
-                        <li>Pelo menos 1 maiuscula</li>
-                        <li>Pelo menos 1 minuscula</li>
-                        <li>Pelo menos 1 numero</li>
-                        <li>Pelo menos 1 simbolo (!@#...)</li>
+                        <li>Mínimo 8 caracteres</li>
+                        <li>Pelo menos 1 maiúscula</li>
+                        <li>Pelo menos 1 minúscula</li>
+                        <li>Pelo menos 1 número</li>
+                        <li>Pelo menos 1 símbolo (!@#...)</li>
                     </ul>
                 </div>
             </div>
@@ -557,7 +562,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
                         Li e aceito os
                         <a href="Recursos/termos.php">Termos de Uso</a>
                         e a
-                        <a href="Recursos/politica.php">Politica de Privacidade</a>.
+                        <a href="Recursos/politica.php">Política de Privacidade</a>.
                     </span>
                 </label>
             </div>
@@ -569,7 +574,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
     <div class="form-container sign-in-container">
         <form action="" method="POST">
-            <h1>Iniciar Sessao</h1>
+            <h1>Iniciar Sessão</h1>
 
             <input type="email" name="email" placeholder="Email" required>
             <div class="password-wrapper">
@@ -613,8 +618,8 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
         <div class="overlay">
 
             <div class="overlay-panel overlay-left">
-                <h1>Ola Novamente!</h1>
-                <p>Para se manter ligado a nos, inicie sessao com os seus dados pessoais.</p>
+                <h1>Olá Novamente!</h1>
+                <p>Para se manter ligado a nós, inicie sessão com os seus dados pessoais.</p>
                 <button class="ghost" id="signIn">Entrar</button>
             </div>
 
@@ -652,7 +657,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
     <p>(C) 2025 Cantinho Deolinda - Todos os direitos reservados</p>
 </footer>
 
-<!-- defer garante que o JavaScript so executa depois do HTML estar totalmente carregado -->
+<!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
 <script src="Js/popup_alert.js"></script>
 <script src="Js/login.js" defer></script>
 

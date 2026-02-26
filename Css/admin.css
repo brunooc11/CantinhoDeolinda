@@ -570,12 +570,12 @@ button.action-btn {
 
 .cdol-admin #adminUsersTable th:nth-child(11),
 .cdol-admin #adminUsersTable td:nth-child(11) {
-    width: 100px;
+    width: 116px;
 }
 
 .cdol-admin #adminUsersTable th:nth-child(12),
 .cdol-admin #adminUsersTable td:nth-child(12) {
-    width: 112px;
+    width: 122px;
 }
 
 /* Reservas table: fit content without horizontal scroll */
@@ -596,8 +596,31 @@ button.action-btn {
     white-space: nowrap;
 }
 
+.cdol-admin #adminReservasTable th:nth-child(11),
+.cdol-admin #adminReservasTable td:nth-child(11) {
+    width: 160px;
+    min-width: 160px;
+}
+
 .cdol-admin #adminReservasTable .admin-actions-cell {
     white-space: normal;
+}
+
+.cdol-admin #adminReservasTable .admin-actions-cell .admin-inline-form {
+    display: block;
+    margin: 4px 0 !important;
+}
+
+.cdol-admin #adminReservasTable .admin-actions-cell .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    padding: 7px 8px !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap;
 }
 
 .cdol-admin #adminReservasTable .status-chip {
@@ -1034,9 +1057,13 @@ button.action-btn {
 .cdol-admin #navFim {
     margin-top: 26px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 14px;
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 4px 2px 8px;
 }
 
 .cdol-admin #navFim .btt-padrao-login {
@@ -1045,17 +1072,149 @@ button.action-btn {
     right: auto !important;
     z-index: auto !important;
     border: none !important;
-    box-shadow: 0 0 10px rgba(245, 166, 35, 0.6), 0 0 20px rgba(245, 166, 35, 0.3) !important;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    letter-spacing: 0.05px !important;
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
 }
 
 .cdol-admin #navFim .btt-padrao-login:hover {
-    box-shadow: 0 0 20px rgba(245, 166, 35, 0.9), 0 0 40px rgba(245, 166, 35, 0.5) !important;
+    box-shadow: 0 12px 18px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.28) !important;
 }
 
 .cdol-admin #navFim .btt-padrao-login:active {
-    box-shadow: 0 0 5px rgba(245, 166, 35, 0.6) !important;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
 }
 
 .cdol-admin #navFim .btt-padrao-login::after {
     content: none !important;
+}
+
+/* ===== Admin Buttons Refresh (requested) ===== */
+.cdol-admin .admin-actions-cell .action-btn,
+.cdol-admin button.action-btn,
+.cdol-admin a.action-btn {
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    border-radius: 12px !important;
+    padding: 9px 14px !important;
+    min-height: 34px;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.24px !important;
+    line-height: 1 !important;
+    text-transform: none;
+    box-shadow:
+        0 10px 18px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    transition:
+        transform 0.16s ease,
+        filter 0.16s ease,
+        box-shadow 0.16s ease,
+        border-color 0.16s ease !important;
+}
+
+.cdol-admin .admin-actions-cell .action-btn:hover,
+.cdol-admin button.action-btn:hover,
+.cdol-admin a.action-btn:hover {
+    transform: translateY(-2px) scale(1.015) !important;
+    filter: brightness(1.08) saturate(1.04) !important;
+    box-shadow:
+        0 16px 24px rgba(0, 0, 0, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.cdol-admin .admin-actions-cell .action-btn:active,
+.cdol-admin button.action-btn:active,
+.cdol-admin a.action-btn:active {
+    transform: translateY(0) scale(0.995) !important;
+    box-shadow:
+        0 8px 14px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+}
+
+.cdol-admin .admin-actions-cell .action-btn:focus-visible,
+.cdol-admin button.action-btn:focus-visible,
+.cdol-admin a.action-btn:focus-visible,
+.cdol-admin .admin-site-state .btn:focus-visible {
+    outline: 2px solid rgba(255, 212, 90, 0.95);
+    outline-offset: 2px;
+}
+
+.cdol-admin .admin-actions-cell .action-btn {
+    margin: 4px 6px 4px 0 !important;
+}
+
+/* Keep user-table action buttons inside fixed columns */
+.cdol-admin #adminUsersTable .admin-actions-cell .action-btn {
+    max-width: 100%;
+    padding: 5px 6px !important;
+    font-size: 9px !important;
+    min-height: 28px;
+    border-radius: 9px !important;
+    white-space: nowrap;
+}
+
+/* Red actions: Bloquear / Não Compareceu */
+.cdol-admin .admin-actions-cell .action-btn:not(.blue-btn):not(.green-btn),
+.cdol-admin button.action-btn:not(.blue-btn):not(.green-btn),
+.cdol-admin a.action-btn:not(.blue-btn):not(.green-btn) {
+    background: linear-gradient(160deg, #ff7a70, #dd4d45 58%, #c73b34) !important;
+    color: #fff !important;
+    border-color: rgba(255, 154, 148, 0.7) !important;
+}
+
+/* Blue actions: Tornar Cliente / Tornar Admin / Resetar */
+.cdol-admin .admin-actions-cell .action-btn.blue-btn,
+.cdol-admin button.action-btn.blue-btn,
+.cdol-admin a.action-btn.blue-btn {
+    background: linear-gradient(160deg, #3aa2ff, #1f7ee2 58%, #1668c5) !important;
+    color: #fff !important;
+    border-color: rgba(145, 205, 255, 0.7) !important;
+}
+
+/* Green actions: Desbloquear / Compareceu */
+.cdol-admin .admin-actions-cell .action-btn.green-btn,
+.cdol-admin button.action-btn.green-btn,
+.cdol-admin a.action-btn.green-btn {
+    background: linear-gradient(160deg, #50d58d, #2faa6d 58%, #248e5a) !important;
+    color: #fff !important;
+    border-color: rgba(164, 242, 201, 0.66) !important;
+}
+
+/* Site state buttons: Bloquear Site / Ativar Site */
+.cdol-admin .admin-site-state .btn.danger,
+.cdol-admin .admin-site-state .btn.success {
+    min-width: 146px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 14px;
+    font-weight: 800;
+    letter-spacing: 0.28px;
+    border: 1px solid transparent;
+    box-shadow:
+        0 12px 22px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cdol-admin .admin-site-state .btn.danger {
+    background: linear-gradient(160deg, #ff7a70, #dd4d45 58%, #c73b34);
+    border-color: rgba(255, 154, 148, 0.7);
+    color: #fff;
+}
+
+.cdol-admin .admin-site-state .btn.success {
+    background: linear-gradient(160deg, #50d58d, #2faa6d 58%, #248e5a);
+    border-color: rgba(164, 242, 201, 0.66);
+    color: #fff;
+}
+
+.cdol-admin .admin-site-state .btn.danger:hover,
+.cdol-admin .admin-site-state .btn.success:hover {
+    transform: translateY(-2px) scale(1.01);
+    filter: brightness(1.08) saturate(1.03);
+    box-shadow:
+        0 18px 28px rgba(0, 0, 0, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }

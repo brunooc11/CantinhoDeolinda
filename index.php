@@ -484,13 +484,13 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <!-- COLUNA ESQUERDA -->
             <div class="left-col">
               <div class="form-group">
-                <label>Nome</label>
-                <input type="text" name="nome" placeholder="O teu nome" value="<?php echo htmlspecialchars($_SESSION['nome'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" <?php echo isset($_SESSION['id']) ? 'readonly' : ''; ?> required>
+                <label for="contactNome">Nome</label>
+                <input id="contactNome" type="text" name="nome" placeholder="O teu nome" autocomplete="name" value="<?php echo htmlspecialchars($_SESSION['nome'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" <?php echo isset($_SESSION['id']) ? 'readonly' : ''; ?> required>
               </div>
 
               <div class="form-group">
-                <label>Assunto</label>
-                <select name="assunto" required>
+                <label for="contactAssunto">Assunto</label>
+                <select id="contactAssunto" name="assunto" required>
                   <option value="">Seleciona um assunto</option>
                   <option value="Reserva">Reserva</option>
                   <option value="Experiência no restaurante">Experiência no restaurante</option>
@@ -503,21 +503,23 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               </div>
 
               <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="email@exemplo.com" value="<?php echo htmlspecialchars($_SESSION['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" <?php echo isset($_SESSION['id']) ? 'readonly' : ''; ?> required>
+                <label for="contactEmail">Email</label>
+                <input id="contactEmail" type="email" name="email" placeholder="email@exemplo.com" autocomplete="email" value="<?php echo htmlspecialchars($_SESSION['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" <?php echo isset($_SESSION['id']) ? 'readonly' : ''; ?> required>
               </div>
             </div>
 
             <!-- COLUNA DIREITA -->
             <div class="right-col">
               <div class="form-group">
-                <label>Mensagem</label>
-                <textarea name="mensagem" placeholder="A tua mensagem..." required></textarea>
+                <label for="contactMensagem">Mensagem</label>
+                <textarea id="contactMensagem" name="mensagem" placeholder="A tua mensagem..." required></textarea>
               </div>
 
-              <button type="submit" class="btt-padrao-login" id="btt-contact-pos">
+              <button type="submit" class="btt-padrao-login" id="btt-contact-pos" aria-describedby="contactFormStatus">
                 Enviar Mensagem
               </button>
+
+              <p id="contactFormStatus" class="sr-only" role="status" aria-live="polite"></p>
             </div>
 
           </form>
