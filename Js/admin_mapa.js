@@ -3,6 +3,12 @@
     const zonas = Array.from(document.querySelectorAll(".zona-bar, .zona-entrada"));
     const draggables = [...mesas, ...zonas];
     const states = ["livre", "reservada", "ocupada"];
+    const initialStates = (window.CDOL_MESA_STATES && typeof window.CDOL_MESA_STATES === "object")
+        ? window.CDOL_MESA_STATES
+        : {};
+    const lockStates = (window.CDOL_MESA_LOCKS && typeof window.CDOL_MESA_LOCKS === "object")
+        ? window.CDOL_MESA_LOCKS
+        : {};
 
     const kpiLivre = document.getElementById("kpiLivre");
     const kpiReservada = document.getElementById("kpiReservada");
@@ -14,12 +20,23 @@
     const mapaMergeCreateBtn = document.getElementById("mapaMergeCreateBtn");
     const mapaMergeClearBtn = document.getElementById("mapaMergeClearBtn");
     const mapaMergeHint = document.getElementById("mapaMergeHint");
+    const mapaReleaseBar = document.getElementById("mapaReleaseBar");
+    const mapaReleaseReservaId = document.getElementById("mapaReleaseReservaId");
+    const mapaReleaseMesa = document.getElementById("mapaReleaseMesa");
+    const mapaReleaseInfo = document.getElementById("mapaReleaseInfo");
+    const mapaReleaseCliente = document.getElementById("mapaReleaseCliente");
+    const mapaReleasePessoas = document.getElementById("mapaReleasePessoas");
+    const mapaReleaseReservaHora = document.getElementById("mapaReleaseReservaHora");
+    const mapaReleaseEstado = document.getElementById("mapaReleaseEstado");
+    const mapaReleaseFim = document.getElementById("mapaReleaseFim");
+    const mapaReleaseBtn = document.getElementById("mapaReleaseBtn");
 
     let activeDrag = null;
     let moveMode = false;
     let mergeMode = false;
     let mergeCount = 1;
     const selectedMesas = new Set();
+    let selectedLockedMesaId = "";
 
     function nextState(current) {
         const idx = states.indexOf(current);
@@ -35,6 +52,80 @@
     function setState(el, state) {
         el.classList.remove("livre", "reservada", "ocupada");
         el.classList.add(state);
+    }
+
+    function normalizeState(state) {
+        if (state === "livre" || state === "reservada" || state === "ocupada") return state;
+        return "livre";
+    }
+
+    function getMesaLock(mesa) {
+        const mesaId = mesa.dataset.id || "";
+        if (!mesaId) return null;
+        if (!Object.prototype.hasOwnProperty.call(lockStates, mesaId)) return null;
+        return lockStates[mesaId];
+    }
+
+    function isMesaLocked(mesa) {
+        return !!getMesaLock(mesa);
+    }
+
+    function canReleaseMesa(mesa) {
+        const lock = getMesaLock(mesa);
+        return !!lock && lock.status === "ocupada" && Number(lock.reserva_id || 0) > 0;
+    }
+
+    function applyMesaLockUi(mesa) {
+        const lock = getMesaLock(mesa);
+        mesa.classList.toggle("mesa-locked", !!lock);
+        if (!lock) {
+            delete mesa.dataset.releaseTime;
+            mesa.removeAttribute("title");
+            return;
+        }
+
+        mesa.dataset.releaseTime = lock.release_time || "--:--";
+        mesa.setAttribute(
+            "title",
+            `${lock.status_label} | ${lock.cliente_nome} | ${lock.numero_pessoas} pessoas | ${lock.data_reserva} ${lock.hora_reserva} | liberta ${lock.release_at}`
+        );
+    }
+
+    function updateReleaseBar(mesa) {
+        if (!mapaReleaseBar || !mapaReleaseReservaId || !mapaReleaseMesa || !mapaReleaseInfo) {
+            return;
+        }
+
+        if (!mesa || !isMesaLocked(mesa)) {
+            selectedLockedMesaId = "";
+            mapaReleaseBar.hidden = true;
+            mapaReleaseReservaId.value = "";
+            mapaReleaseMesa.textContent = "Mesa";
+            mapaReleaseInfo.textContent = "Seleciona uma mesa reservada ou ocupada para ver os detalhes.";
+            if (mapaReleaseCliente) mapaReleaseCliente.textContent = "-";
+            if (mapaReleasePessoas) mapaReleasePessoas.textContent = "-";
+            if (mapaReleaseReservaHora) mapaReleaseReservaHora.textContent = "-";
+            if (mapaReleaseEstado) mapaReleaseEstado.textContent = "-";
+            if (mapaReleaseFim) mapaReleaseFim.textContent = "-";
+            if (mapaReleaseBtn) mapaReleaseBtn.hidden = true;
+            mesas.forEach((item) => item.classList.remove("mesa-release-selected"));
+            return;
+        }
+
+        const lock = getMesaLock(mesa);
+        const mesaId = mesa.dataset.id || "";
+        selectedLockedMesaId = mesaId;
+        mapaReleaseBar.hidden = false;
+        mapaReleaseReservaId.value = String(lock.reserva_id || "");
+        mapaReleaseMesa.textContent = `Mesa ${mesaId.toUpperCase()}`;
+        mapaReleaseInfo.textContent = `Reserva #${lock.reserva_id} | ${lock.cliente_email || "-"}`;
+        if (mapaReleaseCliente) mapaReleaseCliente.textContent = lock.cliente_nome || "-";
+        if (mapaReleasePessoas) mapaReleasePessoas.textContent = String(lock.numero_pessoas || "-");
+        if (mapaReleaseReservaHora) mapaReleaseReservaHora.textContent = `${lock.data_reserva || "-"} ${lock.hora_reserva || "-"}`;
+        if (mapaReleaseEstado) mapaReleaseEstado.textContent = lock.status_label || "-";
+        if (mapaReleaseFim) mapaReleaseFim.textContent = lock.release_at || "-";
+        if (mapaReleaseBtn) mapaReleaseBtn.hidden = !canReleaseMesa(mesa);
+        mesas.forEach((item) => item.classList.toggle("mesa-release-selected", item === mesa));
     }
 
     function clamp(value, min, max) {
@@ -69,6 +160,9 @@
 
     function onPointerDown(event) {
         const target = event.currentTarget;
+        if (target.classList.contains("mesa") && isMesaLocked(target)) {
+            return;
+        }
         if (mergeMode && target.classList.contains("mesa")) {
             return;
         }
@@ -135,6 +229,10 @@
         target.releasePointerCapture(event.pointerId);
 
         if (!drag.moved && drag.isMesa) {
+            if (isMesaLocked(target)) {
+                activeDrag = null;
+                return;
+            }
             setState(target, nextState(getState(target)));
             updateKpis();
         } else if (drag.moved) {
@@ -170,7 +268,7 @@
         }
         if (mapaMergeHint) {
             if (!mergeMode) {
-                mapaMergeHint.textContent = "Ativa o modo para selecionar mesas e juntá-las.";
+                mapaMergeHint.textContent = "Ativa o modo para selecionar mesas e junta-las.";
             } else if (selectedMesas.size < 2) {
                 mapaMergeHint.textContent = "Seleciona pelo menos 2 mesas da mesma sala para criar um conjunto.";
             } else {
@@ -195,7 +293,7 @@
         const firstCanvas = Array.from(selectedMesas)[0].closest(".restaurante-canvas");
         const sameCanvas = Array.from(selectedMesas).every((mesa) => mesa.closest(".restaurante-canvas") === firstCanvas);
         if (!sameCanvas) {
-            if (mapaMergeHint) mapaMergeHint.textContent = "Só podes juntar mesas da mesma sala.";
+            if (mapaMergeHint) mapaMergeHint.textContent = "So podes juntar mesas da mesma sala.";
             return;
         }
 
@@ -235,8 +333,26 @@
         });
     }
 
+    document.addEventListener("click", (event) => {
+        if (!mapaReleaseBar || mapaReleaseBar.hidden) return;
+        if (event.target.closest(".mesa")) return;
+        if (event.target.closest("#mapaReleaseBar")) return;
+        updateReleaseBar(null);
+    });
+
     mesas.forEach((mesa) => {
+        const mesaId = mesa.dataset.id || "";
+        if (mesaId && Object.prototype.hasOwnProperty.call(initialStates, mesaId)) {
+            setState(mesa, normalizeState(initialStates[mesaId]));
+        }
+        applyMesaLockUi(mesa);
+
         mesa.addEventListener("click", () => {
+            if (isMesaLocked(mesa)) {
+                updateReleaseBar(mesa);
+                return;
+            }
+            updateReleaseBar(null);
             if (mergeMode) {
                 toggleMesaSelection(mesa);
                 return;
@@ -273,4 +389,5 @@
 
     updateMergeUi();
     updateKpis();
+    updateReleaseBar(null);
 })();

@@ -1,9 +1,80 @@
-<?php
+﻿<?php
 session_start();
+require_once("Bd/ligar.php");
+require_once("Bd/mesa_status_helper.php");
 
 if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
     header("Location: login.php");
     exit();
+}
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+function cd_mapa_csrf(): string
+{
+    return (string)($_SESSION['csrf_token'] ?? '');
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['libertar_mesa_mapa'], $_POST['reserva_id'])) {
+    $token = (string)($_POST['csrf_token'] ?? '');
+    if ($token !== '' && hash_equals(cd_mapa_csrf(), $token) && isset($con) && $con instanceof mysqli) {
+        $idReserva = (int)$_POST['reserva_id'];
+        if ($idReserva > 0) {
+            mysqli_begin_transaction($con);
+            try {
+                $stmtLivre = mysqli_prepare(
+                    $con,
+                    "UPDATE mesas m
+                     JOIN reserva_mesas rm ON rm.mesa_id = m.id
+                     SET m.estado = 'livre'
+                     WHERE rm.reserva_id = ?"
+                );
+                if ($stmtLivre) {
+                    mysqli_stmt_bind_param($stmtLivre, 'i', $idReserva);
+                    mysqli_stmt_execute($stmtLivre);
+                    mysqli_stmt_close($stmtLivre);
+                }
+
+                $stmtDelete = mysqli_prepare($con, "DELETE FROM reserva_mesas WHERE reserva_id = ?");
+                if ($stmtDelete) {
+                    mysqli_stmt_bind_param($stmtDelete, 'i', $idReserva);
+                    mysqli_stmt_execute($stmtDelete);
+                    mysqli_stmt_close($stmtDelete);
+                }
+
+                mysqli_commit($con);
+            } catch (Throwable $e) {
+                mysqli_rollback($con);
+            }
+        }
+    }
+
+    header("Location: admin_mapa.php");
+    exit();
+}
+
+$mesaEstados = [];
+$mesaLocks = [];
+if (isset($con) && $con instanceof mysqli) {
+    cd_sync_mesa_states($con);
+    $mesaLocks = cd_get_mesa_lock_map($con);
+    $sqlMesas = "SELECT id, estado FROM mesas WHERE tipo = 'mesa'";
+    $resMesas = mysqli_query($con, $sqlMesas);
+    if ($resMesas) {
+        while ($row = mysqli_fetch_assoc($resMesas)) {
+            $id = (string)($row['id'] ?? '');
+            $estado = strtolower(trim((string)($row['estado'] ?? '')));
+            if ($id === '') {
+                continue;
+            }
+            if (!in_array($estado, ['livre', 'reservada', 'ocupada'], true)) {
+                $estado = 'livre';
+            }
+            $mesaEstados[$id] = $estado;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -22,7 +93,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
         <div class="admin-hero">
             <div>
                 <h2>Mapa de Mesas</h2>
-                <p>Layout visual por zonas: Sala, Sof&aacute;s e Esplanada.</p>
+                <p>Layout visual por zonas: Sala, Sofás e Esplanada.</p>
             </div>
             <div class="admin-kpis">
                 <div class="admin-kpi-card">
@@ -52,16 +123,33 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
                     <span class="legenda-item"><i class="dot ocupada"></i>Ocupada</span>
                 </div>
                 <div class="mapa-actions">
-                    <p class="mapa-tip">Arrasta para posicionar. Clique alterna estados: Livre &rarr; Reservada &rarr; Ocupada.</p>
+                    <p class="mapa-tip">Arrasta para posicionar. Clique alterna estados: Livre → Reservada → Ocupada.</p>
                     <button type="button" id="mapaResetBtn" class="mapa-reset-btn">Resetar layout</button>
                 </div>
             </div>
             <div class="mapa-merge-toolbar">
+                <button type="button" id="mapaMoveModeBtn" class="mapa-merge-btn">Modo mover: OFF</button>
                 <button type="button" id="mapaMergeModeBtn" class="mapa-merge-btn">Modo juntar mesas: OFF</button>
                 <button type="button" id="mapaMergeCreateBtn" class="mapa-merge-btn" disabled>Criar conjunto</button>
                 <button type="button" id="mapaMergeClearBtn" class="mapa-merge-btn mapa-merge-btn-danger" disabled>Limpar conjuntos</button>
-                <span id="mapaMergeHint" class="mapa-merge-hint">Ativa o modo para selecionar mesas e junt&aacute;-las.</span>
+                <span id="mapaMergeHint" class="mapa-merge-hint">Ativa o modo para selecionar mesas e juntá-las.</span>
             </div>
+            <form method="post" id="mapaReleaseBar" class="mapa-release-bar" hidden>
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(cd_mapa_csrf(), ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="reserva_id" id="mapaReleaseReservaId" value="">
+                <div class="mapa-release-copy">
+                    <strong id="mapaReleaseMesa">Mesa</strong>
+                    <span id="mapaReleaseInfo">Seleciona uma mesa reservada ou ocupada para ver os detalhes.</span>
+                </div>
+                <div class="mapa-release-meta">
+                    <span><b>Cliente</b><strong id="mapaReleaseCliente">-</strong></span>
+                    <span><b>Pessoas</b><strong id="mapaReleasePessoas">-</strong></span>
+                    <span><b>Reserva</b><strong id="mapaReleaseReservaHora">-</strong></span>
+                    <span><b>Estado</b><strong id="mapaReleaseEstado">-</strong></span>
+                    <span><b>Liberta</b><strong id="mapaReleaseFim">-</strong></span>
+                </div>
+                <button type="submit" class="mapa-release-btn" id="mapaReleaseBtn" name="libertar_mesa_mapa" value="1" hidden>Libertar mesa</button>
+            </form>
 
             <div class="mapa-grid">
                 <article class="mapa-card">
@@ -74,7 +162,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
                         </div>
                     </div>
                     <div class="restaurante-canvas" id="mapaSala">
-                        <div class="zona-bar" data-id="sala-balcao" style="left: 3%; top: 20%; width: 16%; height: 28%;">Balc&atilde;o</div>
+                        <div class="zona-bar" data-id="sala-balcao" style="left: 3%; top: 20%; width: 16%; height: 28%;">Balcão</div>
                         <div class="zona-entrada" data-id="sala-entrada" style="left: 4%; top: 84%; width: 18%; height: 12%;">Entrada</div>
 
                         <button class="mesa livre redonda cap-2" data-id="s1" style="left: 34%; top: 76%;">1</button>
@@ -96,7 +184,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
 
                 <article class="mapa-card">
                     <div class="mapa-card-head">
-                        <h3 class="mapa-card-title">Sof&aacute;s</h3>
+                        <h3 class="mapa-card-title">Sofás</h3>
                         <div class="mapa-room-meta">
                             <span>2p x5</span>
                             <span>4p x5</span>
@@ -145,15 +233,19 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
         </section>
 
         <div class="botoesNav" id="navFim">
-            <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
-            <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
-            <a href="admin.php" id="btnAdmin" class="btt-padrao-login">&larr; Admin</a>
-            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">&larr; Confirmar Reservas</a>
-            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">&larr; Todas as Reservas</a>
-            <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">&larr; Logs</a>
+            <a href="index.php" id="btnInicio" class="btt-padrao-login">← Início</a>
+            <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">← Dashboard</a>
+            <a href="admin.php" id="btnAdmin" class="btt-padrao-login">← Admin</a>
+            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">← Confirmar Reservas</a>
+            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">← Todas as Reservas</a>
+            <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">← Logs</a>
         </div>
     </div>
 
+    <script>
+        window.CDOL_MESA_STATES = <?php echo json_encode($mesaEstados, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        window.CDOL_MESA_LOCKS = <?php echo json_encode($mesaLocks, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+    </script>
     <script src="Js/admin_mapa.js"></script>
 </body>
 </html>

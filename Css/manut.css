@@ -26,6 +26,6 @@
             text-decoration: none;  /* sem underline */
         }
         .admin-inline:hover {
-            color: inherit;         /* não muda ao passar o rato */
-            text-decoration: none;  /* não aparece nada */
+            color: inherit;         /* n�o muda ao passar o rato */
+            text-decoration: none;  /* n�o aparece nada */
         }

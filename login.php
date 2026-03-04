@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 require('Bd/ligar.php');
 require_once('Bd/popup_helper.php');
@@ -302,7 +302,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 }
 ?>
 
-<a href="index.php" class="btn-voltar">&larr; Voltar</a>
+<a href="index.php" class="btn-voltar">Voltar</a>
 
 <div class="container" id="container">
 
@@ -660,4 +660,5 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 <!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
 <script src="Js/popup_alert.js"></script>
 <script src="Js/login.js" defer></script>
+
 

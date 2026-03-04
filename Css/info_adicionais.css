@@ -5,7 +5,7 @@ body {
     color: white;
 }
 
-/* GRANDE RETÂNGULO */
+/* GRANDE RETï¿½NGULO */
 .info_adicionais-wrapper {
     width: 90%;
     max-width: 1400px;
@@ -17,7 +17,7 @@ body {
     padding: 15px 25px 20px 25px;
 }
 
-/* Títulos */
+/* Tï¿½tulos */
 .info_adicionais-subtitle {
     text-align: center;
     font-size: 22px;
@@ -100,26 +100,26 @@ body {
 }
 
 .info_adicionais-card:nth-child(1) {
-    padding-top: 25px;     /* desce o conteúdo */
-    padding-bottom: 20px;  /* remove espaço extra em baixo */
+    padding-top: 25px;     /* desce o conteï¿½do */
+    padding-bottom: 20px;  /* remove espaï¿½o extra em baixo */
 }
 
 .info_adicionais-bold {
     font-weight: 700;
-    color: #ffffff; /* opcional: mantém a cor forte */
+    color: #ffffff; /* opcional: mantï¿½m a cor forte */
 }
 
 /* ---- LAYOUT DOS CONTACTOS ---- */
 
-/* Linha principal: 2 cards à esquerda + mapa à direita */
+/* Linha principal: 2 cards ï¿½ esquerda + mapa ï¿½ direita */
 .contact-section {
     display: flex;
     gap: 35px;
     margin-top: 10px;
-    align-items: stretch; /* faz o mapa ficar do mesmo tamanho dos 2 retângulos */
+    align-items: stretch; /* faz o mapa ficar do mesmo tamanho dos 2 retï¿½ngulos */
 }
 
-/* Coluna esquerda (2 retângulos empilhados) */
+/* Coluna esquerda (2 retï¿½ngulos empilhados) */
 .contact-left {
     width: 50%;
     display: flex;
@@ -127,7 +127,7 @@ body {
     gap: 20px;
 }
 
-/* O card que contém o mapa */
+/* O card que contï¿½m o mapa */
 .contact-map {
     transition: 0.3s ease;
     width: 50%;

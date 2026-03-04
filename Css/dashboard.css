@@ -5,7 +5,7 @@ body {
     margin: 0;
 }
 
-/* Cabeçalho */
+/* Cabeï¿½alho */
 .dashboard-header {
     background-color: #000;
     padding: 15px 20px;
@@ -52,7 +52,7 @@ body {
     font-weight: bold;
 }
 
-/* Conteúdo das abas */
+/* Conteï¿½do das abas */
 .tabcontent {
     display: none;
     padding: 20px;
@@ -82,7 +82,7 @@ body {
     margin-top: 0;
 }
 
-/* Botões */
+/* Botï¿½es */
 .btn {
     display: inline-block;
     margin-top: 10px;
@@ -103,7 +103,7 @@ body {
 /* btt sair*/
 .btt-sair {
   display: inline-block;
-  margin-bottom: 10px; /* Espaço entre Sair e Excluir */
+  margin-bottom: 10px; /* Espaï¿½o entre Sair e Excluir */
   padding: 12px 28px;
   border-radius: 40px;
   background: linear-gradient(135deg, #f5a623, #ffcc33);
@@ -136,7 +136,7 @@ body {
 /* btt alterar senha */
 .btt-alterar-senha {
   display: inline-block;
-  margin-bottom: 10px; /* Espaço entre Alterar Senha e Sair */
+  margin-bottom: 10px; /* Espaï¿½o entre Alterar Senha e Sair */
   padding: 12px 28px;
   border-radius: 40px;
   background: linear-gradient(135deg, #f5a623, #ffcc33);
@@ -172,8 +172,8 @@ body {
 
 #bttConfirmar {
     display: inline-block;
-    position: relative;      /* não remove do fluxo */
-    top: 0;                  /* mesmo nível do form */
+    position: relative;      /* nï¿½o remove do fluxo */
+    top: 0;                  /* mesmo nï¿½vel do form */
     margin-left: auto;
     margin-right: auto;      /* centraliza horizontalmente */
 }
@@ -181,9 +181,9 @@ body {
 
 
 #bttsair {
-    position: absolute; /* deixa o botão sair do fluxo normal */
-    top: 20px;          /* distância do topo do card */
-    right: 20px;        /* distância da borda direita do card */
+    position: absolute; /* deixa o botï¿½o sair do fluxo normal */
+    top: 20px;          /* distï¿½ncia do topo do card */
+    right: 20px;        /* distï¿½ncia da borda direita do card */
 }
 
 #btt_excluir_conta {
@@ -195,7 +195,7 @@ body {
 /* painel lateral de alterar senha */
 .conta-card {
     display: flex;
-    justify-content: space-between; /* botão e painel lado a lado */
+    justify-content: space-between; /* botï¿½o e painel lado a lado */
     align-items: flex-start;        /* alinha no topo do card */
     background: #222;
     color: #fff;
@@ -208,7 +208,7 @@ body {
 
 
 .info-conta {
-    flex: 1; /* conteúdo ocupa o espaço restante */
+    flex: 1; /* conteï¿½do ocupa o espaï¿½o restante */
 }
 
 .form-lateral-card {
@@ -305,7 +305,7 @@ body {
     transform: scale(1.02);
 }
 
-/* Última linha sem borda */
+/* ï¿½ltima linha sem borda */
 .tabela-reservas tbody tr:last-child td {
     border-bottom: none;
 }
@@ -318,7 +318,7 @@ body {
     padding: 20px 0;
 }
 
-/* Botão cancelar reserva */
+/* Botï¿½o cancelar reserva */
 .btn-cancelar {
     background: linear-gradient(135deg, #ff5a5a, #ff1f1f);
     color: white;
@@ -363,13 +363,13 @@ body {
     z-index: auto;
 }
 
-/* Animação entrar */
+/* Animaï¿½ï¿½o entrar */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Garantir que o card aparece com animação */
+/* Garantir que o card aparece com animaï¿½ï¿½o */
 .tabcontent.ativo #Reservas .card {
     animation: fadeIn 0.5s ease forwards;
 }
@@ -1009,7 +1009,7 @@ body {
 }
 
 .cdol-dash #Favoritos .card h3::before {
-    content: "★";
+    content: "?";
     width: 28px;
     height: 28px;
     display: inline-flex;
@@ -1391,6 +1391,78 @@ body {
 }
 
 @media (max-width: 700px) {
+    .cdol-dash .dashboard-header {
+        padding: 12px 14px;
+        gap: 10px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cdol-dash .dashboard-header h1 {
+        font-size: 1.35rem;
+    }
+
+    .cdol-dash #bttInicio {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .cdol-dash .dashboard-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .cdol-dash .dashboard-menu button {
+        border-right: 0;
+        border-radius: 12px;
+        min-height: 48px;
+    }
+
+    .cdol-dash .tabcontent {
+        padding: 16px 12px 22px;
+    }
+
+    .cdol-dash #Conta .card,
+    .cdol-dash #Reservas .card,
+    .cdol-dash #Favoritos .card,
+    .cdol-dash #Pedidos .card {
+        width: 100%;
+        margin: 8px 0 16px;
+    }
+
+    .cdol-dash .conta-card,
+    .cdol-dash #Reservas .reservas-header,
+    .cdol-dash .reservas-acoes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cdol-dash #bttsair,
+    .cdol-dash #btt_excluir_conta,
+    .cdol-dash .btt-alterar-senha,
+    .cdol-dash .btt-sair,
+    .cdol-dash .btn-cancelar {
+        width: 100%;
+        text-align: center;
+    }
+
+    .cdol-dash .form-lateral-card form {
+        min-width: 0;
+        width: 100%;
+        padding: 14px;
+    }
+
+    .cdol-dash .table-wrap {
+        overflow-x: auto;
+    }
+
+    .cdol-dash .tabela-reservas {
+        min-width: 620px;
+    }
+
     .cdol-dash .favoritos-header {
         align-items: flex-start;
         flex-direction: column;

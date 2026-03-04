@@ -8,13 +8,13 @@ if(isset($_POST['nr_proc'])){
     $aluno = mysqli_fetch_assoc($res);
 
     if(!$aluno){
-        die("Aluno não encontrado!");
+        die("Aluno n�o encontrado!");
     }
 }
 
 $mensagem_sucesso = "";
 if(isset($_POST['atualizar'])){
-    $nr_proc = intval($_POST['nr_proc']); // não pode ser alterado
+    $nr_proc = intval($_POST['nr_proc']); // n�o pode ser alterado
     $nome = mysqli_real_escape_string($con, $_POST['nome']);
     $ano = intval($_POST['ano']);
     $turma = mysqli_real_escape_string($con, $_POST['turma']);
@@ -72,7 +72,7 @@ body { background-color: #111; color: #f4f4f4; font-family: Arial, sans-serif; }
             <div class="form-group">
                 <label for="nr_proc">Nº Processo</label>
                 <input type="text" class="form-control" name="nr_proc" id="nr_proc" 
-                    value="<?= $aluno['nr_proc'] ?>" readonly> <!-- Nº Processo não pode ser alterado , readonly-->
+                    value="<?= $aluno['nr_proc'] ?>" readonly> <!-- Nº Processo n�o pode ser alterado , readonly-->
             </div>
 
             <div class="form-group">

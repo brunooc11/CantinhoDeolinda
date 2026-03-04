@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require __DIR__ . "/../config.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -50,11 +50,6 @@ $raw = file_get_contents("php://input");
 $data = json_decode($raw, true);
 
 if (!$data) {
-    file_put_contents(
-        __DIR__ . "/debug_email.txt",
-        "JSON INVALIDO: " . $raw . "\n",
-        FILE_APPEND
-    );
     exit;
 }
 
@@ -120,9 +115,4 @@ try {
 
     $mail->send();
 } catch (Exception $e) {
-    file_put_contents(
-        __DIR__ . "/debug_email.txt",
-        "ERRO SMTP: " . $mail->ErrorInfo . "\n",
-        FILE_APPEND
-    );
 }

@@ -101,8 +101,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: nowrap;
-    white-space: nowrap;
+    flex-wrap: wrap;
 }
 
 .mapa-legenda {
@@ -145,6 +144,9 @@
 }
 
 .mapa-reset-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid rgba(255, 212, 90, 0.55);
     border-radius: 999px;
     padding: 8px 14px;
@@ -153,6 +155,7 @@
     font-weight: 800;
     font-size: 0.85rem;
     cursor: pointer;
+    text-decoration: none;
     box-shadow: 0 8px 14px rgba(0, 0, 0, 0.28);
     transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
 }
@@ -207,6 +210,85 @@
 .mapa-merge-hint {
     color: var(--mapa-muted);
     font-size: 0.82rem;
+}
+
+.mapa-release-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 204, 77, 0.28);
+    background:
+        radial-gradient(circle at 12% 18%, rgba(255, 204, 77, 0.12), transparent 32%),
+        linear-gradient(135deg, rgba(25, 31, 44, 0.97), rgba(13, 18, 28, 0.97));
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+
+.mapa-release-copy {
+    display: grid;
+    gap: 3px;
+}
+
+.mapa-release-copy strong {
+    color: #ffe6a6;
+    font-size: 0.96rem;
+}
+
+.mapa-release-copy span {
+    color: #d7c79f;
+    font-size: 0.84rem;
+}
+
+.mapa-release-meta {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    flex: 1;
+}
+
+.mapa-release-meta span {
+    display: grid;
+    gap: 4px;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.mapa-release-meta b {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #bca772;
+}
+
+.mapa-release-meta strong {
+    font-size: 0.88rem;
+    color: #f3ead2;
+    line-height: 1.25;
+}
+
+.mapa-release-btn {
+    border: 1px solid rgba(255, 212, 90, 0.55);
+    border-radius: 999px;
+    padding: 9px 14px;
+    background: linear-gradient(135deg, #f5a623, #ffcc33);
+    color: #171717;
+    font-weight: 900;
+    font-size: 0.84rem;
+    cursor: pointer;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.28);
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mapa-release-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.34);
 }
 
 .mapa-grid {
@@ -398,9 +480,40 @@
     z-index: 60;
 }
 
+.mesa.mesa-locked {
+    cursor: not-allowed;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.mesa.mesa-locked:hover {
+    transform: translate(-50%, -50%) scale(1.04);
+}
+
+.mesa.mesa-locked::before {
+    content: "liberta " attr(data-release-time);
+    position: absolute;
+    left: 50%;
+    bottom: -18px;
+    transform: translateX(-50%);
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.96);
+    color: #f8fafc;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28);
+}
+
 .mesa.merge-select {
     outline: 2px solid rgba(120, 205, 255, 0.95);
     outline-offset: 2px;
+}
+
+.mesa.mesa-release-selected {
+    box-shadow: 0 0 0 2px rgba(255, 221, 131, 0.95), 0 0 0 6px rgba(255, 204, 77, 0.2), 0 10px 20px rgba(0, 0, 0, 0.34);
 }
 
 .mesa.merge-grouped {
@@ -441,6 +554,32 @@
 @media (max-width: 1180px) {
     .mapa-grid {
         grid-template-columns: repeat(2, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 980px) {
+    .mapa-release-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .mapa-release-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mapa-release-btn {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .mapa-release-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .mapa-release-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 

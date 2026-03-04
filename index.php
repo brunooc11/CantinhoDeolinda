@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require("config.php");
 require_once("Bd/popup_helper.php");
 
@@ -55,14 +55,16 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <!-- Loader -->
   <div class="loader-wrapper" id="loaderWrapper">
     <div class="container">
-      <div class="frigideira">
-        <div class="pega"></div>
-        <div class="fumo"></div>
-        <div class="fumo"></div>
-        <div class="fumo"></div>
+      <div class="loader-scene">
+        <div class="frigideira">
+          <div class="pega"></div>
+          <div class="fumo"></div>
+          <div class="fumo"></div>
+          <div class="fumo"></div>
+        </div>
+        <div class="ovo"></div>
       </div>
-      <div class="ovo"></div>
-      <div class="texto"><i class="fa-solid fa-utensils" aria-hidden="true"></i> A Cozinha esta a Trabalhar <i class="fa-solid fa-utensils" aria-hidden="true"></i></div>
+      <div class="texto"><i class="fa-solid fa-utensils" aria-hidden="true"></i> A Cozinha está a Trabalhar <i class="fa-solid fa-utensils" aria-hidden="true"></i></div>
     </div>
   </div>
 
@@ -316,7 +318,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
       <div class="menu-content" id="bebidas">
         <div class="menu-grid">
-          <div class="item"><h3>Vinho da Casa <span>3.50&euro;</span></h3><p>Nao faz parte do menu.</p></div>
+          <div class="item"><h3>Vinho da Casa <span>3.50&euro;</span></h3><p>Não faz parte do menu.</p></div>
           <div class="item"><h3>Sumo Natural <span>2.50&euro;</span></h3></div>
         </div>
       </div>
@@ -549,13 +551,13 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
       <div class="chat-messages">
         <div class="msg bot">
-          Ola. Posso ajudar com reservas, horarios ou duvidas sobre o restaurante.
+          Olá. Posso ajudar com reservas, horários ou dúvidas sobre o restaurante.
         </div>
 
         <div class="quick-btns">
           <button data-message="Reservas"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Reservas</button>
           <button data-message="Menu"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Menu</button>
-          <button data-message="Localizacao"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Localizacao</button>
+          <button data-message="Localização"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Localização</button>
           <button data-message="Contactos"><i class="fa-solid fa-phone" aria-hidden="true"></i> Contactos</button>
           <button data-message="Outro"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Outro/a</button>
         </div>
@@ -668,4 +670,5 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 </body>
 
 </html>
+
 

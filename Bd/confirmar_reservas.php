@@ -2,6 +2,7 @@
 session_start();
 include("ligar.php");
 require_once("popup_helper.php");
+require_once("mesa_status_helper.php");
 
 if (!isset($_SESSION['permissoes'])) {
     header("Location: ../login.php");
@@ -13,19 +14,29 @@ if ($_SESSION['permissoes'] !== 'admin') {
     exit();
 }
 
+cd_sync_mesa_states($con);
+
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-function csrf_token(): string {
+function esc($value): string
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
+function csrf_token(): string
+{
     return (string)($_SESSION['csrf_token'] ?? '');
 }
 
-function csrf_input(): string {
-    return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') . '">';
+function csrf_input(): string
+{
+    return '<input type="hidden" name="csrf_token" value="' . esc(csrf_token()) . '">';
 }
 
-function verify_csrf_or_fail(): void {
+function verify_csrf_or_fail(): void
+{
     $token = (string)($_POST['csrf_token'] ?? '');
     $sessionToken = csrf_token();
     if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
@@ -33,19 +44,101 @@ function verify_csrf_or_fail(): void {
     }
 }
 
-function redirect_with_alert(string $message): void {
+function redirect_with_alert(string $message): void
+{
     cd_popup($message, 'info', 'confirmar_reservas.php');
     exit;
+}
+
+function has_column(mysqli $con, string $table, string $column): bool
+{
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $table) || !preg_match('/^[A-Za-z0-9_]+$/', $column)) {
+        return false;
+    }
+    $sql = "SHOW COLUMNS FROM `$table` LIKE '$column'";
+    $res = mysqli_query($con, $sql);
+    return $res && mysqli_num_rows($res) > 0;
+}
+
+function has_rows_for_condition(mysqli $con, string $table, string $conditionSql): bool
+{
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $table)) {
+        return false;
+    }
+    $sql = "SELECT 1 FROM `$table` WHERE $conditionSql LIMIT 1";
+    $res = mysqli_query($con, $sql);
+    return $res && mysqli_num_rows($res) > 0;
+}
+
+function get_available_mesas(mysqli $con, string $dataReserva, string $horaReserva, int $excludeReservaId = 0): array
+{
+    $hasCapacidade = has_column($con, 'mesas', 'capacidade');
+    $hasAtiva = has_column($con, 'mesas', 'ativa');
+    $hasTipo = has_column($con, 'mesas', 'tipo');
+    $capField = $hasCapacidade ? "m.capacidade" : "2";
+    $whereParts = [];
+
+    if ($hasTipo && has_rows_for_condition($con, 'mesas', "tipo = 'mesa'")) {
+        $whereParts[] = "m.tipo = 'mesa'";
+    }
+    if ($hasAtiva && has_rows_for_condition($con, 'mesas', "ativa = 1")) {
+        $whereParts[] = "m.ativa = 1";
+    }
+    $wherePrefix = count($whereParts) > 0 ? implode("\n          AND ", $whereParts) . "\n          AND " : "";
+
+    $sql = "
+        SELECT m.id, $capField AS capacidade
+        FROM mesas m
+        WHERE {$wherePrefix}m.id NOT IN (
+              SELECT rm.mesa_id
+              FROM reserva_mesas rm
+              JOIN reservas r ON r.id = rm.reserva_id
+              WHERE r.data_reserva = ?
+                AND r.hora_reserva = ?
+                AND r.confirmado = 1
+                AND r.estado NOT IN ('recusada', 'nao_compareceu')
+                AND r.id <> ?
+          )
+        ORDER BY capacidade ASC, m.id ASC
+    ";
+
+    $stmt = mysqli_prepare($con, $sql);
+    if (!$stmt) {
+        return [];
+    }
+    mysqli_stmt_bind_param($stmt, "ssi", $dataReserva, $horaReserva, $excludeReservaId);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $rows = [];
+    if ($res) {
+        while ($row = mysqli_fetch_assoc($res)) {
+            $rows[] = [
+                'id' => (string)$row['id'],
+                'capacidade' => (int)$row['capacidade'],
+            ];
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $rows;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
     verify_csrf_or_fail();
     $id = (int)$_POST['confirmar'];
 
+    $mesasSelecionadas = $_POST['mesas'] ?? [];
+    if (!is_array($mesasSelecionadas)) {
+        $mesasSelecionadas = [];
+    }
+    $mesasSelecionadas = array_values(array_unique(array_filter(array_map(function ($v) {
+        $v = trim((string)$v);
+        return preg_match('/^[A-Za-z0-9_-]{1,50}$/', $v) ? $v : '';
+    }, $mesasSelecionadas))));
+
     $sql = "SELECT r.*, c.nome, c.email, c.telefone
             FROM reservas r
             JOIN Cliente c ON r.cliente_id = c.id
-            WHERE r.id=?";
+            WHERE r.id = ?";
     $stmt = $con->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -53,18 +146,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
     $stmt->close();
 
     if (!$reserva) {
-        redirect_with_alert('Reserva nao encontrada.');
+        redirect_with_alert('Reserva n?o encontrada.');
     }
 
-    $sql = "UPDATE reservas
-            SET confirmado = 1,
-                estado = 'pendente',
-                notificado_reserva = 0
-            WHERE id=?";
-    $stmt2 = $con->prepare($sql);
-    $stmt2->bind_param("i", $id);
-    $stmt2->execute();
-    $stmt2->close();
+    if (count($mesasSelecionadas) === 0) {
+        redirect_with_alert('Selecione pelo menos uma mesa para confirmar.');
+    }
+
+    $mesasDisponiveis = get_available_mesas($con, (string)$reserva['data_reserva'], (string)$reserva['hora_reserva'], $id);
+    $disponiveisMap = [];
+    foreach ($mesasDisponiveis as $m) {
+        $disponiveisMap[$m['id']] = $m['capacidade'];
+    }
+
+    $capacidadeTotal = 0;
+    foreach ($mesasSelecionadas as $mesaId) {
+        if (!array_key_exists($mesaId, $disponiveisMap)) {
+            redirect_with_alert("A mesa {$mesaId} já não está disponível para este horário.");
+        }
+        $capacidadeTotal += (int)$disponiveisMap[$mesaId];
+    }
+
+    if ($capacidadeTotal < (int)$reserva['numero_pessoas']) {
+        redirect_with_alert('Capacidade das mesas insuficiente para esta reserva.');
+    }
+
+    mysqli_begin_transaction($con);
+    try {
+        $stmt2 = $con->prepare(
+            "UPDATE reservas
+             SET confirmado = 1,
+                 estado = 'pendente',
+                 notificado_reserva = 0
+             WHERE id = ?"
+        );
+        $stmt2->bind_param("i", $id);
+        $stmt2->execute();
+        $stmt2->close();
+
+        $stmtDelete = $con->prepare("DELETE FROM reserva_mesas WHERE reserva_id = ?");
+        $stmtDelete->bind_param("i", $id);
+        $stmtDelete->execute();
+        $stmtDelete->close();
+
+        $stmtInsert = $con->prepare("INSERT INTO reserva_mesas (reserva_id, mesa_id) VALUES (?, ?)");
+        foreach ($mesasSelecionadas as $mesaId) {
+            $stmtInsert->bind_param("is", $id, $mesaId);
+            $stmtInsert->execute();
+        }
+        $stmtInsert->close();
+
+        $stmtMesaEstado = $con->prepare("UPDATE mesas SET estado = 'reservada' WHERE id = ?");
+        foreach ($mesasSelecionadas as $mesaId) {
+            $stmtMesaEstado->bind_param("s", $mesaId);
+            $stmtMesaEstado->execute();
+        }
+        $stmtMesaEstado->close();
+
+        mysqli_commit($con);
+    } catch (Throwable $e) {
+        mysqli_rollback($con);
+        redirect_with_alert('Erro ao confirmar reserva com mesas.');
+    }
 
     $envPath = $_SERVER['DOCUMENT_ROOT'] . "/Seguranca/config.env";
     $env = file_exists($envPath) ? parse_ini_file($envPath) : [];
@@ -78,11 +221,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
             "Cliente: {$reserva['nome']}\n" .
             "Data: {$reserva['data_reserva']}\n" .
             "Hora: {$reserva['hora_reserva']}\n" .
-            "Pessoas: {$reserva['numero_pessoas']}\n\n" .
+            "Pessoas: {$reserva['numero_pessoas']}\n" .
+            "Mesas: " . implode(', ', $mesasSelecionadas) . "\n\n" .
             "Sistema de Reservas - Cantinho Deolinda";
 
         $url = "https://graph.facebook.com/v20.0/{$phone_id}/messages";
-        $payload_dono = [
+        $payloadDono = [
             "messaging_product" => "whatsapp",
             "to" => $dono_numero,
             "type" => "text",
@@ -96,16 +240,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
             "Authorization: Bearer $token",
             "Content-Type: application/json"
         ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload_dono));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payloadDono));
         curl_exec($ch);
         curl_close($ch);
     }
 
     $para = $reserva['email'];
     $assunto = "Reserva Confirmada - Cantinho Deolinda";
-
-    $mensagem_email = "
-        Ola {$reserva['nome']},<br><br>
+    $mensagemEmail = "
+        Ol? {$reserva['nome']},<br><br>
         A sua reserva foi <strong>confirmada</strong>!<br><br>
         <strong>Data:</strong> {$reserva['data_reserva']}<br>
         <strong>Hora:</strong> {$reserva['hora_reserva']}<br>
@@ -117,15 +260,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
     $headers  = "MIME-Version: 1.0\r\n";
     $headers .= "Content-type: text/html; charset=UTF-8\r\n";
     $headers .= "From: Cantinho Deolinda <cantinhodeolina@gmail.com>\r\n";
+    mail($para, $assunto, $mensagemEmail, $headers);
 
-    mail($para, $assunto, $mensagem_email, $headers);
-
-    redirect_with_alert('Reserva confirmada! Email enviado ao cliente.');
+    redirect_with_alert('Reserva confirmada e mesas atribuídas com sucesso.');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recusar'])) {
     verify_csrf_or_fail();
     $id = (int)$_POST['recusar'];
+
+    $mesasDaReserva = [];
+    $stmtMesas = $con->prepare("SELECT mesa_id FROM reserva_mesas WHERE reserva_id = ?");
+    $stmtMesas->bind_param("i", $id);
+    $stmtMesas->execute();
+    $resMesas = $stmtMesas->get_result();
+    if ($resMesas) {
+        while ($rowMesa = $resMesas->fetch_assoc()) {
+            $mesaId = (string)($rowMesa['mesa_id'] ?? '');
+            if ($mesaId !== '') {
+                $mesasDaReserva[] = $mesaId;
+            }
+        }
+    }
+    $stmtMesas->close();
 
     $sql = "UPDATE reservas
             SET confirmado = -1,
@@ -137,6 +294,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recusar'])) {
     $stmt->execute();
     $stmt->close();
 
+    $stmtDeleteMesas = $con->prepare("DELETE FROM reserva_mesas WHERE reserva_id = ?");
+    $stmtDeleteMesas->bind_param("i", $id);
+    $stmtDeleteMesas->execute();
+    $stmtDeleteMesas->close();
+
+    if (count($mesasDaReserva) > 0) {
+        $stmtMesaLivre = $con->prepare("UPDATE mesas SET estado = 'livre' WHERE id = ?");
+        foreach ($mesasDaReserva as $mesaId) {
+            $stmtMesaLivre->bind_param("s", $mesaId);
+            $stmtMesaLivre->execute();
+        }
+        $stmtMesaLivre->close();
+    }
+
     redirect_with_alert('Reserva recusada!');
 }
 
@@ -145,7 +316,7 @@ $sql = "SELECT r.id, c.nome, c.email, r.data_reserva, r.hora_reserva, r.numero_p
         JOIN Cliente c ON r.cliente_id = c.id
         WHERE r.confirmado = 0
           AND r.estado = 'pendente'
-        ORDER BY r.data_reserva ASC";
+        ORDER BY r.data_reserva ASC, r.hora_reserva ASC";
 
 $result = $con->query($sql);
 $reservas = [];
@@ -159,163 +330,13 @@ if ($result && $result->num_rows > 0) {
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="../Imagens/logo.png">
+  <link rel="icon" type="image/png" href="../Imagens/logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmar Reservas</title>
   <link rel="stylesheet" href="../Css/admin.css">
   <link rel="stylesheet" href="../Css/bttlogin.css">
-  <style>
-    :root {
-      --bg: #0f1115;
-      --panel: #151922;
-      --panel-soft: #1b2130;
-      --text: #f2f4f8;
-      --muted: #b8c0d0;
-      --gold: #f4b942;
-      --line: rgba(255, 255, 255, 0.08);
-    }
+  <link rel="stylesheet" href="../Css/confirmar_reservas.css">
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Poppins", Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 14% 12%, rgba(244, 185, 66, 0.14), transparent 34%),
-        radial-gradient(circle at 92% 86%, rgba(244, 185, 66, 0.08), transparent 36%),
-        var(--bg);
-    }
-
-    .page {
-      width: min(1100px, 94vw);
-      margin: 34px auto 48px;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-      padding: 18px 20px;
-      border-radius: 16px;
-      background: linear-gradient(160deg, #1c2434, #131924);
-      border: 1px solid rgba(244, 185, 66, 0.25);
-      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.35);
-    }
-
-    .title h1 {
-      margin: 0;
-      font-size: clamp(1.35rem, 2.2vw, 1.85rem);
-      color: #ffe09a;
-    }
-
-    .title p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .back-link {
-      display: inline-block;
-      text-decoration: none;
-      color: #1d1406;
-      background: linear-gradient(135deg, #ffd67a, #f4b942);
-      border: 1px solid rgba(255, 234, 188, 0.6);
-      padding: 10px 14px;
-      border-radius: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .empty {
-      padding: 20px;
-      border-radius: 14px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--muted);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
-    }
-
-    .card {
-      background: linear-gradient(180deg, var(--panel-soft), var(--panel));
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.22);
-    }
-
-    .name {
-      margin: 0 0 4px;
-      font-size: 1.03rem;
-      color: #fff4d8;
-    }
-
-    .email {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      word-break: break-word;
-    }
-
-    .meta {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 14px;
-      font-size: 0.93rem;
-    }
-
-    .meta-line {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      padding-bottom: 6px;
-      border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-    }
-
-    .meta-line span:first-child { color: var(--muted); }
-    .meta-line span:last-child { color: var(--text); font-weight: 600; }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .action-form {
-      margin: 0;
-    }
-
-    .btn {
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 0.88rem;
-      padding: 9px 12px;
-      border: 1px solid transparent;
-      font-family: inherit;
-      cursor: pointer;
-      line-height: 1.1;
-    }
-
-    .btn-ok {
-      color: #082111;
-      background: linear-gradient(135deg, #6ff5a2, #2ecc71);
-      border-color: rgba(178, 255, 208, 0.6);
-    }
-
-    .btn-no {
-      color: #2a0c0c;
-      background: linear-gradient(135deg, #ff9595, #ff5c5c);
-      border-color: rgba(255, 192, 192, 0.7);
-    }
-  </style>
 </head>
 <body class="cdol-admin">
   <main class="page">
@@ -324,7 +345,7 @@ if ($result && $result->num_rows > 0) {
         <h1>Reservas pendentes</h1>
         <p>Confirme ou recuse os pedidos em espera.</p>
       </div>
-      <a class="back-link" href="../admin.php">&larr; Voltar ao Admin</a>
+      <a class="back-link" href="../admin.php">← Voltar ao Admin</a>
     </section>
 
     <?php if (count($reservas) === 0): ?>
@@ -332,47 +353,111 @@ if ($result && $result->num_rows > 0) {
     <?php else: ?>
       <section class="grid">
         <?php foreach ($reservas as $row): ?>
-          <article class="card">
-            <h2 class="name"><?php echo htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8'); ?></h2>
-            <p class="email"><?php echo htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></p>
-
-            <div class="meta">
-              <div class="meta-line">
-                <span>Data</span>
-                <span><?php echo htmlspecialchars($row['data_reserva'], ENT_QUOTES, 'UTF-8'); ?></span>
+          <?php $mesasLivres = get_available_mesas($con, (string)$row['data_reserva'], (string)$row['hora_reserva'], (int)$row['id']); ?>
+          <article class="card" data-reserva-id="<?php echo (int)$row['id']; ?>">
+            <div class="card-top">
+              <div>
+                <h2 class="name"><?php echo esc($row['nome']); ?></h2>
+                <p class="email"><?php echo esc($row['email']); ?></p>
               </div>
-              <div class="meta-line">
-                <span>Hora</span>
-                <span><?php echo htmlspecialchars($row['hora_reserva'], ENT_QUOTES, 'UTF-8'); ?></span>
-              </div>
-              <div class="meta-line">
-                <span>Pessoas</span>
-                <span><?php echo (int)$row['numero_pessoas']; ?></span>
+              <div class="card-right">
+                <span class="res-id">Reserva #<?php echo (int)$row['id']; ?></span>
+                <button
+                  type="button"
+                  class="card-toggle-btn"
+                  data-action="toggle-card"
+                  aria-expanded="true"
+                  aria-label="Minimizar reserva"
+                  title="Minimizar reserva"
+                >-</button>
               </div>
             </div>
 
-            <div class="actions">
-              <form method="post" class="action-form">
-                <?php echo csrf_input(); ?>
-                <button type="submit" class="btn btn-ok" name="confirmar" value="<?php echo (int)$row['id']; ?>">Confirmar</button>
-              </form>
-              <form method="post" class="action-form">
-                <?php echo csrf_input(); ?>
-                <button type="submit" class="btn btn-no" name="recusar" value="<?php echo (int)$row['id']; ?>">Recusar</button>
-              </form>
+            <div class="card-body">
+              <div class="meta">
+                <div class="meta-line">
+                  <span>Data</span>
+                  <span><?php echo esc($row['data_reserva']); ?></span>
+                </div>
+                <div class="meta-line">
+                  <span>Hora</span>
+                  <span><?php echo esc($row['hora_reserva']); ?></span>
+                </div>
+                <div class="meta-line">
+                  <span>Pessoas</span>
+                  <span><?php echo (int)$row['numero_pessoas']; ?></span>
+                </div>
+              </div>
+
+              <div class="actions">
+                <form method="post" class="action-form action-form-confirm" id="confirmForm-<?php echo (int)$row['id']; ?>">
+                  <?php echo csrf_input(); ?>
+                  <p class="mesa-help">Selecione uma ou mais mesas para compor a capacidade:</p>
+                  <?php if (count($mesasLivres) > 0): ?>
+                    <p class="mesa-summary"><?php echo count($mesasLivres); ?> mesas disponíveis</p>
+                    <div class="mesa-grid">
+                      <?php foreach ($mesasLivres as $mesa): ?>
+                        <label class="mesa-check">
+                          <input type="checkbox" name="mesas[]" value="<?php echo esc($mesa['id']); ?>">
+                          <span class="mesa-check-txt">
+                            <span class="mesa-check-id">Mesa <?php echo esc($mesa['id']); ?></span>
+                            <span class="mesa-check-cap"><?php echo (int)$mesa['capacidade']; ?> lugares</span>
+                          </span>
+                        </label>
+                      <?php endforeach; ?>
+                    </div>
+                  <?php else: ?>
+                    <p class="mesa-empty">Sem mesas disponíveis para este horário.</p>
+                  <?php endif; ?>
+                  <input type="hidden" name="confirmar" value="<?php echo (int)$row['id']; ?>">
+                </form>
+
+                <form method="post" class="action-form action-form-reject" id="rejectForm-<?php echo (int)$row['id']; ?>">
+                  <?php echo csrf_input(); ?>
+                  <input type="hidden" name="recusar" value="<?php echo (int)$row['id']; ?>">
+                </form>
+
+                <div class="action-buttons">
+                  <?php if (count($mesasLivres) > 0): ?>
+                    <button type="submit" class="btn btn-ok btn-decision" form="confirmForm-<?php echo (int)$row['id']; ?>">Confirmar</button>
+                  <?php else: ?>
+                    <button type="button" class="btn btn-ok btn-decision" disabled>Confirmar</button>
+                  <?php endif; ?>
+                  <button type="submit" class="btn btn-no btn-decision" form="rejectForm-<?php echo (int)$row['id']; ?>">Recusar</button>
+                </div>
+              </div>
             </div>
           </article>
         <?php endforeach; ?>
       </section>
     <?php endif; ?>
   </main>
+
   <div class="botoesNav" id="navFim">
-    <a href="../index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
-    <a href="../dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
-    <a href="../admin.php" id="btnAdmin" class="btt-padrao-login">&larr; Admin</a>
-    <a href="../admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">&larr; Todas as Reservas</a>
-    <a href="../admin_logs.php" id="btnLogs" class="btt-padrao-login">&larr; Logs</a>
-    <a href="../admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">&larr; Mapa de Mesas</a>
+    <a href="../index.php" id="btnInicio" class="btt-padrao-login">← Início</a>
+    <a href="../dashboard.php" id="btnDashboard" class="btt-padrao-login">← Dashboard</a>
+    <a href="../admin.php" id="btnAdmin" class="btt-padrao-login">← Admin</a>
+    <a href="../admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">← Todas as Reservas</a>
+    <a href="../admin_logs.php" id="btnLogs" class="btt-padrao-login">← Logs</a>
+    <a href="../admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">← Mapa de Mesas</a>
   </div>
+  <script>
+    (function () {
+      const cards = Array.from(document.querySelectorAll(".card"));
+      cards.forEach((card) => {
+        const btn = card.querySelector("[data-action='toggle-card']");
+        const body = card.querySelector(".card-body");
+        if (!btn || !body) return;
+          btn.addEventListener("click", () => {
+            const collapsed = card.classList.toggle("is-collapsed");
+            btn.textContent = collapsed ? "+" : "-";
+            btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+            btn.setAttribute("aria-label", collapsed ? "Expandir reserva" : "Minimizar reserva");
+            btn.setAttribute("title", collapsed ? "Expandir reserva" : "Minimizar reserva");
+          });
+      });
+    })();
+  </script>
 </body>
 </html>
+

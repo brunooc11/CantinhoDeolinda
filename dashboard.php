@@ -441,7 +441,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
     <div class="dashboard-header">
         <h1>Ola, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
-        <a href="index.php" id="bttInicio" class="btt-padrao-login">&larr; Voltar ao Inicio</a>
+        <a href="index.php" id="bttInicio" class="btt-padrao-login">← Voltar ao Inicio</a>
     </div>
 
     <div class="dashboard-menu">

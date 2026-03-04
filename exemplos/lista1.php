@@ -68,13 +68,13 @@ $resultado = mysqli_query($con, $sql);
             <td><?php echo $registo['ano']; ?></td>
             <td><?php echo $registo['turma']; ?></td>
             <td>
-              <!-- Botão Editar via POST -->
+              <!-- Bot�o Editar via POST -->
               <form method="POST" action="editar.php" style="display:inline;">
                   <input type="hidden" name="nr_proc" value="<?= $registo['nr_proc'] ?>">
                   <button type="submit" class="btn btn-sm btn-info">Editar</button>
               </form>
 
-              <!-- Botão Deletar -->
+              <!-- Bot�o Deletar -->
               <form method="POST" action="" style="display:inline;" 
                     onsubmit="return confirm('Deseja realmente deletar este aluno?')">
                 <input type="hidden" name="nr_proc" value="<?= $registo['nr_proc'] ?>">

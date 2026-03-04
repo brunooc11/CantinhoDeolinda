@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 
 if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
@@ -8,6 +8,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
 
 require("Bd/ligar.php");
 require_once("Bd/popup_helper.php");
+require_once("Bd/mesa_status_helper.php");
 
 function esc($value)
 {
@@ -17,6 +18,8 @@ function esc($value)
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
+
+cd_sync_mesa_states($con);
 
 function cd_csrf_token()
 {
@@ -126,6 +129,17 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
     $estado = $_POST['presenca'] === 'compareceu' ? 'compareceu' : 'nao_compareceu';
 
     cd_execute($con, "UPDATE reservas SET estado = ? WHERE id = ?", "si", $estado, $idReserva);
+    $estadoMesa = $estado === 'compareceu' ? 'ocupada' : 'livre';
+    cd_execute(
+        $con,
+        "UPDATE mesas m
+         JOIN reserva_mesas rm ON rm.mesa_id = m.id
+         SET m.estado = ?
+         WHERE rm.reserva_id = ?",
+        "si",
+        $estadoMesa,
+        $idReserva
+    );
 
     if ($estado === 'nao_compareceu') {
         $cli = cd_fetch_one($con, "SELECT cliente_id FROM reservas WHERE id = ?", "i", $idReserva);
@@ -158,9 +172,36 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
     exit();
 }
 
+if (isset($_POST['libertar_mesa']) && isset($_POST['reserva'])) {
+    cd_verify_csrf_or_fail();
+    $idReserva = intval($_POST['reserva']);
+
+    mysqli_begin_transaction($con);
+    try {
+        cd_execute(
+            $con,
+            "UPDATE mesas m
+             JOIN reserva_mesas rm ON rm.mesa_id = m.id
+             SET m.estado = 'livre'
+             WHERE rm.reserva_id = ?",
+            "i",
+            $idReserva
+        );
+        cd_execute($con, "DELETE FROM reserva_mesas WHERE reserva_id = ?", "i", $idReserva);
+        mysqli_commit($con);
+    } catch (Throwable $e) {
+        mysqli_rollback($con);
+    }
+
+    cd_admin_audit($con, 'libertar_mesa', 'reserva', $idReserva, 'libertacao_manual=1');
+    header("Location: admin_reservas.php");
+    exit();
+}
+
 $reservasRows = cd_fetch_all(
     $con,
-    "SELECT r.*, c.nome, c.email, c.telefone, r.criado_em AS criada_em_admin
+    "SELECT r.*, c.nome, c.email, c.telefone, r.criado_em AS criada_em_admin,
+            (SELECT COUNT(*) FROM reserva_mesas rm WHERE rm.reserva_id = r.id) AS mesas_associadas
      FROM reservas r
      JOIN Cliente c ON r.cliente_id = c.id
      ORDER BY r.data_reserva DESC, r.hora_reserva DESC"
@@ -185,7 +226,7 @@ $porPaginaLabel = 'Todas';
     <div class="admin-hero">
         <div>
             <h2>Todas as Reservas</h2>
-            <p>Hist&oacute;rico completo das reservas do sistema.</p>
+            <p>Histórico completo das reservas do sistema.</p>
         </div>
         <div class="admin-kpis">
             <div class="admin-kpi-card">
@@ -193,18 +234,18 @@ $porPaginaLabel = 'Todas';
                 <strong><?php echo $totalReservas; ?></strong>
             </div>
             <div class="admin-kpi-card">
-                <span>P&aacute;gina</span>
+                <span>Página</span>
                 <strong><?php echo $paginaAtual; ?>/<?php echo $totalPaginas; ?></strong>
             </div>
             <div class="admin-kpi-card">
-                <span>Por P&aacute;gina</span>
+                <span>Por Página</span>
                 <strong><?php echo esc($porPaginaLabel); ?></strong>
             </div>
         </div>
     </div>
 
     <section class="admin-section">
-        <h3>Gest&atilde;o Completa de Reservas</h3>
+        <h3>Gestão Completa de Reservas</h3>
         
 
         <div class="admin-search-bar">
@@ -213,7 +254,7 @@ $porPaginaLabel = 'Todas';
         </div>
         <div class="admin-filter-bar">
             <select id="adminReservasConfirmacaoFilter">
-                <option value="">Confirma&ccedil;&atilde;o: Todas</option>
+                <option value="">Confirmação: Todas</option>
                 <option value="confirmada">Confirmada</option>
                 <option value="pendente">Pendente</option>
                 <option value="recusada">Recusada</option>
@@ -223,15 +264,15 @@ $porPaginaLabel = 'Todas';
                 <option value="pendente">Pendente</option>
                 <option value="recusada">Recusada</option>
                 <option value="compareceu">Compareceu</option>
-                <option value="nao_compareceu">N&atilde;o compareceu</option>
+                <option value="nao_compareceu">Não compareceu</option>
                 <option value="perdoado(reset)">Perdoado (reset)</option>
             </select>
             <select id="adminReservasCriacaoPeriodoFilter">
                 <option value="">Criada em: Todos</option>
                 <option value="hoje">Hoje</option>
-                <option value="7">&Uacute;ltimos 7 dias</option>
-                <option value="30">&Uacute;ltimos 30 dias</option>
-                <option value="90">&Uacute;ltimos 90 dias</option>
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+                <option value="90">Últimos 90 dias</option>
             </select>
             <input type="date" id="adminReservasDataFromFilter" aria-label="Data reserva inicio">
             <input type="date" id="adminReservasDataToFilter" aria-label="Data reserva fim">
@@ -239,14 +280,14 @@ $porPaginaLabel = 'Todas';
         </div>
 
         <p class="admin-filter-help">
-            Dica: os dois campos de data filtram a <strong>Data da Reserva</strong> (in&iacute;cio e fim).
+            Dica: os dois campos de data filtram a <strong>Data da Reserva</strong> (início e fim).
             O filtro "Criada em" usa a data em que a reserva foi registada no sistema.
         </p>
 
         <div class="quick-date-buttons">
             <button type="button" class="btn quick-date-btn" id="adminReservasQuickHoje">Hoje</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuick7">&Uacute;ltimos 7 dias</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuick30">&Uacute;ltimos 30 dias</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuick7">Últimos 7 dias</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuick30">Últimos 30 dias</button>
             <button type="button" class="btn quick-date-btn" id="adminReservasExportCsvBtn">Exportar CSV</button>
         </div>
 
@@ -262,9 +303,9 @@ $porPaginaLabel = 'Todas';
                     <th>Hora Reserva</th>
                     <th>Pessoas</th>
                     <th>Criada em</th>
-                    <th>Confirma&ccedil;&atilde;o</th>
+                    <th>Confirmação</th>
                     <th>Estado</th>
-                    <th>A&ccedil;&atilde;o</th>
+                    <th>Ação</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -283,7 +324,7 @@ $porPaginaLabel = 'Todas';
                     } elseif ($r['estado'] === 'recusada') {
                         $estadoLabel = 'Recusada';
                     } elseif ($r['estado'] === 'nao_compareceu') {
-                        $estadoLabel = 'N&atilde;o compareceu';
+                        $estadoLabel = 'Não compareceu';
                     } elseif ($r['estado'] === 'perdoado(reset)') {
                         $estadoLabel = 'Perdoado (reset)';
                     } else {
@@ -332,10 +373,10 @@ $porPaginaLabel = 'Todas';
                                 <form method="post" class="admin-inline-form">
                                     <?php echo cd_csrf_input(); ?>
                                     <input type="hidden" name="reserva" value="<?php echo (int)$r['id']; ?>">
-                                    <button type="submit" class="action-btn danger" name="presenca" value="nao_compareceu">N&atilde;o compareceu</button>
+                                    <button type="submit" class="action-btn danger" name="presenca" value="nao_compareceu">Não compareceu</button>
                                 </form>
                             <?php else: ?>
-                                <span class="status-chip neutral">Sem a&ccedil;&otilde;es</span>
+                                <span class="status-chip neutral">Sem ações</span>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -347,15 +388,17 @@ $porPaginaLabel = 'Todas';
     </section>
 
     <div class="botoesNav" id="navFim">
-        <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
-        <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
-        <a href="admin.php" id="btnAdmin" class="btt-padrao-login">&larr; Admin</a>
-        <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">&larr; Confirmar Reservas</a>
-        <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">&larr; Logs</a>
-        <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">&larr; Mapa de Mesas</a>
+        <a href="index.php" id="btnInicio" class="btt-padrao-login">Início</a>
+        <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">Dashboard</a>
+        <a href="admin.php" id="btnAdmin" class="btt-padrao-login">Admin</a>
+        <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">Confirmar Reservas</a>
+        <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">Logs</a>
+        <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">Mapa de Mesas</a>
     </div>
 </div>
 <script src="Js/popup_alert.js"></script>
 <script src="Js/admin_search.js"></script>
 </body>
 </html>
+
+

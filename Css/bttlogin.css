@@ -90,3 +90,23 @@ body {
   outline: 2px solid #f5a623;
   outline-offset: 3px;
 }
+
+@media (max-width: 768px) {
+  body {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .btt-padrao-login {
+    position: static;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 12px;
+    padding: 10px 18px;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    max-width: calc(100vw - 24px);
+    text-align: center;
+  }
+}

@@ -44,7 +44,7 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
         <h2>7. Alterações</h2>
         <p>Esta política de privacidade pode ser atualizada periodicamente. As alterações serão publicadas nesta página.</p>
 
-        <a href="<?php echo $voltar; ?>" id="btt-politica" class="btt-padrao-login">Voltar</a><!-- Botão do codigo lá de cima: regressa à página anterior do utilizador -->
+        <a href="<?php echo $voltar; ?>" id="btt-politica" class="btt-padrao-login">Voltar</a><!-- Botão do código lá de cima: regressa à página anterior do utilizador -->
     </div>
 </body>
 </html>

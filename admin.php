@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 session_start();
 
 // Se não estiver logado
@@ -15,6 +15,7 @@ if ($_SESSION['permissoes'] !== 'admin') {
 
 require("Bd/ligar.php");
 require_once("Bd/popup_helper.php");
+require_once("Bd/mesa_status_helper.php");
 
 function esc($value)
 {
@@ -106,6 +107,7 @@ function cd_has_column($con, $table, $column)
 }
 
 $hasClienteUltimoLogin = cd_has_column($con, 'Cliente', 'ultimo_login');
+cd_sync_mesa_states($con);
 
 mysqli_query(
     $con,
@@ -162,6 +164,17 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
 
     // Atualiza o estado da reserva
     cd_execute($con, "UPDATE reservas SET estado = ? WHERE id = ?", "si", $estado, $idReserva);
+    $estadoMesa = $estado === 'compareceu' ? 'ocupada' : 'livre';
+    cd_execute(
+        $con,
+        "UPDATE mesas m
+         JOIN reserva_mesas rm ON rm.mesa_id = m.id
+         SET m.estado = ?
+         WHERE rm.reserva_id = ?",
+        "si",
+        $estadoMesa,
+        $idReserva
+    );
 
     // Se NÃO compareceu -> contar faltas
     if ($estado === 'nao_compareceu') {
@@ -195,6 +208,32 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
         cd_admin_audit($con, 'marcar_presenca', 'reserva', $idReserva, "estado={$estado}");
     }
 
+    header("Location: admin.php");
+    exit();
+}
+
+if (isset($_POST['libertar_mesa']) && isset($_POST['reserva'])) {
+    cd_verify_csrf_or_fail();
+    $idReserva = intval($_POST['reserva']);
+
+    mysqli_begin_transaction($con);
+    try {
+        cd_execute(
+            $con,
+            "UPDATE mesas m
+             JOIN reserva_mesas rm ON rm.mesa_id = m.id
+             SET m.estado = 'livre'
+             WHERE rm.reserva_id = ?",
+            "i",
+            $idReserva
+        );
+        cd_execute($con, "DELETE FROM reserva_mesas WHERE reserva_id = ?", "i", $idReserva);
+        mysqli_commit($con);
+    } catch (Throwable $e) {
+        mysqli_rollback($con);
+    }
+
+    cd_admin_audit($con, 'libertar_mesa', 'reserva', $idReserva, 'libertacao_manual=1');
     header("Location: admin.php");
     exit();
 }
@@ -314,7 +353,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="Imagens/logo.png">
-    <title>Painel de Administra&ccedil;&atilde;o</title>
+    <title>Painel de Administração</title>
     <link rel="stylesheet" href="Css/admin.css">
     <link rel="stylesheet" href="Css/bttlogin.css">
 </head>
@@ -324,8 +363,8 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
     <div class="container">
         <div class="admin-hero">
             <div>
-                <h2>Painel de Administra&ccedil;&atilde;o</h2>
-                <p>Gest&atilde;o central de clientes, reservas e estado do site.</p>
+                <h2>Painel de Administração</h2>
+                <p>Gestão central de clientes, reservas e estado do site.</p>
             </div>
             <div class="admin-kpis">
                 <div class="admin-kpi-card">
@@ -383,7 +422,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
             <select id="adminUsersListaNegraFilter">
                 <option value="">Lista Negra: Todos</option>
                 <option value="sim">Sim</option>
-                <option value="nao">N&atilde;o</option>
+                <option value="nao">Não</option>
             </select>
             <button type="button" class="btn admin-clear-btn" id="adminUsersClearBtn">Limpar</button>
         </div>
@@ -396,13 +435,13 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     <th>Email</th>
                     <th>Telefone</th>
                     <th>Data Registo</th>
-                    <th>&Uacute;ltimo Login</th>
+                    <th>Último Login</th>
                     <th>Estado</th>
                     <th>Tipo</th>
                     <th>Faltas</th>
                     <th>Lista Negra</th>
                     <th>Reset</th>
-                    <th>A&ccedil;&atilde;o</th>
+                    <th>Ação</th>
                     <th>Role</th>
                 </tr>
             </thead>
@@ -469,7 +508,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                 if ($user['lista_negra'] == 1) {
                     echo "<td><span class='status-chip bad'>Sim</span></td>";
                 } else {
-                    echo "<td><span class='status-chip ok'>N&atilde;o</span></td>";
+                    echo "<td><span class='status-chip ok'>Não</span></td>";
                 }
 
                 // Mostrar botão de reset se houver faltas
@@ -533,8 +572,8 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     <th>Email</th>
                     <th>Telefone</th>
                     <th>Faltas</th>
-                    <th>&Uacute;ltima Falta</th>
-                    <th>A&ccedil;&atilde;o</th>
+                    <th>Última Falta</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
@@ -591,14 +630,14 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
         </section>
 
         <section class="admin-section">
-        <h3>Gest&atilde;o de Reservas (&uacute;ltimas 30)</h3>
+        <h3>Gestão de Reservas (Últimas 30)</h3>
         <div class="admin-search-bar">
             <input type="text" id="adminReservasSearchInput" placeholder="Procurar reserva (id, cliente, data, hora...)">
             <button type="button" class="btn" id="adminReservasSearchBtn">Procurar</button>
         </div>
         <div class="admin-filter-bar">
             <select id="adminReservasConfirmacaoFilter">
-                <option value="">Confirma&ccedil;&atilde;o: Todas</option>
+                <option value="">Confirmação: Todas</option>
                 <option value="confirmada">Confirmada</option>
                 <option value="pendente">Pendente</option>
                 <option value="recusada">Recusada</option>
@@ -608,28 +647,28 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                 <option value="pendente">Pendente</option>
                 <option value="recusada">Recusada</option>
                 <option value="compareceu">Compareceu</option>
-                <option value="nao_compareceu">N&atilde;o compareceu</option>
+                <option value="nao_compareceu">Não compareceu</option>
                 <option value="perdoado(reset)">Perdoado (reset)</option>
             </select>
             <select id="adminReservasCriacaoPeriodoFilter">
                 <option value="">Criada em: Todos</option>
                 <option value="hoje">Hoje</option>
-                <option value="7">&Uacute;ltimos 7 dias</option>
-                <option value="30">&Uacute;ltimos 30 dias</option>
-                <option value="90">&Uacute;ltimos 90 dias</option>
+                <option value="7">Últimos 7 dias</option>
+                <option value="30">Últimos 30 dias</option>
+                <option value="90">Últimos 90 dias</option>
             </select>
             <input type="date" id="adminReservasDataFromFilter" aria-label="Data reserva inicio">
             <input type="date" id="adminReservasDataToFilter" aria-label="Data reserva fim">
             <button type="button" class="btn admin-clear-btn" id="adminReservasClearBtn">Limpar</button>
         </div>
         <p class="admin-filter-help">
-            Dica: os dois campos de data filtram a <strong>Data da Reserva</strong> (in&iacute;cio e fim).
+            Dica: os dois campos de data filtram a <strong>Data da Reserva</strong> (início e fim).
             O filtro "Criada em" usa a data em que a reserva foi registada no sistema.
         </p>
         <div class="quick-date-buttons">
             <button type="button" class="btn quick-date-btn" id="adminReservasQuickHoje">Hoje</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuick7">&Uacute;ltimos 7 dias</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuick30">&Uacute;ltimos 30 dias</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuick7">Últimos 7 dias</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuick30">Últimos 30 dias</button>
             <button type="button" class="btn quick-date-btn" id="adminReservasExportCsvBtn">Exportar CSV</button>
         </div>
 
@@ -645,9 +684,9 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     <th>Hora Reserva</th>
                     <th>Pessoas</th>
                     <th>Criada em</th>
-                    <th>Confirma&ccedil;&atilde;o</th>
+                    <th>Confirmação</th>
                     <th>Estado</th>
-                    <th>A&ccedil;&atilde;o</th>
+                    <th>Ação</th>
                 </tr>
             </thead>
             <tbody>
@@ -656,7 +695,8 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
             // Buscar apenas as últimas 30 reservas com dados do cliente
             $reservasRows = cd_fetch_all(
                 $con,
-                "SELECT r.*, c.nome, c.email, c.telefone, r.criado_em AS criada_em_admin
+                "SELECT r.*, c.nome, c.email, c.telefone, r.criado_em AS criada_em_admin,
+                       (SELECT COUNT(*) FROM reserva_mesas rm WHERE rm.reserva_id = r.id) AS mesas_associadas
                 FROM reservas r
                 JOIN Cliente c ON r.cliente_id = c.id
                 ORDER BY r.criado_em DESC
@@ -693,7 +733,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                 } elseif ($r['estado'] === 'recusada') {
                     $estadoLabel = 'Recusada';
                 } elseif ($r['estado'] === 'nao_compareceu') {
-                    $estadoLabel = 'N&atilde;o compareceu';
+                    $estadoLabel = 'Não compareceu';
                 } elseif ($r['estado'] === 'perdoado(reset)') {
                     $estadoLabel = 'Perdoado (reset)';
                 } else {
@@ -746,12 +786,12 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     echo "<form method='post' class='admin-inline-form'>";
                     echo cd_csrf_input();
                     echo "<input type='hidden' name='reserva' value='" . (int)$r['id'] . "'>";
-                    echo "<button type='submit' class='action-btn danger' name='presenca' value='nao_compareceu'>N&atilde;o Compareceu</button>";
+                    echo "<button type='submit' class='action-btn danger' name='presenca' value='nao_compareceu'>Não Compareceu</button>";
                     echo "</form>";
                 } else {
 
                     // Estado final -> Não mostrar botões
-                    echo "<span class='status-chip neutral'>Sem a&ccedil;&otilde;es</span>";
+                    echo "<span class='status-chip neutral'>Sem ações</span>";
                 }
 
                 echo "</td>";
@@ -767,7 +807,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
         </section>
 
         <section class="admin-section">
-        <h3>Auditoria Admin (&uacute;ltimas 30)</h3>
+        <h3>Auditoria Admin (Últimas 30)</h3>
         <div class="admin-table-wrap">
         <table id="adminAuditTable" class="admin-table">
             <thead>
@@ -775,7 +815,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     <th>ID</th>
                     <th>Data/Hora</th>
                     <th>Admin</th>
-                    <th>A&ccedil;&atilde;o</th>
+                    <th>Ação</th>
                     <th>Alvo</th>
                     <th>Nome</th>
                     <th>Email</th>
@@ -839,12 +879,12 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 
 
         <div class="botoesNav" id="navFim">
-            <a href="index.php" id="btnInicio" class="btt-padrao-login">&larr; In&iacute;cio</a>
-            <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">&larr; Dashboard</a>
-            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">&larr; Confirmar Reservas</a>
-            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">&larr; Todas as Reservas</a>
-            <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">&larr; Logs</a>
-            <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">&larr; Mapa de Mesas</a>
+            <a href="index.php" id="btnInicio" class="btt-padrao-login">Início</a>
+            <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">Dashboard</a>
+            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">Confirmar Reservas</a>
+            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">Todas as Reservas</a>
+            <a href="admin_logs.php" id="btnLogs" class="btt-padrao-login">Logs</a>
+            <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">Mapa de Mesas</a>
         </div>
 
     </div>
