@@ -352,7 +352,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="Imagens/logo.png">
+    <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
     <title>Painel de Administração</title>
     <link rel="stylesheet" href="Css/admin.css">
     <link rel="stylesheet" href="Css/bttlogin.css">

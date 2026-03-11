@@ -39,7 +39,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/scroll_reveal.css">
 
 
-  <link rel="icon" type="image/png" href="Imagens/logo.png">
+  <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 
@@ -593,7 +593,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         </div>
 
         <!-- ABOUT -->
-        <div class="prefooter-col">
+        <div class="prefooter-col prefooter-col-links">
           <h4>Sobre Nós</h4>
           <ul>
             <li><a href="#">Sobre Nós</a></li>
@@ -604,18 +604,13 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         </div>
 
         <!-- RESOURCES -->
-        <div class="prefooter-col">
+        <div class="prefooter-col prefooter-col-social">
           <h4>Recursos</h4>
           <ul>
             <li><a href="Recursos/termos.php">Termos</a></li>
             <li><a href="Recursos/ajuda.php">Ajuda</a></li>
             <li><a href="Recursos/politica.php">Privacidade</a></li>
           </ul>
-        </div>
-
-        <!-- CONTACT -->
-        <div class="prefooter-col">
-          <h4>Contacto</h4>
 
           <!-- ÍCONES SOCIAIS -->
           <div class="pf-icons">

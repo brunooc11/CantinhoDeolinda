@@ -1,31 +1,282 @@
-    body { 
-            font-family: "Poppins", Arial, sans-serif;
-            text-align: center; 
-            padding-top: 120px; 
-            background: #0d0d0d;
-            color: #ffcc33;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+    font-family: "Poppins", Arial, sans-serif;
+    background:
+        radial-gradient(circle at 12% 12%, rgba(255, 203, 83, 0.24), transparent 26%),
+        radial-gradient(circle at 88% 84%, rgba(255, 203, 83, 0.14), transparent 24%),
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.03), transparent 45%),
+        linear-gradient(155deg, #09101a, #070c14 52%, #05080f);
+    color: #f6ecd2;
+    overflow: hidden;
+}
 
-        h1 {
-            font-size: 40px;
-            text-shadow: 0 0 10px rgba(255, 204, 51, 0.3),
-                         0 0 20px rgba(255, 204, 51, 0.15);
-            margin-bottom: 20px;
-        }
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: auto;
+    pointer-events: none;
+    opacity: 0.5;
+}
 
-        p {
-            font-size: 20px;
-            color: #e6b84a;
-            margin-bottom: 15px;
-        }
+body::before {
+    top: -120px;
+    left: -120px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 216, 112, 0.12), transparent 68%);
+    filter: blur(8px);
+}
 
-        /* link igual ao texto — completamente transparente visualmente */
-        .admin-inline {
-            color: inherit;         /* mesma cor do texto */
-            font: inherit;          /* mesmo tipo de letra */
-            text-decoration: none;  /* sem underline */
-        }
-        .admin-inline:hover {
-            color: inherit;         /* n�o muda ao passar o rato */
-            text-decoration: none;  /* n�o aparece nada */
-        }
+body::after {
+    right: -140px;
+    bottom: -140px;
+    width: 360px;
+    height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 216, 112, 0.08), transparent 70%);
+    filter: blur(10px);
+}
+
+.manut-shell {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+.manut-card {
+    width: min(780px, 100%);
+    padding: 42px 48px 54px;
+    border-radius: 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(145deg, rgba(20, 28, 39, 0.97), rgba(9, 14, 23, 0.985)),
+        radial-gradient(circle at top right, rgba(255, 204, 51, 0.12), transparent 30%);
+    border: 1px solid rgba(255, 204, 51, 0.16);
+    box-shadow:
+        0 34px 72px rgba(0, 0, 0, 0.46),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.manut-accent {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(220px, 44%);
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255, 223, 136, 0), rgba(255, 223, 136, 0.95), rgba(255, 223, 136, 0));
+    box-shadow: 0 0 18px rgba(255, 223, 136, 0.35);
+}
+
+.manut-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.06) 44%, transparent 100%);
+    opacity: 0.38;
+    pointer-events: none;
+}
+
+.manut-card::after {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+}
+
+.manut-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent 75%);
+    opacity: 0.24;
+    pointer-events: none;
+}
+
+.manut-orb {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(10px);
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.manut-orb-left {
+    width: 180px;
+    height: 180px;
+    top: -38px;
+    left: -42px;
+    background: radial-gradient(circle, rgba(255, 211, 101, 0.24), rgba(255, 211, 101, 0.02) 70%);
+}
+
+.manut-orb-right {
+    width: 220px;
+    height: 220px;
+    right: -72px;
+    bottom: -70px;
+    background: radial-gradient(circle, rgba(255, 211, 101, 0.16), rgba(255, 211, 101, 0.02) 72%);
+}
+
+.manut-kicker {
+    margin: 0 0 18px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+    color: #d9b15d;
+    position: relative;
+    z-index: 1;
+}
+
+.manut-status {
+    width: fit-content;
+    margin: 0 auto 30px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #f4e4be;
+    background: rgba(255, 214, 106, 0.08);
+    border: 1px solid rgba(255, 214, 106, 0.16);
+    backdrop-filter: blur(8px);
+    position: relative;
+    z-index: 1;
+}
+
+.manut-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffd76c;
+    box-shadow: 0 0 0 6px rgba(255, 215, 108, 0.14);
+    animation: manut-pulse 1.8s ease-in-out infinite;
+}
+
+.manut-card h1 {
+    margin: 0 0 22px;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.6rem, 4.8vw, 4.3rem);
+    line-height: 1;
+    letter-spacing: -0.4px;
+    color: #fff7e4;
+    text-shadow: 0 10px 26px rgba(0, 0, 0, 0.34);
+    position: relative;
+    z-index: 1;
+}
+
+.manut-lead {
+    margin: 0 auto 16px;
+    max-width: 580px;
+    font-size: 1.12rem;
+    color: #f0e1bf;
+    line-height: 1.9;
+    position: relative;
+    z-index: 1;
+}
+
+.manut-note {
+    margin: 0 auto;
+    max-width: 500px;
+    font-size: 0.97rem;
+    color: #cdbb93;
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+}
+
+.manut-actions {
+    margin-top: 36px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.manut-admin-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 240px;
+    padding: 15px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.55px;
+    color: #1f1304;
+    background:
+        radial-gradient(circle at 30% 28%, rgba(255, 251, 232, 0.82), rgba(255, 251, 232, 0.18) 32%, transparent 33%),
+        linear-gradient(135deg, #ffdf88, #f3b52b);
+    box-shadow:
+        0 14px 28px rgba(165, 104, 11, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease, letter-spacing 0.22s ease;
+}
+
+.manut-admin-link:hover {
+    transform: translateY(-2px) scale(1.01);
+    filter: brightness(1.03);
+    letter-spacing: 0.62px;
+    box-shadow:
+        0 20px 36px rgba(165, 104, 11, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.48);
+}
+
+.manut-admin-link:focus-visible {
+    outline: 2px solid rgba(255, 223, 136, 0.95);
+    outline-offset: 4px;
+}
+
+@keyframes manut-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 215, 108, 0.2);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 8px rgba(255, 215, 108, 0.06);
+    }
+}
+
+@media (max-width: 640px) {
+    .manut-shell {
+        padding: 18px;
+    }
+
+    .manut-card {
+        padding: 26px 22px 34px;
+        border-radius: 24px;
+    }
+
+    .manut-accent {
+        width: 160px;
+    }
+
+    .manut-status {
+        font-size: 0.8rem;
+        gap: 8px;
+    }
+
+    .manut-admin-link {
+        width: 100%;
+        min-width: 0;
+    }
+}

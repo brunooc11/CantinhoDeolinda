@@ -216,7 +216,7 @@ $porPaginaLabel = 'Todas';
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="Imagens/logo.png">
+    <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
     <title>Todas as Reservas - Admin</title>
     <link rel="stylesheet" href="Css/admin.css">
     <link rel="stylesheet" href="Css/bttlogin.css">

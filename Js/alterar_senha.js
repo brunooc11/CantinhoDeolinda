@@ -3,10 +3,6 @@ function toggleFormSenha() {
     form.classList.toggle('aberto');
 }
 
-function confirmarExclusao() {
-    return confirm('Tem certeza que deseja excluir sua conta? Esta acao nao pode ser desfeita.');
-}
-
 (function initAlterarSenhaUI() {
     function setupSenhaUI() {
         const senhaAtualInput = document.querySelector('input[name="senha_atual"]');

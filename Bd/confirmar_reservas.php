@@ -330,7 +330,7 @@ if ($result && $result->num_rows > 0) {
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="../Imagens/logo.png">
+  <link rel="icon" type="image/png" href="../Imagens/logo_atual.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmar Reservas</title>
   <link rel="stylesheet" href="../Css/admin.css">

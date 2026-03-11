@@ -29,7 +29,7 @@ function dash_verify_csrf_or_fail(): void
     $token = (string)($_POST['csrf_token'] ?? '');
     $sessionToken = dash_csrf_token();
     if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
-        cd_popup('Pedido invalido (CSRF). Atualize a pagina e tente novamente.', 'error', 'dashboard.php');
+        cd_popup('Pedido inválido (CSRF). Atualize a página e tente novamente.', 'error', 'dashboard.php');
         exit();
     }
 }
@@ -68,7 +68,7 @@ mysqli_stmt_close($stmtPopup);
 if ($temAceite || $temRecusada) {
 
     if ($temAceite && $temRecusada) {
-        $msg = "Tem atualizacoes nas suas reservas.\n\n"
+        $msg = "Tem atualizações nas suas reservas.\n\n"
             . "Algumas reservas foram confirmadas.\n"
             . "Algumas reservas foram recusadas.";
     } elseif ($temAceite) {
@@ -127,13 +127,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
     if (empty($senha_atual) || empty($nova_senha) || empty($confirmar_senha)) {
         $mensagem = "Por favor, preencha todos os campos.";
     } elseif ($nova_senha !== $confirmar_senha) {
-        $mensagem = "As novas palavras-passe nao coincidem.";
+        $mensagem = "As novas palavras-passe não coincidem.";
     } else {
         $id = $_SESSION['id'];
         $query = "SELECT password FROM Cliente WHERE id = ?";
         $stmt = mysqli_prepare($con, $query);
         if (!$stmt) {
-            die("Erro na preparacao da query: " . mysqli_error($con));
+            die("Erro na preparação da query: " . mysqli_error($con));
         }
 
         mysqli_stmt_bind_param($stmt, "i", $id);
@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
         mysqli_stmt_close($stmt);
 
         if (!password_verify($senha_atual, $senha_bd)) {
-            $mensagem = "A palavra-passe atual esta incorreta.";
+            $mensagem = "A palavra-passe atual está incorreta.";
         } else {
             // Atualiza a password
             $nova_hash = password_hash($nova_senha, PASSWORD_DEFAULT);
@@ -297,11 +297,11 @@ if (isset($_GET['erro']) && $_GET['erro'] == 1) {
 }
 
 if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'final_2h') {
-    cd_popup('Cancelamento online indisponivel nas 2h finais. Contacte: +351 966 545 510.', 'error');
+    cd_popup('Cancelamento online indisponível nas 2h finais. Contacte: +351 966 545 510.', 'error');
 }
 
 if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'apos_horario') {
-    cd_popup('Nao e possivel cancelar apos o horario da reserva.', 'error');
+    cd_popup('Não é possível cancelar após o horário da reserva.', 'error');
 }
 
 if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'prazo') {
@@ -309,7 +309,7 @@ if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'prazo')
 }
 
 if (isset($_GET['erro_cancelamento']) && $_GET['erro_cancelamento'] === 'nao_encontrada') {
-    cd_popup('Reserva nao encontrada.', 'error');
+    cd_popup('Reserva não encontrada.', 'error');
 }
 
 if ($temTabelaFavoritos && $temColunaNomeFavorito) {
@@ -430,7 +430,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="Imagens/logo.png">
+    <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
     <title>Dashboard - Cantinho_Deolinda</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="Css/dashboard.css">
@@ -440,8 +440,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 <body class="cdol-dash">
 
     <div class="dashboard-header">
-        <h1>Ola, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
-        <a href="index.php" id="bttInicio" class="btt-padrao-login">← Voltar ao Inicio</a>
+        <h1>Olá, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
+        <a href="index.php" id="bttInicio" class="btt-padrao-login">&larr; Voltar ao Início</a>
     </div>
 
     <div class="dashboard-menu">
@@ -479,7 +479,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     <button type="submit" name="logout" class="btt-sair" id="bttsair">Sair</button>
                 </form>
 
-                <form method="POST" onsubmit="return confirmarExclusao();">
+                <form method="POST" onsubmit="return confirmarExclusao(event);">
                     <?php echo dash_csrf_input(); ?>
                     <button type="submit" name="excluir" class="btn btn-excluir" id="btt_excluir_conta">
                         Excluir Conta
@@ -518,7 +518,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                             <span>Confirmar nova palavra-passe</span>
                             <div class="senha-input-wrap">
                                 <input id="confirmarSenhaInput" type="password" name="confirmar_senha" placeholder="Confirme a nova palavra-passe" required>
-                                <button type="button" class="senha-toggle" data-target="confirmarSenhaInput" aria-label="Mostrar ou ocultar confirmacao da palavra-passe">
+                                <button type="button" class="senha-toggle" data-target="confirmarSenhaInput" aria-label="Mostrar ou ocultar confirmação da palavra-passe">
                                     <i class="fa-regular fa-eye"></i>
                                 </button>
                             </div>
@@ -526,13 +526,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     </div>
 
                     <ul class="senha-checklist" id="senhaChecklist" aria-live="polite">
-                        <li id="ruleLength">Minimo 8 caracteres</li>
-                        <li id="ruleUpper">Tem letra maiuscula</li>
-                        <li id="ruleLower">Tem letra minuscula</li>
-                        <li id="ruleNumber">Tem numero</li>
-                        <li id="ruleSymbol">Tem simbolo (!@#...)</li>
+                        <li id="ruleLength">Mínimo 8 caracteres</li>
+                        <li id="ruleUpper">Tem letra maiúscula</li>
+                        <li id="ruleLower">Tem letra minúscula</li>
+                        <li id="ruleNumber">Tem número</li>
+                        <li id="ruleSymbol">Tem símbolo (!@#...)</li>
                         <li id="ruleCurrentMatch">Palavra-passe atual correta</li>
-                        <li id="ruleMatch">Confirmacao coincide</li>
+                        <li id="ruleMatch">Confirmação coincide</li>
                     </ul>
 
                     <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
@@ -562,8 +562,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                             <th>Data</th>
                             <th>Hora</th>
                             <th>Pessoas</th>
-                            <th>Confirmacao</th>
-                            <th>Acoes</th>
+                            <th>Confirmação</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
 
@@ -619,7 +619,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     </table>
                 </div>
             <?php else: ?>
-                <p>Ainda nao ha reservas.</p>
+                <p>Ainda não há reservas.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -630,7 +630,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             <div class="favoritos-header">
                 <h3>Meus Favoritos</h3>
                 <?php if (!empty($favoritos)): ?>
-                    <form method="POST" class="favoritos-header-form" onsubmit="return confirm('Tem a certeza que quer remover todos os favoritos?');">
+                    <form method="POST" class="favoritos-header-form" onsubmit="return confirmarRemoverTodosFavoritos(event);">
                         <?php echo dash_csrf_input(); ?>
                         <button type="submit" name="remover_todos_favoritos" class="btn-remover-todos-fav">
                             <i class="fa-solid fa-trash-can"></i> Remover todos
@@ -659,7 +659,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <p>Ainda nao ha favoritos.</p>
+                <p>Ainda não há favoritos.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -667,7 +667,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <div id="Pedidos" class="tabcontent">
         <div class="card">
             <h3>Meus Pedidos</h3>
-            <p>Ainda nao ha pedidos.</p>
+            <p>Ainda não há pedidos.</p>
         </div>
     </div>
 

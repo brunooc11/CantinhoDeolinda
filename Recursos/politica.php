@@ -10,7 +10,7 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="../Imagens/logo.png">
+    <link rel="icon" type="image/png" href="../Imagens/logo_atual.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Política de Privacidade - Cantinho_Deolinda</title>
     <link rel="stylesheet" href="../Css/home.css">
