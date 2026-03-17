@@ -12,6 +12,16 @@
   justify-content: center;
 }
 
+.reserva-modal.aberto {
+  display: flex;
+  animation: reservaOverlayIn 0.25s ease;
+}
+
+.reserva-modal.fechando {
+  display: flex;
+  animation: reservaOverlayOut 0.25s ease forwards;
+}
+
 .reserva-modal-content {
   width: min(460px, 96vw);
   max-height: 92vh;
@@ -26,6 +36,28 @@
   animation: reservaModalIn 0.25s ease;
 }
 
+.reserva-modal.fechando .reserva-modal-content {
+  animation: reservaModalOut 0.25s ease forwards;
+}
+
+@keyframes reservaOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes reservaOverlayOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes reservaModalIn {
   from {
     opacity: 0;
@@ -35,6 +67,17 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes reservaModalOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
   }
 }
 

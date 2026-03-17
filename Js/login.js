@@ -259,7 +259,7 @@ function updateCountryFlag() {
     telefoneInput.maxLength = rule.max;
     telefoneInput.pattern = `[0-9]{${rule.min},${rule.max}}`;
     telefoneInput.title = `Numero local: ${rule.min} a ${rule.max} digitos`;
-    telefoneInput.placeholder = `Numero (${rule.min}-${rule.max} digitos)`;
+    telefoneInput.placeholder = `${rule.min}-${rule.max} digitos`;
 
     const digits = telefoneInput.value.replace(/\D/g, '');
     telefoneInput.value = digits.slice(0, rule.max);

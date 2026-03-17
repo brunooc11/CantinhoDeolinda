@@ -1,68 +1,111 @@
 .catering {
-  background-color: #161718;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(244, 185, 66, 0.1), transparent 26%),
+    radial-gradient(circle at 88% 80%, rgba(244, 185, 66, 0.08), transparent 30%),
+    linear-gradient(180deg, #121314, #191919 52%, #111111);
   color: #fff;
-  padding: 100px 8%;
+  padding: 124px 8%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .catering-wrapper {
   display: flex;
-  gap: 80px;
+  gap: 72px;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: left;
-  max-width: 1200px;
+  max-width: 1240px;
+  width: 100%;
+}
+
+.catering-info {
+  flex: 1 1 620px;
 }
 
 .catering-info h5 {
   color: #f4b942;
   text-transform: uppercase;
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
 }
 
 .catering-info h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.4rem, 3.8vw, 3.8rem);
+  font-weight: 700;
   margin-bottom: 20px;
+  max-width: 680px;
+  line-height: 1.08;
+  color: #fff8e9;
 }
 
 .catering-info p {
-  max-width: 550px;
-  color: #cfcfcf;
-  line-height: 1.6;
+  max-width: 700px;
+  color: #ddd2bf;
+  line-height: 1.9;
+  font-size: 1.08rem;
+  margin-bottom: 26px;
+}
+
+.catering-info::after {
+  content: "";
+  display: block;
+  width: 88px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f4b942, rgba(244, 185, 66, 0.1));
+}
+
+.catering::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1080px, 88%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(244, 185, 66, 0.2), transparent);
 }
 
 .catering-box {
-  background: #0f0f0f;
-  padding: 40px;
-  border-radius: 20px;
+  background: linear-gradient(180deg, #171717, #101010);
+  padding: 36px 28px 34px;
+  border-radius: 26px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  max-width: 320px;
+  box-shadow: 0 26px 48px rgba(0, 0, 0, 0.42);
+  max-width: 350px;
+  min-height: 380px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(244, 185, 66, 0.14);
+  border: 1px solid rgba(244, 185, 66, 0.18);
   transition: 0.3s ease;
+  flex: 0 1 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .catering-box::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(130deg, rgba(244, 185, 66, 0.14), transparent 45%);
+  background: linear-gradient(145deg, rgba(244, 185, 66, 0.18), transparent 46%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
 .catering-box:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.45);
-  border-color: rgba(244, 185, 66, 0.34);
+  transform: translateY(-6px);
+  box-shadow: 0 30px 54px rgba(0, 0, 0, 0.48);
+  border-color: rgba(244, 185, 66, 0.36);
 }
 
 .catering-box:hover::before {
@@ -70,40 +113,45 @@
 }
 
 .catering-box img {
-  width: 100%;
-  border-radius: 15px;
-  margin-bottom: 20px;
+  width: 128px;
+  height: 128px;
+  object-fit: contain;
+  margin-bottom: 8px;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .catering-box:hover img {
-  transform: scale(1.02);
+  transform: scale(1.04);
   filter: saturate(1.06);
 }
 
 .catering-box p {
-  font-size: 0.95rem;
-  color: #ddd;
-  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #ece0ca;
+  margin: 0 0 6px;
+  line-height: 1.7;
+  flex: 0 1 auto;
+  max-width: 250px;
 }
 
 .catering-box button {
-  background: #f4b942;
+  background: linear-gradient(135deg, #ffd67a, #f4b942);
   border: none;
-  padding: 12px 24px;
-  color: #000;
-  font-weight: bold;
-  border-radius: 8px;
+  padding: 13px 22px;
+  color: #181006;
+  font-weight: 700;
+  border-radius: 999px;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  box-shadow: 0 14px 24px rgba(108, 67, 8, 0.28);
+  margin-top: 4px;
 }
 
 .catering-box button:hover {
-  background: #ffd062;
-  transform: scale(1.05);
+  filter: brightness(1.04);
+  transform: translateY(-2px);
 }
 
-/* Responsivo */
 @media (max-width: 900px) {
   .catering-wrapper {
     flex-direction: column;
@@ -113,9 +161,14 @@
 
   .catering-info h2 {
     font-size: 2rem;
+    max-width: none;
   }
 
   .catering-info p {
     max-width: 100%;
+  }
+
+  .catering-info::after {
+    margin: 0 auto;
   }
 }

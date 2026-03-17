@@ -1,15 +1,21 @@
-/* Cantinho Deolinda – Trust Section */
+body {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+/* Cantinho Deolinda - Trust Section */
 .cd-trust {
-  margin: 90px auto;
+  margin: 0 auto;
   max-width: 1100px;
   text-align: center;
 }
 
 .cd-trust-title {
-  color: #f5b631;
-  font-size: 32px;
+  color: #f9d37a;
+  font-size: clamp(2rem, 3vw, 2.7rem);
   letter-spacing: 0.6px;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
   font-weight: 700;
 }
 
@@ -23,55 +29,103 @@
   border-radius: 3px;
 }
 
+.cd-trust-subtitle {
+  max-width: 640px;
+  margin: 0 auto 40px;
+  color: #dfd4c2;
+  font-size: 1rem;
+  line-height: 1.7;
+}
 
 .cd-trust-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
 }
 
 .cd-trust-card {
-  background: #1b1b1b;
-  border-radius: 18px;
-  padding: 35px 25px;
-  border: 1px solid rgba(245,182,49,0.35);
-  box-shadow: 0 0 25px rgba(245,182,49,0.15);
-  transition: transform 0.3s ease;
-  justify-content: center;
-  gap: 10px;
+  background: linear-gradient(180deg, rgba(29, 29, 29, 0.96), rgba(19, 19, 19, 0.96));
+  border-radius: 22px;
+  padding: 30px 24px;
+  border: 1px solid rgba(245, 182, 49, 0.22);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 220px;
 }
 
 .cd-trust-card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 26px 40px rgba(0, 0, 0, 0.35);
+  border-color: rgba(245, 182, 49, 0.42);
 }
 
 .cd-trust-icon {
-  font-size: 36px;
+  width: 68px;
+  height: 68px;
+  display: inline-block;
+  position: relative;
+  font-size: 28px;
   color: #f5b631;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 215, 135, 0.28), rgba(245, 182, 49, 0.08));
+  border: 1px solid rgba(245, 182, 49, 0.24);
+  line-height: 68px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.cd-trust-icon::before {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transform: translateY(1px);
+}
+
+.cd-trust-icon.fa-star::before {
+  transform: translateY(2px);
 }
 
 .cd-trust-heading {
   color: #f5b631;
-   font-size: 18px;;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
 }
 
 .cd-trust-text {
-  color: #ccc;
-  font-size: 13px;
-  opacity: 0.85;
+  color: #d6cfc2;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  opacity: 0.92;
 }
 
-/* Banner largo de fundo */
 .cd-trust-strip {
   width: 100%;
-  background: linear-gradient(135deg, #111, #1b1b1b);
-  padding: 60px 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(245, 182, 49, 0.1), transparent 30%),
+    radial-gradient(circle at 80% 100%, rgba(245, 182, 49, 0.08), transparent 32%),
+    linear-gradient(135deg, #101010, #191919);
+  padding: 88px 0;
 }
 
-/* Conte�do centrado */
 .cd-trust-strip-inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
+}
+
+@media (max-width: 700px) {
+  .cd-trust-strip {
+    padding: 72px 0;
+  }
+
+  .cd-trust-strip-inner {
+    padding: 0 20px;
+  }
 }

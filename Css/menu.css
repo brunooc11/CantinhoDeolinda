@@ -1,8 +1,11 @@
 .menu-categorias {
   text-align: center;
-  padding: 96px 20px;
-  background: linear-gradient(180deg, #090909, #0f0f0f);
+  padding: 92px 20px 104px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(244, 185, 66, 0.08), transparent 20%),
+    linear-gradient(180deg, #0f0f0f, #131313);
   color: #fff;
+  position: relative;
 }
 
 .menu-categorias h2 {
@@ -16,6 +19,15 @@
   font-size: 1.06rem;
   margin-bottom: 34px;
   color: #e8dcc0;
+}
+
+.menu-categorias::before {
+  content: "";
+  display: block;
+  width: min(1080px, 88%);
+  height: 1px;
+  margin: 0 auto 34px;
+  background: linear-gradient(90deg, transparent, rgba(244, 185, 66, 0.22), transparent);
 }
 
 .menu-tabs {
@@ -51,6 +63,11 @@
   animation: fadeIn 0.34s ease-in-out;
 }
 
+.menu-content.closing {
+  display: block;
+  animation: fadeOut 0.26s ease forwards;
+}
+
 .menu-content.active {
   display: block;
 }
@@ -67,7 +84,7 @@
 .item {
   background: linear-gradient(180deg, #1d1a15, #15120f);
   border-radius: 16px;
-  padding: 18px;
+  padding: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
   border: 1px solid rgba(244, 185, 66, 0.2);
   text-align: left;
@@ -76,6 +93,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.item p {
+  margin-top: 14px;
+  color: #c9baa1;
+  line-height: 1.6;
 }
 
 .item:hover {
@@ -170,5 +193,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
   }
 }

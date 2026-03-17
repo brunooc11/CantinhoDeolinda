@@ -14,22 +14,35 @@ document.addEventListener("DOMContentLoaded", function () {
   const minInput = document.getElementById("minInput");
   const confirmBtn = document.getElementById("confirmBtn");
 
+  function abrirModalReserva() {
+    if (!modal) return;
+    modal.classList.remove("fechando");
+    modal.classList.add("aberto");
+  }
+
+  function fecharModalReserva() {
+    if (!modal || !modal.classList.contains("aberto") || modal.classList.contains("fechando")) {
+      return;
+    }
+    modal.classList.add("fechando");
+  }
+
   // Esconde o modal inicialmente
   if (modal) {
-    modal.style.display = "none";
+    modal.classList.remove("aberto", "fechando");
   }
 
   if (btn && modal) {
     btn.addEventListener("click", function (event) {
       event.preventDefault();
-      modal.style.display = "flex";
+      abrirModalReserva();
     });
   }
 
   if (modal) {
     const params = new URLSearchParams(window.location.search);
     if (params.get("abrir_reserva") === "1") {
-      modal.style.display = "flex";
+      abrirModalReserva();
 
       // Limpa o parametro para evitar reabrir no refresh
       if (window.history && window.history.replaceState) {
@@ -43,15 +56,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (closeBtn && modal) {
     closeBtn.addEventListener("click", function () {
-      modal.style.display = "none";
+      fecharModalReserva();
     });
   }
 
   window.addEventListener("click", function (event) {
     if (modal && event.target === modal) {
-      modal.style.display = "none";
+      fecharModalReserva();
     }
   });
+
+  if (modal) {
+    const modalContent = modal.querySelector(".reserva-modal-content");
+    if (modalContent) {
+      modalContent.addEventListener("animationend", function (event) {
+        if (event.animationName === "reservaModalOut") {
+          modal.classList.remove("aberto", "fechando");
+        }
+      });
+    }
+  }
 
   // -------------------------------
   // Validacoes de data/hora

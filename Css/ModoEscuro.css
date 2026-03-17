@@ -452,7 +452,11 @@ body.claro .fav-btn {
 }
 
 body.claro .banner {
-  background: linear-gradient(135deg, #f5e5cb, #ecd2ad);
+  background:
+    radial-gradient(circle at 22% 28%, rgba(244, 185, 66, 0.12), transparent 22%),
+    radial-gradient(circle at 82% 18%, rgba(188, 133, 43, 0.08), transparent 24%),
+    linear-gradient(135deg, #ead6b5, #dfc297 58%, #cfab74);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 body.claro .banner-text {
@@ -467,6 +471,18 @@ body.claro .banner-text h2 {
   color: #2c1d0f;
 }
 
+body.claro .banner-text p {
+  color: #634d38;
+}
+
+body.claro .banner img {
+  filter: drop-shadow(0 16px 22px rgba(126, 88, 25, 0.18));
+}
+
+body.claro #batatas-btn {
+  box-shadow: 0 12px 22px rgba(160, 111, 24, 0.18);
+}
+
 body.claro .catering {
   background:
     radial-gradient(circle at 14% 12%, rgba(244, 185, 66, 0.12), transparent 38%),
@@ -474,18 +490,26 @@ body.claro .catering {
   color: #2b1b0d;
 }
 
+body.claro .catering-info h2 {
+  color: #35210e;
+}
+
 body.claro .catering-info p {
   color: #5c4935;
 }
 
 body.claro .catering-box {
-  background: #fff9f1;
+  background: linear-gradient(180deg, #fffaf2, #f5e6cf);
   border-color: rgba(188, 133, 43, 0.2);
   box-shadow: 0 12px 26px rgba(92, 65, 25, 0.12);
 }
 
 body.claro .catering-box p {
   color: #574633;
+}
+
+body.claro .catering-box button {
+  box-shadow: 0 12px 22px rgba(160, 111, 24, 0.16);
 }
 
 body.claro #localizacao {
@@ -537,6 +561,10 @@ body.claro .cd-trust-heading {
   color: #8a5a17;
 }
 
+body.claro .cd-trust-subtitle {
+  color: #6a553f;
+}
+
 body.claro .cd-trust-text {
   color: #604b36;
 }
@@ -549,6 +577,8 @@ body.claro .cd-trust-card {
 
 body.claro .cd-trust-icon {
   color: #a36917;
+  background: radial-gradient(circle at 35% 30%, rgba(244, 185, 66, 0.18), rgba(244, 185, 66, 0.04));
+  border-color: rgba(188, 133, 43, 0.2);
 }
 
 body.claro #contacto .contact-wrapper {
@@ -649,7 +679,7 @@ body.claro #closeChat:hover {
 }
 
 body.claro .prefooter {
-  background: #ead6b9;
+  background: linear-gradient(180deg, #e7d2b1, #dcc29b);
   border-top: 1px solid rgba(188, 133, 43, 0.12);
 }
 
@@ -672,13 +702,13 @@ body.claro .pf-icons a {
 }
 
 body.claro .footer {
-  background: #dbc29f;
-  color: #000000;
+  background: linear-gradient(180deg, #ddc8a6, #d2b58a);
+  color: #2a1a09;
   border-top: 1px solid rgba(125, 83, 25, 0.14);
 }
 
 body.claro .footer p {
-  color: #000000;
+  color: #2a1a09;
 }
 
 body.escuro .controlo {
@@ -760,9 +790,50 @@ body.escuro .catering {
   background-color: #101010;
 }
 
+body.escuro .banner {
+  background:
+    radial-gradient(circle at 24% 26%, rgba(255, 222, 145, 0.22), transparent 24%),
+    radial-gradient(circle at 84% 18%, rgba(245, 182, 49, 0.12), transparent 24%),
+    linear-gradient(135deg, #ffd976, #f5b631 56%, #d4931c);
+}
+
+body.escuro .banner-text h4 {
+  color: #5a3303;
+  text-shadow: none;
+}
+
+body.escuro .banner-text h2 {
+  color: #1f1203;
+  font-weight: 700;
+}
+
+body.escuro .banner-text p {
+  color: rgba(44, 25, 7, 0.86);
+}
+
+body.escuro .banner img {
+  filter: drop-shadow(0 18px 28px rgba(78, 45, 3, 0.26));
+}
+
+body.escuro #batatas-btn {
+  background: #111111;
+  color: #ffd976;
+  border-color: #111111;
+  box-shadow: 0 14px 24px rgba(93, 54, 5, 0.22);
+}
+
+body.escuro #batatas-btn:hover {
+  background: #1a1a1a;
+  color: #ffe6ac;
+}
+
 body.escuro .catering-info p,
 body.escuro .catering-box p {
   color: #d5d5d5;
+}
+
+body.escuro .cd-trust-subtitle {
+  color: #d4cab7;
 }
 
 body.escuro .catering-box {
@@ -821,7 +892,9 @@ body.escuro #contacto .form-group textarea {
 }
 
 body.escuro .prefooter {
-  background: #09121e;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(244, 185, 66, 0.08), transparent 24%),
+    linear-gradient(180deg, #1d130a, #140d07 62%, #0f0a06);
   border-top: 1px solid rgba(244, 185, 66, 0.08);
 }
 

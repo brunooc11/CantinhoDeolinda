@@ -448,7 +448,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         <button class="tablink" onclick="openTab('Conta')"><i class="fa-solid fa-user" aria-hidden="true"></i> Conta</button>
         <button class="tablink" onclick="openTab('Reservas')"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Reservas</button>
         <button class="tablink" onclick="openTab('Favoritos')"><i class="fa-solid fa-heart" aria-hidden="true"></i> Favoritos</button>
-        <button class="tablink" onclick="openTab('Pedidos')"><i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Pedidos</button>
     </div>
 
     <!-- Abas -->
@@ -664,14 +663,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         </div>
     </div>
 
-    <div id="Pedidos" class="tabcontent">
-        <div class="card">
-            <h3>Meus Pedidos</h3>
-            <p>Ainda não há pedidos.</p>
-        </div>
-    </div>
-
-
     <script src="Js/popup_alert.js"></script>
     <script src="Js/dashboard.js?v=<?php echo filemtime(__DIR__ . '/Js/dashboard.js'); ?>"></script>
     <script src="Js/alterar_senha.js?v=<?php echo filemtime(__DIR__ . '/Js/alterar_senha.js'); ?>"></script>
@@ -690,3 +681,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
 </body>
 
 </html>
+

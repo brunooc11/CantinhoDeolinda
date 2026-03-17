@@ -11,15 +11,35 @@ if (!btnChat || !chatBox || !closeChat || !chatMessages || !chatInput || !sendCh
   const conversationHistory = [];
   let waitingForBot = false;
 
-  btnChat.addEventListener("click", () => {
-    chatBox.classList.toggle("hidden");
-    if (!chatBox.classList.contains("hidden")) {
-      chatInput.focus();
+  function abrirChat() {
+    chatBox.classList.remove("hidden", "closing");
+    chatInput.focus();
+  }
+
+  function fecharChat() {
+    if (chatBox.classList.contains("hidden") || chatBox.classList.contains("closing")) {
+      return;
     }
+    chatBox.classList.add("closing");
+  }
+
+  btnChat.addEventListener("click", () => {
+    if (chatBox.classList.contains("hidden")) {
+      abrirChat();
+      return;
+    }
+    fecharChat();
   });
 
   closeChat.addEventListener("click", () => {
-    chatBox.classList.add("hidden");
+    fecharChat();
+  });
+
+  chatBox.addEventListener("animationend", (event) => {
+    if (event.animationName === "chat-fall") {
+      chatBox.classList.add("hidden");
+      chatBox.classList.remove("closing");
+    }
   });
 
   function addMessage(text, sender) {

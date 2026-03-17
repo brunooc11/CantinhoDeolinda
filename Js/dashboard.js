@@ -1,18 +1,46 @@
 function openTab(tabName) {
-    var i, tabcontent, tablinks;
+    var i, tabcontent, tablinks, currentTab, targetTab, targetButton;
 
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].classList.remove("ativo");
+    if (window.__dashTabSwitching) {
+        return;
     }
 
+    tabcontent = document.getElementsByClassName("tabcontent");
     tablinks = document.getElementsByClassName("tablink");
+    currentTab = document.querySelector(".tabcontent.ativo");
+    targetTab = document.getElementById(tabName);
+    targetButton = document.querySelector(".tablink[onclick=\"openTab('" + tabName + "')\"]");
+
+    if (!targetTab || !targetButton || currentTab === targetTab) {
+        return;
+    }
+
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].classList.remove("active");
     }
+    targetButton.classList.add("active");
 
-    document.getElementById(tabName).classList.add("ativo");
-    document.querySelector(".tablink[onclick=\"openTab('" + tabName + "')\"]").classList.add("active");
+    if (!currentTab) {
+        targetTab.classList.add("ativo");
+        return;
+    }
+
+    window.__dashTabSwitching = true;
+    currentTab.classList.remove("ativo");
+    currentTab.classList.add("closing");
+
+    const finishSwitch = function (event) {
+        if (event.animationName !== "dashFadeDown") {
+            return;
+        }
+
+        currentTab.classList.remove("closing");
+        currentTab.removeEventListener("animationend", finishSwitch);
+        targetTab.classList.add("ativo");
+        window.__dashTabSwitching = false;
+    };
+
+    currentTab.addEventListener("animationend", finishSwitch);
 }
 
 document.addEventListener("DOMContentLoaded", function () {

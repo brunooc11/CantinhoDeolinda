@@ -1,17 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".tab-btn");
-  const contents = document.querySelectorAll(".menu-content");
+  let isSwitching = false;
 
-  tabs.forEach(tab => {
+  tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      // Remove estado ativo de tudo
-      tabs.forEach(t => t.classList.remove("active"));
-      contents.forEach(c => c.classList.remove("active"));
-
-      // Ativa o botão e o conteúdo correspondente
-      tab.classList.add("active");
       const target = document.getElementById(tab.dataset.target);
-      target.classList.add("active");
+      const current = document.querySelector(".menu-content.active");
+
+      if (!target || isSwitching || current === target) {
+        return;
+      }
+
+      tabs.forEach((item) => item.classList.remove("active"));
+      tab.classList.add("active");
+
+      if (!current) {
+        target.classList.add("active");
+        return;
+      }
+
+      isSwitching = true;
+      current.classList.remove("active");
+      current.classList.add("closing");
+
+      const finishSwitch = (event) => {
+        if (event.animationName !== "fadeOut") {
+          return;
+        }
+
+        current.classList.remove("closing");
+        current.removeEventListener("animationend", finishSwitch);
+        target.classList.add("active");
+        isSwitching = false;
+      };
+
+      current.addEventListener("animationend", finishSwitch);
     });
   });
 });

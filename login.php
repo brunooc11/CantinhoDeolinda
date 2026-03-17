@@ -295,6 +295,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
 ?>
 <link rel="stylesheet" href="Css/login.css">
 <link rel="stylesheet" href="Css/bttlogin.css">
+<link rel="stylesheet" href="Css/footer.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <?php
 if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
@@ -652,10 +654,6 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
     });
 </script>
 <?php endif; ?>
-
-<footer>
-    <p>(C) 2025 Cantinho Deolinda - Todos os direitos reservados</p>
-</footer>
 
 <!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
 <script src="Js/popup_alert.js"></script>

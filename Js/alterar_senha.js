@@ -1,9 +1,32 @@
 function toggleFormSenha() {
     const form = document.getElementById('formSenhaCard');
-    form.classList.toggle('aberto');
+    if (!form) {
+        return;
+    }
+
+    if (form.classList.contains('aberto')) {
+        if (!form.classList.contains('closing')) {
+            form.classList.remove('aberto');
+            void form.offsetWidth;
+            form.classList.add('closing');
+        }
+        return;
+    }
+
+    form.classList.remove('closing');
+    form.classList.add('aberto');
 }
 
 (function initAlterarSenhaUI() {
+    const form = document.getElementById('formSenhaCard');
+    if (form) {
+        form.addEventListener('animationend', (event) => {
+            if (event.animationName === 'dashSenhaOut') {
+                form.classList.remove('aberto', 'closing');
+            }
+        });
+    }
+
     function setupSenhaUI() {
         const senhaAtualInput = document.querySelector('input[name="senha_atual"]');
         const novaSenhaInput = document.querySelector('input[name="nova_senha"]');

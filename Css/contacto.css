@@ -1,22 +1,9 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: #1b1b1b;
-  font-family: "Poppins", Arial, sans-serif;
-  color: #fff;
-}
-
 :root {
   --cd-radius-sm: 11px;
   --cd-radius-md: 16px;
   --cd-radius-lg: 20px;
+  --cd-contact-field-height: 50px;
+  --cd-contact-gap: 14px;
   --cd-border-soft: 1px solid rgba(244, 185, 66, 0.24);
   --cd-shadow-card: 0 24px 52px rgba(0, 0, 0, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --cd-dur-ui: 220ms;
@@ -110,6 +97,10 @@ body {
   max-width: 560px;
 }
 
+#contacto .contact-card p {
+  margin-top: 0;
+}
+
 
 /* ------------------------- */
 /*         FORM GRID         */
@@ -150,7 +141,7 @@ body {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.14);
   padding: 12px 14px;
-  height: 50px;
+  height: var(--cd-contact-field-height);
   border-radius: var(--cd-radius-sm);
   color: #fff;
   font-size: 0.95rem;
@@ -161,7 +152,7 @@ body {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.14);
   padding: 12px 14px;
-  height: 50px;
+  height: var(--cd-contact-field-height);
   border-radius: var(--cd-radius-sm);
   color: #fff;
   font-size: 0.95rem;
@@ -184,7 +175,8 @@ body {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.14);
   padding: 12px 14px;
-  min-height: 210px;
+  height: calc(var(--cd-contact-field-height) * 3 + var(--cd-contact-gap) * 2);
+  min-height: calc(var(--cd-contact-field-height) * 3 + var(--cd-contact-gap) * 2);
   border-radius: var(--cd-radius-sm);
   color: #fff;
   font-size: 0.95rem;
@@ -271,7 +263,7 @@ body {
 
 /* ===== Contacto Visual Refresh (scoped) ===== */
 #contacto {
-  --contact-left-stack-height: 216px;
+  --contact-left-stack-height: 208px;
   background:
     radial-gradient(900px 430px at 0% 0%, rgba(255, 186, 62, 0.12), transparent 55%),
     radial-gradient(780px 420px at 100% 100%, rgba(255, 186, 62, 0.08), transparent 60%),
@@ -329,7 +321,7 @@ body {
 #contacto .right-col .form-group {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 0 0 auto;
   min-height: var(--contact-left-stack-height);
 }
 
@@ -363,8 +355,8 @@ body {
 
 #contacto .form-group textarea {
   min-height: 0;
-  height: auto;
-  flex: 1;
+  height: var(--contact-left-stack-height);
+  flex: 0 0 auto;
 }
 
 #contacto .form-group input::placeholder,
@@ -424,7 +416,7 @@ body.js-reveal-enabled #contacto .contact-card.is-revealed {
   }
 
   #contacto .right-col .form-group {
-    min-height: 208px;
+    min-height: 162px;
   }
 
   #contacto .contact-card h1 {

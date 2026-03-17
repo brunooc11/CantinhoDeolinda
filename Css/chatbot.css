@@ -49,6 +49,10 @@
   animation: chat-rise 0.35s ease;
 }
 
+.chat-box.closing {
+  animation: chat-fall 0.35s ease forwards;
+}
+
 .chat-box * {
   box-sizing: border-box;
 }
@@ -284,6 +288,17 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chat-fall {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
   }
 }
 

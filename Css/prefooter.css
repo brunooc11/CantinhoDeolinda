@@ -3,8 +3,10 @@
 ======================= */
 
 .prefooter {
-    background: #0c1623;
-    padding: 72px 8% 64px;
+    background:
+        radial-gradient(circle at 14% 18%, rgba(244, 185, 66, 0.08), transparent 24%),
+        linear-gradient(180deg, #17110b, #0e0a07 66%);
+    padding: 78px 8% 58px;
     display: flex;
     justify-content: center;
 }
@@ -19,7 +21,7 @@
     align-items: start;
     width: 100%;
     max-width: 1120px;
-    gap: 36px;
+    gap: 34px;
 }
 
 /* =======================
@@ -105,7 +107,7 @@
 
 .prefooter-col ul a {
     text-decoration: none;
-    color: rgba(148, 163, 184, 0.88);
+    color: rgba(213, 201, 182, 0.82);
     font-size: 16px;
     font-weight: 400;
     letter-spacing: 0.4px;
@@ -129,7 +131,7 @@
 }
 
 .pf-icons a {
-    color: rgba(148, 163, 184, 0.78);
+    color: rgba(213, 201, 182, 0.76);
     font-size: 24px;
     text-decoration: none;
     transition: color 0.2s ease, transform 0.2s ease;

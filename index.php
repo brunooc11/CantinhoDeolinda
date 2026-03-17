@@ -330,6 +330,10 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
       <div class="banner-text">
         <h4>Fome?</h4>
         <h2>Nós tratamos disso</h2>
+        <p>
+          Reserva a tua mesa em poucos segundos e deixa connosco a parte mais importante:
+          receber-te bem e servir uma refeição memorável.
+        </p>
         <?php if (isset($_SESSION['id'])): ?>
           <button id="batatas-btn" class="btt-padrao-login" onclick="document.getElementById('openReservaModal').click()">
             Reserva Agora
@@ -438,6 +442,10 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
         <section class="cd-trust">
           <h2 class="cd-trust-title">Porque escolher o Cantinho Deolinda?</h2>
+          <p class="cd-trust-subtitle">
+            Mais do que uma refeição, criamos um espaço confortável, familiar e consistente
+            para almoços do dia a dia e momentos especiais.
+          </p>
 
           <div class="cd-trust-grid">
             <div class="cd-trust-card">
