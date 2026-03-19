@@ -4,6 +4,44 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  scrollbar-color: #d4a63a rgba(18, 22, 31, 0.88);
+  scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background:
+    linear-gradient(180deg, rgba(18, 22, 31, 0.96), rgba(10, 12, 17, 0.98));
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  border: 3px solid rgba(18, 22, 31, 0.96);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #f3cf79, #c8921f);
+  box-shadow: inset 0 1px 0 rgba(255, 247, 222, 0.34);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(180deg, #ffd98a, #d49d23);
+}
+
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner {
+  background: rgba(9, 11, 16, 1);
+}
+
 body,
 main {
   margin: 0;

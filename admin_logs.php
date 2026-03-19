@@ -333,11 +333,39 @@ function cd_qs(array $overrides = [])
     <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logs de Auditoria</title>
-    <link rel="stylesheet" href="Css/admin.css">
+    <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
     <link rel="stylesheet" href="Css/admin_logs.css">
     <link rel="stylesheet" href="Css/bttlogin.css">
 </head>
-<body class="cdol-admin cdol-logs">
+<body class="cdol-admin cdol-admin-home cdol-logs">
+    <script>
+        document.documentElement.classList.add('admin-home-page');
+    </script>
+    <button type="button" class="admin-home-menu-toggle" aria-label="Abrir menu admin" aria-expanded="false" aria-controls="adminHomeSidebar">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <button type="button" class="admin-home-menu-overlay" aria-label="Fechar menu admin"></button>
+    <aside class="admin-home-sidebar" id="adminHomeSidebar" aria-label="Menu administrativo">
+        <div class="admin-home-sidebar-brand">
+            <span class="admin-home-kicker">Cantinho Deolinda</span>
+            <strong>Painel Admin</strong>
+            <p>Centro de gestão do backoffice.</p>
+        </div>
+        <nav class="admin-home-nav">
+            <a href="admin.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.8v-5.5H9.8V21H5a1 1 0 0 1-1-1z"/></svg></span><span class="admin-home-link-copy"><strong>Visão geral</strong><small>Painel principal</small></span></a>
+            <a href="Bd/confirmar_reservas.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 12.5 10.2 16 17 8.8"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg></span><span class="admin-home-link-copy"><strong>Confirmar reservas</strong><small>Entradas pendentes</small></span></a>
+            <a href="admin_reservas.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="5" width="6" height="6" rx="1.5"/><rect x="14" y="5" width="6" height="6" rx="1.5"/><rect x="4" y="13" width="6" height="6" rx="1.5"/><rect x="14" y="13" width="6" height="6" rx="1.5"/></svg></span><span class="admin-home-link-copy"><strong>Todas as reservas</strong><small>Lista completa</small></span></a>
+            <a href="admin_logs.php" class="is-active" aria-current="page"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 7h10M7 12h10M7 17h10"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg></span><span class="admin-home-link-copy"><strong>Logs</strong><small>Atividade do sistema</small></span></a>
+            <a href="admin_mapa.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8 6.5 4.5 8v10L8 16.5l4 1.5 3.5-1.5L19.5 18V8l-4 1.5L12 8 8 9.5z"/><path d="M8 6.5v10M12 8v10M15.5 9.5v10"/></svg></span><span class="admin-home-link-copy"><strong>Mapa de mesas</strong><small>Disposição da sala</small></span></a>
+            <a href="admin_feedback.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 17.5 4.5 20V7a2 2 0 0 1 2-2h11A2.5 2.5 0 0 1 20 7.5v7a2.5 2.5 0 0 1-2.5 2.5z"/><path d="M8 10h8M8 13h5"/></svg></span><span class="admin-home-link-copy"><strong>Feedback</strong><small>Opiniões dos clientes</small></span></a>
+        </nav>
+        <div class="admin-home-sidebar-footer">
+            <a href="dashboard.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 19V9.5L12 5l7 4.5V19z"/><path d="M9 19v-5h6v5"/></svg></span><span class="admin-home-link-copy"><strong>Dashboard</strong><small>Vista do utilizador</small></span></a>
+            <a href="index.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M10 7 5 12l5 5"/><path d="M6 12h9a4 4 0 1 0 0 8"/></svg></span><span class="admin-home-link-copy"><strong>Voltar ao site</strong><small>Regressar à homepage</small></span></a>
+        </div>
+    </aside>
     <div class="container">
         <div class="admin-hero">
             <div>
@@ -474,16 +502,36 @@ function cd_qs(array $overrides = [])
             </div>
 
         </section>
-
-        <div class="botoesNav" id="navFim">
-            <a href="index.php" id="btnInicio" class="btt-padrao-login">Início</a>
-            <a href="dashboard.php" id="btnDashboard" class="btt-padrao-login">Dashboard</a>
-            <a href="admin.php" id="btnAdmin" class="btt-padrao-login">Admin</a>
-            <a href="Bd/confirmar_reservas.php" id="btnConfirmarReservas" class="btt-padrao-login">Confirmar Reservas</a>
-            <a href="admin_reservas.php" id="btnTodasReservas" class="btt-padrao-login">Todas as Reservas</a>
-            <a href="admin_mapa.php" id="btnMapaMesas" class="btt-padrao-login">Mapa de Mesas</a>
-        </div>
     </div>
     <script src="Js/admin_logs.js"></script>
+    <script>
+        (function () {
+            var body = document.body;
+            var toggle = document.querySelector('.admin-home-menu-toggle');
+            var overlay = document.querySelector('.admin-home-menu-overlay');
+            var sidebar = document.querySelector('.admin-home-sidebar');
+            if (!toggle || !overlay || !sidebar) return;
+            function closeMenu() {
+                body.classList.remove('admin-home-menu-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+            function openMenu() {
+                body.classList.add('admin-home-menu-open');
+                toggle.setAttribute('aria-expanded', 'true');
+            }
+            toggle.addEventListener('click', function () {
+                if (body.classList.contains('admin-home-menu-open')) closeMenu();
+                else openMenu();
+            });
+            overlay.addEventListener('click', closeMenu);
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') closeMenu();
+            });
+            sidebar.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', closeMenu);
+            });
+        })();
+    </script>
 </body>
 </html>
+

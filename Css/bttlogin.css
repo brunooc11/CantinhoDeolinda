@@ -1,3 +1,52 @@
+html,
+body {
+  scrollbar-color: #cda24b rgba(10, 13, 19, 0.98);
+  scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 214, 122, 0.05), transparent 22%),
+    linear-gradient(180deg, rgba(18, 22, 30, 0.98), rgba(8, 10, 15, 1));
+  border-left: 1px solid rgba(255, 224, 158, 0.04);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(11, 14, 20, 0.98);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, #f5ddb0 0%, #c89a3d 50%, #8f6112 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 231, 0.46),
+    inset 0 -1px 0 rgba(109, 72, 10, 0.28),
+    0 0 0 1px rgba(255, 220, 146, 0.06),
+    0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(180deg, #fde9c4 0%, #d3a647 50%, #a26d14 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 251, 239, 0.58),
+    inset 0 -1px 0 rgba(109, 72, 10, 0.34),
+    0 0 12px rgba(205, 162, 75, 0.14),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner {
+  background: rgba(9, 11, 16, 1);
+}
+
 .btt-padrao-login {
   position: fixed;
   top: 25px;

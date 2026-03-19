@@ -268,12 +268,13 @@
     radial-gradient(900px 430px at 0% 0%, rgba(255, 186, 62, 0.12), transparent 55%),
     radial-gradient(780px 420px at 100% 100%, rgba(255, 186, 62, 0.08), transparent 60%),
     #0f0f0f;
-  padding: 14px 0 28px;
+  margin-top: 0;
+  padding: 0;
 }
 
 #contacto .contact-wrapper {
   min-height: auto;
-  padding: 54px 20px 42px;
+  padding: 44px 20px 44px;
   background: transparent;
 }
 
@@ -439,5 +440,33 @@ body.js-reveal-enabled #contacto .contact-card.is-revealed {
   body.js-reveal-enabled #contacto .contact-card {
     opacity: 1 !important;
   }
+}
+
+/* Remove qualquer divisor residual entre "Porque escolher" e "Feedback" */
+.cd-trust-strip,
+body.claro .cd-trust-strip,
+body.escuro .cd-trust-strip {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+#contacto,
+body.claro #contacto,
+body.escuro #contacto {
+  border-top: 0 !important;
+  outline: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  position: static;
+  top: auto;
+  z-index: auto;
+}
+
+body.escuro #contacto {
+  background: linear-gradient(135deg, #101010, #191919) !important;
+}
+
+body.claro #contacto {
+  background: linear-gradient(135deg, #f2dfc2, #e9d1af) !important;
 }
 

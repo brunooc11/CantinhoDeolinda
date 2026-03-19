@@ -12,7 +12,7 @@ if (lightBtn && darkBtn && body) {
     const nextTheme = VALID_THEMES.has(theme) ? theme : "claro";
     const isDark = nextTheme === "escuro";
 
-     if (themeTransitionTimer) {
+    if (themeTransitionTimer) {
       clearTimeout(themeTransitionTimer);
     }
 

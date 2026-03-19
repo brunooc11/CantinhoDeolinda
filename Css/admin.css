@@ -289,6 +289,520 @@ button.action-btn {
     }
 }
 
+/* ===== Admin Home Sidebar ===== */
+.cdol-admin-home {
+    --admin-home-sidebar-width: 338px;
+}
+
+.cdol-admin-home .container {
+    width: min(1240px, calc(100% - 48px));
+    margin: 24px auto;
+}
+
+.cdol-admin-home,
+html.admin-home-page {
+    scrollbar-color: #cda24b rgba(10, 13, 19, 0.98);
+    scrollbar-width: thin;
+}
+
+.cdol-admin-home::-webkit-scrollbar,
+html.admin-home-page::-webkit-scrollbar {
+    width: 12px;
+}
+
+.cdol-admin-home::-webkit-scrollbar-track,
+html.admin-home-page::-webkit-scrollbar-track {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255, 214, 122, 0.05), transparent 22%),
+        linear-gradient(180deg, rgba(18, 22, 30, 0.98), rgba(8, 10, 15, 1));
+    border-left: 1px solid rgba(255, 224, 158, 0.04);
+}
+
+.cdol-admin-home::-webkit-scrollbar-thumb,
+html.admin-home-page::-webkit-scrollbar-thumb {
+    border: 2px solid rgba(11, 14, 20, 0.98);
+    border-radius: 999px;
+    background:
+        linear-gradient(180deg, #f5ddb0 0%, #c89a3d 50%, #8f6112 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 248, 231, 0.46),
+        inset 0 -1px 0 rgba(109, 72, 10, 0.28),
+        0 0 0 1px rgba(255, 220, 146, 0.06),
+        0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.cdol-admin-home::-webkit-scrollbar-thumb:hover,
+html.admin-home-page::-webkit-scrollbar-thumb:hover {
+    background:
+        linear-gradient(180deg, #fde9c4 0%, #d3a647 50%, #a26d14 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 251, 239, 0.58),
+        inset 0 -1px 0 rgba(109, 72, 10, 0.34),
+        0 0 12px rgba(205, 162, 75, 0.14),
+        0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cdol-admin-home::-webkit-scrollbar-corner,
+html.admin-home-page::-webkit-scrollbar-corner {
+    background: rgba(9, 11, 16, 1);
+}
+
+.cdol-admin-home #navFim {
+    display: none;
+}
+
+.cdol-admin-home .admin-home-menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1300;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 60px;
+    height: 60px;
+    padding: 0 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 221, 147, 0.36);
+    border-radius: 10px;
+    background:
+        radial-gradient(circle at 24% 20%, rgba(255, 220, 135, 0.34), transparent 34%),
+        linear-gradient(145deg, rgba(22, 26, 35, 0.98), rgba(9, 11, 16, 1));
+    box-shadow:
+        0 22px 42px rgba(0, 0, 0, 0.42),
+        0 10px 20px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    will-change: transform, left;
+    transition: left 0.34s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle {
+    top: 18px;
+    left: calc(var(--admin-home-sidebar-width) + 24px);
+    transform: translateX(0%);
+}
+
+.cdol-admin-home .admin-home-menu-toggle:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: rgba(255, 222, 152, 0.74);
+    box-shadow:
+        0 24px 46px rgba(0, 0, 0, 0.45),
+        0 12px 24px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle:hover {
+    transform: translateX(0%) translateY(-3px) scale(1.02);
+}
+
+.cdol-admin-home .admin-home-menu-toggle span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #fff8e8, #ffda85);
+    box-shadow: 0 0 12px rgba(255, 214, 122, 0.28);
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, box-shadow 0.22s ease, top 0.3s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle span:nth-child(1) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle span:nth-child(2) {
+    opacity: 0;
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle span:nth-child(3) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.cdol-admin-home .admin-home-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1190;
+    border: 0;
+    background:
+        radial-gradient(circle at 16% 12%, rgba(255, 214, 122, 0.16), transparent 30%),
+        rgba(5, 7, 12, 0.76);
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(0px);
+    transition: opacity 0.34s ease, backdrop-filter 0.34s ease;
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-menu-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+}
+
+.cdol-admin-home .admin-home-sidebar {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    bottom: 18px;
+    z-index: 1250;
+    width: var(--admin-home-sidebar-width);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid rgba(255, 223, 158, 0.18);
+    border-radius: 10px;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(255, 214, 122, 0.16), transparent 30%),
+        radial-gradient(circle at 100% 12%, rgba(112, 156, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(18, 22, 31, 0.98), rgba(8, 11, 17, 0.99));
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.09),
+        inset 0 -24px 40px rgba(0, 0, 0, 0.18);
+    transform: translateX(calc(-100% - 32px)) scale(0.96);
+    transform-origin: top left;
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-sidebar {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+}
+
+.cdol-admin-home .admin-home-sidebar-brand,
+.cdol-admin-home .admin-home-nav,
+.cdol-admin-home .admin-home-sidebar-footer {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease;
+}
+
+.cdol-admin-home .admin-home-nav {
+    transition-delay: 0.03s;
+}
+
+.cdol-admin-home .admin-home-sidebar-footer {
+    transition-delay: 0.07s;
+}
+
+.cdol-admin-home.admin-home-menu-open .admin-home-sidebar-brand,
+.cdol-admin-home.admin-home-menu-open .admin-home-nav,
+.cdol-admin-home.admin-home-menu-open .admin-home-sidebar-footer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cdol-admin-home .admin-home-sidebar-brand {
+    position: relative;
+    padding: 8px 10px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cdol-admin-home .admin-home-sidebar-brand::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 214, 122, 0.42), rgba(255, 214, 122, 0));
+}
+
+.cdol-admin-home .admin-home-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    margin-bottom: 12px;
+    border-radius: 999px;
+    color: #ffe6ab;
+    background: linear-gradient(180deg, rgba(255, 215, 118, 0.18), rgba(255, 215, 118, 0.08));
+    border: 1px solid rgba(255, 215, 118, 0.26);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.cdol-admin-home .admin-home-sidebar-brand strong {
+    display: block;
+    color: #fff5de;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+}
+
+.cdol-admin-home .admin-home-sidebar-brand p {
+    margin: 8px 0 0;
+    color: #b9c2d2;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.cdol-admin-home .admin-home-nav {
+    display: grid;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 0;
+    padding: 4px 2px 8px 2px;
+    scrollbar-width: none;
+}
+
+.cdol-admin-home .admin-home-nav a,
+.cdol-admin-home .admin-home-sidebar-footer a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 36px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+    color: #eef3fb;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+}
+
+.cdol-admin-home .admin-home-nav a::before,
+.cdol-admin-home .admin-home-sidebar-footer a::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255, 214, 122, 0.14), transparent 58%);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+}
+
+.cdol-admin-home .admin-home-link-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.cdol-admin-home .admin-home-link-copy strong,
+.cdol-admin-home .admin-home-link-copy small {
+    display: block;
+    min-width: 0;
+}
+
+.cdol-admin-home .admin-home-link-copy strong {
+    color: inherit;
+    font-size: 13px;
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+.cdol-admin-home .admin-home-link-copy small {
+    color: #95a0b3;
+    font-size: 11px;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cdol-admin-home .admin-home-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 11px;
+    border: 1px solid rgba(255, 230, 174, 0.08);
+    background:
+        radial-gradient(circle at 30% 24%, rgba(255, 229, 171, 0.16), transparent 34%),
+        linear-gradient(180deg, rgba(255, 243, 214, 0.08), rgba(255, 255, 255, 0.03));
+    color: #ffe5ab;
+    line-height: 1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.cdol-admin-home .admin-home-icon svg {
+    width: 17px;
+    height: 17px;
+    display: block;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cdol-admin-home .admin-home-icon svg rect,
+.cdol-admin-home .admin-home-icon svg path {
+    vector-effect: non-scaling-stroke;
+}
+
+.cdol-admin-home .admin-home-nav a.is-active .admin-home-icon svg:first-child path:first-child,
+.cdol-admin-home .admin-home-nav a.is-active .admin-home-icon svg:first-child rect:first-child {
+    fill: currentColor;
+}
+
+.cdol-admin-home .admin-home-nav a:hover,
+.cdol-admin-home .admin-home-sidebar-footer a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 214, 122, 0.22);
+    background:
+        linear-gradient(180deg, rgba(255, 214, 122, 0.12), rgba(255, 214, 122, 0.06));
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cdol-admin-home .admin-home-nav a:hover::before,
+.cdol-admin-home .admin-home-sidebar-footer a:hover::before {
+    opacity: 1;
+}
+
+.cdol-admin-home .admin-home-nav a.is-active {
+    color: #1b1204;
+    background:
+        radial-gradient(circle at right center, rgba(104, 82, 16, 0.16), transparent 18%),
+        linear-gradient(135deg, #ffe8af, #ffc957);
+    border-color: rgba(255, 224, 149, 0.88);
+    box-shadow:
+        0 14px 28px rgba(255, 186, 71, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.cdol-admin-home .admin-home-nav a.is-active .admin-home-icon {
+    border-color: rgba(33, 24, 4, 0.08);
+    background: rgba(21, 16, 7, 0.14);
+    color: #151007;
+}
+
+.cdol-admin-home .admin-home-sidebar-footer a.is-active {
+    color: #1b1204;
+    background:
+        radial-gradient(circle at right center, rgba(104, 82, 16, 0.16), transparent 18%),
+        linear-gradient(135deg, #ffe8af, #ffc957);
+    border-color: rgba(255, 224, 149, 0.88);
+    box-shadow:
+        0 14px 28px rgba(255, 186, 71, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.cdol-admin-home .admin-home-sidebar-footer a.is-active .admin-home-icon {
+    border-color: rgba(33, 24, 4, 0.08);
+    background: rgba(21, 16, 7, 0.14);
+    color: #151007;
+}
+
+.cdol-admin-home .admin-home-sidebar-footer {
+    margin-top: auto;
+    flex: 0 0 auto;
+    display: grid;
+    gap: 8px;
+    padding-top: 8px;
+    border-top: 0;
+    background: transparent;
+}
+
+.cdol-admin-home .admin-home-sidebar-footer a {
+    min-height: 52px;
+}
+
+@media (max-width: 1100px) {
+    .cdol-admin-home .container {
+        width: min(1240px, calc(100% - 40px));
+        margin: 88px 20px 24px;
+    }
+
+    .cdol-admin-home .admin-home-sidebar {
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        transform: translateX(calc(-100% - 20px)) scale(0.985);
+    }
+}
+
+@media (max-width: 700px) {
+    .cdol-admin-home {
+        --admin-home-sidebar-width: min(340px, calc(100vw - 20px));
+    }
+
+    .cdol-admin-home .container {
+        width: calc(100% - 20px);
+        margin: 78px 10px 18px;
+        padding: 16px;
+    }
+
+    .cdol-admin-home .admin-home-menu-toggle {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+    }
+
+    .cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle span:nth-child(1),
+    .cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle span:nth-child(3) {
+        top: 50%;
+        left: 50%;
+    }
+
+    .cdol-admin-home.admin-home-menu-open .admin-home-menu-toggle {
+        top: 10px;
+        left: calc(var(--admin-home-sidebar-width) + 16px);
+        transform: translateX(0%);
+    }
+
+    .cdol-admin-home .admin-home-sidebar {
+        width: var(--admin-home-sidebar-width);
+        padding: 16px 14px 14px;
+        border-radius: 10px;
+    }
+
+    .cdol-admin-home .admin-home-sidebar-brand strong {
+        font-size: 24px;
+    }
+
+    .cdol-admin-home .admin-home-nav a,
+    .cdol-admin-home .admin-home-sidebar-footer a {
+        min-height: 36px;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .cdol-admin-home .admin-home-icon {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+    }
+
+    .cdol-admin-home .admin-home-link-copy strong {
+        font-size: 12px;
+    }
+
+    .cdol-admin-home .admin-home-link-copy small {
+        font-size: 10px;
+    }
+}
+
+.cdol-admin-home .admin-home-nav::-webkit-scrollbar {
+    display: none;
+}
+
 /* ===== Admin UI Refresh (scoped) ===== */
 .cdol-admin {
     background:
@@ -1270,3 +1784,4 @@ button.action-btn {
         text-align: center;
     }
 }
+

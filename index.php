@@ -20,7 +20,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/loader.css">
   <link rel="stylesheet" href="Css/ModoEscuro.css">
   <link rel="stylesheet" href="Css/navbar.css">
-  <link rel="stylesheet" href="Css/home.css">
+  <link rel="stylesheet" href="Css/home.css?v=<?php echo filemtime(__DIR__ . '/Css/home.css'); ?>">
   <link rel="stylesheet" href="Css/carrosel.css">
   <link rel="stylesheet" href="Css/menu.css">
   <link rel="stylesheet" href="Css/banner.css">
@@ -41,7 +41,21 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
   <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+
+  <script>
+    document.documentElement.classList.add('fonts-loading');
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () {
+        document.documentElement.classList.add('fonts-ready');
+      });
+    } else {
+      document.documentElement.classList.add('fonts-ready');
+    }
+  </script>
 
 
   <link
@@ -64,7 +78,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         </div>
         <div class="ovo"></div>
       </div>
-      <div class="texto"><i class="fa-solid fa-utensils" aria-hidden="true"></i> A Cozinha está a Trabalhar <i class="fa-solid fa-utensils" aria-hidden="true"></i></div>
+      <div class="texto"><i class="fa-solid fa-utensils" aria-hidden="true"></i> A cozinha está a trabalhar <i class="fa-solid fa-utensils" aria-hidden="true"></i></div>
     </div>
   </div>
 
@@ -94,7 +108,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
           <!-- Header -->
           <div class="reserva-modal-header">
-            <h2>Faz Uma Reserva</h2>
+            <h2>Faz uma reserva</h2>
             <button type="button" id="closeReserva" class="reserva-close" aria-label="Fechar modal">&times;</button>
           </div>
 
@@ -118,8 +132,8 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
             <!-- Linha 2: Nome e Telefone (apenas visual) -->
             <div class="reserva-form-group grid-2">
-              <input type="text" class="reserva-input" placeholder="Name" value="<?php echo $_SESSION['nome'] ?? ''; ?>" disabled>
-              <input type="tel" class="reserva-input" placeholder="Phone" value="<?php echo $_SESSION['telefone'] ?? ''; ?>" disabled>
+              <input type="text" class="reserva-input" placeholder="Nome" value="<?php echo $_SESSION['nome'] ?? ''; ?>" disabled>
+              <input type="tel" class="reserva-input" placeholder="Telefone" value="<?php echo $_SESSION['telefone'] ?? ''; ?>" disabled>
               <!-- Hidden fields para enviar ao processar_reservas.php -->
               <input type="hidden" name="nome_cliente" value="<?php echo $_SESSION['nome'] ?? ''; ?>">
               <input type="hidden" name="telefone_cliente" value="<?php echo $_SESSION['telefone'] ?? ''; ?>">
@@ -172,7 +186,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <li><a href="#menu_carrosel">Menu</a></li>
         <li><a href="#eventos">Eventos</a></li>
         <li><a href="#localizacao">Localização</a></li>
-        <li><a href="#contacto">Experiencia</a></li>
+        <li><a href="#contacto">Experiência</a></li>
       </ul>
 
       <!--Se o login tiver feito ele abre a dashboard na aba reservas -->
@@ -278,24 +292,24 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <div class="item">
             <h3>Peixe</h3>
             <ul class="menu-list">
-              <li><span>Bacalhau a Casa</span><strong>18.50&euro;</strong></li>
-              <li><span>Bacalhau a Lagareiro</span><strong>18.50&euro;</strong></li>
+              <li><span>Bacalhau à Casa</span><strong>18.50&euro;</strong></li>
+              <li><span>Bacalhau à Lagareiro</span><strong>18.50&euro;</strong></li>
               <li><span>Açorda de Bacalhau com Gambas (no pão)</span><strong>18.50&euro;</strong></li>
-              <li><span>Polvo a Lagareiro</span><strong>18.50&euro;</strong></li>
+              <li><span>Polvo à Lagareiro</span><strong>18.50&euro;</strong></li>
             </ul>
             <p>Nota: Açorda de bacalhau com gambas só por encomenda.</p>
           </div>
           <div class="item">
             <h3>Carne</h3>
             <ul class="menu-list">
-              <li><span>Bife a Casa</span><strong>18.50&euro;</strong></li>
+              <li><span>Bife à Casa</span><strong>18.50&euro;</strong></li>
               <li><span>Espetadas de Porco Preto</span><strong>18.50&euro;</strong></li>
               <li><span>Picanha</span><strong>18.50&euro;</strong></li>
               <li><span>Costeleta de Novilho</span><strong>18.50&euro;</strong></li>
               <li><span>Secretos</span><strong>18.50&euro;</strong></li>
-              <li><span>Cozido a Portuguesa</span><strong>18.50&euro;</strong></li>
+              <li><span>Cozido à Portuguesa</span><strong>18.50&euro;</strong></li>
             </ul>
-            <p>Nota: Cozido a Portuguesa apenas quintas-feiras e domingos.</p>
+            <p>Nota: Cozido à Portuguesa apenas às quintas-feiras e aos domingos.</p>
           </div>
         </div>
       </div>
@@ -304,7 +318,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="menu-grid">
           <div class="item">
             <h3>Mini-prato + bebida <span>7.50&euro;</span></h3>
-            <p>Apenas durante o periodo escolar, de segunda a sexta-feira.</p>
+            <p>Apenas durante o período escolar, de segunda a sexta-feira.</p>
           </div>
         </div>
       </div>
@@ -362,7 +376,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
         <div class="catering-box">
           <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Catering Image">
-          <p>Criamos experiências gastronómicas para eventos especiais e empresariais</p>
+          <p>Criamos experiências gastronómicas para eventos especiais e empresariais.</p>
           <button onclick="window.location.href='#localizacao'">Fale Connosco</button>
         </div>
       </div>
@@ -451,19 +465,19 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
             <div class="cd-trust-card">
               <i class="cd-trust-icon fa-solid fa-star" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">4.1 no Google</h3>
-              <p class="cd-trust-text">Clientes satisfeitos todos os dias</p>
+              <p class="cd-trust-text">Clientes satisfeitos, todos os dias.</p>
             </div>
 
             <div class="cd-trust-card">
               <i class="cd-trust-icon fa-solid fa-utensils" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">Cozinha Tradicional</h3>
-              <p class="cd-trust-text">Receitas portuguesas autênticas</p>
+              <p class="cd-trust-text">Receitas portuguesas autênticas.</p>
             </div>
 
             <div class="cd-trust-card">
               <i class="cd-trust-icon fa-solid fa-mug-hot" aria-hidden="true"></i>
               <h3 class="cd-trust-heading">Ambiente Acolhedor</h3>
-              <p class="cd-trust-text">Perfeito para família e amigos</p>
+              <p class="cd-trust-text">Perfeito para família e amigos.</p>
             </div>
 
             <div class="cd-trust-card">
@@ -567,7 +581,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <button data-message="Menu"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Menu</button>
           <button data-message="Localização"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Localização</button>
           <button data-message="Contactos"><i class="fa-solid fa-phone" aria-hidden="true"></i> Contactos</button>
-          <button data-message="Outro"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Outro/a</button>
+          <button data-message="Outro"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Outro</button>
         </div>
       </div>
 
@@ -591,7 +605,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               <span class="logo-circle">C</span>
               <span class="logo-text">antinho_Deolinda</span>
             </div>
-            <h3>Queres provar a<br>Nossa Comida?</h3>
+            <h3>Queres provar a<br>nossa comida?</h3>
             <?php if (isset($_SESSION['id'])): ?>
               <button class="btt-padrao-login" id="prefooter" onclick="document.getElementById('openReservaModal').click()">Reserva Agora</button>
             <?php else: ?>
@@ -653,7 +667,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
   <!-- Footer -->
   <footer class="footer">
-    <p>&copy; 2025 Cantinho Deolinda - Todos os direitos reservados</p>
+    <p>&copy; 2025 Cantinho Deolinda - Todos os direitos reservados.</p>
   </footer>
 
   <script src="Js/popup_alert.js"></script>

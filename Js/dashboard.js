@@ -132,18 +132,44 @@ function showConfirmPopup(options = {}) {
 
 function confirmarExclusao(event) {
     const evt = event || window.event;
+    const form = evt && evt.target ? evt.target : document.querySelector("form button[name='excluir']")?.closest("form");
+    if (!form) return false;
+
+    if (form.dataset.confirmedSubmit === "1") {
+        form.dataset.confirmedSubmit = "";
+        return true;
+    }
+
     if (evt && typeof evt.preventDefault === "function") {
         evt.preventDefault();
     }
 
-    const form = evt && evt.target ? evt.target : document.querySelector("form button[name='excluir']")?.closest("form");
-    if (!form) return false;
+    const submitter = evt && evt.submitter ? evt.submitter : form.querySelector("button[name='excluir']");
 
     showConfirmPopup({
         title: "Excluir conta",
         message: "Tem a certeza que deseja excluir a sua conta?\nEsta ação não pode ser desfeita."
     }).then((confirmed) => {
         if (confirmed) {
+            form.dataset.confirmedSubmit = "1";
+
+            if (typeof form.requestSubmit === "function") {
+                if (submitter) {
+                    form.requestSubmit(submitter);
+                } else {
+                    form.requestSubmit();
+                }
+                return;
+            }
+
+            if (submitter && submitter.name && !form.querySelector(`input[type="hidden"][name="${submitter.name}"]`)) {
+                const hiddenSubmitter = document.createElement("input");
+                hiddenSubmitter.type = "hidden";
+                hiddenSubmitter.name = submitter.name;
+                hiddenSubmitter.value = submitter.value || "";
+                form.appendChild(hiddenSubmitter);
+            }
+
             form.submit();
         }
     });

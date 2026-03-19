@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 .loader-wrapper {
@@ -266,6 +267,19 @@ body {
   text-transform: uppercase;
   text-shadow: 0 2px 12px rgba(255, 255, 255, 0.34);
   padding: 14px 20px 0;
+}
+
+html:not(.fonts-ready) .texto,
+html:not(.fonts-ready) .texto::before,
+html:not(.fonts-ready) .texto::after {
+  opacity: 0;
+}
+
+html.fonts-ready .texto,
+html.fonts-ready .texto::before,
+html.fonts-ready .texto::after {
+  opacity: 1;
+  transition: opacity 0.18s ease;
 }
 
 .texto i {

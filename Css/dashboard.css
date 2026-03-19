@@ -2044,6 +2044,30 @@ body {
     text-shadow: 0 0 22px rgba(245, 182, 49, 0.16);
 }
 
+.cdol-dash .dashboard-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cdol-dash.cdol-admin-home .dashboard-header {
+    margin-top: 0;
+    padding-left: 24px;
+}
+
+.cdol-dash.cdol-admin-home .dashboard-header-actions {
+    display: none;
+}
+
+.cdol-dash.cdol-admin-home .dashboard-header,
+.cdol-dash.cdol-admin-home .dashboard-menu,
+.cdol-dash.cdol-admin-home .card {
+    width: min(1120px, calc(100% - 48px));
+}
+
+.cdol-dash #bttAdminPainel,
 .cdol-dash #bttInicio {
     display: inline-flex;
     align-items: center;
@@ -2064,6 +2088,7 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
+.cdol-dash #bttAdminPainel:hover,
 .cdol-dash #bttInicio:hover,
 .cdol-dash #bttNovaReserva:hover {
     transform: translateY(-3px) scale(1.05);
@@ -2362,6 +2387,7 @@ body {
 
 .cdol-dash .tabela-reservas {
     border: 0;
+    table-layout: fixed;
 }
 
 .cdol-dash .tabela-reservas thead th {
@@ -2456,6 +2482,11 @@ body {
         padding: 16px;
     }
 
+    .cdol-dash.cdol-admin-home .dashboard-header {
+        margin-top: 0;
+        padding: 16px;
+    }
+
     .cdol-dash .dashboard-menu {
         grid-template-columns: 1fr;
         padding: 10px;
@@ -2472,6 +2503,7 @@ body {
     }
 
     .cdol-dash #bttInicio,
+    .cdol-dash #bttAdminPainel,
     .cdol-dash #bttNovaReserva {
         min-width: 0;
         font-size: 13px;
@@ -2488,6 +2520,69 @@ body {
     .cdol-dash .tabcontent {
         padding-top: 18px;
     }
+}
+
+/* Ajuste fino da tabela de reservas */
+.cdol-dash .tabela-reservas thead th {
+    padding: 10px 10px;
+    font-size: 11px;
+    line-height: 1.15;
+}
+
+.cdol-dash .tabela-reservas tbody td {
+    padding: 10px 10px;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.cdol-dash .tabela-reservas tbody td:nth-child(4),
+.cdol-dash .tabela-reservas tbody td:nth-child(5),
+.cdol-dash .acao-col {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cdol-dash .tabela-reservas th,
+.cdol-dash .tabela-reservas td {
+    width: calc(100% / 5);
+}
+
+.cdol-dash .acao-col {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cdol-dash .acao-col form,
+.cdol-dash .acao-col > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.cdol-dash .status-badge {
+    min-width: 92px;
+    min-height: 30px;
+    padding: 5px 10px;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.cdol-dash .btn-cancelar {
+    min-width: 0;
+    min-height: 32px;
+    padding: 6px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #ff5f5f, #c92e2e);
+    border: 1px solid rgba(255, 126, 126, 0.38);
+    color: #fff4f4;
+    box-shadow: 0 8px 18px rgba(170, 34, 34, 0.28);
+}
+
+.cdol-dash .status-badge.expired,
+.cdol-dash .acao-col > span.status-badge {
+    justify-content: center;
 }
 
 

@@ -1,12 +1,12 @@
 :root {
-  --cr-bg: #0b0f19;
-  --cr-bg-2: #131b30;
-  --cr-panel: rgba(18, 24, 41, 0.86);
-  --cr-panel-soft: rgba(15, 21, 36, 0.72);
-  --cr-line: rgba(182, 203, 255, 0.2);
-  --cr-line-strong: rgba(255, 208, 113, 0.45);
-  --cr-text: #eef3ff;
-  --cr-muted: #9fb0d2;
+  --cr-bg: #0f0f10;
+  --cr-bg-2: #17120d;
+  --cr-panel: rgba(18, 18, 18, 0.92);
+  --cr-panel-soft: rgba(24, 21, 17, 0.8);
+  --cr-line: rgba(255, 219, 140, 0.14);
+  --cr-line-strong: rgba(255, 208, 113, 0.38);
+  --cr-text: #f5ead6;
+  --cr-muted: #bba98a;
   --cr-gold: #ffd071;
   --cr-green: #40db8f;
   --cr-red: #f06e6e;
@@ -21,15 +21,20 @@ body.cdol-admin {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--cr-text);
   background:
-    radial-gradient(1200px 600px at -10% -10%, rgba(89, 129, 255, 0.2), transparent 58%),
-    radial-gradient(980px 420px at 110% -8%, rgba(255, 178, 86, 0.16), transparent 56%),
+    radial-gradient(1100px 540px at -10% -10%, rgba(255, 196, 92, 0.14), transparent 58%),
+    radial-gradient(880px 380px at 110% -8%, rgba(255, 143, 92, 0.1), transparent 56%),
     linear-gradient(165deg, var(--cr-bg) 0%, var(--cr-bg-2) 100%);
   min-height: 100vh;
 }
 
 .page {
-  width: min(1160px, 94vw);
-  margin: 34px auto 48px;
+  width: 100%;
+  margin: 0 0 24px;
+}
+
+body.cdol-admin-home .page {
+  width: 100%;
+  margin: 0 0 24px;
 }
 
 .header {
@@ -40,11 +45,22 @@ body.cdol-admin {
   align-items: center;
   gap: 16px;
   margin-bottom: 20px;
-  padding: 22px;
-  border-radius: 18px;
+  padding: 24px 26px 24px 78px;
+  max-width: 100%;
+  border-radius: 22px;
   border: 1px solid var(--cr-line-strong);
-  background: linear-gradient(145deg, rgba(27, 37, 61, 0.95), rgba(17, 24, 40, 0.92));
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 205, 105, 0.14), transparent 30%),
+    radial-gradient(circle at 100% 0%, rgba(255, 159, 96, 0.08), transparent 22%),
+    linear-gradient(145deg, rgba(31, 23, 16, 0.97), rgba(17, 18, 24, 0.96) 58%, rgba(11, 12, 18, 0.98));
+  box-shadow:
+    0 28px 54px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.empty,
+.grid {
+  max-width: 100%;
 }
 
 .header::after {
@@ -68,7 +84,7 @@ body.cdol-admin {
 
 .title p {
   margin: 7px 0 0;
-  color: #c7d4ee;
+  color: #c9bba2;
   font-size: 0.95rem;
 }
 
@@ -94,10 +110,11 @@ body.cdol-admin {
 .empty {
   margin: 0;
   padding: 20px;
-  border-radius: 14px;
+  border-radius: 18px;
   background: var(--cr-panel);
   border: 1px solid var(--cr-line);
   color: var(--cr-muted);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
 }
 
 .grid {
@@ -109,16 +126,19 @@ body.cdol-admin {
 .card {
   position: relative;
   background:
-    linear-gradient(180deg, rgba(31, 42, 70, 0.96), rgba(18, 25, 42, 0.94)),
+    radial-gradient(circle at top left, rgba(255, 206, 116, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(26, 22, 17, 0.98), rgba(16, 16, 16, 0.96)),
     repeating-linear-gradient(
       -45deg,
       rgba(255, 255, 255, 0.01) 0 8px,
       rgba(255, 255, 255, 0.03) 8px 16px
     );
-  border: 1px solid var(--cr-line);
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: 0 12px 28px rgba(2, 6, 16, 0.5);
+  border: 1px solid rgba(255, 219, 140, 0.14);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .card-top {
@@ -144,7 +164,7 @@ body.cdol-admin {
 
 .email {
   margin: 0;
-  color: #9cb0db;
+  color: #c2b59f;
   font-size: 0.89rem;
   word-break: break-word;
 }
@@ -211,7 +231,7 @@ body.cdol-admin {
   gap: 2px;
   padding: 9px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(166, 187, 236, 0.18);
+  border: 1px solid rgba(255, 219, 140, 0.12);
   background: var(--cr-panel-soft);
 }
 
@@ -219,7 +239,7 @@ body.cdol-admin {
   font-size: 0.73rem;
   text-transform: uppercase;
   letter-spacing: .04em;
-  color: #93a7cf;
+  color: #a79679;
 }
 
 .meta-line span:last-child {
@@ -238,10 +258,10 @@ body.cdol-admin {
 }
 
 .action-form-confirm {
-  border: 1px solid rgba(166, 187, 236, 0.18);
-  border-radius: 12px;
-  padding: 10px;
-  background: rgba(9, 14, 26, 0.55);
+  border: 1px solid rgba(255, 219, 140, 0.12);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(13, 12, 10, 0.58);
 }
 
 .action-form-reject {
@@ -273,7 +293,7 @@ body.cdol-admin {
 
 .mesa-help {
   margin: 0 0 8px;
-  color: #b8c6e1;
+  color: #beaf98;
   font-size: 0.82rem;
 }
 
@@ -306,8 +326,8 @@ body.cdol-admin {
   min-height: 42px;
   padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(170, 191, 239, 0.18);
-  background: rgba(10, 16, 28, 0.78);
+  border: 1px solid rgba(255, 219, 140, 0.14);
+  background: rgba(18, 16, 13, 0.82);
   cursor: pointer;
   transition: border-color .15s ease, transform .15s ease, box-shadow .16s ease, background .15s ease;
 }
@@ -334,12 +354,12 @@ body.cdol-admin {
 .mesa-check-id {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #edf3ff;
+  color: #f6ecd8;
 }
 
 .mesa-check-cap {
   font-size: 0.75rem;
-  color: #95a9d3;
+  color: #ac9b80;
 }
 
 .mesa-check:has(input:checked) {
@@ -375,14 +395,19 @@ body.cdol-admin {
 
 @media (max-width: 760px) {
   .page {
-    width: min(1160px, 95vw);
-    margin-top: 20px;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  body.cdol-admin-home .page {
+    width: 100%;
+    margin: 0 0 18px;
   }
 
   .header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 16px;
+    padding: 16px 16px 16px 72px;
   }
 
   .meta {
