@@ -424,7 +424,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
             </a>
             <a href="index.php">
                 <span class="admin-home-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false"><path d="M10 7 5 12l5 5"/><path d="M6 12h9a4 4 0 1 0 0 8"/></svg>
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="M7.8 11.2 12.4 6.6 11 5.2 4 12l7 6.8 1.4-1.4-4.6-4.4H20v-2z"/></svg>
                 </span>
                 <span class="admin-home-link-copy"><strong>Voltar ao site</strong><small>Regressar à homepage</small></span>
             </a>

@@ -178,6 +178,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     $mail->setFrom($env['SMTP_FROM'], $env['SMTP_FROM_NAME']);
                     $mail->addAddress($email, $nome);
 
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Encoding = 'base64';
                     $mail->isHTML(true);
                     $mail->Subject = $assunto;
                     $mail->Body    = $mensagem;
@@ -304,7 +306,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 }
 ?>
 
-<a href="index.php" class="btn-voltar">Voltar</a>
+<a href="index.php" class="btt-padrao-login login-back-link">Voltar</a>
 
 <div class="container" id="container">
 
@@ -570,7 +572,7 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
             </div>
 
 
-            <button type="submit" name="signup">Sign Up</button>
+            <button type="submit" name="signup">Entrar</button>
         </form>
     </div>
 
@@ -658,5 +660,3 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 <!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
 <script src="Js/popup_alert.js"></script>
 <script src="Js/login.js" defer></script>
-
-

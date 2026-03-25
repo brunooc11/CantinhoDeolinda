@@ -222,7 +222,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                 <a href="login.php" class="btn filled">Reserva Agora</a>
               <?php endif; ?>
 
-              <button class="btn" onclick="window.location.href='#localizacao'">Localização</button>
+              <button class="btn" type="button" data-scroll-target="#localizacao">Localização</button>
             </div>
           </div>
         </div>
@@ -377,7 +377,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="catering-box">
           <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="Catering Image">
           <p>Criamos experiências gastronómicas para eventos especiais e empresariais.</p>
-          <button onclick="window.location.href='#localizacao'">Fale Connosco</button>
+          <button type="button" data-scroll-target="#localizacao">Fale Connosco</button>
         </div>
       </div>
     </section>
@@ -677,7 +677,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <script src="Js/carrosel.js?v=20260223b"></script>
   <script src="Js/favoritos.js?v=20260223b"></script>
   <script src="Js/menu.js"></script>
-  <script src="Js/navbar.js"></script>
+  <script src="Js/navbar.js?v=<?php echo filemtime(__DIR__ . '/Js/navbar.js'); ?>"></script>
   <script src="Js/Modal_reservas.js"></script>
   <script src="Js/contacto.js"></script>
   <script src="Js/backhome.js"></script>

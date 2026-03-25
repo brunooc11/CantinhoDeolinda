@@ -481,7 +481,7 @@ $countRow = cd_fetch_one(
         SUM(CASE WHEN estado = 'novo' THEN 1 ELSE 0 END) AS novos,
         SUM(CASE WHEN estado IN ('lido', 'respondido', 'arquivado') OR lido_em IS NOT NULL THEN 1 ELSE 0 END) AS lidos,
         SUM(CASE WHEN estado IN ('novo', 'lido') THEN 1 ELSE 0 END) AS nao_tratados,
-        SUM(CASE WHEN estado = 'respondido' THEN 1 ELSE 0 END) AS respondidos,
+        SUM(CASE WHEN estado = 'respondido' OR respondido_em IS NOT NULL THEN 1 ELSE 0 END) AS respondidos,
         SUM(CASE WHEN LOWER(assunto) LIKE 'reclam%' THEN 1 ELSE 0 END) AS reclamacoes,
         SUM(CASE WHEN LOWER(assunto) LIKE 'sugest%' THEN 1 ELSE 0 END) AS sugestoes
      FROM contactos"
@@ -655,7 +655,7 @@ if ($selected !== null) {
             <h3>Filtros</h3>
             <p class="feedback-subtle">Pesquisa por remetente, email, assunto, mensagem ou nota interna.</p>
             <div class="feedback-quick-filters">
-                <a class="feedback-quick-pill <?php echo $quickFilter === 'novos' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'novos', 'page' => 1, 'open' => null])); ?>">Só novos</a>
+                <a class="feedback-quick-pill <?php echo $quickFilter === 'novos' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'novos', 'page' => 1, 'open' => null])); ?>">Novos</a>
                 <a class="feedback-quick-pill <?php echo $quickFilter === 'nao_tratados' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'nao_tratados', 'page' => 1, 'open' => null])); ?>">Não tratados</a>
                 <a class="feedback-quick-pill <?php echo $quickFilter === 'reclamacoes' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'reclamacoes', 'page' => 1, 'open' => null])); ?>">Reclamações</a>
                 <a class="feedback-quick-pill <?php echo $quickFilter === 'ultimos_7_dias' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'ultimos_7_dias', 'page' => 1, 'open' => null])); ?>">Últimos 7 dias</a>
@@ -744,6 +744,9 @@ if ($selected !== null) {
                                         <?php if (!empty($row['lido_em']) || in_array((string)($row['estado'] ?? ''), ['lido', 'respondido', 'arquivado'], true)): ?>
                                             <span class="status-chip neutral">Lido</span>
                                         <?php endif; ?>
+                                        <?php if (!empty($row['respondido_em']) && (string)($row['estado'] ?? '') !== 'respondido'): ?>
+                                            <span class="status-chip ok">Respondido</span>
+                                        <?php endif; ?>
                                         <span class="status-chip <?php echo esc(cd_feedback_status_class((string)($row['estado'] ?? 'novo'))); ?>">
                                             <?php echo esc(cd_feedback_status_label((string)($row['estado'] ?? 'novo'))); ?>
                                         </span>
@@ -751,7 +754,6 @@ if ($selected !== null) {
                                 </div>
                                 <div class="feedback-list-name"><?php echo esc((string)($row['nome'] ?? '-')); ?></div>
                                 <div class="feedback-list-email"><?php echo esc((string)($row['email'] ?? '-')); ?></div>
-                                <div class="feedback-list-message"><?php echo esc(cd_feedback_excerpt((string)($row['mensagem'] ?? ''), 140)); ?></div>
                                 <div class="feedback-list-meta">
                                     <span>#<?php echo (int)$row['feedback_id']; ?></span>
                                     <span class="feedback-age-pill <?php echo esc(cd_feedback_age_class($row['criado_em'] ?? null)); ?>"><?php echo esc(cd_feedback_relative_time($row['criado_em'] ?? null)); ?></span>
@@ -793,6 +795,9 @@ if ($selected !== null) {
                                     <span class="<?php echo esc(cd_feedback_subject_class($selected['assunto'] ?? '')); ?>">
                                         <?php echo esc((string)($selected['assunto'] ?? 'Sem assunto')); ?>
                                     </span>
+                                    <?php if (!empty($selected['respondido_em']) && (string)($selected['estado'] ?? '') !== 'respondido'): ?>
+                                        <span class="status-chip ok">Respondido anteriormente</span>
+                                    <?php endif; ?>
                                     <span class="status-chip <?php echo esc(cd_feedback_status_class((string)($selected['estado'] ?? 'novo'))); ?>">
                                         <?php echo esc(cd_feedback_status_label((string)($selected['estado'] ?? 'novo'))); ?>
                                     </span>
@@ -851,10 +856,10 @@ if ($selected !== null) {
                                 </div>
                             </form>
 
-                            <section class="feedback-history-box" data-collapsible>
+                            <section class="feedback-history-box is-collapsed" data-collapsible>
                                 <div class="feedback-history-head">
                                     <div class="feedback-message-title">Histórico administrativo</div>
-                                    <button type="button" class="feedback-collapse-btn" data-collapse-toggle aria-expanded="true">-</button>
+                                    <button type="button" class="feedback-collapse-btn" data-collapse-toggle aria-expanded="false">+</button>
                                 </div>
                                 <div class="feedback-history-content" data-collapse-content>
                                     <?php if (count($selectedAuditRows) === 0): ?>

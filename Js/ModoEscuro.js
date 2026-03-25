@@ -9,7 +9,7 @@ if (lightBtn && darkBtn && body) {
   const VALID_THEMES = new Set(["claro", "escuro"]);
 
   function applyTheme(theme) {
-    const nextTheme = VALID_THEMES.has(theme) ? theme : "claro";
+    const nextTheme = VALID_THEMES.has(theme) ? theme : "escuro";
     const isDark = nextTheme === "escuro";
 
     if (themeTransitionTimer) {

@@ -73,6 +73,8 @@ try {
     $mail->addReplyTo($email, $nome);
     $mail->addAddress($env['SMTP_ADMIN']);
 
+    $mail->CharSet = 'UTF-8';
+    $mail->Encoding = 'base64';
     $mail->isHTML(true);
     $mail->Subject = "Novo contacto: $assunto";
     $mail->Body = "

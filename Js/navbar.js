@@ -61,6 +61,22 @@ function getNavbarOffset() {
   return navbar.getBoundingClientRect().height + 14;
 }
 
+function scrollToSection(target, extraOffset = 5) {
+  if (!target) {
+    return;
+  }
+
+  const visualTarget = target.id === "localizacao"
+    ? target.querySelector(".info_adicionais-wrapper") || target
+    : target;
+
+  const targetTop = visualTarget.getBoundingClientRect().top + window.scrollY - getNavbarOffset() - extraOffset;
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: "smooth"
+  });
+}
+
 function updateNavbarState() {
   if (!navbar) {
     return;
@@ -107,13 +123,23 @@ navLinks.forEach((link) => {
     }
 
     event.preventDefault();
+    scrollToSection(target);
 
-    const targetTop = target.getBoundingClientRect().top + window.scrollY - getNavbarOffset();
-    window.scrollTo({
-      top: Math.max(0, targetTop),
-      behavior: "smooth"
-    });
+    scheduleNavUpdate();
+  });
+});
 
+document.querySelectorAll("[data-scroll-target]").forEach((trigger) => {
+  trigger.addEventListener("click", (event) => {
+    const targetSelector = trigger.getAttribute("data-scroll-target");
+    const target = targetSelector ? document.querySelector(targetSelector) : null;
+
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    scrollToSection(target);
     scheduleNavUpdate();
   });
 });

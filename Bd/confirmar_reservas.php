@@ -3,6 +3,14 @@ session_start();
 include("ligar.php");
 require_once("popup_helper.php");
 require_once("mesa_status_helper.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once(__DIR__ . "/../phpmailer/src/PHPMailer.php");
+require_once(__DIR__ . "/../phpmailer/src/SMTP.php");
+require_once(__DIR__ . "/../phpmailer/src/Exception.php");
+
+$env = parse_ini_file(__DIR__ . "/../Seguranca/config.env");
 
 if (!isset($_SESSION['permissoes'])) {
     header("Location: ../login.php");
@@ -245,22 +253,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         curl_close($ch);
     }
 
-    $para = $reserva['email'];
+    $para = (string)($reserva['email'] ?? '');
     $assunto = "Reserva Confirmada - Cantinho Deolinda";
     $mensagemEmail = "
-        Ol? {$reserva['nome']},<br><br>
-        A sua reserva foi <strong>confirmada</strong>!<br><br>
-        <strong>Data:</strong> {$reserva['data_reserva']}<br>
-        <strong>Hora:</strong> {$reserva['hora_reserva']}<br>
-        <strong>Pessoas:</strong> {$reserva['numero_pessoas']}<br><br>
-        Obrigado por escolher o Cantinho Deolinda!<br>
-        Estamos ao seu dispor.
+        <p>Olá {$reserva['nome']},</p>
+        <p>A sua reserva foi <strong>confirmada</strong>.</p>
+        <p>
+            <strong>Data:</strong> {$reserva['data_reserva']}<br>
+            <strong>Hora:</strong> {$reserva['hora_reserva']}<br>
+            <strong>Pessoas:</strong> {$reserva['numero_pessoas']}
+        </p>
+        <p>Obrigado por escolher o Cantinho Deolinda.</p>
+        <p>Estamos ao seu dispor.</p>
     ";
 
-    $headers  = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-    $headers .= "From: Cantinho Deolinda <cantinhodeolina@gmail.com>\r\n";
-    mail($para, $assunto, $mensagemEmail, $headers);
+    if ($para !== '' && !empty($env['SMTP_HOST']) && !empty($env['SMTP_USER']) && !empty($env['SMTP_PASS'])) {
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = $env['SMTP_HOST'];
+            $mail->SMTPAuth = true;
+            $mail->Username = $env['SMTP_USER'];
+            $mail->Password = $env['SMTP_PASS'];
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            $mail->CharSet = 'UTF-8';
+            $mail->Encoding = 'base64';
+            $mail->setFrom($env['SMTP_FROM'] ?? $env['SMTP_USER'], $env['SMTP_FROM_NAME'] ?? 'Cantinho Deolinda');
+            $mail->addAddress($para, (string)($reserva['nome'] ?? ''));
+            $mail->isHTML(true);
+            $mail->Subject = $assunto;
+            $mail->Body = $mensagemEmail;
+            $mail->AltBody = "Olá {$reserva['nome']}, a sua reserva foi confirmada para {$reserva['data_reserva']} às {$reserva['hora_reserva']} para {$reserva['numero_pessoas']} pessoas.";
+            $mail->send();
+        } catch (Exception $e) {
+            // Mantem o fluxo de confirmação mesmo se o email falhar.
+        }
+    }
 
     redirect_with_alert('Reserva confirmada e mesas atribuídas com sucesso.');
 }
