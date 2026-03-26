@@ -266,6 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
                 }
             }
 
+            session_regenerate_id(true);
             $_SESSION['id']         = $id;
             $_SESSION['nome']       = $nome;
             $_SESSION['email']      = $email;

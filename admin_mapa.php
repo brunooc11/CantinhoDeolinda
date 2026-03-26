@@ -57,10 +57,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['libertar_mesa_mapa'],
 
 $mesaEstados = [];
 $mesaLocks = [];
+$mesaLayout = [];
 if (isset($con) && $con instanceof mysqli) {
     cd_sync_mesa_states($con);
     $mesaLocks = cd_get_mesa_lock_map($con);
-    $sqlMesas = "SELECT id, estado FROM mesas WHERE tipo = 'mesa'";
+    $hasPosLeft = false;
+    $hasPosTop = false;
+    $hasPosRight = false;
+    $hasGrupo = false;
+
+    $colRes = mysqli_query($con, "SHOW COLUMNS FROM mesas");
+    if ($colRes) {
+        while ($colRow = mysqli_fetch_assoc($colRes)) {
+            $field = (string)($colRow['Field'] ?? '');
+            if ($field === 'pos_left') {
+                $hasPosLeft = true;
+            } elseif ($field === 'pos_top') {
+                $hasPosTop = true;
+            } elseif ($field === 'pos_right') {
+                $hasPosRight = true;
+            } elseif ($field === 'grupo') {
+                $hasGrupo = true;
+            }
+        }
+    }
+
+    $hasTipoMesaRows = $hasTipo = false;
+    $hasAtivaRows = false;
+
+    if ($colRes) {
+        mysqli_data_seek($colRes, 0);
+        while ($colRow = mysqli_fetch_assoc($colRes)) {
+            $field = (string)($colRow['Field'] ?? '');
+            if ($field === 'tipo') {
+                $hasTipo = true;
+            } elseif ($field === 'ativa') {
+                $hasAtivaRows = true;
+            }
+        }
+    }
+
+    $hasTipoMesaRows = $hasTipo && cd_has_rows_for_condition_safe($con, 'mesas', "tipo = 'mesa'");
+    $hasAtivaRows = $hasAtivaRows && cd_has_rows_for_condition_safe($con, 'mesas', "ativa = 1");
+
+    $posTopColumn = $hasPosTop ? 'pos_top' : ($hasPosRight ? 'pos_right' : null);
+    $selectParts = ["id", "estado"];
+    $selectParts[] = $hasPosLeft ? "pos_left AS pos_left" : "NULL AS pos_left";
+    $selectParts[] = $posTopColumn !== null ? "{$posTopColumn} AS pos_top" : "NULL AS pos_top";
+    $selectParts[] = $hasGrupo ? "grupo AS grupo" : "NULL AS grupo";
+
+    $whereParts = [];
+    if ($hasTipoMesaRows) {
+        $whereParts[] = "tipo = 'mesa'";
+    }
+    if ($hasAtivaRows) {
+        $whereParts[] = "ativa = 1";
+    }
+    $whereSql = count($whereParts) > 0 ? " WHERE " . implode(' AND ', $whereParts) : '';
+
+    $sqlMesas = "SELECT " . implode(', ', $selectParts) . " FROM mesas" . $whereSql;
     $resMesas = mysqli_query($con, $sqlMesas);
     if ($resMesas) {
         while ($row = mysqli_fetch_assoc($resMesas)) {
@@ -73,6 +128,23 @@ if (isset($con) && $con instanceof mysqli) {
                 $estado = 'livre';
             }
             $mesaEstados[$id] = $estado;
+
+            $posLeft = trim((string)($row['pos_left'] ?? ''));
+            $posTop = trim((string)($row['pos_top'] ?? ''));
+            $grupo = trim((string)($row['grupo'] ?? ''));
+            $layoutItem = [];
+            if ($posLeft !== '') {
+                $layoutItem['left'] = $posLeft;
+            }
+            if ($posTop !== '') {
+                $layoutItem['top'] = $posTop;
+            }
+            if ($grupo !== '') {
+                $layoutItem['group'] = $grupo;
+            }
+            if (!empty($layoutItem)) {
+                $mesaLayout[$id] = $layoutItem;
+            }
         }
     }
 }
@@ -264,8 +336,11 @@ if (isset($con) && $con instanceof mysqli) {
     <script>
         window.CDOL_MESA_STATES = <?php echo json_encode($mesaEstados, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
         window.CDOL_MESA_LOCKS = <?php echo json_encode($mesaLocks, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        window.CDOL_MESA_LAYOUT = <?php echo json_encode($mesaLayout, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        window.CDOL_MESA_SAVE_URL = <?php echo json_encode('Bd/mesa_layout_api.php'); ?>;
+        window.CDOL_CSRF_TOKEN = <?php echo json_encode(cd_mapa_csrf()); ?>;
     </script>
-    <script src="Js/admin_mapa.js"></script>
+    <script src="Js/admin_mapa.js?v=<?php echo filemtime(__DIR__ . '/Js/admin_mapa.js'); ?>"></script>
     <script>
         (function () {
             var body = document.body;

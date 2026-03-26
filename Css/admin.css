@@ -1816,8 +1816,8 @@ html.admin-home-page::-webkit-scrollbar-corner {
 .cdol-admin .admin-filter-bar input[type="date"] { min-height: 44px; border-radius: 12px; }
 .cdol-admin .admin-table tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
 .cdol-admin .admin-table tbody tr:hover td { background: rgba(255, 212, 90, 0.06); }
-.cdol-admin .admin-actions-cell { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.cdol-admin .admin-actions-cell .action-btn { margin: 0 !important; }
+.cdol-admin .admin-actions-cell { display: table-cell; }
+.cdol-admin .admin-actions-cell .action-btn { margin: 3px 4px 3px 0 !important; }
 .cdol-admin .admin-home-link-copy strong,
 .cdol-admin .admin-home-sidebar-brand strong { letter-spacing: 0.18px; }
 .cdol-admin .admin-home-icon { border-radius: 12px; }

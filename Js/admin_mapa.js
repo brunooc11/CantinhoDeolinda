@@ -9,6 +9,11 @@
     const lockStates = (window.CDOL_MESA_LOCKS && typeof window.CDOL_MESA_LOCKS === "object")
         ? window.CDOL_MESA_LOCKS
         : {};
+    const initialLayout = (window.CDOL_MESA_LAYOUT && typeof window.CDOL_MESA_LAYOUT === "object")
+        ? window.CDOL_MESA_LAYOUT
+        : {};
+    const saveUrl = typeof window.CDOL_MESA_SAVE_URL === "string" ? window.CDOL_MESA_SAVE_URL : "";
+    const csrfToken = typeof window.CDOL_CSRF_TOKEN === "string" ? window.CDOL_CSRF_TOKEN : "";
 
     const kpiLivre = document.getElementById("kpiLivre");
     const kpiReservada = document.getElementById("kpiReservada");
@@ -132,6 +137,51 @@
         return Math.max(min, Math.min(max, value));
     }
 
+    async function persistMesaChange(payload) {
+        if (!saveUrl || !csrfToken) return false;
+        try {
+            const response = await fetch(saveUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ...payload,
+                    csrf_token: csrfToken
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error("save_failed");
+            }
+
+            return true;
+        } catch (_error) {
+            // Mantem a interacao do mapa local mesmo que a persistencia falhe.
+            return false;
+        }
+    }
+
+    function getMesaPositionPercent(mesa) {
+        const canvas = mesa.closest(".restaurante-canvas");
+        if (!canvas) return null;
+
+        const mesaRect = mesa.getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        if (canvasRect.width <= 0 || canvasRect.height <= 0) return null;
+
+        const leftPx = mesaRect.left - canvasRect.left + (mesaRect.width / 2);
+        const topPx = mesaRect.top - canvasRect.top + (mesaRect.height / 2);
+
+        const leftPercent = (leftPx / canvasRect.width) * 100;
+        const topPercent = (topPx / canvasRect.height) * 100;
+
+        return {
+            left: `${leftPercent.toFixed(2)}%`,
+            top: `${topPercent.toFixed(2)}%`
+        };
+    }
+
     function getMesaCapacidade(mesa) {
         if (mesa.classList.contains("cap-8")) return 8;
         if (mesa.classList.contains("cap-6")) return 6;
@@ -236,6 +286,19 @@
             setState(target, nextState(getState(target)));
             updateKpis();
         } else if (drag.moved) {
+            if (drag.isMesa) {
+                const position = getMesaPositionPercent(target);
+                if (position && target.dataset.id) {
+                    target.style.left = position.left;
+                    target.style.top = position.top;
+                    persistMesaChange({
+                        action: "save_position",
+                        mesa_id: target.dataset.id,
+                        left: position.left,
+                        top: position.top
+                    });
+                }
+            }
             target.dataset.dragMoved = "1";
             setTimeout(() => {
                 delete target.dataset.dragMoved;
@@ -302,6 +365,13 @@
             mesa.classList.remove("merge-select");
             mesa.classList.add("merge-grouped");
             mesa.dataset.group = groupCode;
+            if (mesa.dataset.id) {
+                persistMesaChange({
+                    action: "save_group",
+                    mesa_id: mesa.dataset.id,
+                    group: groupCode
+                });
+            }
         });
         selectedMesas.clear();
         mergeCount += 1;
@@ -311,6 +381,13 @@
     function clearMergeGroups() {
         mesas.forEach((mesa) => {
             mesa.classList.remove("merge-grouped", "merge-select");
+            if (mesa.dataset.id && mesa.dataset.group) {
+                persistMesaChange({
+                    action: "save_group",
+                    mesa_id: mesa.dataset.id,
+                    group: null
+                });
+            }
             delete mesa.dataset.group;
         });
         selectedMesas.clear();
@@ -328,8 +405,13 @@
     });
 
     if (mapaResetBtn) {
-        mapaResetBtn.addEventListener("click", () => {
-            window.location.reload();
+        mapaResetBtn.addEventListener("click", async () => {
+            const ok = await persistMesaChange({
+                action: "reset_layout"
+            });
+            if (ok) {
+                window.location.reload();
+            }
         });
     }
 
@@ -342,6 +424,19 @@
 
     mesas.forEach((mesa) => {
         const mesaId = mesa.dataset.id || "";
+        if (mesaId && Object.prototype.hasOwnProperty.call(initialLayout, mesaId)) {
+            const mesaLayout = initialLayout[mesaId] || {};
+            if (typeof mesaLayout.left === "string" && mesaLayout.left !== "") {
+                mesa.style.left = mesaLayout.left;
+            }
+            if (typeof mesaLayout.top === "string" && mesaLayout.top !== "") {
+                mesa.style.top = mesaLayout.top;
+            }
+            if (typeof mesaLayout.group === "string" && mesaLayout.group !== "") {
+                mesa.dataset.group = mesaLayout.group;
+                mesa.classList.add("merge-grouped");
+            }
+        }
         if (mesaId && Object.prototype.hasOwnProperty.call(initialStates, mesaId)) {
             setState(mesa, normalizeState(initialStates[mesaId]));
         }
@@ -361,7 +456,15 @@
                 if (mesa.dataset.dragMoved === "1") return;
                 return;
             }
-            setState(mesa, nextState(getState(mesa)));
+            const next = nextState(getState(mesa));
+            setState(mesa, next);
+            if (mesaId) {
+                persistMesaChange({
+                    action: "save_state",
+                    mesa_id: mesaId,
+                    state: next
+                });
+            }
             updateKpis();
         });
     });

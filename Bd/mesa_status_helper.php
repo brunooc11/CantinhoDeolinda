@@ -13,6 +13,17 @@ function cd_has_column_safe(mysqli $con, string $table, string $column): bool
     return $res && mysqli_num_rows($res) > 0;
 }
 
+function cd_has_rows_for_condition_safe(mysqli $con, string $table, string $conditionSql): bool
+{
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $table)) {
+        return false;
+    }
+
+    $sql = "SELECT 1 FROM `$table` WHERE $conditionSql LIMIT 1";
+    $res = mysqli_query($con, $sql);
+    return $res && mysqli_num_rows($res) > 0;
+}
+
 function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RELEASE_MINUTES): void
 {
     if ($durationMinutes <= 0) {
@@ -22,22 +33,11 @@ function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RE
     $hasTipo = cd_has_column_safe($con, 'mesas', 'tipo');
     $hasAtiva = cd_has_column_safe($con, 'mesas', 'ativa');
 
-    $mesaFilters = [];
-    if ($hasTipo) {
-        $mesaFilters[] = "tipo = 'mesa'";
-    }
-    if ($hasAtiva) {
-        $mesaFilters[] = "ativa = 1";
-    }
-
-    $mesaWhere = count($mesaFilters) > 0 ? 'WHERE ' . implode(' AND ', $mesaFilters) : '';
-    mysqli_query($con, "UPDATE mesas SET estado = 'livre' $mesaWhere");
-
     $joinFilters = [];
-    if ($hasTipo) {
+    if ($hasTipo && cd_has_rows_for_condition_safe($con, 'mesas', "tipo = 'mesa'")) {
         $joinFilters[] = "m.tipo = 'mesa'";
     }
-    if ($hasAtiva) {
+    if ($hasAtiva && cd_has_rows_for_condition_safe($con, 'mesas', "ativa = 1")) {
         $joinFilters[] = "m.ativa = 1";
     }
     $joinWhere = count($joinFilters) > 0 ? ' AND ' . implode(' AND ', $joinFilters) : '';
@@ -74,6 +74,26 @@ function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RE
         mysqli_stmt_bind_param($stmtOcupadas, 'i', $durationMinutes);
         mysqli_stmt_execute($stmtOcupadas);
         mysqli_stmt_close($stmtOcupadas);
+    }
+
+    $sqlLibertarInativas = "
+        UPDATE mesas m
+        JOIN reserva_mesas rm ON rm.mesa_id = m.id
+        LEFT JOIN reservas r ON r.id = rm.reserva_id
+        SET m.estado = 'livre'
+        WHERE (
+            r.id IS NULL
+            OR r.confirmado <> 1
+            OR r.estado NOT IN ('pendente', 'compareceu')
+            OR TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) <= NOW()
+        )
+        $joinWhere
+    ";
+    $stmtLibertarInativas = mysqli_prepare($con, $sqlLibertarInativas);
+    if ($stmtLibertarInativas) {
+        mysqli_stmt_bind_param($stmtLibertarInativas, 'i', $durationMinutes);
+        mysqli_stmt_execute($stmtLibertarInativas);
+        mysqli_stmt_close($stmtLibertarInativas);
     }
 }
 
