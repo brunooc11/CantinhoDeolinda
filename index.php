@@ -2,6 +2,10 @@
 require("config.php");
 require_once("Bd/popup_helper.php");
 
+if (empty($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   cd_popup('Não pode efetuar reservas devido a faltas anteriores.', 'error');
 }
@@ -64,7 +68,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
 </head>
 
-<body data-logged-in="<?php echo isset($_SESSION['id']) ? '1' : '0'; ?>">
+<body
+  data-logged-in="<?php echo isset($_SESSION['id']) ? '1' : '0'; ?>"
+  data-csrf-token="<?php echo htmlspecialchars((string)($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8'); ?>">
 
   <!-- Loader -->
   <div class="loader-wrapper" id="loaderWrapper">
@@ -592,6 +598,188 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
     </div>
 
+    <script>
+      window.CDOL_CHAT_INLINE = true;
+      (function () {
+        var btn = document.getElementById('btnChat');
+        var box = document.getElementById('chatBox');
+        var close = document.getElementById('closeChat');
+        var messages = document.querySelector('.chat-messages');
+        var input = document.querySelector('.chat-input input');
+        var send = document.getElementById('sendChat');
+        var quickButtons = document.querySelectorAll('.quick-btns button');
+        var body = document.body;
+        var csrfToken = body && body.dataset ? (body.dataset.csrfToken || '') : '';
+        var waitingForBot = false;
+        var conversationHistory = [];
+
+        if (!btn || !box || !close || !messages || !input || !send) return;
+
+        function openChatBox() {
+          box.classList.remove('hidden', 'closing');
+          input.focus();
+        }
+
+        function closeChatBox() {
+          if (box.classList.contains('hidden') || box.classList.contains('closing')) return;
+          box.classList.add('closing');
+        }
+
+        function addMessage(text, sender) {
+          var msg = document.createElement('div');
+          msg.className = 'msg ' + sender;
+          msg.innerText = text;
+          messages.appendChild(msg);
+          messages.scrollTop = messages.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+          var typing = document.createElement('div');
+          typing.className = 'msg bot';
+          typing.id = 'typing-indicator';
+          typing.innerText = 'A escrever...';
+          messages.appendChild(typing);
+          messages.scrollTop = messages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+          var typing = document.getElementById('typing-indicator');
+          if (typing) typing.remove();
+        }
+
+        function guardarChat(texto, remetente) {
+          fetch('Bd/guardar_chat.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'mensagem=' + encodeURIComponent(texto) + '&remetente=' + encodeURIComponent(remetente)
+          }).catch(function () {});
+        }
+
+        function respostaLocal(texto) {
+          var msg = String(texto || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+
+          if (msg.indexOf('reserva') !== -1) {
+            return "Para reservas, usa o botao 'Reserva Agora' no site.";
+          }
+          if (msg.indexOf('menu') !== -1) {
+            return 'O menu esta disponivel na secao Menu.';
+          }
+          if (msg.indexOf('localizacao') !== -1) {
+            return 'Estamos em Alenquer.';
+          }
+          if (msg.indexOf('contacto') !== -1 || msg.indexOf('telefone') !== -1) {
+            return 'Telefone: +351 966 545 510 | Email: cantinhodeolina@gmail.com';
+          }
+
+          return 'No momento nao consegui responder por IA. Tenta reformular a pergunta ou usa os botoes rapidos.';
+        }
+
+        function pedirRespostaIA(texto) {
+          if (!csrfToken) {
+            return Promise.reject(new Error('csrf_missing'));
+          }
+
+          return fetch('Bd/chatbot_ai.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              message: texto,
+              history: conversationHistory.slice(-8),
+              csrf_token: csrfToken
+            })
+          }).then(function (response) {
+            return response.text().then(function (raw) {
+              var data = null;
+
+              try {
+                data = JSON.parse(raw);
+              } catch (e) {
+                throw new Error('Resposta invalida do servidor.');
+              }
+
+              if (!response.ok || !data || !data.reply) {
+                throw new Error((data && data.error) || 'Erro ao obter resposta da IA.');
+              }
+
+              return data.reply;
+            });
+          });
+        }
+
+        function enviarMensagem(texto) {
+          var textoLimpo = String(texto || '').trim();
+
+          if (textoLimpo === '' || waitingForBot) return;
+
+          waitingForBot = true;
+          input.disabled = true;
+          send.disabled = true;
+
+          addMessage(textoLimpo, 'user');
+          guardarChat(textoLimpo, 'user');
+          conversationHistory.push({ role: 'user', content: textoLimpo });
+          input.value = '';
+          addTypingIndicator();
+
+          pedirRespostaIA(textoLimpo)
+            .catch(function (error) {
+              return respostaLocal(textoLimpo);
+            })
+            .then(function (resposta) {
+              removeTypingIndicator();
+              addMessage(resposta, 'bot');
+              guardarChat(resposta, 'bot');
+              conversationHistory.push({ role: 'assistant', content: resposta });
+              input.disabled = false;
+              send.disabled = false;
+              input.focus();
+              waitingForBot = false;
+            });
+        }
+
+        btn.addEventListener('click', function () {
+          if (box.classList.contains('hidden')) openChatBox();
+          else closeChatBox();
+        });
+
+        close.addEventListener('click', function () {
+          closeChatBox();
+        });
+
+        box.addEventListener('animationend', function (event) {
+          if (event.animationName === 'chat-fall') {
+            box.classList.add('hidden');
+            box.classList.remove('closing');
+          }
+        });
+
+        input.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            enviarMensagem(input.value);
+          }
+        });
+
+        send.addEventListener('click', function () {
+          enviarMensagem(input.value);
+        });
+
+        Array.prototype.forEach.call(quickButtons, function (quickBtn) {
+          quickBtn.addEventListener('click', function () {
+            var texto = (quickBtn.dataset.message || quickBtn.innerText || '').trim();
+            enviarMensagem(texto);
+          });
+        });
+      })();
+    </script>
+
     <!-- Botão para voltar ao Home -->
     <a href="#home" id="backHomeBtn" class="back-home-btn"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
 
@@ -681,7 +869,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <script src="Js/Modal_reservas.js"></script>
   <script src="Js/contacto.js"></script>
   <script src="Js/backhome.js"></script>
-  <script src="Js/chatbot.js"></script>
+  <script src="Js/chatbot.js?v=<?php echo filemtime(__DIR__ . '/Js/chatbot.js'); ?>"></script>
   <script src="Js/scroll_reveal.js"></script>
 
 </body>

@@ -9,7 +9,20 @@ require("../phpmailer/src/PHPMailer.php");
 require("../phpmailer/src/SMTP.php");
 require("../phpmailer/src/Exception.php");
 
-$env = parse_ini_file("../Seguranca/config.env");
+$envCandidates = [
+    __DIR__ . "/../Seguranca/config.env",
+    __DIR__ . "/../seguranca/config.env",
+];
+$env = [];
+foreach ($envCandidates as $envPath) {
+    if (is_file($envPath) && is_readable($envPath)) {
+        $parsedEnv = parse_ini_file($envPath, false, INI_SCANNER_RAW);
+        if (is_array($parsedEnv)) {
+            $env = $parsedEnv;
+            break;
+        }
+    }
+}
 
 $msg = "";
 $enviado = false;
@@ -90,7 +103,7 @@ if (isset($_POST['recuperar'])) {
                 $link = "https://aluno15696.damiaodegoes.pt/recuperacao/reset_password.php?token=$token";
 
                 $mensagem = "
-                <h3>Recuperação de palavra-passe</h3>
+                <h3>Recuperacao de palavra-passe</h3>
                 <p>Clique no link abaixo para redefinir a sua palavra-passe:</p>
                 <p><a href='$link'>$link</a></p>
                 <p>Este link expira em 30 minutos.</p>
@@ -112,12 +125,12 @@ if (isset($_POST['recuperar'])) {
                     $mail->CharSet = 'UTF-8';
                     $mail->Encoding = 'base64';
                     $mail->isHTML(true);
-                    $mail->Subject = "Recuperação de palavra-passe";
+                    $mail->Subject = "Recuperacao de palavra-passe";
                     $mail->Body = $mensagem;
-                    $mail->AltBody = "Recuperação de palavra-passe. Use este link para redefinir: $link (expira em 30 minutos).";
+                    $mail->AltBody = "Recuperacao de palavra-passe. Use este link para redefinir: $link (expira em 30 minutos).";
                     $mail->send();
                 } catch (Exception $e) {
-                    // Mantém resposta neutra.
+                    // Mantem resposta neutra.
                 }
             }
 
@@ -146,14 +159,14 @@ if (isset($_POST['recuperar'])) {
     <main class="recovery-shell">
         <section class="recovery-hero">
             <span class="recovery-badge">Conta segura</span>
-            <h1 class="recovery-title">Recuperar acesso à sua conta</h1>
+            <h1 class="recovery-title">Recuperar acesso a sua conta</h1>
             <p class="recovery-copy">
-                Introduza o seu e-mail e enviaremos um link para redefinir a palavra-passe de forma rápida e segura.
+                Introduza o seu e-mail e enviaremos um link para redefinir a palavra-passe de forma rapida e segura.
             </p>
             <ul class="recovery-points">
-                <li>Link válido por 30 minutos</li>
+                <li>Link valido por 30 minutos</li>
                 <li>Sem perda de dados na conta</li>
-                <li>Processo protegido com token único</li>
+                <li>Processo protegido com token unico</li>
             </ul>
         </section>
 
@@ -162,18 +175,18 @@ if (isset($_POST['recuperar'])) {
                 <div class="recovery-form is-success">
                     <h2>Email enviado</h2>
                     <p class="recovery-sub">
-                        Se o e-mail existir, receberá instruções para redefinir a palavra-passe.
+                        Se o e-mail existir, recebera instrucoes para redefinir a palavra-passe.
                     </p>
                     <p class="recovery-msg success">
-                        Verifique a sua caixa de entrada e também o spam.
+                        Verifique a sua caixa de entrada e tambem o spam.
                     </p>
-                    <a href="../login.php" class="recovery-btn recovery-success-cta">Iniciar sessão</a>
+                    <a href="../login.php" class="recovery-btn recovery-success-cta">Iniciar sessao</a>
                 </div>
             <?php else: ?>
                 <form method="POST" class="recovery-form">
                     <h2>Recuperar palavra-passe</h2>
                     <p class="recovery-sub">
-                        Introduza o e-mail associado à conta.
+                        Introduza o e-mail associado a conta.
                     </p>
 
                     <div class="recovery-input-wrap">
