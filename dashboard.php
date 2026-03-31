@@ -434,7 +434,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <title>Dashboard - Cantinho_Deolinda</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
-    <link rel="stylesheet" href="Css/dashboard.css">
+    <link rel="stylesheet" href="Css/dashboard.css?v=<?php echo filemtime(__DIR__ . '/Css/dashboard.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
 </head>
 
