@@ -223,6 +223,8 @@ input::placeholder {
 	position: relative;
 	width: 100%;
 	margin: 8px 0;
+  --pass-icon-size: 26px;
+  --pass-icon-radius: 8px;
 }
 
 .password-wrapper input {
@@ -236,9 +238,11 @@ input::placeholder {
 	right: 10px;
 	top: 50%;
 	transform: translateY(-50%);
-	width: 28px;
-	height: 28px;
-	border-radius: 9px;
+	width: var(--pass-icon-size);
+	height: var(--pass-icon-size);
+	min-width: var(--pass-icon-size);
+	min-height: var(--pass-icon-size);
+	border-radius: var(--pass-icon-radius);
 	border: 1px solid rgba(245, 182, 49, 0.26);
 	background: rgba(245,182,49,0.08);
 	color: #f5b631;
@@ -529,15 +533,71 @@ input::placeholder {
   color: #ccc;
   cursor: pointer;
   text-align: left;
+  position: relative;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .terms input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.terms label:focus,
+.terms label:focus-visible,
+.terms label:focus-within,
+.terms:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.terms-box {
   width: 16px;
   height: 16px;
-  accent-color: #f5b631; /* amarelo do tema */
-  cursor: pointer;
-  margin: 0;
+  min-width: 16px;
+  min-height: 16px;
+  flex: 0 0 16px;
+  border: 1px solid #b88527;
   border-radius: 4px;
+  background: transparent;
+  display: inline-block;
+  position: relative;
+  box-shadow: none !important;
+  outline: none !important;
+  filter: none !important;
+  transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.terms-box::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid #1b1b1b;
+  border-bottom: 2px solid #1b1b1b;
+  transform: rotate(45deg) scale(0);
+  transform-origin: center;
+  transition: transform 0.16s ease;
+}
+
+.terms input[type="checkbox"]:checked + .terms-box {
+  background: #f5b631;
+  border-color: #f5b631;
+  box-shadow: 0 0 0 3px rgba(245, 182, 49, 0.22), 0 0 14px rgba(245, 182, 49, 0.18) !important;
+  outline: none !important;
+  transform: scale(1.06);
+}
+
+.terms input[type="checkbox"]:checked + .terms-box::after {
+  transform: rotate(45deg) scale(1);
 }
 
 .terms a {
@@ -551,26 +611,48 @@ input::placeholder {
 }
 
 .pass-info-icon {
+  all: unset;
   position: absolute;
   right: 44px;
   top: 50%;
   transform: translateY(-50%);
-  width: 28px;
-  min-height: 0;
-  height: 28px;
-  border-radius: 9px;
-  border: 1px solid rgba(245, 182, 49, 0.26);
-  background: rgba(245, 182, 49, 0.08);
-  color: #f5b631;
-  font-size: 13px;
-  font-weight: 700;
+  width: var(--pass-icon-size);
+  min-width: var(--pass-icon-size);
+  height: var(--pass-icon-size);
+  min-height: var(--pass-icon-size);
+  border-radius: var(--pass-icon-radius);
+  border: 1px solid rgba(245, 182, 49, 0.34);
+  background: linear-gradient(155deg, rgba(245, 182, 49, 0.14), rgba(245, 182, 49, 0.03));
+  color: #ffd67a;
   padding: 0;
-  line-height: 1;
-  cursor: help;
+  line-height: 0;
+  cursor: pointer;
   z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.16s ease;
+  font-size: 0;
+  font-weight: 400;
+}
+
+.pass-info-icon::before {
+  content: "?";
+  display: block;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.pass-info-icon:hover {
+  background: linear-gradient(155deg, rgba(245, 182, 49, 0.23), rgba(245, 182, 49, 0.07));
+  border-color: rgba(245, 182, 49, 0.66);
+  color: #ffebbc;
+}
+
+.pass-info-icon:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 .pass-tooltip {
@@ -900,13 +982,25 @@ button.ghost {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
+  width: var(--pass-icon-size);
+  height: var(--pass-icon-size);
+  min-width: var(--pass-icon-size);
+  min-height: var(--pass-icon-size);
+  border-radius: var(--pass-icon-radius);
   border: 1px solid rgba(245, 182, 49, 0.34);
   background: linear-gradient(155deg, rgba(245, 182, 49, 0.14), rgba(245, 182, 49, 0.03));
   color: #ffd67a;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.16s ease;
+}
+
+.password-wrapper .toggle-pass,
+.password-wrapper .pass-info-icon {
+  width: var(--pass-icon-size) !important;
+  height: var(--pass-icon-size) !important;
+  min-width: var(--pass-icon-size) !important;
+  min-height: var(--pass-icon-size) !important;
+  border-radius: var(--pass-icon-radius) !important;
+  box-sizing: border-box !important;
 }
 
 .password-wrapper .toggle-pass:hover {
@@ -928,10 +1022,11 @@ button.ghost {
 }
 
 .pass-info-icon {
-  border-color: rgba(255, 215, 124, 0.74);
-  background: rgba(245, 182, 49, 0.16);
-  color: #ffd881;
-  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.18);
+  border-color: rgba(245, 182, 49, 0.34);
+  background: linear-gradient(155deg, rgba(245, 182, 49, 0.14), rgba(245, 182, 49, 0.03));
+  color: #ffd67a;
+  box-shadow: none;
+  font-size: 0;
 }
 
 .pass-tooltip {
@@ -1022,7 +1117,8 @@ body::before {
 }
 
 .terms input[type="checkbox"] {
-  accent-color: #f5b631;
+  min-height: 1px;
+  flex: 0 0 1px;
 }
 
 

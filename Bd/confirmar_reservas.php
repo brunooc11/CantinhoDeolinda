@@ -3,6 +3,7 @@ session_start();
 include("ligar.php");
 require_once("popup_helper.php");
 require_once("mesa_status_helper.php");
+require_once("email_template_helper.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -267,17 +268,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
 
     $para = (string)($reserva['email'] ?? '');
     $assunto = "Reserva Confirmada - Cantinho Deolinda";
-    $mensagemEmail = "
-        <p>Ola {$reserva['nome']},</p>
-        <p>A sua reserva foi <strong>confirmada</strong>.</p>
-        <p>
-            <strong>Data:</strong> {$reserva['data_reserva']}<br>
-            <strong>Hora:</strong> {$reserva['hora_reserva']}<br>
-            <strong>Pessoas:</strong> {$reserva['numero_pessoas']}
-        </p>
-        <p>Obrigado por escolher o Cantinho Deolinda.</p>
-        <p>Estamos ao seu dispor.</p>
-    ";
+    $mensagemEmail = cd_email_template(
+        'Reserva confirmada',
+        'A sua mesa esta confirmada',
+        "Ola {$reserva['nome']}, temos o prazer de confirmar a sua reserva.",
+        '
+            <p style="margin:0 0 16px;">Reservamos a sua visita e deixamos abaixo os principais detalhes para consulta rapida.</p>
+            ' . cd_email_detail_rows([
+                'Data' => (string)$reserva['data_reserva'],
+                'Hora' => (string)$reserva['hora_reserva'],
+                'Numero de pessoas' => (string)$reserva['numero_pessoas'],
+            ]) . '
+            <p style="margin:16px 0 0;">Obrigado por escolher o Cantinho Deolinda. Esperamos por si.</p>
+        '
+    );
 
     if ($para !== '' && !empty($env['SMTP_HOST']) && !empty($env['SMTP_USER']) && !empty($env['SMTP_PASS'])) {
         try {

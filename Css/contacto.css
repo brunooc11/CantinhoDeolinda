@@ -97,6 +97,27 @@
   max-width: 560px;
 }
 
+#contacto .contact-actions {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  grid-column: 1 / -1 !important;
+  width: 100%;
+  margin-top: 14px;
+}
+
+#contacto .contact-note-inline {
+  margin: 0 !important;
+  max-width: none !important;
+  flex: 1 1 auto;
+  max-width: 430px !important;
+  font-size: 0.88rem !important;
+  line-height: 1.36 !important;
+  white-space: normal;
+  text-align: left !important;
+}
+
 #contacto .contact-card p {
   margin-top: 0;
 }
@@ -208,10 +229,6 @@
   .form-grid {
     grid-template-columns: 1fr;
   }
-
-  #btt-contact-pos {
-    width: 100%;
-  }
 }
 
 /* Corrige texto centrado que vem do CSS global */
@@ -255,10 +272,6 @@
     padding: 28px 22px;
   }
 
-  #btt-contact-pos {
-    width: 100%;
-    text-align: center;
-  }
 }
 
 /* ===== Contacto Visual Refresh (scoped) ===== */
@@ -303,6 +316,11 @@
   margin-bottom: 22px;
   font-size: 0.95rem;
   color: #e5dbc8;
+}
+
+#contacto .contact-note-end {
+  margin-top: 18px !important;
+  margin-bottom: 0 !important;
 }
 
 #contacto .form-grid {
@@ -374,7 +392,17 @@
 }
 
 #contacto #btt-contact-pos {
-  margin-top: 14px;
+  margin: 0 0 0 auto !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+#contacto .contact-note-inline {
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  white-space: normal;
 }
 
 /* Scroll reveal for contacto card */
@@ -420,6 +448,16 @@ body.js-reveal-enabled #contacto .contact-card.is-revealed {
     min-height: 162px;
   }
 
+  #contacto .contact-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #contacto .contact-note-inline {
+    max-width: none;
+  }
+
   #contacto .contact-card h1 {
     font-size: clamp(1.45rem, 7.3vw, 1.8rem);
   }
@@ -427,6 +465,17 @@ body.js-reveal-enabled #contacto .contact-card.is-revealed {
   #contacto .contact-card .subtitle {
     font-size: 0.92rem;
     line-height: 1.55;
+  }
+
+  #contacto .contact-intro {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  #contacto .contact-note {
+    padding: 10px 12px;
+    font-size: 0.89rem;
+    border-radius: 16px;
   }
 }
 

@@ -1,6 +1,7 @@
 <?php
 require("../config.php");
 require("../Bd/ligar.php");
+require_once("../Bd/email_template_helper.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -102,12 +103,18 @@ if (isset($_POST['recuperar'])) {
 
                 $link = "https://aluno15696.damiaodegoes.pt/recuperacao/reset_password.php?token=$token";
 
-                $mensagem = "
-                <h3>Recuperacao de palavra-passe</h3>
-                <p>Clique no link abaixo para redefinir a sua palavra-passe:</p>
-                <p><a href='$link'>$link</a></p>
-                <p>Este link expira em 30 minutos.</p>
-                ";
+                $mensagem = cd_email_template(
+                    'Seguranca da conta',
+                    'Recuperacao de palavra-passe',
+                    'Recebemos um pedido para redefinir a palavra-passe da sua conta.',
+                    '
+                        <p style="margin:0 0 16px;">Se foi mesmo voce que fez este pedido, use o botao abaixo para escolher uma nova palavra-passe.</p>
+                        <p style="margin:0;">Por seguranca, este acesso temporario expira ao fim de 30 minutos.</p>
+                    ',
+                    'Redefinir palavra-passe',
+                    $link,
+                    'Se nao pediu esta alteracao, pode ignorar esta mensagem. A sua palavra-passe atual continuara valida.'
+                );
 
                 try {
                     $mail = new PHPMailer(true);

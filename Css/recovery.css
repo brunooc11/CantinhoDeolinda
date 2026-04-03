@@ -36,6 +36,11 @@ body {
     top: 18px;
     right: 22px;
     left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    line-height: 1;
 }
 
 .recovery-shell {

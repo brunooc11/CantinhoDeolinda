@@ -32,7 +32,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/bttlogin.css">
   <link rel="stylesheet" href="Css/conta.css">
   <link rel="stylesheet" href="Css/modal_reservas.css">
-  <link rel="stylesheet" href="Css/contacto.css">
+  <link rel="stylesheet" href="Css/contacto.css?v=<?php echo filemtime(__DIR__ . '/Css/contacto.css'); ?>">
   <link rel="stylesheet" href="Css/info_adicionais.css">
   <link rel="stylesheet" href="Css/backhome.css">
   <link rel="stylesheet" href="Css/footer.css">
@@ -507,7 +507,9 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
 
         <div class="contact-card">
           <h1>Feedback</h1>
-          <p class="subtitle">Envia-nos uma mensagem e responderemos assim que possível.</p>
+          <p class="subtitle">
+            Envia-nos uma mensagem e responderemos assim que possível.
+          </p>
 
           <form class="form-grid" id="contactForm">
 
@@ -544,13 +546,17 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                 <label for="contactMensagem">Mensagem</label>
                 <textarea id="contactMensagem" name="mensagem" placeholder="A tua mensagem..." required></textarea>
               </div>
+            </div>
 
+            <div class="contact-actions">
+              <p class="subtitle contact-note-inline">
+                Nota: Precisa de ter uma reserva efetuada e comparecida para poder enviar feedback.
+              </p>
               <button type="submit" class="btt-padrao-login" id="btt-contact-pos" aria-describedby="contactFormStatus">
                 Enviar Mensagem
               </button>
-
-              <p id="contactFormStatus" class="sr-only" role="status" aria-live="polite"></p>
             </div>
+            <p id="contactFormStatus" class="sr-only" role="status" aria-live="polite"></p>
 
           </form>
 

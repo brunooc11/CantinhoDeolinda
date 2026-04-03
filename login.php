@@ -2,6 +2,7 @@
 session_start();
 require('Bd/ligar.php');
 require_once('Bd/popup_helper.php');
+require_once('Bd/email_template_helper.php');
 //require("config.php");
 date_default_timezone_set('Europe/Lisbon');
 
@@ -148,17 +149,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     $link = "https://aluno15696.damiaodegoes.pt/verificar_conta.php?token=$token";
                     $assunto = "Verifique a sua conta";
 
-                    $mensagem = "
-                        <html>
-                        <body>
-                            <h3>Olá, $nome</h3>
-                            <p>Obrigado por se registar! Confirme o seu e-mail clicando no link abaixo:</p>
-                            <p><a href='$link'>Verificar Conta</a></p>
-                            <br>
-                            <p>Se não criou esta conta, ignore este e-mail.</p>
-                        </body>
-                        </html>
-                    ";
+                    $mensagem = cd_email_template(
+                        'Verificacao de conta',
+                        'Confirme o seu email',
+                        "Ola, {$nome}. Falta so um passo para ativar a sua conta no Cantinho Deolinda.",
+                        '
+                            <p style="margin:0 0 16px;">Obrigado por se registar connosco. Para concluir a criacao da conta, confirme o seu email no botao abaixo.</p>
+                            <p style="margin:0;">Depois da confirmacao, ja podera iniciar sessao e usar a sua area pessoal normalmente.</p>
+                        ',
+                        'Verificar conta',
+                        $link,
+                        'Se nao criou esta conta, pode ignorar este email com seguranca.'
+                    );
 
                     $mail = new PHPMailer(true);
 
@@ -296,9 +298,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
     mysqli_close($con);
 }
 ?>
-<link rel="stylesheet" href="Css/login.css">
-<link rel="stylesheet" href="Css/bttlogin.css">
-<link rel="stylesheet" href="Css/footer.css">
+<link rel="stylesheet" href="Css/login.css?v=<?php echo filemtime(__DIR__ . '/Css/login.css'); ?>">
+<link rel="stylesheet" href="Css/bttlogin.css?v=<?php echo filemtime(__DIR__ . '/Css/bttlogin.css'); ?>">
+<link rel="stylesheet" href="Css/footer.css?v=<?php echo filemtime(__DIR__ . '/Css/footer.css'); ?>">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <?php
@@ -562,7 +564,8 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 
             <div class="terms">
                 <label>
-                    <input type="checkbox" name="termos" required>
+                    <input type="checkbox" name="termos">
+                    <span class="terms-box" aria-hidden="true"></span>
                     <span>
                         Li e aceito os
                         <a href="Recursos/termos.php">Termos de Uso</a>

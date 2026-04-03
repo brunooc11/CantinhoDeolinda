@@ -91,7 +91,7 @@ if (isset($_POST['alterar'])) {
     <link rel="stylesheet" href="../Css/recovery.css">
 </head>
 <body>
-    <a href="../login.php" id="btnVoltarRecovery" class="btt-padrao-login">? Voltar</a>
+    <a href="../login.php" id="btnVoltarRecovery" class="btt-padrao-login">&larr; Voltar</a>
     <main class="recovery-shell">
         <section class="recovery-hero">
             <span class="recovery-badge">Atualização segura</span>

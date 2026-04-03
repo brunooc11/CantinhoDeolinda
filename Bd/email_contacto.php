@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . "/../config.php";
+require_once __DIR__ . '/email_template_helper.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -77,43 +78,20 @@ try {
     $mail->Encoding = 'base64';
     $mail->isHTML(true);
     $mail->Subject = "Novo contacto: $assunto";
-    $mail->Body = "
-<table width='100%' cellpadding='0' cellspacing='0' style='background:#1a1a1a;padding:40px 0;font-family:Arial;'>
-  <tr>
-    <td align='center'>
-
-      <table width='600' style='background:#111;color:#fff;border-radius:12px;overflow:hidden;'>
-
-        <tr>
-          <td style='background:#f4b942;padding:20px;text-align:center;color:#111;font-size:24px;font-weight:bold;'>
-            Cantinho Deolinda
-          </td>
-        </tr>
-
-        <tr>
-          <td style='padding:30px;font-size:16px;line-height:1.6;color:#ddd;'>
-            <p><strong>Nome:</strong> {$nome}</p>
-            <p><strong>Email:</strong> {$email}</p>
-            <p><strong>Assunto:</strong> {$assunto}</p>
-
-            <div style='margin-top:20px;padding:15px;background:#1f1f1f;border-left:4px solid #f4b942;'>
-              {$mensagem}
-            </div>
-          </td>
-        </tr>
-
-        <tr>
-          <td style='background:#000;padding:15px;text-align:center;font-size:13px;color:#f4b942;'>
-            &copy; " . date("Y") . " Cantinho Deolinda
-          </td>
-        </tr>
-
-      </table>
-
-    </td>
-  </tr>
-</table>
-";
+    $mail->Body = cd_email_template(
+        'Novo contacto',
+        'Mensagem recebida pelo site',
+        'Entrou um novo contacto atraves do formulario do Cantinho Deolinda.',
+        '
+            <p style="margin:0 0 16px;">Segue abaixo o resumo da mensagem recebida.</p>
+            ' . cd_email_detail_rows([
+                'Nome' => $nome,
+                'Email' => $email,
+                'Assunto' => $assunto,
+                'Mensagem' => $mensagem,
+            ]) . '
+        '
+    );
 
     $mail->send();
 } catch (Exception $e) {
