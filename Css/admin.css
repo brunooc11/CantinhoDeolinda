@@ -1061,13 +1061,66 @@ html.admin-home-page::-webkit-scrollbar-corner {
 .cdol-admin #adminUsersTable {
     min-width: 0;
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
 }
 
 .cdol-admin #adminUsersTable th,
 .cdol-admin #adminUsersTable td {
-    font-size: 11px;
-    word-break: break-word;
+    font-size: 10px;
+    word-break: normal;
+    overflow-wrap: normal;
+    padding: 12px 8px;
+}
+
+.cdol-admin #adminUsersTable th {
+    white-space: nowrap;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(3),
+.cdol-admin #adminUsersTable td:nth-child(3),
+.cdol-admin #adminUsersTable th:nth-child(1),
+.cdol-admin #adminUsersTable td:nth-child(1),
+.cdol-admin #adminUsersTable th:nth-child(4),
+.cdol-admin #adminUsersTable td:nth-child(4),
+.cdol-admin #adminUsersTable th:nth-child(5),
+.cdol-admin #adminUsersTable td:nth-child(5) {
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(3),
+.cdol-admin #adminUsersTable td:nth-child(3) {
+    width: 100px;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(1),
+.cdol-admin #adminUsersTable td:nth-child(1) {
+    width: 88px;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(4),
+.cdol-admin #adminUsersTable td:nth-child(4),
+.cdol-admin #adminUsersTable th:nth-child(5),
+.cdol-admin #adminUsersTable td:nth-child(5) {
+    width: 108px;
+}
+
+.cdol-admin #adminUsersTable th:nth-child(6),
+.cdol-admin #adminUsersTable td:nth-child(6),
+.cdol-admin #adminUsersTable th:nth-child(7),
+.cdol-admin #adminUsersTable td:nth-child(7),
+.cdol-admin #adminUsersTable th:nth-child(8),
+.cdol-admin #adminUsersTable td:nth-child(8),
+.cdol-admin #adminUsersTable th:nth-child(9),
+.cdol-admin #adminUsersTable td:nth-child(9),
+.cdol-admin #adminUsersTable th:nth-child(10),
+.cdol-admin #adminUsersTable td:nth-child(10),
+.cdol-admin #adminUsersTable th:nth-child(11),
+.cdol-admin #adminUsersTable td:nth-child(11),
+.cdol-admin #adminUsersTable th:nth-child(12),
+.cdol-admin #adminUsersTable td:nth-child(12) {
+    white-space: nowrap;
 }
 
 .cdol-admin #adminUsersTable .admin-actions-cell {
@@ -1075,9 +1128,9 @@ html.admin-home-page::-webkit-scrollbar-corner {
 }
 
 .cdol-admin #adminUsersTable .status-chip {
-    min-width: 56px;
-    padding: 4px 8px;
-    font-size: 11px;
+    min-width: 48px;
+    padding: 4px 7px;
+    font-size: 10px;
 }
 
 .cdol-admin #adminUsersTable td:nth-child(10) .status-chip {
@@ -1087,12 +1140,17 @@ html.admin-home-page::-webkit-scrollbar-corner {
 
 .cdol-admin #adminUsersTable th:nth-child(11),
 .cdol-admin #adminUsersTable td:nth-child(11) {
-    width: 116px;
+    width: 84px;
 }
 
 .cdol-admin #adminUsersTable th:nth-child(12),
 .cdol-admin #adminUsersTable td:nth-child(12) {
-    width: 122px;
+    width: 108px;
+}
+
+.cdol-admin #adminUsersTable .admin-actions-cell .action-btn {
+    padding: 6px 8px;
+    font-size: 10px;
 }
 
 /* Reservas table: fit content without horizontal scroll */

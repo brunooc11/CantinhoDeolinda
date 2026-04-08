@@ -161,11 +161,122 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
             exit();
         }
     }
+
+    if (!empty($mensagem)) {
+        cd_popup($mensagem, 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+}
+
+if (!dash_has_column($con, 'Cliente', 'nome_alterado_em')) {
+    mysqli_query($con, "ALTER TABLE Cliente ADD COLUMN nome_alterado_em DATETIME NULL DEFAULT NULL");
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_nome'])) {
+    dash_verify_csrf_or_fail();
+
+    $novoNome = trim((string)($_POST['novo_nome'] ?? ''));
+    $novoNome = preg_replace('/\s+/u', ' ', $novoNome ?? '');
+    $novoNome = trim((string)$novoNome);
+    $id = (int)($_SESSION['id'] ?? 0);
+
+    if ($novoNome === '') {
+        cd_popup('Digite um nome válido.', 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    if (mb_strlen($novoNome, 'UTF-8') < 2) {
+        cd_popup('O nome deve ter pelo menos 2 caracteres.', 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    if (mb_strlen($novoNome, 'UTF-8') > 60) {
+        cd_popup('O nome não pode ter mais de 60 caracteres.', 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    $stmtNomeInfo = mysqli_prepare($con, "SELECT nome, nome_alterado_em FROM Cliente WHERE id = ? LIMIT 1");
+    if (!$stmtNomeInfo) {
+        cd_popup('Não foi possível verificar o nome atual.', 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmtNomeInfo, "i", $id);
+    mysqli_stmt_execute($stmtNomeInfo);
+    $resNomeInfo = mysqli_stmt_get_result($stmtNomeInfo);
+    $nomeInfo = $resNomeInfo ? mysqli_fetch_assoc($resNomeInfo) : null;
+    mysqli_stmt_close($stmtNomeInfo);
+
+    if (!$nomeInfo) {
+        cd_popup('Utilizador não encontrado.', 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    $nomeAtual = trim((string)($nomeInfo['nome'] ?? ''));
+    $nomeAlteradoEm = $nomeInfo['nome_alterado_em'] ?? null;
+
+    if (mb_strtolower($novoNome, 'UTF-8') === mb_strtolower($nomeAtual, 'UTF-8')) {
+        cd_popup('O novo nome é igual ao nome atual.', 'info', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    if (!empty($nomeAlteradoEm) && $nomeAlteradoEm !== '0000-00-00 00:00:00') {
+        $proximaAlteracao = strtotime('+3 months', strtotime((string)$nomeAlteradoEm));
+        if ($proximaAlteracao !== false && $proximaAlteracao > time()) {
+            $dataPermitida = date('d/m/Y', $proximaAlteracao);
+            cd_popup("Só podes alterar o nome novamente a partir de {$dataPermitida}.", 'error', 'dashboard.php?tab=Conta');
+            exit();
+        }
+    }
+
+    $stmtAtualizarNome = mysqli_prepare($con, "UPDATE Cliente SET nome = ?, nome_alterado_em = NOW() WHERE id = ?");
+    if (!$stmtAtualizarNome) {
+        cd_popup('Não foi possível atualizar o nome.', 'error', 'dashboard.php?tab=Conta');
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmtAtualizarNome, "si", $novoNome, $id);
+    mysqli_stmt_execute($stmtAtualizarNome);
+    mysqli_stmt_close($stmtAtualizarNome);
+
+    $_SESSION['nome'] = $novoNome;
+    cd_popup('Nome atualizado com sucesso.', 'success', 'dashboard.php?tab=Conta');
+    exit();
 }
 
 // Buscar reservas do utilizador
 $reservas = [];
 $id_cliente = $_SESSION['id'];
+$clienteDashboard = null;
+$stmtClienteDashboard = mysqli_prepare($con, "SELECT email, telefone, `Data` AS data_registo, nome_alterado_em FROM Cliente WHERE id = ? LIMIT 1");
+if ($stmtClienteDashboard) {
+    mysqli_stmt_bind_param($stmtClienteDashboard, "i", $id_cliente);
+    mysqli_stmt_execute($stmtClienteDashboard);
+    $resClienteDashboard = mysqli_stmt_get_result($stmtClienteDashboard);
+    $clienteDashboard = $resClienteDashboard ? mysqli_fetch_assoc($resClienteDashboard) : null;
+    mysqli_stmt_close($stmtClienteDashboard);
+}
+
+$clienteEmail = trim((string)($clienteDashboard['email'] ?? ''));
+$clienteTelefone = trim((string)($clienteDashboard['telefone'] ?? ''));
+$clienteDataRegistoRaw = $clienteDashboard['data_registo'] ?? null;
+$clienteDataRegisto = '-';
+if (!empty($clienteDataRegistoRaw) && $clienteDataRegistoRaw !== '0000-00-00 00:00:00') {
+    $timestampConta = strtotime((string)$clienteDataRegistoRaw);
+    if ($timestampConta) {
+        $clienteDataRegisto = date('d/m/Y H:i', $timestampConta);
+    }
+}
+
+function dash_has_column(mysqli $con, string $table, string $column): bool
+{
+    $tableEscaped = mysqli_real_escape_string($con, $table);
+    $columnEscaped = mysqli_real_escape_string($con, $column);
+    $sql = "SHOW COLUMNS FROM `{$tableEscaped}` LIKE '{$columnEscaped}'";
+    $result = mysqli_query($con, $sql);
+    return $result instanceof mysqli_result && mysqli_num_rows($result) > 0;
+}
+
 $query = "SELECT id, data_reserva, hora_reserva, numero_pessoas ,confirmado
         FROM reservas 
         WHERE cliente_id = ? 
@@ -491,43 +602,155 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         <div class="card">
             <h3><i class="fa-solid fa-user" aria-hidden="true"></i> Minha Conta</h3>
 
-            <div class="conta-info-grid">
-                <div class="conta-info-item">
-                    <span class="label">Nome</span>
+            <div class="conta-details-panel">
+                <div class="conta-details-head">
+                    <div class="conta-hero-badges">
+                        <span class="conta-hero-badge">
+                            <i class="fa-regular fa-address-card" aria-hidden="true"></i>
+                            Dados da conta
+                        </span>
+                        <span class="conta-hero-badge conta-hero-badge-soft">
+                            <i class="fa-regular fa-circle-check" aria-hidden="true"></i>
+                            Informação base
+                        </span>
+                    </div>
+                    <span class="label">Contacto e registo</span>
+                    <strong>Informação da Conta</strong>
+                    <p>Consulta os principais dados associados ao teu perfil. Esta secção é apenas informativa por agora.</p>
+                </div>
+
+                <div class="conta-info-grid">
+                    <article class="conta-info-item">
+                        <span class="label">Email</span>
+                        <strong class="conta-email-value" title="<?php echo htmlspecialchars($clienteEmail !== '' ? $clienteEmail : '-'); ?>">
+                            <?php echo htmlspecialchars($clienteEmail !== '' ? $clienteEmail : '-'); ?>
+                        </strong>
+                    </article>
+
+                    <article class="conta-info-item">
+                        <span class="label">Telefone</span>
+                        <strong><?php echo htmlspecialchars($clienteTelefone !== '' ? $clienteTelefone : '-'); ?></strong>
+                    </article>
+
+                    <article class="conta-info-item">
+                        <span class="label">Data de criação</span>
+                        <strong><?php echo htmlspecialchars($clienteDataRegisto); ?></strong>
+                    </article>
+                </div>
+            </div>
+
+            <div class="conta-name-hero">
+                <div class="conta-name-copy">
+                    <div class="conta-hero-badges">
+                        <span class="conta-hero-badge">
+                            <i class="fa-regular fa-user" aria-hidden="true"></i>
+                            Perfil
+                        </span>
+                        <span class="conta-hero-badge conta-hero-badge-soft">
+                            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                            Edição manual
+                        </span>
+                    </div>
+                    <span class="label">Nome atual</span>
                     <strong><?php echo htmlspecialchars($_SESSION['nome']); ?></strong>
+                    <p>Podes atualizar o nome associado ao teu perfil.</p>
+                    <p class="conta-name-note-inline"><span class="nota-highlight">Nota:</span> esta alteração só pode ser feita uma vez a cada 3 meses.</p>
                 </div>
-                <div class="conta-info-item">
-                    <span class="label">Email</span>
-                    <strong class="conta-email-value" title="<?php echo htmlspecialchars($_SESSION['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($_SESSION['email'] ?? '', ENT_QUOTES, 'UTF-8'); ?></strong>
-                </div>
-                <div class="conta-info-item">
-                    <span class="label">Conta criada em</span>
-                    <strong><?php echo date("d/m/Y H:i", strtotime($_SESSION['data'] ?? '')); ?></strong>
-                </div>
+                <button type="button" class="btt-alterar-senha conta-name-trigger" onclick="toggleFormNome()">
+                    <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                    Alterar Nome
+                </button>
             </div>
 
-            <div class="conta-actions">
-                <button type="button" class="btt-alterar-senha" onclick="toggleFormSenha()">Alterar Senha</button>
-
-                <form method="POST">
+            <div class="form-lateral-card" id="formNomeCard">
+                <form method="POST" class="senha-form conta-nome-form">
                     <?php echo dash_csrf_input(); ?>
-                    <button type="submit" name="logout" class="btt-sair" id="bttsair">Sair</button>
-                </form>
-
-                <form method="POST" onsubmit="return confirmarExclusao(event);">
-                    <?php echo dash_csrf_input(); ?>
-                    <button type="submit" name="excluir" class="btn btn-excluir" id="btt_excluir_conta">
-                        Excluir Conta
+                    <button type="button" class="painel-flutuante-fechar" onclick="toggleFormNome()" aria-label="Fechar painel de alterar nome">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                     </button>
+                    <div class="senha-form-head conta-nome-head">
+                        <span class="conta-nome-kicker">Identidade do perfil</span>
+                        <h3>Alterar Nome</h3>
+                        <p>Atualiza a forma como o teu nome aparece na conta, com uma apresentação mais cuidada e consistente.</p>
+                    </div>
+
+                    <div class="conta-nome-topbar">
+                        <span class="conta-nome-note">
+                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                            <span><span class="nota-highlight">Nota:</span> só podes alterar o nome 1 vez a cada 3 meses</span>
+                        </span>
+                    </div>
+
+                    <div class="conta-nome-grid">
+                        <div class="conta-nome-preview">
+                            <span class="label">Nome atual</span>
+                            <strong><?php echo htmlspecialchars($_SESSION['nome']); ?></strong>
+                            <small>Este é o nome que aparece atualmente associado ao teu perfil e às tuas interações.</small>
+                            <div class="conta-nome-preview-pill">
+                                <i class="fa-regular fa-id-badge" aria-hidden="true"></i>
+                                Perfil visível
+                            </div>
+                        </div>
+
+                        <div class="conta-nome-editor">
+                            <label class="senha-field conta-nome-field">
+                                <span>Novo nome</span>
+                                <input type="text" name="novo_nome" value="<?php echo htmlspecialchars($_SESSION['nome']); ?>" placeholder="Digite o novo nome" maxlength="60" required>
+                            </label>
+                            <div class="conta-nome-guidance">
+                                <p class="conta-nome-helper">Escolhe um nome claro e consistente, para que a conta continue fácil de identificar.</p>
+                                <p class="conta-nome-helper-subtle">Evita abreviações confusas ou mudanças frequentes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conta-nome-actions">
+                        <button type="submit" name="alterar_nome" class="btt-padrao-login">Guardar alteração</button>
+                    </div>
                 </form>
             </div>
 
-            <div class="form-lateral-card" id="formSenhaCard">
+            <div class="conta-password-section">
+                <div class="conta-password-hero">
+                    <div class="conta-password-copy">
+                        <div class="conta-hero-badges">
+                            <span class="conta-hero-badge">
+                                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                                Proteção
+                            </span>
+                            <span class="conta-hero-badge conta-hero-badge-soft">
+                                <i class="fa-regular fa-keyboard" aria-hidden="true"></i>
+                                Credenciais
+                            </span>
+                        </div>
+                        <span class="label">Segurança da conta</span>
+                        <strong>Alterar Palavra-passe</strong>
+                        <p>Atualiza a tua palavra-passe sempre que quiseres reforçar a segurança da conta.</p>
+                        <span class="conta-name-note-inline"><span class="nota-highlight">Nota:</span> usa uma palavra-passe forte e evita repeti-la noutros serviços.</span>
+                    </div>
+                    <button type="button" class="btt-alterar-senha conta-password-trigger" onclick="toggleFormSenha()">
+                        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                        Alterar Senha
+                    </button>
+                </div>
+
+                <div class="form-lateral-card" id="formSenhaCard">
                 <form method="POST" class="senha-form">
                     <?php echo dash_csrf_input(); ?>
+                    <button type="button" class="painel-flutuante-fechar" onclick="toggleFormSenha()" aria-label="Fechar painel de alterar palavra-passe">
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
                     <div class="senha-form-head">
+                        <span class="conta-nome-kicker">Segurança da conta</span>
                         <h3>Alterar Palavra-passe</h3>
                         <p>Atualize a sua palavra-passe para manter a conta segura.</p>
+                    </div>
+
+                    <div class="conta-nome-topbar">
+                        <span class="conta-nome-note">
+                            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                            <span><span class="nota-highlight">Nota:</span> escolha uma palavra-passe forte e segura.</span>
+                        </span>
                     </div>
 
                     <div class="senha-form-grid">
@@ -571,9 +794,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     </ul>
 
                     <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
-                        Guardar
+                        Guardar alteração
                     </button>
                 </form>
+                </div>
+            </div>
+
+            <div class="conta-actions-card">
+                <div class="conta-details-head conta-actions-head">
+                    <div class="conta-hero-badges">
+                        <span class="conta-hero-badge">
+                            <i class="fa-regular fa-circle-dot" aria-hidden="true"></i>
+                            Ações da conta
+                        </span>
+                        <span class="conta-hero-badge conta-hero-badge-soft">
+                            <i class="fa-regular fa-user-gear" aria-hidden="true"></i>
+                            Sessão e gestão
+                        </span>
+                    </div>
+                    <span class="label">Ações rápidas</span>
+                    <strong>Gerir Sessão e Conta</strong>
+                    <p>Usa estas opções para terminar a sessão atual ou remover definitivamente a tua conta.</p>
+                </div>
+
+                <div class="conta-actions">
+                    <form method="POST">
+                        <?php echo dash_csrf_input(); ?>
+                        <button type="submit" name="logout" class="btt-sair" id="bttsair">Sair</button>
+                    </form>
+
+                    <form method="POST" onsubmit="return confirmarExclusao(event);">
+                        <?php echo dash_csrf_input(); ?>
+                        <button type="submit" name="excluir" class="btn btn-excluir" id="btt_excluir_conta">
+                            Excluir Conta
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -581,7 +837,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <div id="Reservas" class="tabcontent">
             <div class="card">
             <div class="reservas-header">
-                <h3><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Reservas</h3>
+                <h3><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Reservas</h3>
                 <div class="reservas-acoes">
                     <a href="index.php?abrir_reserva=1" class="btt-padrao-login" id="bttNovaReserva">
                         Fazer nova reserva
@@ -663,7 +919,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <div id="Favoritos" class="tabcontent">
         <div class="card">
             <div class="favoritos-header">
-                <h3>Meus Favoritos</h3>
+                <h3><i class="fa-solid fa-heart" aria-hidden="true"></i> Meus Favoritos</h3>
                 <?php if (!empty($favoritos)): ?>
                     <form method="POST" class="favoritos-header-form" onsubmit="return confirmarRemoverTodosFavoritos(event);">
                         <?php echo dash_csrf_input(); ?>

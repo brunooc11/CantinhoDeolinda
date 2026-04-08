@@ -586,6 +586,35 @@ if ($selected !== null) {
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
     <link rel="stylesheet" href="Css/admin_feedback.css?v=<?php echo filemtime(__DIR__ . '/Css/admin_feedback.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
+    <style>
+        .cdol-feedback .feedback-workspace {
+            align-items: start;
+        }
+
+        .cdol-feedback .feedback-inbox-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cdol-feedback .feedback-inbox-list {
+            flex: 0 0 auto;
+        }
+
+        .cdol-feedback .feedback-pagination {
+            margin-top: auto;
+        }
+
+        .cdol-feedback .feedback-inbox-panel[data-inbox-mode="compact"] .feedback-inbox-list {
+            flex: 0 0 auto;
+            overflow: visible;
+            max-height: none;
+        }
+
+        .cdol-feedback .feedback-inbox-panel[data-inbox-mode="scroll"] .feedback-inbox-list {
+            flex: 1 1 auto;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body class="cdol-admin cdol-admin-home cdol-feedback">
     <script>
@@ -951,6 +980,54 @@ if ($selected !== null) {
                 toggle.textContent = isClosed ? '+' : '-';
             });
         });
+
+        (function () {
+            var inbox = document.querySelector('.feedback-inbox-panel');
+            var reader = document.querySelector('.feedback-reader-panel');
+            var inboxList = document.querySelector('.feedback-inbox-list');
+
+            function updateInboxMode() {
+                if (!inbox || !inboxList) return;
+                var cardCount = inboxList.querySelectorAll('.feedback-list-card').length;
+                inbox.setAttribute('data-inbox-mode', cardCount > 4 ? 'scroll' : 'compact');
+            }
+
+            function syncInboxHeight() {
+                if (!inbox || !reader) return;
+
+                if (window.innerWidth <= 1180) {
+                    inbox.style.minHeight = '';
+                    return;
+                }
+
+                inbox.style.minHeight = '';
+                inbox.style.minHeight = reader.offsetHeight + 'px';
+            }
+
+            updateInboxMode();
+            syncInboxHeight();
+            window.addEventListener('load', syncInboxHeight);
+            window.addEventListener('resize', function () {
+                updateInboxMode();
+                syncInboxHeight();
+            });
+
+            if (reader && window.MutationObserver) {
+                var observer = new MutationObserver(syncInboxHeight);
+                observer.observe(reader, {
+                    childList: true,
+                    subtree: true,
+                    attributes: true
+                });
+            }
+
+            document.querySelectorAll('[data-collapse-toggle]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    window.setTimeout(syncInboxHeight, 0);
+                });
+            });
+        })();
+
     </script>
 </body>
 </html>

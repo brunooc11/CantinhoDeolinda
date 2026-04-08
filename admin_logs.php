@@ -334,7 +334,7 @@ function cd_qs(array $overrides = [])
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logs de Auditoria</title>
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
-    <link rel="stylesheet" href="Css/admin_logs.css">
+    <link rel="stylesheet" href="Css/admin_logs.css?v=<?php echo filemtime(__DIR__ . '/Css/admin_logs.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
 </head>
 <body class="cdol-admin cdol-admin-home cdol-logs">

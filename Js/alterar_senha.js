@@ -17,15 +17,74 @@ function toggleFormSenha() {
     form.classList.add('aberto');
 }
 
+function closeFloatingPanel(panel) {
+    if (!panel || !panel.classList.contains('aberto') || panel.classList.contains('closing')) {
+        return;
+    }
+
+    panel.classList.remove('aberto');
+    void panel.offsetWidth;
+    panel.classList.add('closing');
+}
+
+function toggleFormNome() {
+    const form = document.getElementById('formNomeCard');
+    if (!form) {
+        return;
+    }
+
+    if (form.classList.contains('aberto')) {
+        if (!form.classList.contains('closing')) {
+            form.classList.remove('aberto');
+            void form.offsetWidth;
+            form.classList.add('closing');
+        }
+        return;
+    }
+
+    form.classList.remove('closing');
+    form.classList.add('aberto');
+}
+
 (function initAlterarSenhaUI() {
     const form = document.getElementById('formSenhaCard');
+    const nomeForm = document.getElementById('formNomeCard');
     if (form) {
         form.addEventListener('animationend', (event) => {
             if (event.animationName === 'dashSenhaOut') {
                 form.classList.remove('aberto', 'closing');
             }
         });
+
+        form.addEventListener('click', (event) => {
+            if (event.target === form) {
+                closeFloatingPanel(form);
+            }
+        });
     }
+
+    if (nomeForm) {
+        nomeForm.addEventListener('animationend', (event) => {
+            if (event.animationName === 'dashSenhaOut') {
+                nomeForm.classList.remove('aberto', 'closing');
+            }
+        });
+
+        nomeForm.addEventListener('click', (event) => {
+            if (event.target === nomeForm) {
+                closeFloatingPanel(nomeForm);
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+
+        closeFloatingPanel(form);
+        closeFloatingPanel(nomeForm);
+    });
 
     function setupSenhaUI() {
         const senhaAtualInput = document.querySelector('input[name="senha_atual"]');
