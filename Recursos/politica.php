@@ -1,10 +1,7 @@
 <?php
-require("../config.php");  
+require("../config.php");
 
-// Se existir página anterior (ex: login, index, menu) volta para lá.
-// Caso o utilizador tenha aberto a página diretamente, volta por defeito para o login.
 $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -12,39 +9,80 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="../Imagens/logo_atual.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Privacidade - Cantinho_Deolinda</title>
+    <title>Política de Privacidade - Cantinho Deolinda</title>
     <link rel="stylesheet" href="../Css/home.css">
     <link rel="stylesheet" href="../Css/bttlogin.css">
-    <link rel="stylesheet" href="../Css/politica.css">
+    <link rel="stylesheet" href="../Css/politica.css?v=<?php echo filemtime(__DIR__ . '/../Css/politica.css'); ?>">
 </head>
 <body class="pagina-politica">
-    <div class="container-privacidade">
-        <h1>Política de Privacidade</h1>
+    <div class="privacy-shell">
+        <a href="<?php echo htmlspecialchars($voltar, ENT_QUOTES, 'UTF-8'); ?>" id="btt-politica" class="btt-padrao-login">Voltar</a>
 
-        <p>No Cantinho_Deolinda, sua privacidade é muito importante. Esta política descreve como coletamos, usamos e protegemos suas informações.</p>
+        <section class="privacy-hero">
+            <div class="privacy-hero-copy">
+                <span class="privacy-kicker">Proteção de dados</span>
+                <h1>Política de Privacidade</h1>
+                <p>Explicamos aqui, de forma clara, como a informação do utilizador pode ser utilizada no site e quais os princípios que orientam esse tratamento.</p>
+            </div>
+            <div class="privacy-hero-card">
+                <span class="privacy-hero-label">Compromisso</span>
+                <strong>Clareza, segurança e utilização responsável dos dados associados à conta.</strong>
+                <p>Os dados devem servir a experiência digital do restaurante e o contacto com o utilizador.</p>
+            </div>
+        </section>
 
-        <h2>1. Informações Coletadas</h2>
-        <p>Coletamos informações pessoais fornecidas por você ao criar uma conta, realizar pedidos ou se inscrever em nossos serviços, como nome, e-mail, telefone e endereço.</p>
+        <div class="privacy-layout">
+            <aside class="privacy-side-card">
+                <span class="privacy-side-label">Política de Privacidade</span>
+                <ul class="privacy-side-list">
+                    <li><a href="#politica-recolha">Informações recolhidas</a></li>
+                    <li><a href="#politica-uso">Uso das informações</a></li>
+                    <li><a href="#politica-protecao">Proteção de dados</a></li>
+                    <li><a href="#politica-partilha">Partilha de informações e cookies</a></li>
+                    <li><a href="#politica-final">Direitos, alterações e contacto</a></li>
+                </ul>
+            </aside>
 
-        <h2>2. Uso das Informações</h2>
-        <p>As informações coletadas são utilizadas para processar pedidos, melhorar nossos serviços, enviar atualizações e responder a solicitações de suporte.</p>
+            <div class="privacy-content">
+                <div class="privacy-grid">
+                    <article class="privacy-card" id="politica-recolha">
+                        <span class="privacy-card-index">01</span>
+                        <h2>Informações Recolhidas</h2>
+                        <p>Podem ser tratados dados fornecidos pelo utilizador ao criar conta, iniciar sessão, reservar, contactar o restaurante ou usar funcionalidades do site, como nome, email, telefone e informação necessária ao serviço.</p>
+                    </article>
 
-        <h2>3. Proteção de Dados</h2>
-        <p>Implementamos medidas de segurança para proteger suas informações pessoais contra acesso não autorizado, alteração, divulgação ou destruição.</p>
+                    <article class="privacy-card" id="politica-uso">
+                        <span class="privacy-card-index">02</span>
+                        <h2>Uso das Informações</h2>
+                        <p>Os dados recolhidos podem ser utilizados para gerir a conta, processar pedidos, apoiar reservas, responder a solicitações, melhorar a plataforma e prestar apoio ao utilizador.</p>
+                    </article>
 
-        <h2>4. Compartilhamento de Informações</h2>
-        <p>Não vendemos ou compartilhamos suas informações pessoais com terceiros, exceto quando necessário para cumprir obrigações legais ou fornecer serviços contratados.</p>
+                    <article class="privacy-card" id="politica-protecao">
+                        <span class="privacy-card-index">03</span>
+                        <h2>Proteção de Dados</h2>
+                        <p>O Cantinho Deolinda procura adotar medidas adequadas para proteger a informação contra acessos indevidos, alterações não autorizadas, divulgação incorreta ou utilização abusiva.</p>
+                    </article>
 
-        <h2>5. Cookies</h2>
-        <p>O site pode utilizar cookies para melhorar a experiência do usuário, lembrar preferências e analisar o tráfego do site.</p>
+                    <article class="privacy-card" id="politica-partilha">
+                        <span class="privacy-card-index">04</span>
+                        <h2>Partilha de Informações</h2>
+                        <p>As informações pessoais não devem ser vendidas nem partilhadas sem fundamento legítimo, exceto quando isso seja necessário para cumprir obrigações legais ou suportar o funcionamento do serviço.<span class="privacy-paragraph-break"><strong id="politica-cookies">Cookies:</strong> o site pode utilizar mecanismos técnicos como cookies ou preferências locais para melhorar a experiência, lembrar configurações e apoiar o funcionamento normal da navegação.</span></p>
+                    </article>
 
-        <h2>6. Direitos do Usuário</h2>
-        <p>Você pode acessar, corrigir ou solicitar a exclusão de suas informações pessoais entrando em contato conosco pelo e-mail: cantinhodeolina@gmail.com.</p>
+                    <article class="privacy-card" id="politica-direitos">
+                        <span class="privacy-card-index">05</span>
+                        <h2>Direitos do Utilizador</h2>
+                        <p>O utilizador pode solicitar esclarecimentos, correções ou apoio relativamente aos dados associados à sua conta, sempre que aplicável, através dos canais de contacto do restaurante.</p>
+                    </article>
 
-        <h2>7. Alterações</h2>
-        <p>Esta política de privacidade pode ser atualizada periodicamente. As alterações serão publicadas nesta página.</p>
-
-        <a href="<?php echo $voltar; ?>" id="btt-politica" class="btt-padrao-login">Voltar</a><!-- Botão do código lá de cima: regressa à página anterior do utilizador -->
+                    <article class="privacy-card privacy-card-wide" id="politica-final">
+                        <span class="privacy-card-index">06</span>
+                        <h2>Alterações e Contacto</h2>
+                        <p>Esta política pode ser atualizada ao longo do tempo. Sempre que necessário, a versão mais recente ficará disponível nesta página. Para qualquer questão relacionada com privacidade, utiliza o email <strong>cantinhodeolinda@gmail.com</strong>.</p>
+                    </article>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

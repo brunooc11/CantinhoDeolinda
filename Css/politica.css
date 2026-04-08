@@ -1,33 +1,371 @@
 .pagina-politica {
-    background-color: #1b1d1e;
-    color: #fff;
-    font-family: 'Poppins', Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    min-height: 100vh;
+    padding: 36px 18px 48px;
+    color: #f7f1e4;
+    font-family: "Poppins", Arial, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(255, 210, 95, 0.14), transparent 24%),
+        radial-gradient(circle at 100% 0%, rgba(122, 186, 255, 0.12), transparent 22%),
+        linear-gradient(180deg, #12100d 0%, #0b0a08 100%);
 }
 
-.pagina-politica h1 {
-    color: #fbbd33;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.pagina-politica h2 {
-    color: #fbbd33;
-    margin-top: 25px;
-}
-
-.pagina-politica p {
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-
-.pagina-politica .container-privacidade {
-    max-width: 800px;
+.pagina-politica .privacy-shell {
+    width: min(1180px, 100%);
     margin: 0 auto;
+    position: relative;
 }
 
 .pagina-politica #btt-politica {
-    top: 25px;
-    right: 25px;
+    position: static !important;
+    display: inline-flex;
+    margin-bottom: 18px;
+}
+
+.pagina-politica .privacy-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.pagina-politica .privacy-hero-copy,
+.pagina-politica .privacy-hero-card,
+.pagina-politica .privacy-card {
+    border: 1px solid rgba(255, 219, 145, 0.14);
+    border-radius: 24px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        rgba(18, 16, 13, 0.94);
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+}
+
+.pagina-politica .privacy-hero-copy::before,
+.pagina-politica .privacy-hero-card::before,
+.pagina-politica .privacy-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 42%),
+        radial-gradient(circle at top right, rgba(122, 186, 255, 0.08), transparent 30%);
+    pointer-events: none;
+}
+
+.pagina-politica .privacy-hero-copy {
+    position: relative;
+    padding: 34px 34px 30px;
+}
+
+.pagina-politica .privacy-kicker,
+.pagina-politica .privacy-hero-label {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    padding: 7px 12px;
+    border-radius: 999px;
+    color: #ffe2a3;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255, 208, 102, 0.08);
+    border: 1px solid rgba(255, 208, 102, 0.14);
+}
+
+.pagina-politica h1 {
+    margin: 18px 0 12px;
+    color: #fff0c7;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(38px, 6vw, 60px);
+    line-height: 0.98;
+    text-wrap: balance;
+}
+
+.pagina-politica .privacy-hero-copy p,
+.pagina-politica .privacy-hero-card p,
+.pagina-politica .privacy-card p {
+    margin: 0;
+    color: #dbcfb5;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.pagina-politica .privacy-hero-card {
+    position: relative;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.pagina-politica .privacy-hero-card strong {
+    color: #fff2cf;
+    font-size: 25px;
+    line-height: 1.14;
+    text-wrap: balance;
+}
+
+.pagina-politica .privacy-grid {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: start;
+}
+
+.pagina-politica .privacy-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.pagina-politica .privacy-content {
+    min-width: 0;
+}
+
+.pagina-politica .privacy-side-card {
+    position: sticky;
+    top: 24px;
+    padding: 22px;
+    border: 1px solid rgba(255, 219, 145, 0.14);
+    border-radius: 24px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        rgba(18, 16, 13, 0.94);
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.pagina-politica .privacy-side-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 42%),
+        radial-gradient(circle at top right, rgba(122, 186, 255, 0.08), transparent 30%);
+    pointer-events: none;
+}
+
+.pagina-politica .privacy-side-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    color: #ffe2a3;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(255, 208, 102, 0.08);
+    border: 1px solid rgba(255, 208, 102, 0.14);
+}
+
+.pagina-politica .privacy-side-list {
+    position: relative;
+    z-index: 1;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.pagina-politica .privacy-side-list li {
+    list-style: none;
+}
+
+.pagina-politica .privacy-side-list a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 16px;
+    color: #f1e1b5;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    background: rgba(255, 208, 102, 0.06);
+    border: 1px solid rgba(255, 208, 102, 0.1);
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.pagina-politica .privacy-side-list a:hover {
+    transform: translateX(3px);
+    background: rgba(255, 208, 102, 0.1);
+    border-color: rgba(255, 208, 102, 0.18);
+    color: #fff0c7;
+}
+
+.pagina-politica .privacy-card {
+    position: relative;
+    display: block;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1;
+    padding: 28px 28px 24px;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.pagina-politica .privacy-cookies-block {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 28px 28px 24px;
+    border: 2px solid rgba(255, 202, 99, 0.7);
+    border-radius: 24px;
+    color: #f7f1e4;
+    background:
+        radial-gradient(circle at top right, rgba(255, 196, 80, 0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        rgba(18, 16, 13, 0.96);
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 0 1px rgba(255, 214, 122, 0.12);
+    overflow: hidden;
+}
+
+.pagina-politica .privacy-cookies-block::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 42%),
+        radial-gradient(circle at top right, rgba(122, 186, 255, 0.08), transparent 30%);
+    pointer-events: none;
+}
+
+.pagina-politica .privacy-card-cookies {
+    border-color: rgba(255, 219, 145, 0.18);
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 0 0 1px rgba(255, 214, 122, 0.08);
+    background:
+        radial-gradient(circle at top right, rgba(255, 214, 122, 0.09), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+        rgba(18, 16, 13, 0.94);
+}
+
+.pagina-politica .privacy-card-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    color: #1a1307;
+    font-size: 13px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffdd8d, #f4b93f);
+    box-shadow: 0 10px 20px rgba(244, 185, 63, 0.24);
+}
+
+.pagina-politica h2 {
+    margin: 0 0 10px;
+    color: #ffe6a9;
+    font-family: "Playfair Display", serif;
+    font-size: 28px;
+    text-wrap: balance;
+}
+
+.pagina-politica .privacy-card strong {
+    color: #ffe39f;
+}
+
+.pagina-politica #politica-cookies {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 219, 145, 0.14);
+}
+
+.pagina-politica #politica-cookies {
+    color: #ffe39f;
+}
+
+.pagina-politica .privacy-paragraph-break {
+    display: block;
+    margin-top: 14px;
+}
+
+.pagina-politica .privacy-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 219, 145, 0.22);
+    box-shadow:
+        0 24px 46px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.pagina-politica .privacy-card p {
+    overflow-wrap: break-word;
+}
+
+.pagina-politica .privacy-cookies-block p {
+    margin: 0;
+    color: #dbcfb5;
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-wrap: break-word;
+}
+
+.pagina-politica .privacy-side-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 219, 145, 0.22);
+    box-shadow:
+        0 24px 46px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.pagina-politica .privacy-card,
+.pagina-politica .privacy-card * {
+    scroll-margin-top: 24px;
+}
+
+@media (max-width: 980px) {
+    .pagina-politica .privacy-hero,
+    .pagina-politica .privacy-layout,
+    .pagina-politica .privacy-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pagina-politica .privacy-card-wide {
+        grid-column: auto;
+    }
+
+    .pagina-politica .privacy-side-card {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .pagina-politica {
+        padding: 20px 14px 34px;
+    }
+
+    .pagina-politica .privacy-hero-copy,
+    .pagina-politica .privacy-hero-card,
+    .pagina-politica .privacy-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .pagina-politica h1 {
+        font-size: 34px;
+    }
+
+    .pagina-politica h2 {
+        font-size: 23px;
+    }
 }

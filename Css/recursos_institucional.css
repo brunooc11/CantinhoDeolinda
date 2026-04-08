@@ -1,4 +1,4 @@
-.pagina-ajuda {
+.pagina-institucional {
     margin: 0;
     min-height: 100vh;
     padding: 36px 18px 48px;
@@ -10,28 +10,30 @@
         linear-gradient(180deg, #12100d 0%, #0b0a08 100%);
 }
 
-.pagina-ajuda .help-shell {
+.pagina-institucional .institution-shell {
     width: min(1180px, 100%);
     margin: 0 auto;
     position: relative;
 }
 
-.pagina-ajuda #btt-ajuda {
+.pagina-institucional .institution-back {
     position: static !important;
     display: inline-flex;
     margin-bottom: 18px;
 }
 
-.pagina-ajuda .help-hero {
+.pagina-institucional .institution-hero {
     display: grid;
     grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
     gap: 18px;
     margin-bottom: 22px;
 }
 
-.pagina-ajuda .help-hero-copy,
-.pagina-ajuda .help-hero-card,
-.pagina-ajuda .help-card {
+.pagina-institucional .institution-hero-copy,
+.pagina-institucional .institution-hero-card,
+.pagina-institucional .institution-card,
+.pagina-institucional .institution-side-card {
+    position: relative;
     border: 1px solid rgba(255, 219, 145, 0.14);
     border-radius: 24px;
     background:
@@ -43,9 +45,10 @@
     overflow: hidden;
 }
 
-.pagina-ajuda .help-hero-copy::before,
-.pagina-ajuda .help-hero-card::before,
-.pagina-ajuda .help-card::before {
+.pagina-institucional .institution-hero-copy::before,
+.pagina-institucional .institution-hero-card::before,
+.pagina-institucional .institution-card::before,
+.pagina-institucional .institution-side-card::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -55,13 +58,15 @@
     pointer-events: none;
 }
 
-.pagina-ajuda .help-hero-copy {
-    position: relative;
+.pagina-institucional .institution-hero-copy {
     padding: 34px 34px 30px;
 }
 
-.pagina-ajuda .help-kicker,
-.pagina-ajuda .help-hero-label {
+.pagina-institucional .institution-kicker,
+.pagina-institucional .institution-hero-label,
+.pagina-institucional .institution-side-label {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     align-self: flex-start;
@@ -78,7 +83,7 @@
     border: 1px solid rgba(255, 208, 102, 0.14);
 }
 
-.pagina-ajuda h1 {
+.pagina-institucional h1 {
     margin: 18px 0 12px;
     color: #fff0c7;
     font-family: "Playfair Display", serif;
@@ -87,17 +92,18 @@
     text-wrap: balance;
 }
 
-.pagina-ajuda .help-hero-copy p,
-.pagina-ajuda .help-hero-card p,
-.pagina-ajuda .help-card p {
+.pagina-institucional .institution-hero-copy p,
+.pagina-institucional .institution-hero-card p,
+.pagina-institucional .institution-card p {
+    position: relative;
+    z-index: 1;
     margin: 0;
     color: #dbcfb5;
     line-height: 1.7;
     font-size: 15px;
 }
 
-.pagina-ajuda .help-hero-card {
-    position: relative;
+.pagina-institucional .institution-hero-card {
     padding: 26px;
     display: flex;
     flex-direction: column;
@@ -105,70 +111,30 @@
     gap: 14px;
 }
 
-.pagina-ajuda .help-hero-card strong {
+.pagina-institucional .institution-hero-card strong {
+    position: relative;
+    z-index: 1;
     color: #fff2cf;
     font-size: 25px;
     line-height: 1.14;
     text-wrap: balance;
 }
 
-.pagina-ajuda .help-grid {
-    min-width: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-}
-
-.pagina-ajuda .help-layout {
+.pagina-institucional .institution-layout {
     display: grid;
     grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
     gap: 18px;
     align-items: start;
 }
 
-.pagina-ajuda .help-side-card {
+.pagina-institucional .institution-side-card {
     position: sticky;
     top: 24px;
     padding: 22px;
-    border: 1px solid rgba(255, 219, 145, 0.14);
-    border-radius: 24px;
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
-        rgba(18, 16, 13, 0.94);
-    box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    overflow: hidden;
     transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
-.pagina-ajuda .help-side-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 42%),
-        radial-gradient(circle at top right, rgba(92, 157, 255, 0.08), transparent 30%);
-    pointer-events: none;
-}
-
-.pagina-ajuda .help-side-label {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    padding: 7px 12px;
-    border-radius: 999px;
-    color: #ffe2a3;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: rgba(255, 208, 102, 0.08);
-    border: 1px solid rgba(255, 208, 102, 0.14);
-}
-
-.pagina-ajuda .help-side-list {
+.pagina-institucional .institution-side-list {
     position: relative;
     z-index: 1;
     margin: 18px 0 0;
@@ -178,11 +144,11 @@
     gap: 10px;
 }
 
-.pagina-ajuda .help-side-list li {
+.pagina-institucional .institution-side-list li {
     list-style: none;
 }
 
-.pagina-ajuda .help-side-list a {
+.pagina-institucional .institution-side-list a {
     display: block;
     padding: 12px 14px;
     border-radius: 16px;
@@ -195,20 +161,28 @@
     transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.pagina-ajuda .help-side-list a:hover {
+.pagina-institucional .institution-side-list a:hover {
     transform: translateX(3px);
     background: rgba(255, 208, 102, 0.1);
     border-color: rgba(255, 208, 102, 0.18);
     color: #fff0c7;
 }
 
-.pagina-ajuda .help-card {
-    position: relative;
+.pagina-institucional .institution-grid {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.pagina-institucional .institution-card {
     padding: 28px 28px 24px;
     transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
-.pagina-ajuda .help-card-index {
+.pagina-institucional .institution-card-index {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -223,7 +197,9 @@
     box-shadow: 0 10px 20px rgba(244, 185, 63, 0.24);
 }
 
-.pagina-ajuda h2 {
+.pagina-institucional h2 {
+    position: relative;
+    z-index: 1;
     margin: 0 0 10px;
     color: #ffe6a9;
     font-family: "Playfair Display", serif;
@@ -231,11 +207,12 @@
     text-wrap: balance;
 }
 
-.pagina-ajuda .help-card strong {
+.pagina-institucional .institution-card strong {
     color: #ffe39f;
 }
 
-.pagina-ajuda .help-card:hover {
+.pagina-institucional .institution-card:hover,
+.pagina-institucional .institution-side-card:hover {
     transform: translateY(-3px);
     border-color: rgba(255, 219, 145, 0.22);
     box-shadow:
@@ -243,56 +220,41 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-.pagina-ajuda .help-card p {
-    overflow-wrap: break-word;
-}
-
-.pagina-ajuda .help-side-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(255, 219, 145, 0.22);
-    box-shadow:
-        0 24px 46px rgba(0, 0, 0, 0.32),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.pagina-ajuda .help-card,
-.pagina-ajuda .help-card * {
+.pagina-institucional .institution-card,
+.pagina-institucional .institution-card * {
     scroll-margin-top: 24px;
 }
 
 @media (max-width: 980px) {
-    .pagina-ajuda .help-hero,
-    .pagina-ajuda .help-layout,
-    .pagina-ajuda .help-grid {
+    .pagina-institucional .institution-hero,
+    .pagina-institucional .institution-layout,
+    .pagina-institucional .institution-grid {
         grid-template-columns: 1fr;
     }
 
-    .pagina-ajuda .help-card-wide {
-        grid-column: auto;
-    }
-
-    .pagina-ajuda .help-side-card {
+    .pagina-institucional .institution-side-card {
         position: static;
     }
 }
 
 @media (max-width: 640px) {
-    .pagina-ajuda {
+    .pagina-institucional {
         padding: 20px 14px 34px;
     }
 
-    .pagina-ajuda .help-hero-copy,
-    .pagina-ajuda .help-hero-card,
-    .pagina-ajuda .help-card {
+    .pagina-institucional .institution-hero-copy,
+    .pagina-institucional .institution-hero-card,
+    .pagina-institucional .institution-card,
+    .pagina-institucional .institution-side-card {
         padding: 20px;
         border-radius: 20px;
     }
 
-    .pagina-ajuda h1 {
+    .pagina-institucional h1 {
         font-size: 34px;
     }
 
-    .pagina-ajuda h2 {
+    .pagina-institucional h2 {
         font-size: 23px;
     }
 }
