@@ -53,7 +53,8 @@ body {
   position: relative;
   --frigideira-size: 210px;
   width: min(430px, 90vw);
-  height: min(380px, 72vh);
+  height: min(475px, 84vh);
+  padding-top: 50px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -102,6 +103,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   overflow: visible;
+  margin-top: 34px;
 }
 
 .frigideira {

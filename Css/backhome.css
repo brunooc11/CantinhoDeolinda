@@ -48,3 +48,14 @@
     height: 54px;
   }
 }
+
+@media (max-width: 1366px) {
+  .back-home-btn {
+    bottom: 22px;
+    right: 22px;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    font-size: 22px;
+  }
+}

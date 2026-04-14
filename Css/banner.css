@@ -107,3 +107,39 @@
     max-width: 500px;
   }
 }
+
+@media (max-width: 1366px) {
+  .banner {
+    min-height: 300px;
+    padding: 0 54px;
+  }
+
+  .banner::before {
+    inset: 14px;
+  }
+
+  .banner img {
+    height: 330px;
+    left: 30%;
+  }
+
+  .banner-text {
+    max-width: 360px;
+    left: 13%;
+  }
+
+  .banner-text h4 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+
+  .banner-text h2 {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .banner-text p {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+}

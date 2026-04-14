@@ -1140,8 +1140,8 @@ button { min-height: 46px; }
 
 .login-back-link {
   position: fixed;
-  right: auto;
-  left: 25px;
+  right: 25px;
+  left: auto;
   top: 25px;
   display: inline-flex;
   align-items: center;
@@ -1157,7 +1157,8 @@ button { min-height: 46px; }
 @media (max-width: 768px) {
   .login-back-link {
     position: fixed;
-    left: 12px;
+    right: 12px;
+    left: auto;
     top: 12px;
     display: inline-flex;
     width: fit-content !important;

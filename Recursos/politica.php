@@ -1,5 +1,6 @@
 <?php
 require("../config.php");
+require_once(__DIR__ . "/../theme.php");
 
 $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
 ?>
@@ -13,8 +14,10 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
     <link rel="stylesheet" href="../Css/home.css">
     <link rel="stylesheet" href="../Css/bttlogin.css">
     <link rel="stylesheet" href="../Css/politica.css?v=<?php echo filemtime(__DIR__ . '/../Css/politica.css'); ?>">
+    <?php cd_render_theme_head('../', dirname(__DIR__)); ?>
 </head>
 <body class="pagina-politica">
+    <?php cd_render_theme_toggle('../'); ?>
     <div class="privacy-shell">
         <a href="<?php echo htmlspecialchars($voltar, ENT_QUOTES, 'UTF-8'); ?>" id="btt-politica" class="btt-padrao-login">Voltar</a>
 
@@ -84,5 +87,6 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
             </div>
         </div>
     </div>
+    <?php cd_render_theme_script('../', dirname(__DIR__)); ?>
 </body>
 </html>

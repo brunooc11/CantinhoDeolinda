@@ -4,6 +4,7 @@ include("ligar.php");
 require_once("popup_helper.php");
 require_once("mesa_status_helper.php");
 require_once("email_template_helper.php");
+require_once(__DIR__ . "/../theme.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -381,9 +382,11 @@ if ($result && $result->num_rows > 0) {
   <link rel="stylesheet" href="../Css/admin.css?v=<?php echo filemtime(__DIR__ . '/../Css/admin.css'); ?>">
   <link rel="stylesheet" href="../Css/bttlogin.css">
   <link rel="stylesheet" href="../Css/confirmar_reservas.css">
+  <?php cd_render_theme_head('../', dirname(__DIR__)); ?>
 
 </head>
 <body class="cdol-admin cdol-admin-home cdol-confirmar-admin">
+  <?php cd_render_theme_toggle('../'); ?>
   <script>
     document.documentElement.classList.add('admin-home-page');
   </script>
@@ -568,5 +571,6 @@ if ($result && $result->num_rows > 0) {
       });
     })();
   </script>
+  <?php cd_render_theme_script('../', dirname(__DIR__)); ?>
 </body>
 </html>

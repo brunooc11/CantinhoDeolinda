@@ -22,3 +22,14 @@
     margin: 0 auto 16px;
     background: linear-gradient(90deg, transparent, rgba(244, 185, 66, 0.75), transparent);
 }
+
+@media (max-width: 1366px) {
+    .footer {
+        padding: 18px 14px 22px;
+        font-size: 13px;
+    }
+
+    .footer::before {
+        margin-bottom: 12px;
+    }
+}

@@ -9,6 +9,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
 require("Bd/ligar.php");
 require_once("Bd/popup_helper.php");
 require_once("Bd/mesa_status_helper.php");
+require_once(__DIR__ . "/theme.php");
 
 function esc($value)
 {
@@ -221,8 +222,10 @@ $porPaginaLabel = 'Todas';
     <title>Todas as Reservas - Admin</title>
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
+    <?php cd_render_theme_head('', __DIR__); ?>
 </head>
 <body class="cdol-admin cdol-admin-home">
+<?php cd_render_theme_toggle(''); ?>
 <script>
     document.documentElement.classList.add('admin-home-page');
 </script>
@@ -470,6 +473,7 @@ $porPaginaLabel = 'Todas';
         });
     })();
 </script>
+<?php cd_render_theme_script('', __DIR__); ?>
 </body>
 </html>
 

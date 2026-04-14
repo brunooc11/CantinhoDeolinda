@@ -172,3 +172,42 @@
     margin: 0 auto;
   }
 }
+
+@media (max-width: 1366px) {
+  .catering {
+    padding: 102px 6%;
+  }
+
+  .catering-wrapper {
+    max-width: 1140px;
+    gap: 56px;
+  }
+
+  .catering-info h5 {
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(2.1rem, 3.1vw, 3.2rem);
+    margin-bottom: 16px;
+  }
+
+  .catering-info p {
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 22px;
+  }
+
+  .catering-box {
+    flex-basis: 320px;
+    max-width: 320px;
+    min-height: 352px;
+    padding: 32px 24px 30px;
+  }
+
+  .catering-box img {
+    width: 116px;
+    height: 116px;
+  }
+}

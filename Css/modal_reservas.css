@@ -287,3 +287,81 @@
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+body.claro .reserva-modal {
+  background: rgba(91, 70, 49, 0.26);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body.claro .reserva-modal-content {
+  border: 1px solid rgba(184, 133, 43, 0.2);
+  box-shadow:
+    0 28px 70px rgba(111, 83, 38, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  background: linear-gradient(170deg, #fffaf2, #f5e9d8 60%, #efdec5);
+  color: #8d6222;
+}
+
+body.claro .reserva-modal-header {
+  background: linear-gradient(180deg, rgba(255, 251, 244, 0.96), rgba(247, 237, 220, 0.92));
+  border-bottom: 1px solid rgba(184, 133, 43, 0.16);
+}
+
+body.claro .reserva-modal-header h2 {
+  color: #2f2215;
+  border-left-color: #d89a25;
+}
+
+body.claro .reserva-close {
+  border-color: rgba(184, 133, 43, 0.3);
+  background: rgba(244, 185, 66, 0.12);
+  color: #8d6222;
+}
+
+body.claro .reserva-close:hover {
+  background: rgba(244, 185, 66, 0.18);
+  border-color: rgba(184, 133, 43, 0.46);
+}
+
+body.claro .reserva-input,
+body.claro .reserva-select {
+  border-color: rgba(184, 133, 43, 0.22);
+  background: linear-gradient(180deg, #fffaf2, #f4e8d6);
+  color: #2f2215;
+}
+
+body.claro .reserva-input:focus,
+body.claro .reserva-select:focus {
+  border-color: #d89a25;
+  box-shadow: 0 0 0 3px rgba(216, 154, 37, 0.16);
+}
+
+body.claro .reserva-input::placeholder {
+  color: rgba(108, 87, 63, 0.82);
+}
+
+body.claro .reserva-input:disabled {
+  color: rgba(108, 87, 63, 0.84);
+  background: linear-gradient(180deg, #f6edde, #eddcc3);
+  border-color: rgba(184, 133, 43, 0.16);
+}
+
+body.claro .date-icon {
+  fill: #8d6222;
+}
+
+body.claro .reserva-modal-footer {
+  background: linear-gradient(180deg, rgba(244, 185, 66, 0.12), rgba(244, 185, 66, 0.06));
+  border: 1px solid rgba(184, 133, 43, 0.18);
+}
+
+body.claro .reserva-modal-footer p {
+  color: #6c573f !important;
+}
+
+body.claro .reserva-modal-footer button {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a);
+  color: #2a1b0d;
+  border: 1px solid rgba(184, 133, 43, 0.24);
+}

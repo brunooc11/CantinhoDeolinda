@@ -129,3 +129,40 @@ body {
     padding: 0 20px;
   }
 }
+
+@media (max-width: 1366px) {
+  .cd-trust-strip {
+    padding: 76px 0;
+  }
+
+  .cd-trust-strip-inner {
+    max-width: 1100px;
+    padding: 0 28px;
+  }
+
+  .cd-trust-title {
+    font-size: clamp(1.9rem, 2.7vw, 2.45rem);
+    margin-bottom: 14px;
+  }
+
+  .cd-trust-subtitle {
+    margin-bottom: 34px;
+    font-size: 0.95rem;
+  }
+
+  .cd-trust-grid {
+    gap: 18px;
+  }
+
+  .cd-trust-card {
+    min-height: 205px;
+    padding: 26px 20px;
+  }
+
+  .cd-trust-icon {
+    width: 62px;
+    height: 62px;
+    font-size: 25px;
+    line-height: 62px;
+  }
+}

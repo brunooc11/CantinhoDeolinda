@@ -2,6 +2,7 @@
 require("../config.php");
 require("../Bd/ligar.php");
 require_once("../Bd/email_template_helper.php");
+require_once(__DIR__ . "/../theme.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -160,8 +161,10 @@ if (isset($_POST['recuperar'])) {
     <title>Recuperar Palavra-passe</title>
     <link rel="stylesheet" href="../Css/bttlogin.css">
     <link rel="stylesheet" href="../Css/recovery.css">
+    <?php cd_render_theme_head('../', dirname(__DIR__)); ?>
 </head>
-<body>
+<body class="pagina-recovery">
+    <?php cd_render_theme_toggle('../'); ?>
     <a href="../login.php" id="btnVoltarRecovery" class="btt-padrao-login">Voltar</a>
     <main class="recovery-shell">
         <section class="recovery-hero">
@@ -218,5 +221,6 @@ if (isset($_POST['recuperar'])) {
             <?php endif; ?>
         </section>
     </main>
+    <?php cd_render_theme_script('../', dirname(__DIR__)); ?>
 </body>
 </html>

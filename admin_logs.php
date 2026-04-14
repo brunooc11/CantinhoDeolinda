@@ -7,6 +7,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
 }
 
 require("Bd/ligar.php");
+require_once(__DIR__ . "/theme.php");
 
 mysqli_query(
     $con,
@@ -336,8 +337,10 @@ function cd_qs(array $overrides = [])
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
     <link rel="stylesheet" href="Css/admin_logs.css?v=<?php echo filemtime(__DIR__ . '/Css/admin_logs.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
+    <?php cd_render_theme_head('', __DIR__); ?>
 </head>
 <body class="cdol-admin cdol-admin-home cdol-logs">
+    <?php cd_render_theme_toggle(''); ?>
     <script>
         document.documentElement.classList.add('admin-home-page');
     </script>
@@ -532,6 +535,7 @@ function cd_qs(array $overrides = [])
             });
         })();
     </script>
+    <?php cd_render_theme_script('', __DIR__); ?>
 </body>
 </html>
 

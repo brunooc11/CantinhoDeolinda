@@ -971,3 +971,1159 @@ body.escuro .footer {
   background: #050505;
   color: #d0d0d0;
 }
+
+@media (max-width: 1366px) {
+  .controlo {
+    top: 14px;
+    left: 14px;
+    gap: 7px;
+    padding: 7px;
+  }
+
+  .controlo::after {
+    top: 6px;
+    left: 6px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .controlo[data-theme="escuro"]::after {
+    transform: translateX(47px);
+  }
+
+  .tema-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tema-btn img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+body.claro.pagina-institucional,
+body.claro.pagina-ajuda,
+body.claro.pagina-politica,
+body.claro.pagina-termos,
+body.claro.pagina-login,
+body.claro.pagina-recovery,
+body.claro.pagina-manutencao,
+body.claro.cdol-admin,
+body.claro.cdol-dash {
+  color: #24180c;
+}
+
+body.claro.pagina-institucional,
+body.claro.pagina-ajuda,
+body.claro.pagina-politica,
+body.claro.pagina-termos {
+  background:
+    radial-gradient(circle at top left, rgba(244, 185, 66, 0.18), transparent 24%),
+    radial-gradient(circle at 100% 0%, rgba(133, 174, 235, 0.16), transparent 24%),
+    linear-gradient(180deg, #fbf4e7 0%, #f3e5cf 100%);
+}
+
+body.claro.pagina-institucional .institution-hero-copy,
+body.claro.pagina-institucional .institution-hero-card,
+body.claro.pagina-institucional .institution-card,
+body.claro.pagina-institucional .institution-side-card,
+body.claro.pagina-ajuda .help-hero-copy,
+body.claro.pagina-ajuda .help-hero-card,
+body.claro.pagina-ajuda .help-card,
+body.claro.pagina-ajuda .help-side-card,
+body.claro.pagina-politica .privacy-hero-copy,
+body.claro.pagina-politica .privacy-hero-card,
+body.claro.pagina-politica .privacy-card,
+body.claro.pagina-politica .privacy-side-card,
+body.claro.pagina-politica .privacy-cookies-block,
+body.claro.pagina-termos .legal-hero-copy,
+body.claro.pagina-termos .legal-hero-card,
+body.claro.pagina-termos .legal-side-card,
+body.claro.pagina-termos .legal-section {
+  border-color: rgba(184, 133, 43, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.52)),
+    rgba(249, 241, 227, 0.95);
+  box-shadow:
+    0 18px 40px rgba(111, 83, 38, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.claro.pagina-institucional .institution-kicker,
+body.claro.pagina-institucional .institution-hero-label,
+body.claro.pagina-institucional .institution-side-label,
+body.claro.pagina-ajuda .help-kicker,
+body.claro.pagina-ajuda .help-hero-label,
+body.claro.pagina-ajuda .help-side-label,
+body.claro.pagina-politica .privacy-kicker,
+body.claro.pagina-politica .privacy-hero-label,
+body.claro.pagina-politica .privacy-side-label,
+body.claro.pagina-termos .legal-kicker,
+body.claro.pagina-termos .legal-side-label,
+body.claro.pagina-termos .legal-hero-label {
+  color: #8d6222;
+  background: rgba(244, 185, 66, 0.12);
+  border-color: rgba(184, 133, 43, 0.2);
+}
+
+body.claro.pagina-institucional h1,
+body.claro.pagina-ajuda h1,
+body.claro.pagina-politica h1,
+body.claro.pagina-termos h1,
+body.claro.pagina-institucional h2,
+body.claro.pagina-ajuda h2,
+body.claro.pagina-politica h2,
+body.claro.pagina-termos h2,
+body.claro.pagina-institucional .institution-hero-card strong,
+body.claro.pagina-ajuda .help-hero-card strong,
+body.claro.pagina-politica .privacy-hero-card strong,
+body.claro.pagina-termos .legal-hero-card strong {
+  color: #2e1f10;
+}
+
+body.claro.pagina-institucional .institution-hero-copy p,
+body.claro.pagina-institucional .institution-hero-card p,
+body.claro.pagina-institucional .institution-card p,
+body.claro.pagina-ajuda .help-hero-copy p,
+body.claro.pagina-ajuda .help-hero-card p,
+body.claro.pagina-ajuda .help-card p,
+body.claro.pagina-politica .privacy-hero-copy p,
+body.claro.pagina-politica .privacy-hero-card p,
+body.claro.pagina-politica .privacy-card p,
+body.claro.pagina-politica .privacy-cookies-block,
+body.claro.pagina-termos .legal-hero-copy p,
+body.claro.pagina-termos .legal-hero-card p,
+body.claro.pagina-termos .legal-section p {
+  color: #5b4631;
+}
+
+body.claro.pagina-institucional .institution-side-list a,
+body.claro.pagina-ajuda .help-side-list a,
+body.claro.pagina-politica .privacy-side-list a,
+body.claro.pagina-termos .legal-side-list a {
+  color: #523b22;
+  background: rgba(244, 185, 66, 0.1);
+  border-color: rgba(184, 133, 43, 0.16);
+}
+
+body.claro.pagina-login {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(244, 185, 66, 0.18), transparent 24%),
+    radial-gradient(circle at 88% 84%, rgba(182, 148, 90, 0.14), transparent 22%),
+    linear-gradient(180deg, #fbf4e7 0%, #f0dfc5 100%);
+}
+
+body.claro.pagina-login .container {
+  background: rgba(255, 252, 246, 0.98);
+  box-shadow: 0 20px 40px rgba(111, 83, 38, 0.18);
+}
+
+body.claro.pagina-login form {
+  background: #fffdf9;
+  color: #111 !important;
+}
+
+body.claro.pagina-login h1,
+body.claro.pagina-login h2,
+body.claro.pagina-login a,
+body.claro.pagina-login .toggle-pass {
+  color: #111 !important;
+}
+
+body.claro.pagina-login p,
+body.claro.pagina-login span {
+  color: #222 !important;
+}
+
+body.claro.pagina-login input,
+body.claro.pagina-login select,
+body.claro.pagina-login .country-code-box,
+body.claro.pagina-login .phone-country-row input[name="telefone"] {
+  background: linear-gradient(180deg, #fffaf2, #f4e8d6);
+  border-color: rgba(184, 133, 43, 0.2);
+  color: #24180c;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+body.claro.pagina-login input::placeholder {
+  color: #5c5c5c;
+}
+
+body.claro.pagina-login .overlay {
+  background: linear-gradient(to right, #f4c45c, #e5aa37);
+}
+
+body.claro.pagina-login .social-container a {
+  border-color: rgba(184, 133, 43, 0.26);
+}
+
+body.claro.pagina-recovery {
+  --bg-1: #fbf4e7;
+  --bg-2: #f2e2c8;
+  --bg-3: #ead4b1;
+  --card: rgba(255, 249, 240, 0.86);
+  --card-border: rgba(184, 133, 43, 0.16);
+  --text: #2f2215;
+  --muted: #6c573f;
+  --primary: #f4b942;
+  --primary-strong: #d8921b;
+}
+
+body.claro.pagina-recovery .recovery-shell {
+  box-shadow: 0 26px 56px rgba(111, 83, 38, 0.16), 0 0 0 1px rgba(244, 185, 66, 0.08);
+}
+
+body.claro.pagina-recovery .recovery-badge {
+  color: #8d6222;
+  background: rgba(244, 185, 66, 0.14);
+  border-color: rgba(184, 133, 43, 0.18);
+}
+
+body.claro.pagina-recovery .recovery-points li {
+  color: #3f2d1c;
+}
+
+body.claro.pagina-recovery .recovery-input {
+  background: rgba(255, 250, 243, 0.92);
+  color: #24180c;
+}
+
+body.claro.pagina-manutencao {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(244, 185, 66, 0.18), transparent 26%),
+    radial-gradient(circle at 88% 84%, rgba(244, 185, 66, 0.12), transparent 24%),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.22), transparent 45%),
+    linear-gradient(155deg, #fbf3e4, #f3e3ca 52%, #e9d2b1);
+}
+
+body.claro.pagina-manutencao::before {
+  background: radial-gradient(circle, rgba(244, 185, 66, 0.18), transparent 68%);
+}
+
+body.claro.pagina-manutencao::after {
+  background: radial-gradient(circle, rgba(217, 146, 27, 0.12), transparent 70%);
+}
+
+body.claro.pagina-manutencao .manut-card {
+  background:
+    linear-gradient(145deg, rgba(255, 250, 242, 0.98), rgba(244, 232, 212, 0.98)),
+    radial-gradient(circle at top right, rgba(244, 185, 66, 0.14), transparent 30%);
+  border-color: rgba(184, 133, 43, 0.18);
+  box-shadow:
+    0 30px 60px rgba(111, 83, 38, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+body.claro.pagina-manutencao .manut-kicker,
+body.claro.pagina-manutencao .manut-status,
+body.claro.pagina-manutencao .manut-note {
+  color: #8d6222;
+}
+
+body.claro.pagina-manutencao .manut-card h1,
+body.claro.pagina-manutencao .manut-lead {
+  color: #2f2215;
+}
+
+body.claro.cdol-admin,
+body.claro.cdol-dash {
+  background:
+    radial-gradient(circle at top left, rgba(244, 185, 66, 0.16), transparent 22%),
+    linear-gradient(180deg, #fbf4e7 0%, #f1e0c5 100%);
+}
+
+body.claro.cdol-admin .container,
+body.claro.cdol-admin .admin-home-sidebar,
+body.claro.cdol-admin .admin-home-menu-toggle,
+body.claro.cdol-admin .admin-hero,
+body.claro.cdol-admin .admin-kpi-card,
+body.claro.cdol-admin .admin-section,
+body.claro.cdol-admin .logs-filters-section,
+body.claro.cdol-admin .logs-results-section,
+body.claro.cdol-admin .feedback-filter-panel,
+body.claro.cdol-admin .feedback-inbox-panel,
+body.claro.cdol-admin .feedback-reader-panel,
+body.claro.cdol-admin .feedback-reader-card,
+body.claro.cdol-admin .feedback-list-card,
+body.claro.cdol-admin .feedback-meta-card,
+body.claro.cdol-admin .feedback-note-form,
+body.claro.cdol-admin .mapa-card,
+body.claro.cdol-admin .mapa-release-bar,
+body.claro.cdol-admin .header,
+body.claro.cdol-admin .empty,
+body.claro.cdol-admin .card,
+body.claro.cdol-admin .meta-line,
+body.claro.cdol-admin .mesa-check,
+body.claro.cdol-dash .dashboard-header,
+body.claro.cdol-dash .dashboard-menu,
+body.claro.cdol-dash .card,
+body.claro.cdol-dash .conta-card {
+  background-color: rgba(255, 249, 240, 0.94);
+  color: #24180c;
+  border-color: rgba(184, 133, 43, 0.14);
+  box-shadow: 0 18px 40px rgba(111, 83, 38, 0.12);
+}
+
+body.claro.cdol-admin .admin-home-sidebar,
+body.claro.cdol-admin .admin-home-menu-toggle {
+  background:
+    linear-gradient(180deg, rgba(255, 252, 246, 0.98), rgba(242, 228, 204, 0.98));
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar,
+body.claro.cdol-dash.cdol-admin-home .admin-home-menu-toggle,
+body.claro.cdol-dash.cdol-admin-home .admin-home-menu-overlay {
+  background:
+    linear-gradient(180deg, rgba(255, 252, 246, 0.98), rgba(242, 228, 204, 0.98)) !important;
+  border-color: rgba(184, 133, 43, 0.18) !important;
+  box-shadow: 0 18px 36px rgba(111, 83, 38, 0.14) !important;
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-menu-toggle span {
+  background: #6e4b13 !important;
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar-brand,
+body.claro.cdol-dash.cdol-admin-home .admin-home-nav a,
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar-footer a {
+  background: rgba(255, 249, 240, 0.9) !important;
+  border-color: rgba(184, 133, 43, 0.16) !important;
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-kicker,
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar-brand p,
+body.claro.cdol-dash.cdol-admin-home .admin-home-link-copy small {
+  color: #333 !important;
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar-brand strong,
+body.claro.cdol-dash.cdol-admin-home .admin-home-link-copy strong,
+body.claro.cdol-dash.cdol-admin-home .admin-home-nav a,
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar-footer a,
+body.claro.cdol-dash.cdol-admin-home .admin-home-icon {
+  color: #111 !important;
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-icon svg rect,
+body.claro.cdol-dash.cdol-admin-home .admin-home-icon svg path {
+  stroke: #6e4b13 !important;
+}
+
+body.claro.cdol-dash.cdol-admin-home .admin-home-nav a.is-active,
+body.claro.cdol-dash.cdol-admin-home .admin-home-sidebar-footer a.is-active {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a) !important;
+  color: #2a1b0d !important;
+}
+
+body.claro.cdol-admin .admin-home-sidebar-brand p,
+body.claro.cdol-admin .admin-home-link-copy small,
+body.claro.cdol-admin .admin-hero p,
+body.claro.cdol-admin .feedback-subtle,
+body.claro.cdol-admin .feedback-list-email,
+body.claro.cdol-admin .feedback-history-top span,
+body.claro.cdol-admin .feedback-history-meta,
+body.claro.cdol-admin .mapa-tip,
+body.claro.cdol-admin .mapa-release-copy span,
+body.claro.cdol-dash .card p,
+body.claro.cdol-dash .dashboard-menu button,
+body.claro.cdol-dash .dashboard-header a {
+  color: #1a1a1a;
+}
+
+body.claro.cdol-admin .admin-home-sidebar-brand strong,
+body.claro.cdol-admin .admin-home-link-copy strong,
+body.claro.cdol-admin h2,
+body.claro.cdol-admin h3,
+body.claro.cdol-admin .title h1,
+body.claro.cdol-admin .name,
+body.claro.cdol-admin .feedback-reader-title,
+body.claro.cdol-admin .feedback-message-title,
+body.claro.cdol-admin .mapa-card-title,
+body.claro.cdol-admin .mapa-release-copy strong,
+body.claro.cdol-dash .dashboard-header h1,
+body.claro.cdol-dash .card h3 {
+  color: #000;
+  text-shadow: none;
+}
+
+body.claro.cdol-admin .admin-home-nav a,
+body.claro.cdol-admin .admin-home-sidebar-footer a,
+body.claro.cdol-dash .dashboard-menu,
+body.claro.cdol-dash .dashboard-menu button {
+  background-color: rgba(244, 185, 66, 0.08);
+}
+
+body.claro.cdol-admin .admin-home-nav a,
+body.claro.cdol-admin .admin-home-sidebar-footer a {
+  color: #111;
+}
+
+body.claro.cdol-admin .admin-home-nav a.is-active,
+body.claro.cdol-admin .admin-home-sidebar-footer a.is-active,
+body.claro.cdol-dash .dashboard-menu button.active {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a);
+  color: #1f1409;
+}
+
+body.claro.cdol-admin .admin-search-bar input,
+body.claro.cdol-admin .admin-filter-bar select,
+body.claro.cdol-admin .admin-filter-bar input[type="date"],
+body.claro.cdol-admin .logs-filters-grid input[type="text"],
+body.claro.cdol-admin .logs-filters-grid select,
+body.claro.cdol-admin .logs-filters-grid input[type="date"],
+body.claro.cdol-admin .feedback-filters-grid input[type="text"],
+body.claro.cdol-admin .feedback-filters-grid input[type="date"],
+body.claro.cdol-admin .feedback-filters-grid select,
+body.claro.cdol-admin .feedback-note-form textarea,
+body.claro.cdol-dash input,
+body.claro.cdol-dash select,
+body.claro.cdol-dash textarea {
+  background: #fffaf2;
+  color: #24180c;
+  border-color: rgba(184, 133, 43, 0.18);
+}
+
+body.claro.cdol-admin .admin-table,
+body.claro.cdol-admin .logs-table,
+body.claro.cdol-admin table,
+body.claro.cdol-dash table {
+  background: rgba(255, 252, 247, 0.94);
+  color: #2d2012;
+  border-color: rgba(184, 133, 43, 0.14);
+}
+
+body.claro.cdol-admin .admin-table th,
+body.claro.cdol-admin .logs-table th,
+body.claro.cdol-admin th,
+body.claro.cdol-dash th {
+  background: linear-gradient(135deg, #f4c45c, #e8ad36);
+  color: #1f1409;
+}
+
+body.claro.cdol-admin .admin-table td,
+body.claro.cdol-admin .logs-table td,
+body.claro.cdol-admin td,
+body.claro.cdol-dash td {
+  border-color: rgba(184, 133, 43, 0.12);
+  color: #111;
+}
+
+body.claro.cdol-confirmar-admin .header {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(244, 185, 66, 0.14), transparent 30%),
+    radial-gradient(circle at 100% 0%, rgba(224, 167, 92, 0.08), transparent 22%),
+    linear-gradient(145deg, rgba(255, 251, 244, 0.98), rgba(243, 231, 210, 0.96) 58%, rgba(237, 223, 197, 0.98));
+  border-color: rgba(184, 133, 43, 0.2);
+  box-shadow:
+    0 28px 54px rgba(111, 83, 38, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+body.claro.cdol-confirmar-admin .header::after {
+  background: linear-gradient(100deg, transparent 0%, rgba(244, 185, 66, 0.14) 46%, transparent 100%);
+}
+
+body.claro.cdol-confirmar-admin .title p,
+body.claro.cdol-confirmar-admin .email,
+body.claro.cdol-confirmar-admin .mesa-help,
+body.claro.cdol-confirmar-admin .mesa-summary,
+body.claro.cdol-confirmar-admin .mesa-empty,
+body.claro.cdol-confirmar-admin .meta-line span:first-child {
+  color: #222;
+}
+
+body.claro.cdol-confirmar-admin .card {
+  background:
+    radial-gradient(circle at top left, rgba(244, 185, 66, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(255, 251, 244, 0.98), rgba(243, 235, 223, 0.96)),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(184, 133, 43, 0.01) 0 8px,
+      rgba(184, 133, 43, 0.03) 8px 16px
+    );
+  border-color: rgba(184, 133, 43, 0.16);
+  box-shadow:
+    0 18px 34px rgba(111, 83, 38, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+body.claro.cdol-confirmar-admin .meta-line,
+body.claro.cdol-confirmar-admin .mesa-check {
+  background: rgba(255, 250, 243, 0.95);
+  border-color: rgba(184, 133, 43, 0.16);
+}
+
+body.claro.cdol-confirmar-admin .meta-line span:last-child,
+body.claro.cdol-confirmar-admin .mesa-check-id,
+body.claro.cdol-confirmar-admin .mesa-check-cap {
+  color: #000;
+}
+
+body.claro.cdol-confirmar-admin .res-id,
+body.claro.cdol-confirmar-admin .card-toggle-btn {
+  color: #8d6222;
+  background: rgba(244, 185, 66, 0.12);
+  border-color: rgba(184, 133, 43, 0.26);
+}
+
+body.claro.cdol-confirmar-admin .card-toggle-btn:hover,
+body.claro.cdol-confirmar-admin .mesa-check:has(input:checked) {
+  background: rgba(244, 185, 66, 0.18);
+  border-color: rgba(184, 133, 43, 0.3);
+  color: #6e4b13;
+}
+
+body.claro.cdol-admin .admin-table tbody tr:nth-child(even) td,
+body.claro.cdol-admin .logs-table tbody tr:nth-child(odd),
+body.claro.cdol-admin table tbody tr:nth-child(even) {
+  background: rgba(244, 185, 66, 0.05);
+}
+
+body.claro.cdol-admin .admin-table tbody tr:hover td,
+body.claro.cdol-admin .logs-table tbody tr:hover,
+body.claro.cdol-admin table tbody tr:hover,
+body.claro.cdol-dash tr:hover {
+  background: rgba(244, 185, 66, 0.1);
+}
+
+body.cdol-admin .controlo,
+body.cdol-dash.cdol-admin-home .controlo {
+  left: auto;
+  right: 16px;
+}
+
+body.claro .reserva-modal {
+  background: rgba(91, 70, 49, 0.26);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+body.claro .reserva-modal-content {
+  border-color: rgba(184, 133, 43, 0.2);
+  box-shadow:
+    0 28px 70px rgba(111, 83, 38, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  background:
+    linear-gradient(170deg, #fffaf2, #f5e9d8 60%, #efdec5);
+  color: #8d6222;
+}
+
+body.claro .reserva-modal-header {
+  background: linear-gradient(180deg, rgba(255, 251, 244, 0.96), rgba(247, 237, 220, 0.92));
+  border-bottom-color: rgba(184, 133, 43, 0.16);
+}
+
+body.claro .reserva-modal-header h2 {
+  color: #000;
+  border-left-color: #d89a25;
+}
+
+body.claro .reserva-close {
+  border-color: rgba(184, 133, 43, 0.3);
+  background: rgba(244, 185, 66, 0.12);
+  color: #8d6222;
+}
+
+body.claro .reserva-input,
+body.claro .reserva-select {
+  border-color: rgba(184, 133, 43, 0.22);
+  background: linear-gradient(180deg, #fffaf2, #f4e8d6);
+  color: #000;
+}
+
+body.claro .reserva-input::placeholder,
+body.claro .reserva-input:disabled,
+body.claro .reserva-modal-footer p {
+  color: #222 !important;
+}
+
+body.claro .reserva-input:disabled {
+  background: linear-gradient(180deg, #f6edde, #eddcc3);
+  border-color: rgba(184, 133, 43, 0.16);
+}
+
+body.claro .date-icon {
+  fill: #8d6222;
+}
+
+body.claro .reserva-modal-footer {
+  background: linear-gradient(180deg, rgba(244, 185, 66, 0.12), rgba(244, 185, 66, 0.06));
+  border-color: rgba(184, 133, 43, 0.18);
+}
+
+body.claro .reserva-modal-footer button {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a);
+  color: #2a1b0d;
+  border-color: rgba(184, 133, 43, 0.24);
+}
+
+body.claro.pagina-login form,
+body.claro.pagina-login .container,
+body.claro.pagina-login .overlay,
+body.claro.pagina-login .overlay-panel,
+body.claro.pagina-login .overlay-panel p,
+body.claro.pagina-login .overlay-panel h1,
+body.claro.pagina-login .overlay *,
+body.claro.pagina-login .overlay-left *,
+body.claro.pagina-login .overlay-right * {
+  color: #111 !important;
+}
+
+body.claro.pagina-login .overlay button {
+  background: #fff7ea !important;
+  color: #7c5419 !important;
+  border: 1px solid rgba(184, 133, 43, 0.28) !important;
+}
+
+body.claro.pagina-login .overlay button:hover {
+  background: #f7ebd7 !important;
+  color: #6e4b13 !important;
+  border-color: rgba(184, 133, 43, 0.34) !important;
+}
+
+body.claro.pagina-login .controlo {
+  background:
+    linear-gradient(145deg, rgba(255, 252, 246, 0.98), rgba(241, 227, 202, 0.96)) !important;
+  border-color: rgba(184, 133, 43, 0.22) !important;
+  box-shadow:
+    0 18px 36px rgba(111, 83, 38, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+}
+
+body.claro.pagina-login .controlo::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.28)) !important;
+}
+
+body.pagina-login .controlo .tema-btn {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  box-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+  font-size: 0 !important;
+}
+
+body.pagina-login .controlo .tema-btn:hover {
+  transform: translateY(-1px) scale(1.03) !important;
+}
+
+body.pagina-login .controlo .tema-btn img {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+body.claro.pagina-login .tema-btn:not(.active) {
+  opacity: 0.9;
+}
+
+body.claro.pagina-login .tema-btn img {
+  filter: brightness(0.88) saturate(1.05) !important;
+}
+
+body.claro.pagina-login .tema-btn.active {
+  color: #2a1b0d !important;
+  background: rgba(255, 244, 221, 0.72) !important;
+}
+
+body.claro.pagina-login .tema-btn#escuro-btn:not(.active) {
+  background: rgba(123, 143, 185, 0.08) !important;
+}
+
+body.claro.pagina-login .terms label,
+body.claro.pagina-login .login-footer-links,
+body.claro.pagina-login .login-footer-links a,
+body.claro.pagina-login .social-container a {
+  color: #111 !important;
+}
+
+body.claro.pagina-login .social-container a {
+  background: rgba(244, 185, 66, 0.08);
+}
+
+body.claro.pagina-login .toggle-pass {
+  background: rgba(244, 185, 66, 0.12);
+  border-color: rgba(184, 133, 43, 0.24);
+}
+
+body.claro.pagina-login #codigoPaisInput,
+body.claro.pagina-login .phone-country-row input[name="telefone"],
+body.claro.pagina-login input,
+body.claro.pagina-login select {
+  color: #2f2215;
+}
+
+body.claro.cdol-dash .dashboard-header,
+body.claro.cdol-dash .dashboard-menu,
+body.claro.cdol-dash .card,
+body.claro.cdol-dash .form-lateral-card form,
+body.claro.cdol-dash #Reservas .card,
+body.claro.cdol-dash .tabela-reservas,
+body.claro.cdol-dash .senha-checklist,
+body.claro.cdol-dash .acao-col > span {
+  background:
+    linear-gradient(160deg, rgba(255, 253, 249, 0.99), rgba(244, 234, 217, 0.98)) !important;
+  color: #000 !important;
+  border-color: rgba(184, 133, 43, 0.22) !important;
+  box-shadow: 0 18px 36px rgba(111, 83, 38, 0.14) !important;
+}
+
+body.claro.cdol-dash .dashboard-header a,
+body.claro.cdol-dash .dashboard-menu button,
+body.claro.cdol-dash #Conta .card p,
+body.claro.cdol-dash .senha-field span,
+body.claro.cdol-dash .senha-checklist li,
+body.claro.cdol-dash .reservas-header,
+body.claro.cdol-dash .acao-col > span,
+body.claro.cdol-dash .status-badge,
+body.claro.cdol-dash .dash-alert {
+  color: #111 !important;
+}
+
+body.claro.cdol-dash .dashboard-menu button {
+  background: rgba(244, 185, 66, 0.06) !important;
+}
+
+body.claro.cdol-dash .dashboard-menu button:hover {
+  background: rgba(244, 185, 66, 0.12) !important;
+}
+
+body.claro.cdol-dash .dashboard-menu button.active,
+body.claro.cdol-dash #bttNovaReserva,
+body.claro.cdol-dash .painel-primary-btn,
+body.claro.cdol-dash .btt-alterar-senha,
+body.claro.cdol-dash .btt-sair {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a) !important;
+  color: #2a1b0d !important;
+  border-color: rgba(184, 133, 43, 0.22) !important;
+}
+
+body.claro.cdol-dash #btt_excluir_conta,
+body.claro.cdol-dash .btn-cancelar {
+  color: #fff !important;
+}
+
+body.claro.cdol-dash .form-lateral-card input,
+body.claro.cdol-dash .senha-field input,
+body.claro.cdol-dash .senha-toggle,
+body.claro.cdol-dash input,
+body.claro.cdol-dash select,
+body.claro.cdol-dash textarea {
+  background: #fffaf2 !important;
+  color: #000 !important;
+  border-color: rgba(184, 133, 43, 0.24) !important;
+}
+
+body.claro.cdol-dash .senha-toggle:hover {
+  background: #f4e8d6 !important;
+}
+
+body.claro.cdol-dash .tabela-reservas thead th,
+body.claro.cdol-dash th {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a) !important;
+  color: #2a1b0d !important;
+}
+
+body.claro.cdol-dash .tabela-reservas tbody td,
+body.claro.cdol-dash td,
+body.claro.cdol-dash .dash-alert.success,
+body.claro.cdol-dash .dash-alert.error {
+  color: #111 !important;
+}
+
+body.claro.cdol-admin .container,
+body.claro.cdol-admin .admin-hero,
+body.claro.cdol-admin .admin-kpi-card,
+body.claro.cdol-admin .admin-section,
+body.claro.cdol-admin .admin-table-wrap,
+body.claro.cdol-admin .admin-table,
+body.claro.cdol-admin .logs-filters-section,
+body.claro.cdol-admin .logs-results-section,
+body.claro.cdol-admin .feedback-filter-panel,
+body.claro.cdol-admin .feedback-inbox-panel,
+body.claro.cdol-admin .feedback-reader-panel,
+body.claro.cdol-admin .feedback-reader-card,
+body.claro.cdol-admin .feedback-list-card,
+body.claro.cdol-admin .feedback-meta-card,
+body.claro.cdol-admin .feedback-note-form,
+body.claro.cdol-admin .mapa-card,
+body.claro.cdol-admin .mapa-release-bar {
+  background:
+    linear-gradient(160deg, rgba(255, 253, 249, 0.99), rgba(244, 234, 217, 0.98)) !important;
+  color: #000 !important;
+  border-color: rgba(184, 133, 43, 0.22) !important;
+  box-shadow: 0 18px 36px rgba(111, 83, 38, 0.14) !important;
+}
+
+body.claro.cdol-admin .admin-hero p,
+body.claro.cdol-admin .admin-kpi-card span,
+body.claro.cdol-admin .admin-filter-help,
+body.claro.cdol-admin .feedback-subtle,
+body.claro.cdol-admin .feedback-list-email,
+body.claro.cdol-admin .feedback-history-top span,
+body.claro.cdol-admin .feedback-history-meta,
+body.claro.cdol-admin .feedback-panel-head p,
+body.claro.cdol-admin .logs-subtle,
+body.claro.cdol-admin .mapa-tip,
+body.claro.cdol-admin .mapa-release-copy span {
+  color: #222 !important;
+}
+
+body.claro.cdol-admin .admin-search-bar input,
+body.claro.cdol-admin .admin-filter-bar select,
+body.claro.cdol-admin .admin-filter-bar input[type="date"],
+body.claro.cdol-admin .feedback-filters-grid input[type="text"],
+body.claro.cdol-admin .feedback-filters-grid input[type="date"],
+body.claro.cdol-admin .feedback-filters-grid select,
+body.claro.cdol-admin .logs-filters-grid input[type="text"],
+body.claro.cdol-admin .logs-filters-grid select,
+body.claro.cdol-admin .logs-filters-grid input[type="date"],
+body.claro.cdol-admin .feedback-note-form textarea {
+  background: #fffaf2 !important;
+  color: #000 !important;
+  border-color: rgba(184, 133, 43, 0.24) !important;
+}
+
+body.claro.cdol-admin .admin-clear-btn,
+body.claro.cdol-admin .feedback-filter-actions .admin-clear-btn,
+body.claro.cdol-admin .logs-reset-link {
+  background: linear-gradient(180deg, #fff7ea, #f1e1c7) !important;
+  color: #6e4b13 !important;
+  border-color: rgba(184, 133, 43, 0.2) !important;
+}
+
+body.claro.cdol-admin .admin-search-bar .btn,
+body.claro.cdol-admin .feedback-filter-actions .btn,
+body.claro.cdol-admin .logs-btn,
+body.claro.cdol-admin #btnDashboard,
+body.claro.cdol-admin #btnInicio,
+body.claro.cdol-admin #btnConfirmarReservas,
+body.claro.cdol-admin #btnLogs {
+  background: linear-gradient(135deg, #f4c45c, #e7ad3a) !important;
+  color: #2a1b0d !important;
+  border-color: rgba(184, 133, 43, 0.24) !important;
+}
+
+body.claro.cdol-admin .admin-table th,
+body.claro.cdol-admin .logs-table th,
+body.claro.cdol-admin .feedback-status-group .status-chip,
+body.claro.cdol-admin .feedback-mini-pill,
+body.claro.cdol-admin .res-id {
+  color: #2a1b0d !important;
+}
+
+body.claro.cdol-admin .admin-table td,
+body.claro.cdol-admin .logs-table td,
+body.claro.cdol-admin .feedback-list-name,
+body.claro.cdol-admin .feedback-reader-title,
+body.claro.cdol-admin .feedback-message-title,
+body.claro.cdol-admin .feedback-meta-card strong,
+body.claro.cdol-admin .mapa-card-title,
+body.claro.cdol-admin .mapa-release-copy strong,
+body.claro.cdol-admin .admin-home-nav a,
+body.claro.cdol-admin .admin-home-sidebar-footer a,
+body.claro.cdol-admin .admin-home-sidebar-brand strong {
+  color: #000 !important;
+}
+
+body.claro.cdol-admin .feedback-list-email,
+body.claro.cdol-admin .feedback-history-meta,
+body.claro.cdol-admin .feedback-history-top span,
+body.claro.cdol-admin .feedback-panel-head p,
+body.claro.cdol-admin .feedback-contact-line,
+body.claro.cdol-admin .feedback-meta-card span,
+body.claro.cdol-admin .logs-table td,
+body.claro.cdol-admin .status-chip,
+body.claro.cdol-admin .admin-table td small,
+body.claro.cdol-dash .status-badge,
+body.claro.cdol-dash .senha-checklist li {
+  color: #1a1a1a !important;
+}
+
+body.claro.cdol-dash #Conta .conta-details-panel,
+body.claro.cdol-dash #Conta .conta-name-hero,
+body.claro.cdol-dash #Conta .conta-password-hero,
+body.claro.cdol-dash #Conta .conta-actions-card,
+body.claro.cdol-dash #Conta .conta-info-item,
+body.claro.cdol-dash #Conta .senha-form,
+body.claro.cdol-dash #Conta .conta-nome-preview,
+body.claro.cdol-dash #Conta .conta-nome-editor,
+body.claro.cdol-dash #Favoritos .favorito-item {
+  background:
+    linear-gradient(160deg, rgba(255, 253, 249, 0.99), rgba(244, 234, 217, 0.98)) !important;
+  border-color: rgba(184, 133, 43, 0.22) !important;
+  box-shadow: 0 16px 30px rgba(111, 83, 38, 0.14) !important;
+}
+
+body.claro.cdol-dash #Conta .conta-hero-badge,
+body.claro.cdol-dash #Conta .conta-name-note-inline,
+body.claro.cdol-dash #Conta .conta-nome-preview-pill {
+  background: rgba(244, 185, 66, 0.14) !important;
+  border-color: rgba(184, 133, 43, 0.24) !important;
+  color: #111 !important;
+}
+
+body.claro.cdol-dash #Conta .conta-hero-badge-soft {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(184, 133, 43, 0.16) !important;
+  color: #111 !important;
+}
+
+body.claro.cdol-dash #Conta .conta-name-copy .label,
+body.claro.cdol-dash #Conta .conta-password-copy .label,
+body.claro.cdol-dash #Conta .conta-details-head .label,
+body.claro.cdol-dash #Conta .conta-info-item .label,
+body.claro.cdol-dash #Conta .conta-nome-kicker,
+body.claro.cdol-dash #Conta .conta-nome-helper-subtle,
+body.claro.cdol-dash #Conta .conta-nome-preview small {
+  color: #333 !important;
+}
+
+body.claro.cdol-dash #Conta .conta-name-copy strong,
+body.claro.cdol-dash #Conta .conta-password-copy strong,
+body.claro.cdol-dash #Conta .conta-details-head strong,
+body.claro.cdol-dash #Conta .conta-info-item strong,
+body.claro.cdol-dash #Conta .senha-form-head h3,
+body.claro.cdol-dash #Conta .senha-field span,
+body.claro.cdol-dash #Conta .conta-nome-preview strong {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+body.claro.cdol-dash #Conta .conta-name-copy p,
+body.claro.cdol-dash #Conta .conta-password-copy p,
+body.claro.cdol-dash #Conta .conta-details-head p,
+body.claro.cdol-dash #Conta .conta-nome-helper,
+body.claro.cdol-dash #Conta .conta-nome-note,
+body.claro.cdol-dash #Conta .conta-nome-note span,
+body.claro.cdol-dash #Conta .senha-form-head p {
+  color: #1a1a1a !important;
+}
+
+body.claro.cdol-dash #Favoritos .favorito-topo strong,
+body.claro.cdol-dash #Favoritos .card > p,
+body.claro.cdol-dash .favorito-item small,
+body.claro.cdol-dash .favoritos-header h3 {
+  color: #000 !important;
+}
+
+body.claro.cdol-dash #Favoritos .favoritos-lista {
+  gap: 14px;
+}
+
+body.claro.cdol-dash .btn-remover-todos-fav {
+  background: linear-gradient(135deg, #f3b2b9, #e97f88) !important;
+  border-color: rgba(168, 63, 74, 0.24) !important;
+  color: #111 !important;
+}
+
+body.claro.cdol-dash .btn-remover-fav {
+  background: linear-gradient(145deg, rgba(235, 133, 147, 0.24), rgba(228, 94, 112, 0.18)) !important;
+  border-color: rgba(184, 88, 101, 0.28) !important;
+  color: #8f2432 !important;
+}
+
+body.claro.cdol-dash .btn-remover-fav:hover {
+  color: #6c1521 !important;
+}
+
+body.claro.cdol-admin .admin-kpi-card,
+body.claro.cdol-admin.cdol-mapa .admin-kpi-card {
+  background:
+    linear-gradient(160deg, rgba(255, 253, 249, 0.99), rgba(244, 234, 217, 0.98)) !important;
+  border-color: rgba(184, 133, 43, 0.24) !important;
+}
+
+body.claro.cdol-admin .admin-kpi-card span,
+body.claro.cdol-admin.cdol-mapa .admin-kpi-card span,
+body.claro.cdol-admin .admin-kpi-card strong,
+body.claro.cdol-admin.cdol-mapa .admin-kpi-card strong {
+  color: #000 !important;
+  text-shadow: none !important;
+}
+
+body.claro.cdol-admin.cdol-mapa {
+  --mapa-panel: #f7ecda;
+  --mapa-panel-2: #fffaf2;
+  --mapa-line: rgba(184, 133, 43, 0.18);
+  --mapa-text: #111111;
+  --mapa-muted: #3a3127;
+}
+
+body.claro.cdol-admin.cdol-mapa .container,
+body.claro.cdol-admin.cdol-mapa .admin-hero,
+body.claro.cdol-admin.cdol-mapa .mapa-toolbar,
+body.claro.cdol-admin.cdol-mapa .mapa-merge-toolbar,
+body.claro.cdol-admin.cdol-mapa .mapa-release-bar,
+body.claro.cdol-admin.cdol-mapa .mapa-card {
+  background:
+    linear-gradient(160deg, rgba(255, 253, 249, 0.99), rgba(244, 234, 217, 0.98)) !important;
+  border-color: rgba(184, 133, 43, 0.22) !important;
+  box-shadow: 0 18px 36px rgba(111, 83, 38, 0.14) !important;
+}
+
+body.claro.cdol-admin.cdol-mapa .admin-hero::after,
+body.claro.cdol-admin.cdol-mapa .mapa-card::before,
+body.claro.cdol-admin.cdol-mapa .restaurante-canvas::before,
+body.claro.cdol-admin.cdol-mapa .restaurante-canvas::after {
+  opacity: 0.45;
+}
+
+body.claro.cdol-admin.cdol-mapa .legenda-item,
+body.claro.cdol-admin.cdol-mapa .mapa-room-meta span,
+body.claro.cdol-admin.cdol-mapa .mapa-release-meta span,
+body.claro.cdol-admin.cdol-mapa .mapa-merge-btn {
+  background: rgba(255, 250, 243, 0.94) !important;
+  border-color: rgba(184, 133, 43, 0.2) !important;
+  color: #111 !important;
+}
+
+body.claro.cdol-admin.cdol-mapa .mapa-card-title,
+body.claro.cdol-admin.cdol-mapa .mapa-release-copy strong,
+body.claro.cdol-admin.cdol-mapa .mapa-release-meta strong,
+body.claro.cdol-admin.cdol-mapa .mapa-release-meta b,
+body.claro.cdol-admin.cdol-mapa .legenda-item,
+body.claro.cdol-admin.cdol-mapa .mapa-tip,
+body.claro.cdol-admin.cdol-mapa .mapa-merge-hint,
+body.claro.cdol-admin.cdol-mapa .mapa-room-meta span {
+  color: #111 !important;
+  text-shadow: none !important;
+}
+
+body.claro.cdol-admin.cdol-mapa .restaurante-canvas {
+  border-color: rgba(184, 133, 43, 0.22) !important;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(244, 185, 66, 0.12), transparent 30%),
+    radial-gradient(circle at 88% 84%, rgba(244, 185, 66, 0.07), transparent 35%),
+    linear-gradient(145deg, #f8eedf, #efe0c6) !important;
+}
+
+body.claro.cdol-admin.cdol-mapa .zona-bar,
+body.claro.cdol-admin.cdol-mapa .zona-entrada {
+  color: #111 !important;
+  border-color: rgba(184, 133, 43, 0.18) !important;
+}
+
+html.claro,
+body.claro.cdol-admin-home {
+  scrollbar-color: #c79228 rgba(240, 226, 201, 0.96) !important;
+}
+
+html.claro::-webkit-scrollbar-track,
+body.claro.cdol-admin-home::-webkit-scrollbar-track,
+body.claro.cdol-admin::-webkit-scrollbar-track,
+body.claro.cdol-dash::-webkit-scrollbar-track {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(244, 185, 66, 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(249, 240, 225, 0.98), rgba(236, 221, 196, 0.98)) !important;
+  border-left: 1px solid rgba(184, 133, 43, 0.08) !important;
+}
+
+html.claro::-webkit-scrollbar-thumb,
+body.claro.cdol-admin-home::-webkit-scrollbar-thumb,
+body.claro.cdol-admin::-webkit-scrollbar-thumb,
+body.claro.cdol-dash::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(241, 227, 202, 0.98) !important;
+  background: linear-gradient(180deg, #f7d48b 0%, #d7a142 52%, #b37718 100%) !important;
+}
+
+html.claro::-webkit-scrollbar-corner,
+body.claro.cdol-admin-home::-webkit-scrollbar-corner,
+body.claro.cdol-admin::-webkit-scrollbar-corner,
+body.claro.cdol-dash::-webkit-scrollbar-corner {
+  background: rgba(241, 227, 202, 1) !important;
+}
+
+html,
+body {
+  scrollbar-width: thin;
+}
+
+html.escuro,
+body.escuro,
+html.admin-home-page {
+  scrollbar-color: #cda24b rgba(10, 13, 19, 0.98);
+}
+
+html.claro,
+body.claro {
+  scrollbar-color: #c79228 rgba(240, 226, 201, 0.96);
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.cdol-admin-home::-webkit-scrollbar,
+html.admin-home-page::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html.escuro::-webkit-scrollbar-track,
+body.escuro::-webkit-scrollbar-track,
+html.admin-home-page::-webkit-scrollbar-track {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 214, 122, 0.05), transparent 22%),
+    linear-gradient(180deg, rgba(18, 22, 30, 0.98), rgba(8, 10, 15, 1));
+  border-left: 1px solid rgba(255, 224, 158, 0.04);
+}
+
+html.claro::-webkit-scrollbar-track,
+body.claro::-webkit-scrollbar-track {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(244, 185, 66, 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(249, 240, 225, 0.98), rgba(236, 221, 196, 0.98));
+  border-left: 1px solid rgba(184, 133, 43, 0.08);
+}
+
+html.escuro::-webkit-scrollbar-thumb,
+body.escuro::-webkit-scrollbar-thumb,
+html.admin-home-page::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(11, 14, 20, 0.98);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f5ddb0 0%, #c89a3d 50%, #8f6112 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 231, 0.46),
+    inset 0 -1px 0 rgba(109, 72, 10, 0.28),
+    0 0 0 1px rgba(255, 220, 146, 0.06),
+    0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+html.claro::-webkit-scrollbar-thumb,
+body.claro::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(241, 227, 202, 0.98);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f7d48b 0%, #d7a142 52%, #b37718 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 251, 239, 0.72),
+    inset 0 -1px 0 rgba(140, 94, 19, 0.2),
+    0 0 0 1px rgba(184, 133, 43, 0.08),
+    0 6px 14px rgba(111, 83, 38, 0.12);
+}
+
+html.escuro::-webkit-scrollbar-thumb:hover,
+body.escuro::-webkit-scrollbar-thumb:hover,
+html.admin-home-page::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fde9c4 0%, #d3a647 50%, #a26d14 100%);
+}
+
+html.claro::-webkit-scrollbar-thumb:hover,
+body.claro::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #fbe1ab 0%, #dfaf50 50%, #bd8220 100%);
+}
+
+html.escuro::-webkit-scrollbar-corner,
+body.escuro::-webkit-scrollbar-corner,
+html.admin-home-page::-webkit-scrollbar-corner {
+  background: rgba(9, 11, 16, 1);
+}
+
+html.claro::-webkit-scrollbar-corner,
+body.claro::-webkit-scrollbar-corner {
+  background: rgba(241, 227, 202, 1);
+}

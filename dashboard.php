@@ -2,6 +2,7 @@
 require_once("config.php");
 require_once("Bd/ligar.php");
 require_once("Bd/popup_helper.php");
+require_once(__DIR__ . "/theme.php");
 date_default_timezone_set('Europe/Lisbon');
 
 // Verifica se o usuario esta logado
@@ -547,9 +548,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
     <link rel="stylesheet" href="Css/dashboard.css?v=<?php echo filemtime(__DIR__ . '/Css/dashboard.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
+    <?php cd_render_theme_head('', __DIR__); ?>
 </head>
 
 <body class="cdol-dash<?php echo (($_SESSION['permissoes'] ?? '') === 'admin') ? ' cdol-admin-home' : ''; ?>">
+    <?php cd_render_theme_toggle(''); ?>
 
     <?php if (($_SESSION['permissoes'] ?? '') === 'admin'): ?>
         <script>
@@ -1001,6 +1004,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             }
         };
     </script>
+    <?php cd_render_theme_script('', __DIR__); ?>
 </body>
 
 </html>

@@ -207,3 +207,49 @@
     transform: translateY(-6px);
   }
 }
+
+@media (max-width: 1366px) {
+  .menu-categorias {
+    padding: 82px 18px 94px;
+  }
+
+  .menu-categorias h2 {
+    font-size: clamp(1.9rem, 3vw, 2.45rem);
+  }
+
+  .menu-categorias p {
+    font-size: 0.98rem;
+    margin-bottom: 28px;
+  }
+
+  .menu-tabs {
+    gap: 8px;
+    margin-bottom: 36px;
+  }
+
+  .tab-btn {
+    font-size: 0.88rem;
+    padding: 9px 14px;
+  }
+
+  .menu-grid {
+    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .item {
+    padding: 18px;
+    min-height: 116px;
+  }
+
+  .item h3 {
+    font-size: 0.98rem;
+  }
+
+  .item p,
+  .menu-list li span,
+  .menu-list li strong {
+    font-size: 0.92rem;
+  }
+}

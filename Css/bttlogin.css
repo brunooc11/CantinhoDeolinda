@@ -48,6 +48,9 @@ body::-webkit-scrollbar-corner {
 }
 
 .btt-padrao-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   top: 25px;
   right: 25px;
@@ -76,6 +79,18 @@ body::-webkit-scrollbar-corner {
 .btt-padrao-login:active {
   transform: scale(0.98);
   box-shadow: 0 0 5px rgba(245, 166, 35, 0.6);
+}
+
+@media (max-width: 1280px) {
+  .btt-padrao-login {
+    top: 18px;
+    right: 24px;
+    padding: 9px 18px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border-radius: 28px;
+    box-shadow: 0 0 9px rgba(245, 166, 35, 0.52), 0 0 18px rgba(245, 166, 35, 0.26);
+  }
 }
 
 @media (max-width: 768px) {

@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/theme.php'; ?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -9,8 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Css/manut.css">
+    <?php cd_render_theme_head('', __DIR__); ?>
 </head>
-<body>
+<body class="pagina-manutencao">
+    <?php cd_render_theme_toggle(''); ?>
     <main class="manut-shell">
         <section class="manut-card">
             <div class="manut-accent" aria-hidden="true"></div>
@@ -31,5 +34,6 @@
             </div>
         </section>
     </main>
+    <?php cd_render_theme_script('', __DIR__); ?>
 </body>
 </html>

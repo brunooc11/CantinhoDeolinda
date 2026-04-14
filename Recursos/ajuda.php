@@ -1,5 +1,6 @@
 <?php
 require("../config.php");
+require_once(__DIR__ . "/../theme.php");
 
 // Se existir página anterior (ex: login, index, menu) volta para lá.
 // Caso o utilizador tenha aberto a página diretamente, volta por defeito para o login.
@@ -16,8 +17,10 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
     <link rel="stylesheet" href="../Css/home.css">
     <link rel="stylesheet" href="../Css/bttlogin.css">
     <link rel="stylesheet" href="../Css/ajuda.css?v=<?php echo filemtime(__DIR__ . '/../Css/ajuda.css'); ?>">
+    <?php cd_render_theme_head('../', dirname(__DIR__)); ?>
 </head>
 <body class="pagina-ajuda">
+    <?php cd_render_theme_toggle('../'); ?>
     <div class="help-shell">
         <a href="<?php echo htmlspecialchars($voltar, ENT_QUOTES, 'UTF-8'); ?>" id="btt-ajuda" class="btt-padrao-login">Voltar</a>
 
@@ -78,5 +81,6 @@ $voltar = $_SERVER['HTTP_REFERER'] ?? '../login.php';
         </div>
         </div>
     </div>
+    <?php cd_render_theme_script('../', dirname(__DIR__)); ?>
 </body>
 </html>

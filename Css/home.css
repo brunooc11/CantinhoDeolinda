@@ -208,3 +208,42 @@ html {
     justify-content: center;
   }
 }
+
+@media (max-width: 1366px) {
+  .landing-page .gold-shape {
+    width: 40%;
+  }
+
+  .landing-page .content {
+    max-width: 1110px;
+    padding: 156px 1.55rem 2.8rem;
+    gap: 8px;
+  }
+
+  .landing-page .left img {
+    width: 426px;
+    transform: translateX(14px);
+  }
+
+  .landing-page .right {
+    margin-left: 1.55rem;
+    max-width: 476px;
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(1.84rem, 2.8vw, 2.56rem);
+    margin-bottom: 12px;
+  }
+
+  .landing-page .right p {
+    font-size: 0.96rem;
+    line-height: 1.64;
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+  }
+
+  .landing-page .btn {
+    padding: 0.83rem 1.24rem;
+    font-size: 0.74rem;
+  }
+}

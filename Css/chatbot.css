@@ -361,3 +361,22 @@
     text-wrap: pretty;
   }
 }
+
+@media (max-width: 1366px) {
+  #btnChat {
+    right: 18px;
+    bottom: 80px !important;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    font-size: 21px;
+  }
+
+  .chat-box {
+    right: 18px;
+    bottom: 136px;
+    width: min(360px, calc(100vw - 18px));
+    height: 520px;
+    border-radius: 22px;
+  }
+}

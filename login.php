@@ -3,6 +3,7 @@ session_start();
 require('Bd/ligar.php');
 require_once('Bd/popup_helper.php');
 require_once('Bd/email_template_helper.php');
+require_once(__DIR__ . '/theme.php');
 //require("config.php");
 date_default_timezone_set('Europe/Lisbon');
 
@@ -298,16 +299,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signin'])) {
     mysqli_close($con);
 }
 ?>
+<link rel="icon" type="image/png" href="Imagens/logo_atual.png">
 <link rel="stylesheet" href="Css/login.css?v=<?php echo filemtime(__DIR__ . '/Css/login.css'); ?>">
 <link rel="stylesheet" href="Css/bttlogin.css?v=<?php echo filemtime(__DIR__ . '/Css/bttlogin.css'); ?>">
 <link rel="stylesheet" href="Css/footer.css?v=<?php echo filemtime(__DIR__ . '/Css/footer.css'); ?>">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<?php cd_render_theme_head('', __DIR__); ?>
 
 <?php
 if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
     cd_popup('Password alterada com sucesso. Faça login novamente.', 'success');
 }
 ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (document.body) {
+            document.body.classList.add('pagina-login');
+        }
+    });
+</script>
+
+<?php cd_render_theme_toggle(''); ?>
 
 <a href="index.php" class="btt-padrao-login login-back-link">Voltar</a>
 
@@ -664,3 +677,4 @@ if (isset($_GET['pw_alterada']) && $_GET['pw_alterada'] == 1) {
 <!-- defer garante que o JavaScript só executa depois do HTML estar totalmente carregado -->
 <script src="Js/popup_alert.js"></script>
 <script src="Js/login.js" defer></script>
+<?php cd_render_theme_script('', __DIR__); ?>
