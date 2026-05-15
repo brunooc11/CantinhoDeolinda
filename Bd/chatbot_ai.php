@@ -4,7 +4,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['error' => 'Metodo nao permitido.']);
+    echo json_encode(['error' => 'Método não permitido.']);
     exit();
 }
 
@@ -13,7 +13,7 @@ $input = json_decode($rawBody, true);
 
 if (!is_array($input)) {
     http_response_code(400);
-    echo json_encode(['error' => 'Corpo JSON invalido.']);
+    echo json_encode(['error' => 'Corpo JSON inválido.']);
     exit();
 }
 
@@ -21,7 +21,7 @@ $token = trim((string)($input['csrf_token'] ?? ''));
 $sessionToken = (string)($_SESSION['csrf_token'] ?? '');
 if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
     http_response_code(403);
-    echo json_encode(['error' => 'Pedido invalido (CSRF).']);
+    echo json_encode(['error' => 'Pedido inválido (CSRF).']);
     exit();
 }
 
@@ -138,7 +138,7 @@ if ($systemPromptFile !== '') {
 }
 
 if ($systemPrompt === '') {
-    $systemPrompt = 'Es um assistente do restaurante Cantinho Deolinda. Responde em portugues de forma clara, educada e objetiva.';
+    $systemPrompt = 'És um assistente do restaurante Cantinho Deolinda. Responde em português de forma clara, educada e objetiva.';
 }
 
 $messages = [
@@ -212,7 +212,7 @@ curl_close($ch);
 
 if ($result === false) {
     http_response_code(502);
-    echo json_encode(['error' => 'Falha de ligacao ao servico de IA: ' . $curlError]);
+    echo json_encode(['error' => 'Falha de ligação ao serviço de IA: ' . $curlError]);
     exit();
 }
 
@@ -233,7 +233,7 @@ $reply = trim((string)($decoded['choices'][0]['message']['content'] ?? ''));
 
 if ($reply === '') {
     http_response_code(502);
-    echo json_encode(['error' => 'A IA nao devolveu resposta.']);
+    echo json_encode(['error' => 'A IA não devolveu resposta.']);
     exit();
 }
 

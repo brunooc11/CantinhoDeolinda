@@ -41,6 +41,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
   <link rel="stylesheet" href="Css/btts.css">
   <link rel="stylesheet" href="Css/cta.css">
   <link rel="stylesheet" href="Css/scroll_reveal.css">
+  <link rel="stylesheet" href="Css/responsive_overrides.css?v=<?php echo filemtime(__DIR__ . '/Css/responsive_overrides.css'); ?>">
 
 
   <link rel="icon" type="image/png" href="Imagens/logo_atual.png">

@@ -41,7 +41,7 @@ if (!function_exists('cd_popup')) {
       btnShadow: '0 10px 22px rgba(245,166,35,.35)'
     },
     info: {
-      title: 'Informacao',
+      title: 'Informação',
       icon: 'i',
       iconBg: 'linear-gradient(145deg, #5ea2ff, #356ec4)',
       accent: 'rgba(94, 162, 255, 0.45)',

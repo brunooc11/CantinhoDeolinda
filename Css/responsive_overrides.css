@@ -1,0 +1,1126 @@
+/* Responsive overrides tuned for 100% browser zoom across the site. */
+
+html {
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+}
+
+a,
+button,
+.btn,
+.btt-padrao-login,
+.action-btn,
+.status-chip {
+  overflow-wrap: anywhere;
+}
+
+.table-wrap,
+.admin-table-wrap,
+.logs-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.container,
+.contact-card,
+.info_adicionais-wrapper,
+.feedback-workspace,
+.feedback-inbox-panel,
+.feedback-reader-panel,
+.admin-section,
+.admin-hero,
+.admin-kpi-card,
+.admin-search-bar,
+.admin-filter-bar,
+.dashboard-header,
+.dashboard-menu,
+.card,
+.legal-shell,
+.privacy-shell,
+.help-shell,
+.institution-shell {
+  min-width: 0;
+}
+
+.admin-table-wrap,
+.table-wrap,
+.logs-table-wrap {
+  scrollbar-width: thin;
+}
+
+.cdol-admin .admin-search-bar,
+.cdol-admin .admin-filter-bar,
+.cdol-admin .quick-date-buttons,
+.cdol-admin .admin-site-state,
+.cdol-admin .admin-pagination,
+.cdol-dash .reservas-header,
+.cdol-dash .favoritos-header,
+.cdol-dash .conta-actions,
+.action-buttons,
+.reserva-modal-header,
+.reserva-modal-footer {
+  min-width: 0;
+}
+
+.cdol-admin .admin-search-bar input,
+.cdol-admin .admin-filter-bar select,
+.cdol-admin .admin-filter-bar input[type="date"],
+.cdol-admin .btn,
+.cdol-dash .dashboard-menu button,
+.cdol-dash input,
+.cdol-dash select,
+.cdol-dash textarea,
+.reserva-input,
+.reserva-select {
+  min-width: 0;
+}
+
+.carousel .card {
+  min-width: 25%;
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .landing-page .content {
+    max-width: min(1120px, calc(100% - 48px));
+    padding: 156px clamp(20px, 3vw, 28px) 3rem;
+    gap: clamp(20px, 3vw, 40px);
+  }
+
+  .landing-page .left img {
+    width: min(34vw, 460px);
+    transform: translateX(0);
+  }
+
+  .landing-page .right {
+    margin-left: 0;
+    max-width: 32rem;
+  }
+
+  .banner {
+    padding-inline: clamp(28px, 4vw, 56px);
+  }
+
+  .banner img {
+    left: 30%;
+  }
+
+  .banner-text {
+    left: 10%;
+    max-width: 22rem;
+  }
+
+  .catering {
+    padding: 96px clamp(24px, 5vw, 72px);
+  }
+
+  .catering-wrapper {
+    gap: 40px;
+  }
+
+  .catering-info {
+    flex: 1 1 500px;
+  }
+
+  .catering-box {
+    flex-basis: 320px;
+    max-width: 320px;
+  }
+
+  .carousel-container {
+    width: min(94%, 1120px);
+  }
+
+  .cdol-dash .dashboard-header,
+  .cdol-dash .dashboard-menu,
+  .cdol-dash .card {
+    width: min(1080px, calc(100% - 36px));
+  }
+
+  .cdol-admin .container {
+    width: min(1180px, calc(100% - 36px));
+  }
+
+  .cdol-admin.cdol-admin-home .container {
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    width: calc(100% - 28px);
+    top: 12px;
+    padding: 10px 14px;
+    border-radius: 22px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .menu {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .menu a {
+    white-space: nowrap;
+  }
+
+  .landing-page .content {
+    padding: 148px 20px 40px;
+    flex-direction: column;
+    text-align: center;
+    gap: 26px;
+  }
+
+  .landing-page .left img {
+    width: min(420px, 70vw);
+    transform: none;
+  }
+
+  .landing-page .right {
+    margin-left: 0;
+    max-width: 40rem;
+  }
+
+  .landing-page .right p {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 36rem;
+  }
+
+  .landing-page .buttons {
+    justify-content: center;
+  }
+
+  .banner {
+    min-height: auto;
+    padding: 32px 24px 24px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .banner img {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    height: min(300px, 44vw);
+    margin-bottom: 12px;
+  }
+
+  .banner-text {
+    left: auto;
+    max-width: 34rem;
+    text-align: center;
+  }
+
+  .catering {
+    padding: 88px 24px;
+  }
+
+  .catering-wrapper {
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .catering-box {
+    width: min(100%, 460px);
+    max-width: none;
+    min-height: 0;
+    margin-inline: auto;
+  }
+
+  .carousel .card {
+    min-width: 50%;
+  }
+
+  .info_adicionais-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .contact-section {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .contact-left,
+  .contact-map {
+    width: 100%;
+  }
+
+  #contacto .contact-note-inline {
+    max-width: none !important;
+  }
+
+  .prefooter-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .prefooter-text {
+    max-width: none;
+    grid-column: 1 / -1;
+  }
+
+  .cdol-dash .dashboard-header,
+  .cdol-dash .dashboard-menu,
+  .cdol-dash .card {
+    width: calc(100% - 32px);
+  }
+
+  .cdol-dash .dashboard-header {
+    padding: 18px 20px;
+  }
+
+  .cdol-dash .conta-info-grid,
+  .cdol-dash .favoritos-lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cdol-dash .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cdol-dash .tabela-reservas {
+    min-width: 720px;
+  }
+
+  .cdol-admin .container {
+    width: calc(100% - 28px);
+    margin: 88px auto 22px;
+  }
+
+  .cdol-admin .admin-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cdol-admin .admin-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-admin .admin-search-bar,
+  .cdol-admin .admin-filter-bar {
+    align-items: stretch;
+  }
+
+  .cdol-admin .admin-filter-bar select,
+  .cdol-admin .admin-filter-bar input[type="date"],
+  .cdol-admin .admin-search-bar input {
+    flex: 1 1 220px;
+  }
+
+  .cdol-admin .botoesNav,
+  .cdol-admin #navFim {
+    flex-wrap: wrap;
+  }
+
+  .cdol-admin #navFim {
+    overflow: visible;
+    justify-content: center;
+  }
+
+  .cdol-admin .admin-table,
+  .cdol-logs .logs-table {
+    min-width: 760px;
+  }
+
+  .cdol-feedback .feedback-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-feedback .feedback-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cdol-feedback .feedback-inbox-panel,
+  .cdol-feedback .feedback-reader-panel {
+    height: auto;
+    min-height: 0;
+  }
+
+  .cdol-feedback .feedback-inbox-list {
+    max-height: 420px;
+  }
+
+  .cdol-admin.cdol-mapa .admin-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mapa-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cdol-confirmar-admin .header {
+    padding-left: 72px;
+  }
+
+  .cdol-confirmar-admin .meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pagina-termos .legal-hero,
+  .pagina-termos .legal-layout,
+  .pagina-politica .privacy-hero,
+  .pagina-politica .privacy-layout,
+  .pagina-ajuda .help-hero,
+  .pagina-ajuda .help-layout,
+  .pagina-institucional .institution-hero,
+  .pagina-institucional .institution-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pagina-termos .legal-side-card,
+  .pagina-politica .privacy-side-card,
+  .pagina-ajuda .help-side-card,
+  .pagina-institucional .institution-side-card {
+    position: static;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .cdol-admin .admin-search-bar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cdol-admin .admin-search-bar .btn {
+    flex: 0 0 auto;
+  }
+
+  .cdol-admin .admin-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .cdol-admin .admin-clear-btn {
+    flex: 1 1 180px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  #contacto .contact-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #contacto #btt-contact-pos {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .cd-trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chat-box {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    bottom: 136px;
+    height: min(70vh, 600px);
+  }
+
+  .cdol-dash .dashboard-menu {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cdol-dash .dashboard-menu button {
+    min-width: 0;
+  }
+
+  .cdol-dash .conta-info-grid,
+  .cdol-dash .favoritos-lista,
+  .cdol-dash .conta-nome-grid,
+  .cdol-dash .senha-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-dash .tabela-reservas {
+    min-width: 680px;
+  }
+
+  .cdol-admin .botoesNav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cdol-admin .botoesNav a,
+  .cdol-admin #navFim .btt-padrao-login {
+    flex: 1 1 220px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cdol-admin .admin-search-bar,
+  .cdol-admin .admin-filter-bar,
+  .cdol-admin .quick-date-buttons,
+  .cdol-admin .logs-filter-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cdol-admin .admin-search-bar input,
+  .cdol-admin .admin-filter-bar select,
+  .cdol-admin .admin-filter-bar input[type="date"],
+  .cdol-admin .admin-search-bar .btn,
+  .cdol-admin .admin-clear-btn,
+  .cdol-admin .quick-date-buttons .btn,
+  .cdol-admin .logs-filter-actions .btn,
+  .cdol-admin .logs-reset-link {
+    width: 100%;
+  }
+
+  .cdol-confirmar-admin .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cdol-confirmar-admin .meta,
+  .cdol-confirmar-admin .mesa-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recovery-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .recovery-card {
+    border-left: 0;
+    border-top: 1px solid var(--card-border);
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    width: calc(100% - 16px);
+    top: 8px;
+    padding: 10px 12px 12px;
+    border-radius: 18px;
+    gap: 10px;
+  }
+
+  .navbar.navbar-compact {
+    top: 6px;
+  }
+
+  .logo {
+    font-size: 18px;
+    min-width: 0;
+  }
+
+  .logo-circle {
+    width: 36px;
+    height: 36px;
+    font-size: 28px;
+    margin-right: -6px;
+  }
+
+  .btn-reserva {
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+    padding: 10px 14px;
+  }
+
+  .menu a {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .landing-page .content {
+    padding: 132px 14px 32px;
+    gap: 18px;
+  }
+
+  .landing-page .gold-shape {
+    width: 100%;
+    opacity: 0.6;
+  }
+
+  .landing-page .left img {
+    width: min(320px, 84vw);
+  }
+
+  .landing-page .right {
+    max-width: none;
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(1.7rem, 9vw, 2.1rem);
+  }
+
+  .landing-page .right p {
+    font-size: 0.96rem;
+    margin-bottom: 1.4rem;
+    max-width: none;
+  }
+
+  .landing-page .buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .landing-page .btn {
+    width: 100%;
+  }
+
+  .menu-section {
+    padding-top: 72px;
+  }
+
+  .carousel-container {
+    width: calc(100% - 20px);
+    margin-top: 28px;
+  }
+
+  .carousel-container::before,
+  .carousel-container::after {
+    width: 36px;
+  }
+
+  .carousel .card {
+    min-width: 100%;
+  }
+
+  .carousel .card img {
+    height: 260px;
+  }
+
+  .banner {
+    padding: 24px 16px 18px;
+  }
+
+  .banner img {
+    height: min(220px, 58vw);
+  }
+
+  .banner-text {
+    max-width: none;
+  }
+
+  .banner-text h2 {
+    font-size: 1.55rem;
+  }
+
+  .catering {
+    padding: 68px 16px;
+  }
+
+  .catering-wrapper {
+    gap: 28px;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(1.7rem, 8vw, 2.15rem);
+  }
+
+  .catering-box {
+    width: 100%;
+    padding: 24px 18px;
+  }
+
+  .catering-box img {
+    width: 92px;
+    height: 92px;
+  }
+
+  .cd-trust-strip {
+    padding: 56px 0;
+  }
+
+  .cd-trust-strip-inner {
+    padding: 0 14px;
+  }
+
+  .cd-trust-grid,
+  .info_adicionais-cards {
+    grid-template-columns: 1fr;
+  }
+
+  #localizacao .info_adicionais-wrapper {
+    width: calc(100% - 16px);
+    padding: 20px 16px 22px;
+  }
+
+  #contacto .contact-wrapper {
+    padding: 32px 12px 22px;
+  }
+
+  #contacto .contact-card {
+    padding: 18px 14px 16px;
+  }
+
+  #contacto .contact-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  #contacto #btt-contact-pos {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  .prefooter {
+    padding: 52px 16px 40px;
+  }
+
+  .prefooter-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .prefooter-text,
+  .prefooter-col {
+    max-width: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .prefooter-col ul {
+    width: 100%;
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .footer {
+    padding: 16px 12px 20px;
+  }
+
+  body.pagina-login {
+    display: block;
+    min-height: 100vh;
+    height: auto;
+    padding: 72px 10px 20px;
+  }
+
+  body.pagina-login .container {
+    width: 100%;
+    min-height: 740px;
+    border-radius: 18px;
+  }
+
+  body.pagina-login form {
+    padding: 18px 14px;
+  }
+
+  body.pagina-login .form-container {
+    top: 152px;
+    height: calc(100% - 152px);
+  }
+
+  body.pagina-login .sign-in-container,
+  body.pagina-login .sign-up-container,
+  body.pagina-login .overlay-container {
+    width: 100%;
+  }
+
+  body.pagina-login .overlay-container {
+    height: 152px;
+  }
+
+  body.pagina-login .overlay-panel {
+    padding: 14px;
+  }
+
+  body.pagina-login .overlay-panel h1 {
+    font-size: 1.28rem;
+  }
+
+  body.pagina-login .overlay-panel p {
+    display: none;
+  }
+
+  body.pagina-login .social-container {
+    margin: 10px 0;
+  }
+
+  body.pagina-login .country-code-box {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .login-back-link {
+    position: static;
+    margin: 12px !important;
+  }
+
+  .recovery-shell {
+    border-radius: 20px;
+  }
+
+  .recovery-hero,
+  .recovery-card {
+    padding: 1rem 0.8rem;
+  }
+
+  .recovery-form {
+    padding: 0.95rem;
+  }
+
+  #btnChat {
+    right: 12px;
+    bottom: 78px !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+  }
+
+  .chat-box {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    bottom: 128px;
+    height: min(68vh, 560px);
+    border-radius: 18px;
+  }
+
+  .back-home-btn {
+    right: 12px;
+    bottom: 14px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .cdol-dash .dashboard-header,
+  .cdol-dash .dashboard-menu,
+  .cdol-dash .card {
+    width: calc(100% - 20px);
+  }
+
+  .cdol-dash .dashboard-header {
+    padding: 16px 14px;
+  }
+
+  .cdol-dash .dashboard-menu {
+    grid-template-columns: 1fr;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .cdol-dash .dashboard-menu button {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  .cdol-dash .card {
+    padding: 18px 14px;
+  }
+
+  .cdol-dash .conta-info-grid,
+  .cdol-dash .favoritos-lista,
+  .cdol-dash .conta-nome-grid,
+  .cdol-dash .senha-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-dash .tabela-reservas {
+    min-width: 640px;
+  }
+
+  .cdol-admin .container {
+    width: calc(100% - 12px);
+    margin: 8px auto 16px;
+    padding: 12px;
+  }
+
+  .cdol-admin .admin-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-admin .admin-hero {
+    padding: 12px;
+  }
+
+  .cdol-admin .admin-hero h1,
+  .cdol-admin .admin-hero h2 {
+    font-size: clamp(1.45rem, 8vw, 2rem);
+    line-height: 1.12;
+  }
+
+  .cdol-admin .admin-search-bar,
+  .cdol-admin .admin-filter-bar,
+  .cdol-admin .quick-date-buttons,
+  .cdol-admin .logs-filter-actions,
+  .cdol-admin .admin-site-state,
+  .cdol-admin .admin-pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cdol-admin .admin-search-bar input,
+  .cdol-admin .admin-filter-bar select,
+  .cdol-admin .admin-filter-bar input[type="date"],
+  .cdol-admin .admin-search-bar .btn,
+  .cdol-admin .admin-clear-btn,
+  .cdol-admin .quick-date-buttons .btn,
+  .cdol-admin .logs-filter-actions .btn,
+  .cdol-admin .logs-reset-link,
+  .cdol-admin .admin-site-state .btn,
+  .cdol-admin .admin-pagination .btn {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cdol-admin .botoesNav,
+  .cdol-admin #navFim {
+    flex-wrap: wrap;
+    gap: 8px;
+    overflow: visible;
+  }
+
+  .cdol-admin .botoesNav a,
+  .cdol-admin #navFim .btt-padrao-login {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cdol-admin .admin-table,
+  .cdol-logs .logs-table {
+    min-width: 680px;
+  }
+
+  .cdol-feedback .feedback-filters-grid,
+  .cdol-feedback .feedback-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-feedback .feedback-filter-actions,
+  .cdol-feedback .feedback-actions-grid,
+  .cdol-feedback .feedback-reader-hero,
+  .cdol-feedback .feedback-panel-head,
+  .cdol-feedback .feedback-pagination,
+  .cdol-feedback .feedback-history-top,
+  .cdol-feedback .feedback-history-meta,
+  .cdol-feedback .feedback-contact-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cdol-feedback .feedback-inbox-panel,
+  .cdol-feedback .feedback-reader-panel {
+    height: auto;
+  }
+
+  .cdol-feedback .feedback-inbox-list {
+    max-height: 380px;
+    padding: 12px;
+  }
+
+  .cdol-feedback .feedback-reader-card {
+    padding: 16px 14px;
+  }
+
+  .cdol-feedback .feedback-reader-card::before {
+    margin: -16px -14px 16px;
+  }
+
+  .cdol-logs .logs-filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-admin.cdol-mapa .admin-kpis,
+  .mapa-grid,
+  .mapa-release-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .mapa-toolbar,
+  .mapa-actions,
+  .mapa-release-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mapa-actions,
+  .mapa-legenda {
+    flex-wrap: wrap;
+  }
+
+  .mapa-card {
+    overflow: hidden;
+  }
+
+  .restaurante-canvas {
+    min-height: 260px;
+  }
+
+  .cdol-confirmar-admin .page {
+    width: 100%;
+    margin: 0;
+  }
+
+  .cdol-confirmar-admin .header {
+    padding: 16px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cdol-confirmar-admin .title h1 {
+    font-size: 1.35rem;
+  }
+
+  .cdol-confirmar-admin .card,
+  .cdol-confirmar-admin .action-form-confirm {
+    padding: 12px;
+  }
+
+  .cdol-confirmar-admin .card-top,
+  .cdol-confirmar-admin .card-right,
+  .cdol-confirmar-admin .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cdol-confirmar-admin .meta,
+  .cdol-confirmar-admin .mesa-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cdol-confirmar-admin .btn-decision,
+  .cdol-confirmar-admin .back-link {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .reserva-modal {
+    align-items: flex-start;
+    padding: 8px;
+  }
+
+  .reserva-modal-content {
+    max-height: calc(100dvh - 16px);
+  }
+
+  .reserva-modal-header {
+    gap: 10px;
+  }
+
+  .reserva-modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .pagina-termos,
+  .pagina-politica,
+  .pagina-ajuda,
+  .pagina-institucional {
+    padding: 18px 12px 28px;
+  }
+
+  .pagina-termos .legal-hero-copy,
+  .pagina-termos .legal-hero-card,
+  .pagina-termos .legal-side-card,
+  .pagina-termos .legal-section,
+  .pagina-politica .privacy-hero-copy,
+  .pagina-politica .privacy-hero-card,
+  .pagina-politica .privacy-side-card,
+  .pagina-politica .privacy-card,
+  .pagina-ajuda .help-hero-copy,
+  .pagina-ajuda .help-hero-card,
+  .pagina-ajuda .help-side-card,
+  .pagina-ajuda .help-card,
+  .pagina-institucional .institution-hero-copy,
+  .pagina-institucional .institution-hero-card,
+  .pagina-institucional .institution-side-card,
+  .pagina-institucional .institution-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .pagina-termos h1,
+  .pagina-politica h1,
+  .pagina-ajuda h1,
+  .pagina-institucional h1 {
+    font-size: clamp(2rem, 8vw, 2.3rem);
+  }
+
+  .pagina-termos h2,
+  .pagina-politica h2,
+  .pagina-ajuda h2,
+  .pagina-institucional h2 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar {
+    width: calc(100% - 10px);
+    padding-inline: 8px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .menu a {
+    font-size: 11px;
+    padding-inline: 8px;
+  }
+
+  .cdol-admin .container,
+  .cdol-dash .card {
+    padding: 10px;
+  }
+
+  body.pagina-login .container {
+    min-height: 710px;
+  }
+
+  body.pagina-login form {
+    padding-inline: 10px;
+  }
+
+  .pagina-termos .legal-hero-copy,
+  .pagina-termos .legal-hero-card,
+  .pagina-termos .legal-side-card,
+  .pagina-termos .legal-section,
+  .pagina-politica .privacy-hero-copy,
+  .pagina-politica .privacy-hero-card,
+  .pagina-politica .privacy-side-card,
+  .pagina-politica .privacy-card,
+  .pagina-ajuda .help-hero-copy,
+  .pagina-ajuda .help-hero-card,
+  .pagina-ajuda .help-side-card,
+  .pagina-ajuda .help-card,
+  .pagina-institucional .institution-hero-copy,
+  .pagina-institucional .institution-hero-card,
+  .pagina-institucional .institution-side-card,
+  .pagina-institucional .institution-card {
+    padding: 14px;
+  }
+}

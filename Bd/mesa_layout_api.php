@@ -172,6 +172,14 @@ if ($action === 'save_group') {
     }
 
     if ($group === null || $group === '') {
+        cd_sync_mesa_states($con);
+        $locks = cd_get_mesa_lock_map($con);
+        if (isset($locks[$mesaId])) {
+            http_response_code(409);
+            echo json_encode(['ok' => false, 'error' => 'mesa_locked']);
+            exit();
+        }
+
         $sql = "UPDATE mesas SET `{$columns['group']}` = NULL WHERE id = ?";
         $stmt = mysqli_prepare($con, $sql);
         if (!$stmt) {

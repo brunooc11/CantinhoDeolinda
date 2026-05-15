@@ -89,6 +89,7 @@
             return;
         }
 
+        setState(mesa, normalizeState(lock.status));
         mesa.dataset.releaseTime = lock.release_time || "--:--";
         mesa.setAttribute(
             "title",
@@ -314,6 +315,9 @@
     }
 
     function updateMergeUi() {
+        const clearableGroupedMesas = mesas.filter((mesa) => mesa.classList.contains("merge-grouped") && !isMesaLocked(mesa));
+        const lockedGroupedMesas = mesas.filter((mesa) => mesa.classList.contains("merge-grouped") && isMesaLocked(mesa));
+
         if (mapaMoveModeBtn) {
             mapaMoveModeBtn.textContent = `Modo mover: ${moveMode ? "ON" : "OFF"}`;
             mapaMoveModeBtn.classList.toggle("is-active", moveMode);
@@ -326,12 +330,16 @@
             mapaMergeCreateBtn.disabled = !mergeMode || selectedMesas.size < 2;
         }
         if (mapaMergeClearBtn) {
-            const hasGroups = mesas.some((mesa) => mesa.classList.contains("merge-grouped"));
-            mapaMergeClearBtn.disabled = !hasGroups;
+            mapaMergeClearBtn.disabled = clearableGroupedMesas.length === 0;
+            mapaMergeClearBtn.title = lockedGroupedMesas.length > 0
+                ? "Conjuntos com mesas reservadas ou ocupadas nao sao limpos."
+                : "";
         }
         if (mapaMergeHint) {
             if (!mergeMode) {
-                mapaMergeHint.textContent = "Ativa o modo para selecionar mesas e junta-las.";
+                mapaMergeHint.textContent = lockedGroupedMesas.length > 0
+                    ? "Conjuntos com mesas reservadas ou ocupadas ficam bloqueados ate a reserva terminar."
+                    : "Ativa o modo para selecionar mesas e junta-las.";
             } else if (selectedMesas.size < 2) {
                 mapaMergeHint.textContent = "Seleciona pelo menos 2 mesas da mesma sala para criar um conjunto.";
             } else {
@@ -380,6 +388,11 @@
 
     function clearMergeGroups() {
         mesas.forEach((mesa) => {
+            if (isMesaLocked(mesa)) {
+                mesa.classList.remove("merge-select");
+                return;
+            }
+
             mesa.classList.remove("merge-grouped", "merge-select");
             if (mesa.dataset.id && mesa.dataset.group) {
                 persistMesaChange({

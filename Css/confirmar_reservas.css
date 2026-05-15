@@ -313,7 +313,7 @@ body.cdol-admin-home .page {
 
 .mesa-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
   gap: 8px;
   margin-bottom: 12px;
 }
@@ -322,10 +322,10 @@ body.cdol-admin-home .page {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 8px 10px;
-  border-radius: 10px;
+  gap: 7px;
+  min-height: 0;
+  padding: 6px 8px;
+  border-radius: 8px;
   border: 1px solid rgba(255, 219, 140, 0.14);
   background: rgba(18, 16, 13, 0.82);
   cursor: pointer;
@@ -340,25 +340,36 @@ body.cdol-admin-home .page {
 
 .mesa-check input {
   margin: 0;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   accent-color: #3bd286;
 }
 
 .mesa-check-txt {
   display: grid;
-  gap: 2px;
+  gap: 1px;
   min-width: 0;
+  line-height: 1.16;
 }
 
 .mesa-check-id {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: #f6ecd8;
 }
 
+.mesa-check-detail {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.68rem;
+  color: #d7c8ab;
+  line-height: 1.15;
+}
+
 .mesa-check-cap {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   color: #ac9b80;
 }
 

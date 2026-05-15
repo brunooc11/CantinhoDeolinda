@@ -583,7 +583,7 @@ if ($selected !== null) {
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="Imagens/logo_atual.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Admin</title>
+    <title>Feedback - Admin</title>
     <link rel="stylesheet" href="Css/admin.css?v=<?php echo filemtime(__DIR__ . '/Css/admin.css'); ?>">
     <link rel="stylesheet" href="Css/admin_feedback.css?v=<?php echo filemtime(__DIR__ . '/Css/admin_feedback.css'); ?>">
     <link rel="stylesheet" href="Css/bttlogin.css">
@@ -633,7 +633,7 @@ if ($selected !== null) {
         <div class="admin-home-sidebar-brand">
             <span class="admin-home-kicker">Cantinho Deolinda</span>
             <strong>Painel Admin</strong>
-            <p>Centro de gestão do backoffice.</p>
+            <p>Centro de gestão do back office.</p>
         </div>
         <nav class="admin-home-nav">
             <a href="admin.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.8v-5.5H9.8V21H5a1 1 0 0 1-1-1z"/></svg></span><span class="admin-home-link-copy"><strong>Visão geral</strong><small>Painel principal</small></span></a>
@@ -653,7 +653,7 @@ if ($selected !== null) {
             <div>
                 <span class="feedback-eyebrow">Centro de Feedback</span>
                 <h2>Feedback de Clientes</h2>
-                <p>Área dedicada para tratar sugestões, reclamações e mensagens sem depender do email.</p>
+                <p>Área dedicada para tratar sugestões, reclamações e mensagens sem depender do e-mail.</p>
             </div>
             <div class="admin-kpis">
                 <div class="admin-kpi-card">
@@ -685,7 +685,7 @@ if ($selected !== null) {
 
         <section class="admin-section feedback-filter-panel">
             <h3>Filtros</h3>
-            <p class="feedback-subtle">Pesquisa por remetente, email, assunto, mensagem ou nota interna.</p>
+            <p class="feedback-subtle">Pesquisa por remetente, e-mail, assunto, mensagem ou nota interna.</p>
             <div class="feedback-quick-filters">
                 <a class="feedback-quick-pill <?php echo $quickFilter === 'novos' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'novos', 'page' => 1, 'open' => null])); ?>">Novos</a>
                 <a class="feedback-quick-pill <?php echo $quickFilter === 'nao_tratados' ? 'is-active' : ''; ?>" href="admin_feedback.php?<?php echo esc(cd_qs(['quick' => 'nao_tratados', 'page' => 1, 'open' => null])); ?>">Não tratados</a>
@@ -697,7 +697,7 @@ if ($selected !== null) {
 
                 <select name="search_in">
                     <option value="general" <?php echo $searchIn === 'general' ? 'selected' : ''; ?>>Pesquisa geral</option>
-                    <option value="email" <?php echo $searchIn === 'email' ? 'selected' : ''; ?>>Só por email</option>
+                    <option value="email" <?php echo $searchIn === 'email' ? 'selected' : ''; ?>>Só por e-mail</option>
                 </select>
 
                 <select name="estado">
@@ -748,8 +748,8 @@ if ($selected !== null) {
             <aside class="feedback-inbox-panel">
                 <div class="feedback-panel-head">
                     <div>
-                        <h3>Caixa de Entrada</h3>
-                        <p><?php echo (int)$total; ?> feedback(s) encontrado(s)</p>
+                        <h3>Caixa de entrada</h3>
+                        <p><?php echo (int)$total; ?> <?php echo (int)$total === 1 ? 'feedback encontrado' : 'feedbacks encontrados'; ?></p>
                     </div>
                     <div class="feedback-mini-stats">
                         <span class="feedback-mini-pill warn"><?php echo (int)($countRow['novos'] ?? 0); ?> novos</span>
@@ -836,7 +836,7 @@ if ($selected !== null) {
                                 </div>
                                 <h3 class="feedback-reader-title"><?php echo esc((string)($selected['nome'] ?? '-')); ?></h3>
                                 <div class="feedback-contact-actions">
-                                    <a class="feedback-contact-line" href="#" data-copy-email="<?php echo esc((string)($selected['email'] ?? '')); ?>" title="Clique para copiar o email">
+                                    <a class="feedback-contact-line" href="#" data-copy-email="<?php echo esc((string)($selected['email'] ?? '')); ?>" title="Clique para copiar o e-mail">
                                         <?php echo esc((string)($selected['email'] ?? '-')); ?>
                                     </a>
                                 </div>

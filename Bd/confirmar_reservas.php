@@ -50,7 +50,7 @@ function verify_csrf_or_fail(): void
     $token = (string)($_POST['csrf_token'] ?? '');
     $sessionToken = csrf_token();
     if ($token === '' || $sessionToken === '' || !hash_equals($sessionToken, $token)) {
-        redirect_with_alert('Pedido invalido (CSRF).');
+        redirect_with_alert('Pedido inválido (CSRF).');
     }
 }
 
@@ -80,11 +80,61 @@ function has_rows_for_condition(mysqli $con, string $table, string $conditionSql
     return $res && mysqli_num_rows($res) > 0;
 }
 
-function get_available_mesas(mysqli $con, string $dataReserva, string $horaReserva, int $excludeReservaId = 0): array
+function get_busy_mesa_ids(mysqli $con, string $dataReserva, string $horaReserva, int $excludeReservaId = 0): array
+{
+    $sql = "
+        SELECT DISTINCT rm.mesa_id
+        FROM reserva_mesas rm
+        JOIN reservas r ON r.id = rm.reserva_id
+        WHERE r.data_reserva = ?
+          AND r.hora_reserva = ?
+          AND r.confirmado = 1
+          AND r.estado NOT IN ('recusada', 'nao_compareceu')
+          AND r.id <> ?
+    ";
+
+    $stmt = mysqli_prepare($con, $sql);
+    if (!$stmt) {
+        return [];
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssi", $dataReserva, $horaReserva, $excludeReservaId);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    $busyIds = [];
+    if ($res) {
+        while ($row = mysqli_fetch_assoc($res)) {
+            $mesaId = trim((string)($row['mesa_id'] ?? ''));
+            if ($mesaId !== '') {
+                $busyIds[] = $mesaId;
+            }
+        }
+    }
+    mysqli_stmt_close($stmt);
+
+    return $busyIds;
+}
+
+function mesa_sort_key(string $mesaId): array
+{
+    $mesaId = trim($mesaId);
+    $prefix = strtolower(substr($mesaId, 0, 1));
+    $areaRank = ['s' => 0, 'f' => 1, 'e' => 2][$prefix] ?? 3;
+    $number = 999999;
+
+    if (preg_match('/\d+/', $mesaId, $matches)) {
+        $number = (int)$matches[0];
+    }
+
+    return [$areaRank, $number, strtolower($mesaId)];
+}
+
+function get_available_mesa_options(mysqli $con, string $dataReserva, string $horaReserva, int $excludeReservaId = 0): array
 {
     $hasCapacidade = has_column($con, 'mesas', 'capacidade');
     $hasAtiva = has_column($con, 'mesas', 'ativa');
     $hasTipo = has_column($con, 'mesas', 'tipo');
+    $hasGrupo = has_column($con, 'mesas', 'grupo');
     $capField = $hasCapacidade ? "m.capacidade" : "2";
     $whereParts = [];
 
@@ -94,56 +144,144 @@ function get_available_mesas(mysqli $con, string $dataReserva, string $horaReser
     if ($hasAtiva && has_rows_for_condition($con, 'mesas', "ativa = 1")) {
         $whereParts[] = "m.ativa = 1";
     }
-    $wherePrefix = count($whereParts) > 0 ? implode("\n          AND ", $whereParts) . "\n          AND " : "";
+    $whereSql = count($whereParts) > 0 ? "WHERE " . implode("\n          AND ", $whereParts) : "";
 
     $sql = "
-        SELECT m.id, $capField AS capacidade
+        SELECT
+            m.id,
+            $capField AS capacidade,
+            " . ($hasGrupo ? "NULLIF(TRIM(m.grupo), '')" : "NULL") . " AS grupo
         FROM mesas m
-        WHERE {$wherePrefix}m.id NOT IN (
-              SELECT rm.mesa_id
-              FROM reserva_mesas rm
-              JOIN reservas r ON r.id = rm.reserva_id
-              WHERE r.data_reserva = ?
-                AND r.hora_reserva = ?
-                AND r.confirmado = 1
-                AND r.estado NOT IN ('recusada', 'nao_compareceu')
-                AND r.id <> ?
-          )
-        ORDER BY capacidade ASC, m.id ASC
+        $whereSql
+        ORDER BY m.id ASC
     ";
 
     $stmt = mysqli_prepare($con, $sql);
     if (!$stmt) {
         return [];
     }
-    mysqli_stmt_bind_param($stmt, "ssi", $dataReserva, $horaReserva, $excludeReservaId);
+
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
-    $rows = [];
+    $mesas = [];
     if ($res) {
         while ($row = mysqli_fetch_assoc($res)) {
-            $rows[] = [
+            $mesas[] = [
                 'id' => (string)$row['id'],
                 'capacidade' => (int)$row['capacidade'],
+                'grupo' => trim((string)($row['grupo'] ?? '')),
             ];
         }
     }
     mysqli_stmt_close($stmt);
-    return $rows;
+
+    $busyMap = array_fill_keys(get_busy_mesa_ids($con, $dataReserva, $horaReserva, $excludeReservaId), true);
+    $groupedMesas = [];
+    $options = [];
+
+    foreach ($mesas as $mesa) {
+        $mesaId = trim((string)($mesa['id'] ?? ''));
+        if ($mesaId === '') {
+            continue;
+        }
+
+        $grupo = trim((string)($mesa['grupo'] ?? ''));
+        if ($grupo !== '') {
+            if (!array_key_exists($grupo, $groupedMesas)) {
+                $groupedMesas[$grupo] = [];
+            }
+            $groupedMesas[$grupo][] = $mesa;
+            continue;
+        }
+
+        if (isset($busyMap[$mesaId])) {
+            continue;
+        }
+
+        $options[] = [
+            'value' => 'mesa:' . $mesaId,
+            'display_name' => 'Mesa ' . $mesaId,
+            'detail' => '',
+            'mesa_ids' => [$mesaId],
+            'capacidade' => (int)$mesa['capacidade'],
+            'sort_type' => 0,
+            'sort_key' => mesa_sort_key($mesaId),
+        ];
+    }
+
+    foreach ($groupedMesas as $grupo => $mesasDoGrupo) {
+        $ids = [];
+        $capacidadeTotal = 0;
+        $groupAvailable = true;
+
+        foreach ($mesasDoGrupo as $mesa) {
+            $mesaId = trim((string)($mesa['id'] ?? ''));
+            if ($mesaId === '' || isset($busyMap[$mesaId])) {
+                $groupAvailable = false;
+                break;
+            }
+
+            $ids[] = $mesaId;
+            $capacidadeTotal += (int)$mesa['capacidade'];
+        }
+
+        if (!$groupAvailable || count($ids) === 0) {
+            continue;
+        }
+
+        natsort($ids);
+        $ids = array_values($ids);
+        $detail = count($ids) > 1 ? 'Mesas ' . implode(', ', $ids) : 'Mesa ' . $ids[0];
+
+        $options[] = [
+            'value' => 'group:' . $grupo,
+            'display_name' => 'Conjunto ' . $grupo,
+            'detail' => $detail,
+            'mesa_ids' => $ids,
+            'capacidade' => $capacidadeTotal,
+            'sort_type' => 1,
+            'sort_key' => mesa_sort_key($ids[0]),
+        ];
+    }
+
+    usort($options, static function (array $a, array $b): int {
+        $typeCmp = ((int)($a['sort_type'] ?? 0)) <=> ((int)($b['sort_type'] ?? 0));
+        if ($typeCmp !== 0) {
+            return $typeCmp;
+        }
+
+        $aKey = $a['sort_key'] ?? [3, 999999, (string)($a['display_name'] ?? '')];
+        $bKey = $b['sort_key'] ?? [3, 999999, (string)($b['display_name'] ?? '')];
+
+        for ($i = 0; $i < 3; $i++) {
+            $cmp = $aKey[$i] <=> $bKey[$i];
+            if ($cmp !== 0) {
+                return $cmp;
+            }
+        }
+
+        return strnatcasecmp((string)$a['display_name'], (string)$b['display_name']);
+    });
+
+    return $options;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
     verify_csrf_or_fail();
     $id = (int)$_POST['confirmar'];
 
-    $mesasSelecionadas = $_POST['mesas'] ?? [];
-    if (!is_array($mesasSelecionadas)) {
-        $mesasSelecionadas = [];
+    $mesasSelecionadasRaw = $_POST['mesas'] ?? [];
+    if (!is_array($mesasSelecionadasRaw)) {
+        $mesasSelecionadasRaw = [];
     }
-    $mesasSelecionadas = array_values(array_unique(array_filter(array_map(function ($v) {
+
+    $mesasSelecionadasRaw = array_values(array_unique(array_filter(array_map(function ($v) {
         $v = trim((string)$v);
-        return preg_match('/^[A-Za-z0-9_-]{1,50}$/', $v) ? $v : '';
-    }, $mesasSelecionadas))));
+        if (preg_match('/^[A-Za-z0-9_-]{1,50}$/', $v)) {
+            return 'mesa:' . $v;
+        }
+        return preg_match('/^(mesa|group):[A-Za-z0-9_-]{1,50}$/', $v) ? $v : '';
+    }, $mesasSelecionadasRaw))));
 
     $sql = "SELECT r.*, c.nome, c.email, c.telefone
             FROM reservas r
@@ -159,23 +297,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         redirect_with_alert('Reserva nao encontrada.');
     }
 
-    if (count($mesasSelecionadas) === 0) {
-        redirect_with_alert('Selecione pelo menos uma mesa para confirmar.');
+    if (count($mesasSelecionadasRaw) === 0) {
+        redirect_with_alert('Selecione pelo menos uma mesa ou conjunto para confirmar.');
     }
 
-    $mesasDisponiveis = get_available_mesas($con, (string)$reserva['data_reserva'], (string)$reserva['hora_reserva'], $id);
+    $mesasDisponiveis = get_available_mesa_options($con, (string)$reserva['data_reserva'], (string)$reserva['hora_reserva'], $id);
     $disponiveisMap = [];
-    foreach ($mesasDisponiveis as $m) {
-        $disponiveisMap[$m['id']] = $m['capacidade'];
+    foreach ($mesasDisponiveis as $option) {
+        $disponiveisMap[(string)$option['value']] = $option;
     }
 
+    $mesasSelecionadas = [];
+    $mesasResumo = [];
     $capacidadeTotal = 0;
-    foreach ($mesasSelecionadas as $mesaId) {
-        if (!array_key_exists($mesaId, $disponiveisMap)) {
-            redirect_with_alert("A mesa {$mesaId} ja nao esta disponivel para este horario.");
+    foreach ($mesasSelecionadasRaw as $optionValue) {
+        if (!array_key_exists($optionValue, $disponiveisMap)) {
+            redirect_with_alert('Uma das opções de mesa selecionadas já não está disponível para este horário.');
         }
-        $capacidadeTotal += (int)$disponiveisMap[$mesaId];
+
+        $option = $disponiveisMap[$optionValue];
+        $capacidadeTotal += (int)$option['capacidade'];
+        $mesasResumo[] = (string)$option['display_name'];
+
+        foreach ((array)$option['mesa_ids'] as $mesaId) {
+            $mesaId = trim((string)$mesaId);
+            if ($mesaId !== '') {
+                $mesasSelecionadas[$mesaId] = true;
+            }
+        }
     }
+
+    $mesasSelecionadas = array_keys($mesasSelecionadas);
 
     if ($capacidadeTotal < (int)$reserva['numero_pessoas']) {
         redirect_with_alert('Capacidade das mesas insuficiente para esta reserva.');
@@ -244,7 +396,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
             "Data: {$reserva['data_reserva']}\n" .
             "Hora: {$reserva['hora_reserva']}\n" .
             "Pessoas: {$reserva['numero_pessoas']}\n" .
-            "Mesas: " . implode(', ', $mesasSelecionadas) . "\n\n" .
+            "Mesas: " . implode(', ', $mesasResumo) . "\n" .
+            "Mesas físicas: " . implode(', ', $mesasSelecionadas) . "\n\n" .
             "Sistema de Reservas - Cantinho Deolinda";
 
         $url = "https://graph.facebook.com/v20.0/{$phone_id}/messages";
@@ -271,14 +424,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
     $assunto = "Reserva Confirmada - Cantinho Deolinda";
     $mensagemEmail = cd_email_template(
         'Reserva confirmada',
-        'A sua mesa esta confirmada',
-        "Ola {$reserva['nome']}, temos o prazer de confirmar a sua reserva.",
+        'A sua mesa está confirmada',
+        "Olá {$reserva['nome']}, temos o prazer de confirmar a sua reserva.",
         '
-            <p style="margin:0 0 16px;">Reservamos a sua visita e deixamos abaixo os principais detalhes para consulta rapida.</p>
+            <p style="margin:0 0 16px;">Reservamos a sua visita e deixamos abaixo os principais detalhes para consulta rápida.</p>
             ' . cd_email_detail_rows([
                 'Data' => (string)$reserva['data_reserva'],
                 'Hora' => (string)$reserva['hora_reserva'],
-                'Numero de pessoas' => (string)$reserva['numero_pessoas'],
+                'Número de pessoas' => (string)$reserva['numero_pessoas'],
             ]) . '
             <p style="margin:16px 0 0;">Obrigado por escolher o Cantinho Deolinda. Esperamos por si.</p>
         '
@@ -301,14 +454,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
             $mail->isHTML(true);
             $mail->Subject = $assunto;
             $mail->Body = $mensagemEmail;
-            $mail->AltBody = "Ola {$reserva['nome']}, a sua reserva foi confirmada para {$reserva['data_reserva']} as {$reserva['hora_reserva']} para {$reserva['numero_pessoas']} pessoas.";
+            $mail->AltBody = "Olá {$reserva['nome']}, a sua reserva foi confirmada para {$reserva['data_reserva']} às {$reserva['hora_reserva']} para {$reserva['numero_pessoas']} pessoas.";
             $mail->send();
         } catch (Exception $e) {
-            // Mantem o fluxo de confirmacao mesmo se o email falhar.
+            // Mantém o fluxo de confirmação mesmo se o email falhar.
         }
     }
 
-    redirect_with_alert('Reserva confirmada e mesas atribuidas com sucesso.');
+    redirect_with_alert('Reserva confirmada e mesas atribuídas com sucesso.');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recusar'])) {
@@ -400,19 +553,19 @@ if ($result && $result->num_rows > 0) {
     <div class="admin-home-sidebar-brand">
       <span class="admin-home-kicker">Cantinho Deolinda</span>
       <strong>Painel Admin</strong>
-      <p>Centro de gestao do backoffice.</p>
+      <p>Centro de gestão do backoffice.</p>
     </div>
     <nav class="admin-home-nav">
-      <a href="../admin.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.8v-5.5H9.8V21H5a1 1 0 0 1-1-1z"/></svg></span><span class="admin-home-link-copy"><strong>Visao geral</strong><small>Painel principal</small></span></a>
+      <a href="../admin.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.8v-5.5H9.8V21H5a1 1 0 0 1-1-1z"/></svg></span><span class="admin-home-link-copy"><strong>Visão geral</strong><small>Painel principal</small></span></a>
       <a href="../Bd/confirmar_reservas.php" class="is-active" aria-current="page"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 12.5 10.2 16 17 8.8"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg></span><span class="admin-home-link-copy"><strong>Confirmar reservas</strong><small>Entradas pendentes</small></span></a>
       <a href="../admin_reservas.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><rect x="4" y="5" width="6" height="6" rx="1.5"/><rect x="14" y="5" width="6" height="6" rx="1.5"/><rect x="4" y="13" width="6" height="6" rx="1.5"/><rect x="14" y="13" width="6" height="6" rx="1.5"/></svg></span><span class="admin-home-link-copy"><strong>Todas as reservas</strong><small>Lista completa</small></span></a>
       <a href="../admin_logs.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 7h10M7 12h10M7 17h10"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg></span><span class="admin-home-link-copy"><strong>Logs</strong><small>Atividade do sistema</small></span></a>
-      <a href="../admin_mapa.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8 6.5 4.5 8v10L8 16.5l4 1.5 3.5-1.5L19.5 18V8l-4 1.5L12 8 8 9.5z"/><path d="M8 6.5v10M12 8v10M15.5 9.5v10"/></svg></span><span class="admin-home-link-copy"><strong>Mapa de mesas</strong><small>Disposicao da sala</small></span></a>
-      <a href="../admin_feedback.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 17.5 4.5 20V7a2 2 0 0 1 2-2h11A2.5 2.5 0 0 1 20 7.5v7a2.5 2.5 0 0 1-2.5 2.5z"/><path d="M8 10h8M8 13h5"/></svg></span><span class="admin-home-link-copy"><strong>Feedback</strong><small>Opinioes dos clientes</small></span></a>
+      <a href="../admin_mapa.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M8 6.5 4.5 8v10L8 16.5l4 1.5 3.5-1.5L19.5 18V8l-4 1.5L12 8 8 9.5z"/><path d="M8 6.5v10M12 8v10M15.5 9.5v10"/></svg></span><span class="admin-home-link-copy"><strong>Mapa de mesas</strong><small>Disposição da sala</small></span></a>
+      <a href="../admin_feedback.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7 17.5 4.5 20V7a2 2 0 0 1 2-2h11A2.5 2.5 0 0 1 20 7.5v7a2.5 2.5 0 0 1-2.5 2.5z"/><path d="M8 10h8M8 13h5"/></svg></span><span class="admin-home-link-copy"><strong>Feedback</strong><small>Opiniões dos clientes</small></span></a>
     </nav>
     <div class="admin-home-sidebar-footer">
       <a href="../dashboard.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 19V9.5L12 5l7 4.5V19z"/><path d="M9 19v-5h6v5"/></svg></span><span class="admin-home-link-copy"><strong>Dashboard</strong><small>Vista do utilizador</small></span></a>
-      <a href="../index.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M10 7 5 12l5 5"/><path d="M6 12h9a4 4 0 1 0 0 8"/></svg></span><span class="admin-home-link-copy"><strong>Voltar ao site</strong><small>Regressar a homepage</small></span></a>
+      <a href="../index.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M10 7 5 12l5 5"/><path d="M6 12h9a4 4 0 1 0 0 8"/></svg></span><span class="admin-home-link-copy"><strong>Voltar ao site</strong><small>Regressar à homepage</small></span></a>
     </div>
   </aside>
   <div class="container">
@@ -425,11 +578,11 @@ if ($result && $result->num_rows > 0) {
     </section>
 
     <?php if (count($reservas) === 0): ?>
-      <p class="empty">Nao ha reservas pendentes.</p>
+      <p class="empty">Não há reservas pendentes.</p>
     <?php else: ?>
       <section class="grid">
         <?php foreach ($reservas as $row): ?>
-          <?php $mesasLivres = get_available_mesas($con, (string)$row['data_reserva'], (string)$row['hora_reserva'], (int)$row['id']); ?>
+          <?php $mesasLivres = get_available_mesa_options($con, (string)$row['data_reserva'], (string)$row['hora_reserva'], (int)$row['id']); ?>
           <article class="card" data-reserva-id="<?php echo (int)$row['id']; ?>">
             <div class="card-top">
               <div>
@@ -468,22 +621,25 @@ if ($result && $result->num_rows > 0) {
               <div class="actions">
                 <form method="post" class="action-form action-form-confirm" id="confirmForm-<?php echo (int)$row['id']; ?>">
                   <?php echo csrf_input(); ?>
-                  <p class="mesa-help">Selecione uma ou mais mesas para compor a capacidade:</p>
+                  <p class="mesa-help">Selecione uma ou mais mesas ou conjuntos para compor a capacidade:</p>
                   <?php if (count($mesasLivres) > 0): ?>
-                    <p class="mesa-summary"><?php echo count($mesasLivres); ?> mesas disponiveis</p>
+                    <p class="mesa-summary"><?php echo count($mesasLivres); ?> opções disponíveis</p>
                     <div class="mesa-grid">
                       <?php foreach ($mesasLivres as $mesa): ?>
                         <label class="mesa-check">
-                          <input type="checkbox" name="mesas[]" value="<?php echo esc($mesa['id']); ?>">
+                          <input type="checkbox" name="mesas[]" value="<?php echo esc($mesa['value']); ?>">
                           <span class="mesa-check-txt">
-                            <span class="mesa-check-id">Mesa <?php echo esc($mesa['id']); ?></span>
+                            <span class="mesa-check-id"><?php echo esc($mesa['display_name']); ?></span>
+                            <?php if ((string)($mesa['detail'] ?? '') !== ''): ?>
+                              <span class="mesa-check-detail"><?php echo esc($mesa['detail']); ?></span>
+                            <?php endif; ?>
                             <span class="mesa-check-cap"><?php echo (int)$mesa['capacidade']; ?> lugares</span>
                           </span>
                         </label>
                       <?php endforeach; ?>
                     </div>
                   <?php else: ?>
-                    <p class="mesa-empty">Sem mesas disponiveis para este horario.</p>
+                    <p class="mesa-empty">Sem mesas disponíveis para este horário.</p>
                   <?php endif; ?>
                   <input type="hidden" name="confirmar" value="<?php echo (int)$row['id']; ?>">
                 </form>

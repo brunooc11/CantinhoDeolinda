@@ -4,7 +4,9 @@ if (!function_exists('cd_render_theme_head')) {
     function cd_render_theme_head(string $assetPrefix, string $projectRoot): void
     {
         $href = $assetPrefix . 'Css/ModoEscuro.css?v=' . filemtime($projectRoot . '/Css/ModoEscuro.css');
+        $responsiveHref = $assetPrefix . 'Css/responsive_overrides.css?v=' . filemtime($projectRoot . '/Css/responsive_overrides.css');
         echo '<link rel="stylesheet" href="' . htmlspecialchars($href, ENT_QUOTES, 'UTF-8') . '">' . PHP_EOL;
+        echo '<link rel="stylesheet" href="' . htmlspecialchars($responsiveHref, ENT_QUOTES, 'UTF-8') . '">' . PHP_EOL;
     }
 
     function cd_render_theme_toggle(string $assetPrefix): void

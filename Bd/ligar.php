@@ -23,18 +23,18 @@ $dbPort = (int)($env['DB_PORT'] ?? getenv('DB_PORT') ?? 3306);
 $dbCharset = trim((string)($env['DB_CHARSET'] ?? getenv('DB_CHARSET') ?? 'utf8mb4'));
 
 if ($dbHost === '' || $dbName === '' || $dbUser === '') {
-    die('Configuracao da base de dados incompleta. Preenche DB_HOST, DB_NAME, DB_USER e DB_PASS em Seguranca/config.env.');
+    die('Configuração da base de dados incompleta. Preenche DB_HOST, DB_NAME, DB_USER e DB_PASS em Seguranca/config.env.');
 }
 
 $con = mysqli_init();
 if (!$con) {
-    die('Erro ao iniciar ligacao a base de dados.');
+    die('Erro ao iniciar ligação à base de dados.');
 }
 
 mysqli_options($con, MYSQLI_OPT_CONNECT_TIMEOUT, 5);
 
 if (!mysqli_real_connect($con, $dbHost, $dbUser, $dbPass, $dbName, $dbPort)) {
-    die('Erro de ligacao a base de dados.');
+    die('Erro de ligação à base de dados.');
 }
 
 if (!mysqli_set_charset($con, $dbCharset)) {

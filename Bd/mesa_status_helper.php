@@ -76,18 +76,25 @@ function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RE
         mysqli_stmt_close($stmtOcupadas);
     }
 
+    $mesaWhere = count($joinFilters) > 0 ? ' AND ' . implode(' AND ', $joinFilters) : '';
     $sqlLibertarInativas = "
         UPDATE mesas m
-        JOIN reserva_mesas rm ON rm.mesa_id = m.id
-        LEFT JOIN reservas r ON r.id = rm.reserva_id
         SET m.estado = 'livre'
-        WHERE (
-            r.id IS NULL
-            OR r.confirmado <> 1
-            OR r.estado NOT IN ('pendente', 'compareceu')
-            OR TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) <= NOW()
+        WHERE EXISTS (
+            SELECT 1
+            FROM reserva_mesas rm_any
+            WHERE rm_any.mesa_id = m.id
         )
-        $joinWhere
+          AND NOT EXISTS (
+            SELECT 1
+            FROM reserva_mesas rm
+            JOIN reservas r ON r.id = rm.reserva_id
+            WHERE rm.mesa_id = m.id
+              AND r.confirmado = 1
+              AND r.estado IN ('pendente', 'compareceu')
+              AND TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) > NOW()
+          )
+          $mesaWhere
     ";
     $stmtLibertarInativas = mysqli_prepare($con, $sqlLibertarInativas);
     if ($stmtLibertarInativas) {
