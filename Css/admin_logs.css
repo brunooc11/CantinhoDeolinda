@@ -136,7 +136,7 @@
 }
 
 .cdol-logs .logs-table th:nth-child(1),
-.cdol-logs .logs-table td:nth-child(1) { width: 4%; }
+.cdol-logs .logs-table td:nth-child(1) { width: 4%; white-space: nowrap; }
 
 .cdol-logs .logs-table th:nth-child(2),
 .cdol-logs .logs-table td:nth-child(2) { width: 11%; }
