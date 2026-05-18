@@ -82,6 +82,119 @@
     .info_adicionais-cards {
         grid-template-columns: 1fr;
     }
+
+    .contact-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .contact-left,
+    .contact-map {
+        width: 100%;
+    }
+
+    #localizacao .contact-map {
+        min-height: 300px;
+    }
+}
+
+/* Tablet vertical (≤768px) */
+@media (max-width: 768px) {
+    #localizacao .info_adicionais-wrapper {
+        width: calc(100% - 20px);
+        padding: 20px 16px 22px;
+        border-radius: 18px;
+    }
+
+    #localizacao .info_adicionais-title {
+        font-size: clamp(1.5rem, 5.5vw, 1.9rem);
+    }
+
+    #localizacao .contact-desc {
+        font-size: 0.93rem;
+    }
+
+    .contact-section {
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 14px;
+    }
+
+    .contact-left {
+        gap: 14px;
+    }
+
+    #localizacao .contact-map {
+        min-height: 280px;
+    }
+
+    #localizacao .info_adicionais-card {
+        min-height: 0;
+        padding: 16px;
+    }
+
+    #localizacao .info_adicionais-card p {
+        font-size: 0.92rem;
+    }
+}
+
+/* Mobile (≤480px) */
+@media (max-width: 480px) {
+    #localizacao {
+        padding: 12px 0 6px;
+    }
+
+    #localizacao .info_adicionais-wrapper {
+        width: calc(100% - 12px);
+        padding: 16px 13px 18px;
+        border-radius: 16px;
+        margin: 16px auto 24px;
+    }
+
+    #localizacao .info_adicionais-title {
+        font-size: clamp(1.35rem, 7vw, 1.7rem);
+    }
+
+    #localizacao .contact-desc {
+        font-size: 0.88rem;
+    }
+
+    #localizacao .contact-section {
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    #localizacao .contact-left {
+        gap: 10px;
+    }
+
+    #localizacao .contact-map {
+        min-height: 230px;
+    }
+
+    #localizacao .info_adicionais-card {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    #localizacao .info_adicionais-card-title {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    #localizacao .info_adicionais-card p {
+        font-size: 0.88rem;
+        line-height: 1.55;
+    }
+
+    #localizacao .contact-link-animated {
+        font-size: 0.88rem;
+    }
+
+    #localizacao #info_adicionais-btn {
+        margin-top: 12px;
+        min-height: 46px;
+    }
 }
 
 #info_adicionais-btn {

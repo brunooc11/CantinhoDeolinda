@@ -40,7 +40,7 @@
 .prefooter-text h3 {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: 34px;
+    font-size: clamp(1.6rem, 2.4vw, 2.12rem);
     line-height: 1.12;
     margin: 0 0 16px 0;
     color: #ffffff;
@@ -153,6 +153,55 @@
    RESPONSIVO
 ======================= */
 
+/* Laptop comum / pequeno (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
+@media (max-width: 1366px) {
+    .prefooter {
+        padding: 68px 6% 50px;
+    }
+
+    .prefooter-container {
+        max-width: 1060px;
+        gap: 26px;
+        grid-template-columns: minmax(280px, 1.3fr) minmax(170px, 0.78fr) minmax(220px, 0.92fr);
+    }
+
+    .prefooter-text {
+        gap: 14px;
+        max-width: 340px;
+    }
+
+    .prefooter-text h3 {
+        font-size: clamp(1.5rem, 2.2vw, 1.94rem);
+        max-width: 300px;
+        margin-bottom: 12px;
+    }
+
+    #prefooter {
+        max-width: 240px;
+        padding: 12px 0;
+        font-size: 13px;
+    }
+
+    .prefooter-col h4 {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .prefooter-col ul a {
+        font-size: 15px;
+    }
+
+    .pf-icons {
+        gap: 18px;
+        margin-top: 18px;
+    }
+
+    .pf-icons a {
+        font-size: 22px;
+    }
+}
+
+/* Tablet e mobile (≤900px) — sobrepõe as regras do laptop acima */
 @media (max-width: 900px) {
     .prefooter-container {
         grid-template-columns: 1fr;
@@ -168,10 +217,12 @@
     .prefooter-text h3 {
         text-align: center;
         margin-left: 0;
+        max-width: none;
     }
 
     #prefooter {
         align-self: center;
+        max-width: 280px;
     }
 
     .prefooter-col {
@@ -197,46 +248,64 @@
     }
 }
 
-@media (max-width: 1366px) {
+/* Tablet vertical (≤768px) */
+@media (max-width: 768px) {
     .prefooter {
-        padding: 68px 6% 50px;
+        padding: 56px 18px 44px;
     }
 
     .prefooter-container {
-        max-width: 1060px;
-        gap: 26px;
-        grid-template-columns: minmax(280px, 1.3fr) minmax(170px, 0.78fr) minmax(220px, 0.92fr);
-    }
-
-    .prefooter-text {
-        gap: 14px;
-        max-width: 340px;
+        gap: 28px;
     }
 
     .prefooter-text h3 {
-        font-size: 31px;
-        max-width: 300px;
-        margin-bottom: 12px;
+        font-size: clamp(1.5rem, 5vw, 1.8rem);
     }
 
     #prefooter {
-        max-width: 240px;
-        padding: 12px 0;
-        font-size: 13px;
+        max-width: 100%;
+        min-height: 48px;
+    }
+
+    .prefooter-col ul li {
+        margin-bottom: 16px;
+    }
+}
+
+/* Mobile (≤480px) */
+@media (max-width: 480px) {
+    .prefooter {
+        padding: 48px 14px 38px;
+    }
+
+    .prefooter-container {
+        gap: 24px;
+    }
+
+    .prefooter-text h3 {
+        font-size: clamp(1.4rem, 7vw, 1.75rem);
+    }
+
+    #logo-prefooter {
+        transform: scale(0.9);
+        transform-origin: center center;
     }
 
     .prefooter-col h4 {
-        font-size: 16px;
-        margin-bottom: 20px;
+        font-size: 15px;
+        margin-bottom: 14px;
     }
 
     .prefooter-col ul a {
-        font-size: 15px;
+        font-size: 14px;
+    }
+
+    .prefooter-col ul li {
+        margin-bottom: 14px;
     }
 
     .pf-icons {
         gap: 18px;
-        margin-top: 18px;
     }
 
     .pf-icons a {

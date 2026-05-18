@@ -351,35 +351,6 @@ body.claro .tema-btn.active {
   }
 }
 
-@media (max-width: 640px) {
-  .controlo {
-    top: 10px;
-    left: 10px;
-    padding: 7px;
-    gap: 8px;
-  }
-
-  .controlo::after {
-    top: 6px;
-    left: 6px;
-    width: 44px;
-    height: 44px;
-  }
-
-  .controlo[data-theme="escuro"]::after {
-    transform: translateX(52px);
-  }
-
-  .tema-btn {
-    width: 44px;
-    height: 44px;
-  }
-
-  .tema-btn img {
-    width: 20px;
-    height: 20px;
-  }
-}
 
 /* Modo claro */
 body.claro .navbar {
@@ -972,6 +943,7 @@ body.escuro .footer {
   color: #d0d0d0;
 }
 
+/* Laptop (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   .controlo {
     top: 14px;
@@ -999,6 +971,37 @@ body.escuro .footer {
   .tema-btn img {
     width: 18px;
     height: 18px;
+  }
+}
+
+/* Mobile (≤640px) — sobrepõe as regras do laptop */
+@media (max-width: 640px) {
+  .controlo {
+    top: 10px;
+    left: 10px;
+    padding: 7px;
+    gap: 8px;
+  }
+
+  .controlo::after {
+    top: 6px;
+    left: 6px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .controlo[data-theme="escuro"]::after {
+    transform: translateX(52px);
+  }
+
+  .tema-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .tema-btn img {
+    width: 20px;
+    height: 20px;
   }
 }
 

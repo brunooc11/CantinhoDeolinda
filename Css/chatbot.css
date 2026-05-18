@@ -332,36 +332,7 @@
   }
 }
 
-@media (max-width: 640px) {
-  #btnChat {
-    right: 16px;
-    bottom: 88px !important;
-    width: 54px;
-    height: 54px;
-  }
-
-  .chat-box {
-    right: 11px;
-    bottom: 138px;
-    width: calc(100vw - 22px);
-    height: min(72vh, 600px);
-    border-radius: 22px;
-  }
-
-  .chat-header {
-    font-size: 17px;
-  }
-
-  .quick-btns {
-    grid-template-columns: 1fr;
-  }
-
-  .msg.bot {
-    max-width: 94%;
-    text-wrap: pretty;
-  }
-}
-
+/* Laptop (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   #btnChat {
     right: 18px;
@@ -378,5 +349,105 @@
     width: min(360px, calc(100vw - 18px));
     height: 520px;
     border-radius: 22px;
+  }
+}
+
+/* Tablet (≤768px) */
+@media (max-width: 768px) {
+  #btnChat {
+    right: 16px;
+    bottom: 84px !important;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    font-size: 20px;
+  }
+
+  .chat-box {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    bottom: 136px;
+    height: min(70vh, 580px);
+    border-radius: 20px;
+  }
+}
+
+/* Mobile (≤640px) — sobrepõe as regras do laptop */
+@media (max-width: 640px) {
+  #btnChat {
+    right: 14px;
+    bottom: 80px !important;
+    width: 52px;
+    height: 52px;
+  }
+
+  .chat-box {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    bottom: 132px;
+    height: min(72vh, 580px);
+    border-radius: 20px;
+  }
+
+  .chat-header {
+    font-size: 17px;
+  }
+
+  .quick-btns {
+    grid-template-columns: 1fr;
+  }
+
+  .msg.bot {
+    max-width: 94%;
+    text-wrap: pretty;
+  }
+}
+
+/* Mobile pequeno (≤480px) */
+@media (max-width: 480px) {
+  #btnChat {
+    right: 12px;
+    bottom: 76px !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 20px;
+  }
+
+  .chat-box {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    bottom: 126px;
+    height: min(68vh, 560px);
+    border-radius: 18px;
+  }
+
+  .chat-title {
+    font-size: 16px;
+  }
+
+  .chat-input input {
+    font-size: 13px;
+    height: 40px;
+  }
+
+  .chat-input button {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .msg {
+    font-size: 13px;
+    padding: 10px 11px;
+  }
+
+  .quick-btns button {
+    font-size: 11px;
+    padding: 8px 7px;
+    min-height: 40px;
   }
 }

@@ -76,38 +76,7 @@
   display: inline-flex;
 }
 
-@media (max-width: 900px) {
-  .banner {
-    min-height: auto;
-    padding: 36px 20px 24px;
-    margin-top: 0;
-    align-items: center;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .banner::before {
-    inset: 10px;
-    border-radius: 20px;
-  }
-
-  .banner img {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    height: min(255px, 50vw);
-    transform: none;
-    margin-bottom: 10px;
-  }
-
-  .banner-text {
-    left: auto;
-    margin-bottom: 0;
-    text-align: center;
-    max-width: 500px;
-  }
-}
-
+/* Laptop comum / pequeno (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   .banner {
     min-height: 300px;
@@ -141,5 +110,101 @@
   .banner-text p {
     font-size: 0.95rem;
     line-height: 1.55;
+  }
+}
+
+/* Tablet vertical e mobile (≤900px) — sobrepõe as regras do laptop acima */
+@media (max-width: 900px) {
+  .banner {
+    min-height: auto;
+    padding: 36px 20px 24px;
+    margin-top: 0;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .banner::before {
+    inset: 10px;
+    border-radius: 20px;
+  }
+
+  .banner img {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    height: min(255px, 50vw);
+    transform: none;
+    margin-bottom: 10px;
+  }
+
+  .banner-text {
+    left: auto;
+    margin-bottom: 0;
+    text-align: center;
+    max-width: 500px;
+  }
+}
+
+/* Tablet (≤768px) */
+@media (max-width: 768px) {
+  .banner {
+    padding: 28px 18px 20px;
+  }
+
+  .banner img {
+    height: min(240px, 44vw);
+  }
+
+  .banner-text {
+    max-width: 100%;
+  }
+
+  .banner-text h2 {
+    font-size: 1.65rem;
+  }
+
+  .banner-text p {
+    font-size: 0.93rem;
+    max-width: 100%;
+  }
+}
+
+/* Mobile (≤480px) */
+@media (max-width: 480px) {
+  .banner {
+    padding: 22px 14px 16px;
+  }
+
+  .banner::before {
+    inset: 8px;
+    border-radius: 16px;
+  }
+
+  .banner img {
+    height: min(200px, 54vw);
+    margin-bottom: 8px;
+  }
+
+  .banner-text h4 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .banner-text h2 {
+    font-size: 1.45rem;
+    margin-bottom: 10px;
+  }
+
+  .banner-text p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  #batatas-btn {
+    margin-top: 14px;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
   }
 }

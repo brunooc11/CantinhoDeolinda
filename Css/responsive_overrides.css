@@ -106,6 +106,178 @@ button,
   min-width: 25%;
 }
 
+/* ===== Full HD / 1920×1080 (≥1920px) ===== */
+@media (min-width: 1920px) {
+  .landing-page .content {
+    max-width: 1440px;
+    padding-top: 140px;
+    padding-bottom: 6rem;
+    gap: 48px;
+  }
+
+  .landing-page .left img {
+    width: min(640px, 28vw);
+  }
+
+  .landing-page .right {
+    max-width: 640px;
+    margin-left: 3rem;
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(2.8rem, 3.4vw, 3.6rem);
+    margin-bottom: 24px;
+  }
+
+  .landing-page .right p {
+    font-size: 1.12rem;
+    line-height: 1.85;
+    margin-bottom: 2.6rem;
+  }
+
+  .banner {
+    min-height: 420px;
+  }
+
+  .banner img {
+    height: 460px;
+  }
+
+  .banner-text {
+    max-width: 480px;
+  }
+
+  .banner-text h2 {
+    font-size: 2.4rem;
+  }
+
+  .carousel-container {
+    width: min(90%, 1500px);
+  }
+
+  .carousel .card {
+    min-width: 25%;
+  }
+
+  .menu-categorias {
+    padding: 108px 20px 120px;
+  }
+
+  .menu-grid {
+    max-width: 1200px;
+  }
+
+  .catering {
+    padding: 140px 8%;
+  }
+
+  .catering-wrapper {
+    max-width: 1400px;
+    gap: 80px;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(3rem, 3.8vw, 4.2rem);
+  }
+
+  .cd-trust-strip {
+    padding: 104px 0;
+  }
+
+  .cd-trust-strip-inner {
+    max-width: 1440px;
+    padding: 0 60px;
+  }
+
+  .cd-trust-grid {
+    gap: 28px;
+  }
+
+  #localizacao .info_adicionais-wrapper {
+    width: min(1380px, 90%);
+    padding: 36px 36px 38px;
+  }
+
+  .prefooter {
+    padding: 100px 8% 78px;
+  }
+
+  .prefooter-container {
+    max-width: 1380px;
+    gap: 48px;
+  }
+}
+
+/* ===== Desktop / Full HD (≥1367px) ===== */
+@media (min-width: 1367px) {
+  /* Landing page: centraliza verticalmente para eliminar espaço vazio em baixo */
+  .landing-page {
+    align-items: center;
+  }
+
+  .landing-page .content {
+    padding-top: 120px;
+    padding-bottom: 5rem;
+    gap: 32px;
+  }
+
+  .landing-page .left img {
+    width: min(580px, 32vw);
+  }
+
+  .landing-page .right {
+    max-width: 580px;
+    margin-left: 2.5rem;
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(2.4rem, 3.2vw, 3.2rem);
+    margin-bottom: 20px;
+  }
+
+  .landing-page .right p {
+    font-size: 1.06rem;
+    line-height: 1.8;
+    margin-bottom: 2.2rem;
+  }
+
+  .landing-page .btn {
+    padding: 1rem 1.6rem;
+    font-size: 0.82rem;
+  }
+
+  /* Banner: aumenta ligeiramente a imagem */
+  .banner {
+    min-height: 360px;
+  }
+
+  .banner img {
+    height: 400px;
+  }
+
+  .banner-text {
+    max-width: 420px;
+  }
+
+  .banner-text h2 {
+    font-size: 2.1rem;
+  }
+
+  /* Carousel */
+  .carousel-container {
+    width: min(92%, 1360px);
+  }
+
+  /* Prefooter */
+  .prefooter {
+    padding: 88px 8% 68px;
+  }
+
+  .prefooter-container {
+    max-width: 1240px;
+  }
+}
+
 @media (min-width: 1025px) and (max-width: 1440px) {
   .landing-page .content {
     max-width: min(1120px, calc(100% - 48px));
@@ -172,6 +344,150 @@ button,
   }
 }
 
+/* ===== Laptop pequeno (≤1280px) ===== */
+@media (max-width: 1280px) {
+  .landing-page .content {
+    max-width: 1040px;
+    padding: 148px 1.25rem 2.5rem;
+    gap: 12px;
+  }
+
+  .landing-page .left img {
+    width: 380px;
+    transform: translateX(8px);
+  }
+
+  .landing-page .right {
+    margin-left: 1.2rem;
+    max-width: 440px;
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(1.72rem, 2.6vw, 2.35rem);
+    margin-bottom: 10px;
+  }
+
+  .landing-page .right p {
+    font-size: 0.94rem;
+    line-height: 1.62;
+    margin-bottom: 1.4rem;
+  }
+
+  .landing-page .btn {
+    padding: 0.78rem 1.14rem;
+    font-size: 0.72rem;
+  }
+
+  .banner {
+    min-height: 280px;
+    padding: 0 44px;
+  }
+
+  .banner img {
+    height: 310px;
+    left: 28%;
+  }
+
+  .banner-text {
+    max-width: 340px;
+    left: 11%;
+  }
+
+  .banner-text h2 {
+    font-size: 1.72rem;
+    margin-bottom: 10px;
+  }
+
+  .banner-text p {
+    font-size: 0.92rem;
+  }
+
+  .catering {
+    padding: 96px 5%;
+  }
+
+  .catering-wrapper {
+    max-width: 1060px;
+    gap: 44px;
+  }
+
+  .catering-info {
+    flex: 1 1 480px;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(2rem, 3vw, 3rem);
+    margin-bottom: 14px;
+  }
+
+  .catering-info p {
+    font-size: 0.97rem;
+    margin-bottom: 20px;
+  }
+
+  .catering-box {
+    flex-basis: 300px;
+    max-width: 300px;
+    min-height: 330px;
+    padding: 28px 22px 26px;
+  }
+
+  .catering-box img {
+    width: 108px;
+    height: 108px;
+  }
+
+  .cd-trust-strip {
+    padding: 70px 0;
+  }
+
+  .cd-trust-strip-inner {
+    max-width: 1040px;
+    padding: 0 24px;
+  }
+
+  .cd-trust-title {
+    font-size: clamp(1.8rem, 2.5vw, 2.3rem);
+  }
+
+  .cd-trust-grid {
+    gap: 16px;
+  }
+
+  .cd-trust-card {
+    min-height: 195px;
+    padding: 22px 18px;
+  }
+
+  #localizacao .info_adicionais-wrapper {
+    width: min(1080px, 92%);
+    padding: 24px 24px 26px;
+  }
+
+  #contacto .contact-wrapper {
+    padding: 34px 16px 36px;
+  }
+
+  #contacto .contact-card {
+    max-width: 940px;
+    padding: 28px 28px 24px;
+  }
+
+  .prefooter {
+    padding: 64px 5% 46px;
+  }
+
+  .prefooter-container {
+    max-width: 1000px;
+    gap: 22px;
+    grid-template-columns: minmax(260px, 1.25fr) minmax(160px, 0.76fr) minmax(210px, 0.9fr);
+  }
+
+  .carousel-container {
+    width: min(92%, 1060px);
+  }
+}
+
 @media (max-width: 1024px) {
   .navbar {
     width: calc(100% - 28px);
@@ -188,6 +504,11 @@ button,
     justify-content: flex-start;
     overflow-x: auto;
     padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
   }
 
   .menu a {
@@ -250,6 +571,10 @@ button,
   .catering-wrapper {
     flex-direction: column;
     gap: 36px;
+  }
+
+  .catering-info {
+    flex: 0 0 auto;
   }
 
   .catering-box {
@@ -427,7 +752,269 @@ button,
   }
 }
 
+/* Corrige o bug de especificidade do form-grid no contacto:
+   contacto.css usa "#contacto .form-grid" (id+class) no bloco 1366px,
+   o que anula ".form-grid" (só class) do bloco 780px.
+   Como responsive_overrides.css carrega por último, esta regra ganha. */
+@media (max-width: 780px) {
+  #contacto .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== Tablet vertical (768×1024) ===== */
+@media (max-width: 768px) {
+  /* Landing page: coluna única centrada */
+  .landing-page .content {
+    padding: 144px 16px 36px;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  .landing-page .left img {
+    width: min(380px, 72vw);
+    transform: none;
+  }
+
+  .landing-page .right {
+    margin-left: 0;
+    max-width: 580px;
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    margin-bottom: 12px;
+  }
+
+  .landing-page .right p {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 90%;
+    font-size: 0.97rem;
+  }
+
+  .landing-page .buttons {
+    justify-content: center;
+  }
+
+  /* Menu carousel: 2 cards por vez */
+  .carousel .card {
+    min-width: 50%;
+  }
+
+  .carousel .card img {
+    height: 280px;
+  }
+
+  /* Menu categorias */
+  .menu-categorias {
+    padding: 64px 16px 72px;
+  }
+
+  .menu-categorias h2 {
+    font-size: clamp(1.8rem, 5vw, 2.2rem);
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Banner: empilhado */
+  .banner {
+    padding: 28px 18px 20px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .banner img {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    height: min(240px, 40vw);
+    margin-bottom: 10px;
+  }
+
+  .banner-text {
+    left: auto;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .banner-text h2 {
+    font-size: 1.65rem;
+  }
+
+  /* Catering */
+  .catering {
+    padding: 80px 20px;
+  }
+
+  .catering-wrapper {
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .catering-info {
+    flex: 0 0 auto;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(1.85rem, 5.5vw, 2.4rem);
+    max-width: none;
+  }
+
+  .catering-info::after {
+    margin: 0 auto;
+  }
+
+  .catering-box {
+    width: min(100%, 440px);
+    max-width: none;
+    min-height: 0;
+    margin-inline: auto;
+  }
+
+  /* Trust strip */
+  .cd-trust-strip {
+    padding: 64px 0;
+  }
+
+  .cd-trust-strip-inner {
+    padding: 0 18px;
+  }
+
+  .cd-trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .cd-trust-card {
+    min-height: 0;
+    padding: 24px 16px;
+  }
+
+  /* Localização */
+  #localizacao .info_adicionais-wrapper {
+    width: calc(100% - 24px);
+    padding: 22px 18px 24px;
+  }
+
+  .contact-section {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-left,
+  .contact-map {
+    width: 100%;
+  }
+
+  #localizacao .contact-map {
+    min-height: 300px;
+  }
+
+  /* Contacto/Feedback */
+  #contacto .contact-wrapper {
+    padding: 30px 14px 24px;
+  }
+
+  #contacto .contact-card {
+    padding: 22px 18px 18px;
+  }
+
+  #contacto .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #contacto .right-col .form-group {
+    min-height: 160px;
+  }
+
+  #contacto .contact-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  #contacto #btt-contact-pos {
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  /* Prefooter */
+  .prefooter {
+    padding: 56px 18px 44px;
+  }
+
+  .prefooter-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+
+  .prefooter-text {
+    max-width: none;
+    align-items: center;
+    grid-column: 1 / -1;
+  }
+
+  .prefooter-text h3 {
+    text-align: center;
+    max-width: none;
+  }
+
+  .prefooter-col {
+    align-items: center;
+    text-align: center;
+  }
+
+  .prefooter-col ul {
+    border-left: none;
+    padding-left: 0;
+    width: min(240px, 100%);
+  }
+
+  .pf-icons {
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  /* Chatbox */
+  .chat-box {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    bottom: 136px;
+    height: min(70vh, 600px);
+  }
+
+  /* Modal */
+  .reserva-modal-content {
+    width: min(440px, 96vw);
+  }
+}
+
 @media (min-width: 481px) and (max-width: 768px) {
+  .menu {
+    gap: 0px;
+  }
+
+  .menu a {
+    font-size: 11px;
+    padding: 5px 5px;
+  }
+
+  .btn-reserva {
+    padding: 7px 10px;
+    font-size: 10.5px;
+    border-radius: 13px;
+  }
+
   #contacto .contact-actions {
     flex-direction: column;
     align-items: stretch;
@@ -522,91 +1109,73 @@ button,
 }
 
 @media (max-width: 480px) {
-  .navbar {
-    width: calc(100% - 16px);
-    top: 8px;
-    padding: 10px 12px 12px;
-    border-radius: 18px;
-    gap: 10px;
-  }
-
-  .navbar.navbar-compact {
-    top: 6px;
-  }
-
-  .logo {
-    font-size: 18px;
-    min-width: 0;
-  }
-
-  .logo-circle {
-    width: 36px;
-    height: 36px;
-    font-size: 28px;
-    margin-right: -6px;
-  }
-
-  .btn-reserva {
-    width: 100%;
-    margin-left: 0;
-    justify-content: center;
-    padding: 10px 14px;
-  }
-
-  .menu a {
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-
+  /* ── Secção hero: garante que toca no limite mínimo ── */
   .landing-page .content {
-    padding: 132px 14px 32px;
-    gap: 18px;
-  }
-
-  .landing-page .gold-shape {
-    width: 100%;
-    opacity: 0.6;
+    padding: 128px 12px 30px;
+    gap: 16px;
+    flex-direction: column;
+    text-align: center;
+    max-width: 100%;
   }
 
   .landing-page .left img {
-    width: min(320px, 84vw);
+    width: min(300px, 82vw);
+    transform: none;
   }
 
   .landing-page .right {
-    max-width: none;
+    max-width: 100%;
+    margin-left: 0;
   }
 
   .landing-page .right h1 {
-    font-size: clamp(1.7rem, 9vw, 2.1rem);
+    font-size: clamp(1.6rem, 8.5vw, 2rem);
+    margin-bottom: 10px;
   }
 
   .landing-page .right p {
-    font-size: 0.96rem;
-    margin-bottom: 1.4rem;
-    max-width: none;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    margin-bottom: 1.3rem;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .landing-page .buttons {
-    width: 100%;
+    justify-content: center;
     flex-direction: column;
+    gap: 10px;
+    width: 100%;
   }
 
   .landing-page .btn {
     width: 100%;
+    min-height: 48px;
+    font-size: 0.76rem;
+    padding: 0.88rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
+  /* ── Carrossel ── */
   .menu-section {
-    padding-top: 72px;
+    padding: 68px 0 24px;
+  }
+
+  .menu-section h1 {
+    font-size: clamp(1.65rem, 7.5vw, 2rem);
+    padding: 0 12px;
+  }
+
+  .menu-section h3 {
+    font-size: 0.82rem;
   }
 
   .carousel-container {
-    width: calc(100% - 20px);
-    margin-top: 28px;
-  }
-
-  .carousel-container::before,
-  .carousel-container::after {
-    width: 36px;
+    width: calc(100% - 16px);
+    margin-top: 24px;
   }
 
   .carousel .card {
@@ -614,91 +1183,309 @@ button,
   }
 
   .carousel .card img {
-    height: 260px;
+    height: 240px;
   }
 
+  /* ── Menu categorias ── */
+  .menu-categorias {
+    padding: 52px 12px 60px;
+  }
+
+  .menu-categorias h2 {
+    font-size: clamp(1.6rem, 7.5vw, 1.9rem);
+  }
+
+  .menu-categorias p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .menu-tabs {
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+
+  .tab-btn {
+    font-size: 0.79rem;
+    padding: 9px 12px;
+    min-height: 44px;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .item {
+    padding: 14px;
+    min-height: 0;
+  }
+
+  .item h3 {
+    font-size: 0.95rem;
+  }
+
+  /* ── Banner ── */
   .banner {
-    padding: 24px 16px 18px;
+    padding: 22px 14px 16px;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .banner img {
-    height: min(220px, 58vw);
+    height: min(200px, 54vw);
+    margin-bottom: 8px;
   }
 
   .banner-text {
-    max-width: none;
+    left: auto;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .banner-text h4 {
+    font-size: 1rem;
   }
 
   .banner-text h2 {
-    font-size: 1.55rem;
+    font-size: 1.45rem;
+    margin-bottom: 10px;
   }
 
+  .banner-text p {
+    font-size: 0.89rem;
+    line-height: 1.55;
+  }
+
+  /* ── Catering ── */
   .catering {
-    padding: 68px 16px;
+    padding: 62px 14px;
   }
 
   .catering-wrapper {
-    gap: 28px;
+    flex-direction: column;
+    gap: 26px;
+    text-align: center;
+  }
+
+  .catering-info h5 {
+    font-size: 0.82rem;
   }
 
   .catering-info h2 {
-    font-size: clamp(1.7rem, 8vw, 2.15rem);
+    font-size: clamp(1.6rem, 7.5vw, 2rem);
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .catering-info p {
+    font-size: 0.93rem;
+    line-height: 1.72;
+    margin-bottom: 18px;
+  }
+
+  .catering-info::after {
+    margin: 0 auto;
   }
 
   .catering-box {
     width: 100%;
-    padding: 24px 18px;
+    padding: 22px 16px;
+    min-height: 0;
+    margin-inline: auto;
   }
 
   .catering-box img {
-    width: 92px;
-    height: 92px;
+    width: 88px;
+    height: 88px;
   }
 
+  .catering-box p {
+    font-size: 0.92rem;
+  }
+
+  .catering-box button {
+    padding: 12px 20px;
+    min-height: 46px;
+    font-size: 0.88rem;
+  }
+
+  /* ── Trust strip ── */
   .cd-trust-strip {
-    padding: 56px 0;
+    padding: 52px 0;
   }
 
   .cd-trust-strip-inner {
-    padding: 0 14px;
+    padding: 0 12px;
   }
 
-  .cd-trust-grid,
-  .info_adicionais-cards {
+  .cd-trust-title {
+    font-size: clamp(1.55rem, 7.5vw, 1.95rem);
+  }
+
+  .cd-trust-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+  }
+
+  .cd-trust-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cd-trust-card {
+    min-height: 0;
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+
+  .cd-trust-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 23px;
+    line-height: 58px;
+    margin-bottom: 14px;
+  }
+
+  .cd-trust-heading {
+    font-size: 1rem;
+  }
+
+  .cd-trust-text {
+    font-size: 0.9rem;
+  }
+
+  /* ── Localização/Mapa ── */
+  #localizacao {
+    padding: 14px 0 6px;
   }
 
   #localizacao .info_adicionais-wrapper {
-    width: calc(100% - 16px);
-    padding: 20px 16px 22px;
+    width: calc(100% - 14px);
+    padding: 18px 14px 20px;
+    border-radius: 18px;
   }
 
+  #localizacao .info_adicionais-title {
+    font-size: clamp(1.4rem, 7vw, 1.8rem);
+  }
+
+  #localizacao .contact-desc {
+    font-size: 0.88rem;
+    margin-top: 6px;
+  }
+
+  .contact-section {
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 14px;
+  }
+
+  .contact-left {
+    width: 100%;
+    gap: 12px;
+  }
+
+  #localizacao .contact-map {
+    width: 100%;
+    min-height: 240px;
+  }
+
+  #localizacao .info_adicionais-card {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  #localizacao .info_adicionais-card-title {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  #localizacao .info_adicionais-card p {
+    font-size: 0.9rem;
+  }
+
+  #localizacao .contact-link-animated {
+    font-size: 0.9rem;
+  }
+
+  #info_adicionais-btn {
+    width: auto;
+    overflow: visible;
+    white-space: normal;
+    text-overflow: clip;
+    min-height: 46px;
+  }
+
+  /* ── Contacto/Feedback ── */
   #contacto .contact-wrapper {
-    padding: 32px 12px 22px;
+    padding: 26px 10px 20px;
   }
 
   #contacto .contact-card {
-    padding: 18px 14px 16px;
+    padding: 16px 13px 14px;
+    border-radius: 14px;
+  }
+
+  #contacto .contact-card h1 {
+    font-size: clamp(1.4rem, 7vw, 1.75rem);
+  }
+
+  #contacto .contact-card .subtitle {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  #contacto .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  #contacto .form-group label {
+    font-size: 0.8rem;
+  }
+
+  #contacto .form-group input,
+  #contacto .form-group select {
+    height: 46px;
+    font-size: 0.9rem;
+  }
+
+  #contacto .right-col .form-group {
+    min-height: 140px;
   }
 
   #contacto .contact-actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 8px;
+    margin-top: 10px;
   }
 
   #contacto #btt-contact-pos {
     width: 100%;
     margin: 0 !important;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
   }
 
+  #contacto .contact-note-inline {
+    font-size: 0.83rem !important;
+  }
+
+  /* ── Prefooter ── */
   .prefooter {
-    padding: 52px 16px 40px;
+    padding: 48px 14px 38px;
   }
 
   .prefooter-container {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 26px;
   }
 
   .prefooter-text,
@@ -708,14 +1495,112 @@ button,
     text-align: center;
   }
 
+  .prefooter-text h3 {
+    font-size: clamp(1.4rem, 7vw, 1.75rem);
+    text-align: center;
+    max-width: none;
+  }
+
+  #prefooter {
+    max-width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .prefooter-col ul {
     width: 100%;
     border-left: none;
     padding-left: 0;
   }
 
+  .pf-icons {
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  /* ── Footer ── */
   .footer {
-    padding: 16px 12px 20px;
+    padding: 14px 12px 18px;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  /* ── Navbar pill: positioned between controlo (left ~91px) and btt (right ~86px) ── */
+  .navbar {
+    left: 96px;
+    right: 86px;
+    width: auto;
+    max-width: none;
+    transform: none;        /* cancel the base left:50% translateX(-50%) centering */
+    top: 8px;
+    padding: 10px 12px 12px;
+    border-radius: 18px;
+    gap: 10px;
+    animation: navbar-enter-mobile 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes navbar-enter-mobile {
+    from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .navbar.navbar-compact {
+    top: 6px;
+    padding-inline: 12px;
+  }
+
+  .logo {
+    font-size: 16px;
+    min-width: 0;
+  }
+
+  .logo-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    margin-right: -4px;
+  }
+
+  .logo-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: none;
+    font-size: 13px;
+    line-height: 1.15;
+  }
+
+  /* RESERVAS — auto width, pushed right by margin-left:auto */
+  .btn-reserva {
+    flex-shrink: 0;
+    width: auto;
+    margin-left: auto;
+    padding: 6px 8px;
+    font-size: 10px;
+    letter-spacing: 0.2px;
+  }
+
+  .menu {
+    gap: 0px;
+  }
+
+  .menu a {
+    font-size: 9px;
+    padding: 4px 2px;
+  }
+
+  /* gold-shape: ocupa toda a largura e fica mais transparente em mobile */
+  .landing-page .gold-shape {
+    width: 100%;
+    opacity: 0.55;
+  }
+
+  /* Garante controlo gradient correto dos gradients de fade do carrossel */
+  .carousel-container::before,
+  .carousel-container::after {
+    width: 32px;
   }
 
   body.pagina-login {
@@ -787,6 +1672,99 @@ button,
 
   .recovery-form {
     padding: 0.95rem;
+  }
+
+  /* ── Theme toggle — LEFT side, 34px buttons to stay within ~83px total width ── */
+  .controlo {
+    left: 8px;
+    right: auto;
+    top: 8px;
+    padding: 5px;
+    gap: 5px;
+  }
+
+  .tema-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .tema-btn img {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* Slider adjusted for 34px buttons: top/left = padding (5px); travel = 34+5 = 39px */
+  .controlo::after {
+    top: 5px;
+    left: 5px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .controlo[data-theme="escuro"]::after {
+    transform: translateX(39px);
+  }
+
+  /* ── Login / Conta button — RIGHT side, vertically aligned with navbar top ── */
+  .btt-padrao-login {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    left: auto;
+    bottom: auto;
+    margin: 0;
+    padding: 10px 8px 12px;
+    font-size: 10px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    border-radius: 14px;
+    width: 76px;
+    max-width: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    z-index: 1002;
+    box-shadow: 0 0 8px rgba(245, 166, 35, 0.45), 0 0 16px rgba(245, 166, 35, 0.22);
+  }
+
+  /* Section CTA buttons share the .btt-padrao-login class but must NOT be fixed
+     and must NOT have their text clipped — override with ID specificity */
+  #batatas-btn,
+  #info_adicionais-btn,
+  #prefooter,
+  #btt-contact-pos {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    overflow: visible;
+    white-space: normal;
+    text-overflow: clip;
+    z-index: auto;
+  }
+
+  #prefooter {
+    max-width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  #btt-contact-pos {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    margin: 0 !important;
   }
 
   #btnChat {
@@ -1079,8 +2057,9 @@ button,
 
 @media (max-width: 360px) {
   .navbar {
-    width: calc(100% - 10px);
-    padding-inline: 8px;
+    left: 94px;
+    right: 82px;
+    /* width: auto inherited from ≤480px */
   }
 
   .logo {
@@ -1092,6 +2071,99 @@ button,
     padding-inline: 8px;
   }
 
+  /* ── Landing page: mobile 360px ── */
+  .landing-page .content {
+    padding: 122px 10px 28px;
+    gap: 14px;
+  }
+
+  .landing-page .left img {
+    width: min(270px, 80vw);
+  }
+
+  .landing-page .right h1 {
+    font-size: clamp(1.5rem, 8vw, 1.85rem);
+  }
+
+  .landing-page .right p {
+    font-size: 0.88rem;
+  }
+
+  /* ── Carrossel ── */
+  .carousel .card img {
+    height: 210px;
+  }
+
+  /* ── Menu categorias ── */
+  .menu-categorias {
+    padding: 48px 10px 56px;
+  }
+
+  .menu-categorias h2 {
+    font-size: clamp(1.5rem, 7vw, 1.75rem);
+  }
+
+  .tab-btn {
+    font-size: 0.75rem;
+    padding: 8px 10px;
+  }
+
+  /* ── Banner ── */
+  .banner img {
+    height: min(175px, 50vw);
+  }
+
+  .banner-text h2 {
+    font-size: 1.35rem;
+  }
+
+  .banner-text p {
+    font-size: 0.85rem;
+  }
+
+  /* ── Catering ── */
+  .catering-info h2 {
+    font-size: clamp(1.5rem, 7vw, 1.85rem);
+  }
+
+  /* ── Trust strip ── */
+  .cd-trust-title {
+    font-size: clamp(1.45rem, 7vw, 1.75rem);
+  }
+
+  /* ── Localização ── */
+  #localizacao .info_adicionais-wrapper {
+    width: calc(100% - 10px);
+    padding: 16px 12px 18px;
+  }
+
+  #localizacao .info_adicionais-title {
+    font-size: clamp(1.3rem, 6.5vw, 1.6rem);
+  }
+
+  #localizacao .contact-map {
+    min-height: 210px;
+  }
+
+  /* ── Contacto ── */
+  #contacto .contact-card {
+    padding: 14px 10px 12px;
+  }
+
+  #contacto .contact-card h1 {
+    font-size: clamp(1.3rem, 6.5vw, 1.6rem);
+  }
+
+  /* ── Prefooter ── */
+  .prefooter {
+    padding: 42px 10px 34px;
+  }
+
+  .prefooter-text h3 {
+    font-size: clamp(1.3rem, 6.5vw, 1.6rem);
+  }
+
+  /* ── Admin / Dash ── */
   .cdol-admin .container,
   .cdol-dash .card {
     padding: 10px;

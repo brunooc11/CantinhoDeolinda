@@ -269,83 +269,7 @@ body {
   }
 }
 
-@media (max-width: 980px) {
-  body {
-    padding-top: 110px;
-  }
-
-  .navbar {
-    width: calc(100% - 24px);
-    top: 12px;
-    border-radius: 20px;
-    padding: 10px 12px;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .navbar.navbar-compact {
-    top: 8px;
-  }
-
-  .menu {
-    order: 3;
-    width: 100%;
-    overflow-x: auto;
-    justify-content: flex-start;
-    padding-bottom: 4px;
-    scrollbar-color: #cda24b rgba(10, 13, 19, 0.98);
-    scrollbar-width: thin;
-  }
-
-  .menu::-webkit-scrollbar {
-    height: 12px;
-  }
-
-  .menu::-webkit-scrollbar-track {
-    background:
-      radial-gradient(circle at 50% 0%, rgba(255, 214, 122, 0.05), transparent 22%),
-      linear-gradient(180deg, rgba(18, 22, 30, 0.98), rgba(8, 10, 15, 1));
-    border-top: 1px solid rgba(255, 224, 158, 0.04);
-  }
-
-  .menu::-webkit-scrollbar-thumb {
-    border: 2px solid rgba(11, 14, 20, 0.98);
-    border-radius: 999px;
-    background:
-      linear-gradient(180deg, #f5ddb0 0%, #c89a3d 50%, #8f6112 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 248, 231, 0.46),
-      inset 0 -1px 0 rgba(109, 72, 10, 0.28),
-      0 0 0 1px rgba(255, 220, 146, 0.06),
-      0 6px 14px rgba(0, 0, 0, 0.16);
-  }
-
-  .menu-indicator {
-    bottom: 1px;
-    height: 2px;
-  }
-
-  .menu a {
-    white-space: nowrap;
-    font-size: 13px;
-    padding: 8px 10px;
-  }
-
-  .logo {
-    font-size: 22px;
-  }
-
-  .logo-circle {
-    width: 42px;
-    height: 42px;
-    font-size: 33px;
-  }
-
-  .btn-reserva {
-    margin-left: auto;
-  }
-}
-
+/* Laptop comum / pequeno (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   body {
     padding-top: 105px;
@@ -388,5 +312,63 @@ body {
     padding: 9px 15px;
     font-size: 11.6px;
     border-radius: 14px;
+  }
+}
+
+/* Tablet e mobile (≤980px) — sobrepõe as regras do laptop acima */
+@media (max-width: 980px) {
+  body {
+    padding-top: 110px;
+  }
+
+  .navbar {
+    width: calc(100% - 24px);
+    top: 12px;
+    border-radius: 20px;
+    padding: 10px 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .navbar.navbar-compact {
+    top: 8px;
+  }
+
+  .menu {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu-indicator {
+    bottom: 1px;
+    height: 2px;
+  }
+
+  .menu a {
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .logo-circle {
+    width: 42px;
+    height: 42px;
+    font-size: 33px;
+  }
+
+  .btn-reserva {
+    margin-left: auto;
   }
 }

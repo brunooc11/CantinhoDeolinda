@@ -208,6 +208,7 @@
   }
 }
 
+/* Laptop comum / pequeno (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   .menu-categorias {
     padding: 82px 18px 94px;
@@ -251,5 +252,106 @@
   .menu-list li span,
   .menu-list li strong {
     font-size: 0.92rem;
+  }
+}
+
+/* Tablet vertical (≤1024px) */
+@media (max-width: 1024px) {
+  .menu-categorias {
+    padding: 72px 16px 80px;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+
+  .menu-tabs {
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+}
+
+/* Tablet vertical (≤768px) */
+@media (max-width: 768px) {
+  .menu-categorias {
+    padding: 64px 16px 72px;
+  }
+
+  .menu-categorias h2 {
+    font-size: clamp(1.8rem, 5vw, 2.2rem);
+  }
+
+  .menu-tabs {
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .tab-btn {
+    font-size: 0.86rem;
+    padding: 9px 14px;
+    min-height: 44px;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 100%;
+  }
+}
+
+/* Mobile (≤480px) — sobrepõe as regras acima */
+@media (max-width: 480px) {
+  .menu-categorias {
+    padding: 52px 12px 60px;
+  }
+
+  .menu-categorias h2 {
+    font-size: clamp(1.6rem, 7.5vw, 1.9rem);
+  }
+
+  .menu-categorias p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .menu-tabs {
+    gap: 6px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tab-btn {
+    font-size: 0.79rem;
+    padding: 9px 12px;
+    min-height: 44px;
+    flex: 0 0 auto;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .item {
+    padding: 14px;
+    min-height: 0;
+  }
+
+  .item h3 {
+    font-size: 0.95rem;
+    gap: 8px;
+  }
+
+  .item p,
+  .menu-list li span,
+  .menu-list li strong {
+    font-size: 0.88rem;
+  }
+
+  .menu-list li {
+    gap: 8px;
+    padding-bottom: 5px;
   }
 }

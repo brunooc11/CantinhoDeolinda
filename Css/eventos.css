@@ -152,27 +152,7 @@
   transform: translateY(-2px);
 }
 
-@media (max-width: 900px) {
-  .catering-wrapper {
-    flex-direction: column;
-    text-align: center;
-    gap: 60px;
-  }
-
-  .catering-info h2 {
-    font-size: 2rem;
-    max-width: none;
-  }
-
-  .catering-info p {
-    max-width: 100%;
-  }
-
-  .catering-info::after {
-    margin: 0 auto;
-  }
-}
-
+/* Laptop comum / pequeno (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   .catering {
     padding: 102px 6%;
@@ -209,5 +189,108 @@
   .catering-box img {
     width: 116px;
     height: 116px;
+  }
+}
+
+/* Tablet e mobile (≤900px) — sobrepõe as regras do laptop acima */
+@media (max-width: 900px) {
+  .catering-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 60px;
+  }
+
+  .catering-info h2 {
+    font-size: 2rem;
+    max-width: none;
+  }
+
+  .catering-info p {
+    max-width: 100%;
+  }
+
+  .catering-info::after {
+    margin: 0 auto;
+  }
+}
+
+/* Tablet vertical (≤768px) */
+@media (max-width: 768px) {
+  .catering {
+    padding: 80px 20px;
+  }
+
+  .catering-wrapper {
+    gap: 40px;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(1.85rem, 5.5vw, 2.4rem);
+  }
+
+  .catering-info p {
+    font-size: 0.96rem;
+    line-height: 1.72;
+  }
+
+  .catering-box {
+    width: min(100%, 440px);
+    max-width: none;
+    min-height: 0;
+    padding: 28px 22px;
+    margin-inline: auto;
+  }
+}
+
+/* Mobile (≤480px) */
+@media (max-width: 480px) {
+  .catering {
+    padding: 62px 14px;
+  }
+
+  .catering-wrapper {
+    gap: 26px;
+  }
+
+  .catering-info h5 {
+    font-size: 0.82rem;
+    letter-spacing: 1.6px;
+  }
+
+  .catering-info h2 {
+    font-size: clamp(1.6rem, 7.5vw, 2rem);
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .catering-info p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+
+  .catering-box {
+    width: 100%;
+    padding: 22px 16px;
+    gap: 8px;
+    border-radius: 20px;
+  }
+
+  .catering-box img {
+    width: 88px;
+    height: 88px;
+    margin-bottom: 4px;
+  }
+
+  .catering-box p {
+    font-size: 0.91rem;
+    max-width: 100%;
+  }
+
+  .catering-box button {
+    padding: 12px 20px;
+    min-height: 46px;
+    font-size: 0.88rem;
+    border-radius: 999px;
   }
 }

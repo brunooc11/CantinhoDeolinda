@@ -42,13 +42,7 @@
   bottom: 65px !important;
 }
 
-@media (max-width: 640px) {
-  .back-home-btn {
-    width: 54px;
-    height: 54px;
-  }
-}
-
+/* Laptop (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   .back-home-btn {
     bottom: 22px;
@@ -57,5 +51,41 @@
     height: 54px;
     border-radius: 16px;
     font-size: 22px;
+  }
+}
+
+/* Tablet (≤768px) */
+@media (max-width: 768px) {
+  .back-home-btn {
+    bottom: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    font-size: 20px;
+  }
+}
+
+/* Mobile (≤640px) — sobrepõe as regras do laptop */
+@media (max-width: 640px) {
+  .back-home-btn {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* Mobile pequeno (≤480px) */
+@media (max-width: 480px) {
+  .back-home-btn {
+    bottom: 14px;
+    right: 12px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    font-size: 18px;
+  }
+
+  #backHomeBtn {
+    bottom: 14px;
   }
 }

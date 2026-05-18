@@ -279,47 +279,7 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 1024px) {
-  .card {
-    min-width: 50%;
-  }
-}
-
-@media (max-width: 680px) {
-  .card {
-    min-width: 100%;
-    padding: 8px;
-  }
-
-  .card img {
-    height: 310px;
-  }
-
-  .carousel-container .btn {
-    width: 40px;
-    height: 40px;
-    font-size: 19px;
-  }
-
-  .carousel-container .prev {
-    left: 6px;
-  }
-
-  .carousel-container .next {
-    right: 6px;
-  }
-
-  .carousel-indicators {
-    gap: 7px;
-    margin-top: 6px;
-  }
-
-  .carousel-dot {
-    width: 9px;
-    height: 9px;
-  }
-}
-
+/* Laptop comum / pequeno (≤1366px) — vem primeiro para ser sobreposto pelos breakpoints menores */
 @media (max-width: 1366px) {
   .menu-section {
     padding: 84px 0 28px;
@@ -363,5 +323,76 @@
     width: 42px;
     height: 42px;
     font-size: 20px;
+  }
+}
+
+/* Tablet (≤1024px) */
+@media (max-width: 1024px) {
+  .card {
+    min-width: 50%;
+  }
+
+  .card img {
+    height: 290px;
+  }
+}
+
+/* Tablet vertical (≤768px) — sobrepõe as regras de tablet acima */
+@media (max-width: 768px) {
+  .card {
+    min-width: 50%;
+  }
+
+  .card img {
+    height: 265px;
+  }
+}
+
+/* Mobile (≤680px) — sobrepõe as regras de tablet acima */
+@media (max-width: 680px) {
+  .card {
+    min-width: 100%;
+    padding: 8px;
+  }
+
+  .card img {
+    height: 300px;
+  }
+
+  .carousel-container .btn {
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+  }
+
+  .carousel-container .prev {
+    left: 6px;
+  }
+
+  .carousel-container .next {
+    right: 6px;
+  }
+
+  .carousel-indicators {
+    gap: 7px;
+    margin-top: 6px;
+  }
+
+  .carousel-dot {
+    width: 9px;
+    height: 9px;
+  }
+}
+
+/* Mobile pequeno (≤480px) */
+@media (max-width: 480px) {
+  .card img {
+    height: 240px;
+  }
+
+  .carousel-container .btn {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
   }
 }
