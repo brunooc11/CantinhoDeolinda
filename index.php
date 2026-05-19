@@ -419,7 +419,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               </p>
               <p class="contact-line">
                 <span class="contact-icon"><i class="fa-solid fa-envelope"></i></span>
-                <a class="contact-link-animated" href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3Acantinhodeolinda%40gmail.com" target="_blank" rel="noopener noreferrer">cantinhodeolinda@gmail.com</a>
+                <a class="contact-link-animated" href="https://mail.google.com/mail/?extsrc=mailto&url=mailto%3Acantinhodeolina%40gmail.com" target="_blank" rel="noopener noreferrer">cantinhodeolina@gmail.com</a>
               </p>
               <p class="contact-line">
                 <span class="contact-icon"><i class="fa-solid fa-location-dot"></i></span>

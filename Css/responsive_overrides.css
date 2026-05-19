@@ -1484,12 +1484,16 @@ button,
   }
 
   .prefooter-container {
-    grid-template-columns: 1fr;
-    gap: 26px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
   }
 
-  .prefooter-text,
-  .prefooter-col {
+  .prefooter-left {
+    grid-column: 1 / -1;
+    margin-bottom: 26px;
+  }
+
+  .prefooter-text {
     max-width: none;
     align-items: center;
     text-align: center;
@@ -1509,15 +1513,24 @@ button,
     justify-content: center;
   }
 
-  .prefooter-col ul {
-    width: 100%;
-    border-left: none;
-    padding-left: 0;
+  /* dissolve cols so os filhos passam a ser itens diretos da grid */
+  .prefooter-col-links,
+  .prefooter-col-social {
+    display: contents;
   }
 
+  .prefooter-col-links > h4 { grid-column: 1; grid-row: 2; text-align: center; margin-bottom: 14px; }
+  .prefooter-col-links > ul { grid-column: 1; grid-row: 3; text-align: center; align-items: center; width: 100%; border-left: none; padding-left: 0; }
+  .prefooter-col-social > h4 { grid-column: 2; grid-row: 2; text-align: center; margin-bottom: 14px; }
+  .prefooter-col-social > ul { grid-column: 2; grid-row: 3; text-align: center; align-items: center; width: 100%; border-left: none; padding-left: 0; }
+
   .pf-icons {
+    grid-column: 1 / -1;
+    grid-row: 4;
     justify-content: center;
     padding-left: 0;
+    flex-wrap: nowrap;
+    margin-top: 20px;
   }
 
   /* ── Footer ── */
@@ -1583,12 +1596,24 @@ button,
   }
 
   .menu {
-    gap: 0px;
+    gap: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    min-width: 0;
+    scrollbar-width: none;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
   }
 
   .menu a {
     font-size: 9px;
-    padding: 4px 2px;
+    padding: 4px 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   /* gold-shape: ocupa toda a largura e fica mais transparente em mobile */

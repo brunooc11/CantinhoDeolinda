@@ -316,17 +316,17 @@
   }
 
   .menu-tabs {
-    gap: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
     margin-bottom: 22px;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 
   .tab-btn {
-    font-size: 0.79rem;
-    padding: 9px 12px;
+    font-size: 0.84rem;
+    padding: 10px 12px;
     min-height: 44px;
-    flex: 0 0 auto;
+    width: 100%;
   }
 
   .menu-grid {
