@@ -800,12 +800,14 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
               <span class="logo-circle">C</span>
               <span class="logo-text">antinho_Deolinda</span>
             </div>
-            <h3>Queres provar a<br>nossa comida?</h3>
-            <?php if (isset($_SESSION['id'])): ?>
-              <button class="btt-padrao-login" id="prefooter" onclick="document.getElementById('openReservaModal').click()">Reserva Agora</button>
-            <?php else: ?>
-              <a href="login.php" class="btt-padrao-login" id="prefooter">Reserva Agora</a>
-            <?php endif; ?>
+            <div class="prefooter-cta-row">
+              <h3>Queres provar a<br>nossa comida?</h3>
+              <?php if (isset($_SESSION['id'])): ?>
+                <button class="btt-padrao-login" id="prefooter" onclick="document.getElementById('openReservaModal').click()">Reserva Agora</button>
+              <?php else: ?>
+                <a href="login.php" class="btt-padrao-login" id="prefooter">Reserva Agora</a>
+              <?php endif; ?>
+            </div>
           </div>
         </div>
 

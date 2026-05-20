@@ -415,3 +415,31 @@ html.fonts-ready .texto::after {
     letter-spacing: 0.28em;
   }
 }
+
+@media (max-width: 480px) {
+  .loader-wrapper .container {
+    --frigideira-size: 150px;
+    height: min(280px, 58vh);
+  }
+
+  .frigideira {
+    width: var(--frigideira-size);
+    height: var(--frigideira-size);
+  }
+
+  .pega {
+    width: 120px;
+    right: -92px;
+  }
+
+  .ovo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .texto {
+    font-size: 0.82rem;
+    letter-spacing: 0.2px;
+    padding-inline: 6px;
+  }
+}

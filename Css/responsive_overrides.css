@@ -106,6 +106,14 @@ button,
   min-width: 25%;
 }
 
+/* ===== Navbar grande: menu items maiores (≥981px) ===== */
+@media (min-width: 981px) {
+  .navbar .menu a {
+    font-size: 16px !important;
+    padding: 9px 16px !important;
+  }
+}
+
 /* ===== Full HD / 1920×1080 (≥1920px) ===== */
 @media (min-width: 1920px) {
   .landing-page .content {
@@ -511,8 +519,39 @@ button,
     display: none;
   }
 
+  .menu li {
+    flex-shrink: 0;
+  }
+
   .menu a {
     white-space: nowrap;
+  }
+
+  .logo {
+    font-size: 20px;
+    min-width: 0;
+  }
+
+  .logo-circle {
+    width: 38px;
+    height: 38px;
+    font-size: 30px;
+    margin-right: -5px;
+  }
+
+  .logo-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+
+  .btn-reserva {
+    flex-shrink: 0;
+    width: auto;
+    margin-left: auto;
   }
 
   .landing-page .content {
@@ -750,6 +789,24 @@ button,
   .cdol-admin .admin-clear-btn {
     flex: 1 1 180px;
   }
+}
+
+/* ===== Navbar médio/pequeno (481–1024px): grid garante logo+RESERVAS na mesma linha ===== */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .navbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "logo . reserva"
+      "menu menu menu";
+    row-gap: 6px;
+    column-gap: 8px;
+    align-items: center;
+  }
+
+  .logo        { grid-area: logo; }
+  .menu        { grid-area: menu; }
+  .btn-reserva { grid-area: reserva; }
 }
 
 /* Corrige o bug de especificidade do form-grid no contacto:
@@ -1000,16 +1057,41 @@ button,
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
+  .logo {
+    font-size: 20px;
+    min-width: 0;
+  }
+
+  .logo-circle {
+    width: 38px;
+    height: 38px;
+    font-size: 30px;
+    margin-right: -5px;
+  }
+
+  .logo-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+
   .menu {
     gap: 0px;
   }
 
   .menu a {
-    font-size: 11px;
-    padding: 5px 5px;
+    font-size: 6px;
+    padding: 4px 3px;
+    white-space: nowrap;
   }
 
   .btn-reserva {
+    flex-shrink: 0;
+    width: auto;
+    margin-left: auto;
     padding: 7px 10px;
     font-size: 10.5px;
     border-radius: 13px;
@@ -1490,27 +1572,51 @@ button,
 
   .prefooter-left {
     grid-column: 1 / -1;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
   }
 
   .prefooter-text {
+    width: 100%;
     max-width: none;
     align-items: center;
     text-align: center;
   }
 
-  .prefooter-text h3 {
-    font-size: clamp(1.4rem, 7vw, 1.75rem);
-    text-align: center;
-    max-width: none;
+  /* Logo prefooter: maior em mobile */
+  #logo-prefooter {
+    transform: none;
+    font-size: 22px;
   }
 
-  #prefooter {
+  #logo-prefooter .logo-circle {
+    width: 44px;
+    height: 44px;
+    font-size: 36px;
+  }
+
+  #logo-prefooter .logo-text {
+    font-size: 19px;
+  }
+
+  /* h3 + botão: grid 1fr/1fr alinhado com colunas SOBRE NÓS / RECURSOS abaixo */
+  .prefooter-cta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .prefooter-cta-row h3 {
+    text-align: center;
+    margin: 0;
+    font-size: clamp(0.95rem, 4.5vw, 1.2rem);
+  }
+
+  .prefooter-cta-row #prefooter {
+    width: 100%;
     max-width: 100%;
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0;
   }
 
   /* dissolve cols so os filhos passam a ser itens diretos da grid */
@@ -1550,9 +1656,19 @@ button,
     top: 8px;
     padding: 10px 12px 12px;
     border-radius: 18px;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "logo reserva"
+      "menu  menu  ";
+    row-gap: 4px;
+    column-gap: 6px;
     animation: navbar-enter-mobile 0.72s cubic-bezier(0.22, 1, 0.36, 1);
   }
+
+  .logo        { grid-area: logo; }
+  .menu        { grid-area: menu; }
+  .btn-reserva { grid-area: reserva; }
 
   @keyframes navbar-enter-mobile {
     from { opacity: 0; transform: translateY(-12px) scale(0.98); }
@@ -1567,22 +1683,24 @@ button,
   .logo {
     font-size: 16px;
     min-width: 0;
+    overflow: hidden;
   }
 
   .logo-circle {
-    width: 32px;
-    height: 32px;
-    font-size: 24px;
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
     margin-right: -4px;
+    flex-shrink: 0;
   }
 
   .logo-text {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: none;
-    font-size: 13px;
-    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 9.5px;
+    letter-spacing: -0.3px;
+    line-height: 1.5;
+    padding-bottom: 2px;
   }
 
   /* RESERVAS — auto width, pushed right by margin-left:auto */
@@ -1603,6 +1721,7 @@ button,
     width: 100%;
     min-width: 0;
     scrollbar-width: none;
+    justify-content: space-between;
   }
 
   .menu::-webkit-scrollbar {
@@ -1610,10 +1729,11 @@ button,
   }
 
   .menu a {
-    font-size: 9px;
-    padding: 4px 4px;
+    font-size: 8.5px;
+    padding: 3px 2px;
     flex-shrink: 0;
     white-space: nowrap;
+    letter-spacing: -0.2px;
   }
 
   /* gold-shape: ocupa toda a largura e fica mais transparente em mobile */
@@ -2080,6 +2200,13 @@ button,
   }
 }
 
+/* ===== Navbar médio (≤400px): sobrepõe o ≤480px ===== */
+@media (max-width: 400px) {
+  .menu a {
+    font-size: 7.8px;
+  }
+}
+
 @media (max-width: 360px) {
   .navbar {
     left: 94px;
@@ -2091,9 +2218,25 @@ button,
     font-size: 16px;
   }
 
+  .logo-circle {
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+  }
+
+  .logo-text {
+    font-size: 7.4px;
+    letter-spacing: -0.4px;
+  }
+
+  .btn-reserva {
+    padding: 5px 5px;
+    font-size: 8px;
+  }
+
   .menu a {
-    font-size: 11px;
-    padding-inline: 8px;
+    font-size: 7px;
+    padding: 3px 1px;
   }
 
   /* ── Landing page: mobile 360px ── */
