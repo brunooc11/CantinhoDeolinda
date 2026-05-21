@@ -27,21 +27,21 @@ const sectionImages = {
 };
 
 const itemImages = {
-  "bacalhau-a-casa": "https://images.unsplash.com/photo-1626200419199-391ae4be7a41",
-  "bacalhau-a-lagareiro": "https://images.unsplash.com/photo-1626200419199-391ae4be7a41",
-  "acorda-de-bacalhau-com-gambas-no-pao": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
-  "polvo-a-lagareiro": "https://images.unsplash.com/photo-1612874742237-6526221588e3",
-  "bife-a-casa": "https://images.unsplash.com/photo-1544025162-d76694265947",
-  "espetadas-de-porco-preto": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
-  picanha: "https://images.unsplash.com/photo-1558030006-450675393462",
+  "bacalhau-a-casa": "https://images.unsplash.com/photo-1764333580740-b327847301b1",
+  "bacalhau-a-lagareiro": "https://images.unsplash.com/photo-1729553310340-02b916e68ed5",
+  "acorda-de-bacalhau-com-gambas-no-pao": "https://images.unsplash.com/photo-1614549099339-729737b3cfd9",
+  "polvo-a-lagareiro": "https://images.unsplash.com/photo-1731601816614-2423297fe97b",
+  "bife-a-casa": "https://images.unsplash.com/photo-1657143375273-75371e23f7f0",
+  "espetadas-de-porco-preto": "https://images.unsplash.com/photo-1717809184558-597a0f1b9eb0",
+  picanha: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba",
   "costeleta-de-novilho": "https://images.unsplash.com/photo-1546964124-0cce460f38ef",
-  secretos: "https://images.unsplash.com/photo-1529692236671-f1dc01f55c0c",
-  "cozido-a-portuguesa": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+  secretos: "https://images.unsplash.com/photo-1569352304334-6e422cd70ecd",
+  "cozido-a-portuguesa": "https://images.unsplash.com/photo-1770164678239-89706708a496",
   "mini-prato-bebida": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
   "sopa-de-legumes": "https://images.unsplash.com/photo-1547592180-85f173990554",
   "sopa-de-peixe": "https://images.unsplash.com/photo-1547592166-23ac45744acd",
   "vinho-da-casa": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd",
-  "sumo-natural": "https://images.unsplash.com/photo-1553530666-ba11a90f7c14"
+  "sumo-natural": "https://images.unsplash.com/photo-1640625488786-ac3975ac3bf4"
 };
 
 function slugify(text) {
@@ -190,10 +190,12 @@ function extractMenuItems() {
 
       const h3 = itemBox.querySelector("h3");
       if (!h3) return;
-      const priceEl = h3.querySelector("span");
+      const h3Clone = h3.cloneNode(true);
+      h3Clone.querySelectorAll(".fav-btn").forEach((btn) => btn.remove());
+      const priceEl = h3Clone.querySelector("span");
       const nome = priceEl
-        ? h3.textContent.replace(priceEl.textContent, "").trim()
-        : h3.textContent.trim();
+        ? h3Clone.textContent.replace(priceEl.textContent, "").trim()
+        : h3Clone.textContent.trim();
       const preco = priceEl ? priceEl.textContent.trim() : "";
       const id = slugify(nome);
       if (!id || seen.has(id)) return;

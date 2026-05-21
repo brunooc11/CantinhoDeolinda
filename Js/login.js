@@ -2,13 +2,25 @@ const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
 
+function adjustMobileHeight() {
+  if (!container) return;
+  if (window.innerWidth > 480) { container.style.minHeight = ''; return; }
+  const isSignUp = container.classList.contains('right-panel-active');
+  container.style.minHeight = isSignUp ? '660px' : '440px';
+}
+
 signUpButton.addEventListener('click', () => {
   container.classList.add("right-panel-active");
+  adjustMobileHeight();
 });
 
 signInButton.addEventListener('click', () => {
   container.classList.remove("right-panel-active");
+  adjustMobileHeight();
 });
+
+adjustMobileHeight();
+window.addEventListener('resize', adjustMobileHeight);
 
 /* Mostrar / esconder password */
 document.querySelectorAll('.toggle-pass').forEach(btn => {

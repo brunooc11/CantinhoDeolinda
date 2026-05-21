@@ -384,8 +384,8 @@
 
   .chat-box {
     right: 10px;
-    left: 10px;
-    width: auto;
+    left: auto;
+    width: min(300px, calc(100vw - 60px));
     bottom: 132px;
     height: min(72vh, 580px);
     border-radius: 20px;
@@ -425,29 +425,47 @@
     border-radius: 18px;
   }
 
+  .chat-header {
+    padding: 11px 16px 9px;
+  }
+
   .chat-title {
-    font-size: 16px;
+    font-size: 15px;
+  }
+
+  .chat-messages {
+    padding: 12px 13px;
+    gap: 8px;
+  }
+
+  .chat-input {
+    padding: 8px 10px;
   }
 
   .chat-input input {
     font-size: 13px;
-    height: 40px;
+    height: 38px;
   }
 
   .chat-input button {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     font-size: 14px;
   }
 
   .msg {
     font-size: 13px;
-    padding: 10px 11px;
+    padding: 9px 11px;
+  }
+
+  .quick-btns {
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
   }
 
   .quick-btns button {
     font-size: 11px;
-    padding: 8px 7px;
-    min-height: 40px;
+    padding: 8px 6px;
+    min-height: 38px;
   }
 }

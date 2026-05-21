@@ -1054,6 +1054,26 @@ button,
   .reserva-modal-content {
     width: min(440px, 96vw);
   }
+
+  /* Botão Voltar nas páginas de recursos: fixo no lado direito para não sobrepor o .controlo */
+  .pagina-termos #btt-termos,
+  .pagina-politica #btt-politica,
+  .pagina-ajuda #btt-ajuda,
+  .pagina-institucional .institution-back {
+    position: fixed !important;
+    top: 14px;
+    right: 14px;
+    left: auto;
+    bottom: auto;
+    width: auto;
+    margin: 0;
+    min-height: 58px;
+    padding: 7px 16px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    border-radius: 22px;
+    z-index: 1002;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -1752,22 +1772,22 @@ button,
     display: block;
     min-height: 100vh;
     height: auto;
-    padding: 72px 10px 20px;
+    padding: 68px 10px 14px;
   }
 
   body.pagina-login .container {
     width: 100%;
-    min-height: 740px;
+    min-height: 700px;
     border-radius: 18px;
   }
 
   body.pagina-login form {
-    padding: 18px 14px;
+    padding: 12px 12px;
   }
 
   body.pagina-login .form-container {
-    top: 152px;
-    height: calc(100% - 152px);
+    top: 148px;
+    height: calc(100% - 148px);
   }
 
   body.pagina-login .sign-in-container,
@@ -1777,23 +1797,26 @@ button,
   }
 
   body.pagina-login .overlay-container {
-    height: 152px;
+    height: 148px;
   }
 
   body.pagina-login .overlay-panel {
-    padding: 14px;
+    padding: 10px 14px;
   }
 
   body.pagina-login .overlay-panel h1 {
-    font-size: 1.28rem;
+    font-size: 1.18rem;
   }
 
   body.pagina-login .overlay-panel p {
-    display: none;
+    font-size: 11px;
+    line-height: 1.35;
+    margin: 4px 0 6px;
+    max-width: none;
   }
 
   body.pagina-login .social-container {
-    margin: 10px 0;
+    margin: 6px 0;
   }
 
   body.pagina-login .country-code-box {
@@ -1801,9 +1824,25 @@ button,
     flex-basis: auto;
   }
 
+  body.pagina-login input,
+  body.pagina-login select,
+  body.pagina-login .password-wrapper,
+  body.pagina-login .phone-country-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  body.pagina-login .terms {
+    margin: 5px 0 7px;
+  }
+
   .login-back-link {
     position: static;
     margin: 12px !important;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .recovery-shell {
@@ -1826,6 +1865,7 @@ button,
     top: 8px;
     padding: 5px;
     gap: 5px;
+    overflow: hidden;
   }
 
   .tema-btn {
@@ -1838,16 +1878,19 @@ button,
     height: 17px;
   }
 
-  /* Slider adjusted for 34px buttons: top/left = padding (5px); travel = 34+5 = 39px */
   .controlo::after {
-    top: 5px;
-    left: 5px;
-    width: 34px;
-    height: 34px;
+    display: none !important;
   }
 
-  .controlo[data-theme="escuro"]::after {
-    transform: translateX(39px);
+  /* ── Admin dashboard: alinha hambúrguer com controlo (mesmo top) ── */
+  .cdol-admin-home .admin-home-menu-toggle {
+    top: 8px;
+    left: 8px;
+  }
+
+  .cdol-admin-home .controlo {
+    left: auto;
+    right: 8px;
   }
 
   /* ── Login / Conta button — RIGHT side, vertically aligned with navbar top ── */
@@ -1871,6 +1914,20 @@ button,
     text-align: center;
     z-index: 1002;
     box-shadow: 0 0 8px rgba(245, 166, 35, 0.45), 0 0 16px rgba(245, 166, 35, 0.22);
+  }
+
+  /* Botão Voltar das páginas de recursos: ajuste compacto para ≤480px */
+  .pagina-termos #btt-termos,
+  .pagina-politica #btt-politica,
+  .pagina-ajuda #btt-ajuda,
+  .pagina-institucional .institution-back {
+    top: 8px;
+    right: 8px;
+    min-height: 44px;
+    padding: 5px 12px;
+    font-size: 11px;
+    letter-spacing: 0.2px;
+    border-radius: 14px;
   }
 
   /* Section CTA buttons share the .btt-padrao-login class but must NOT be fixed
@@ -1922,10 +1979,10 @@ button,
 
   .chat-box {
     right: 8px;
-    left: 8px;
-    width: auto;
+    left: auto;
+    width: min(290px, calc(100vw - 60px));
     bottom: 128px;
-    height: min(68vh, 560px);
+    height: min(55vh, 400px);
     border-radius: 18px;
   }
 
@@ -1947,14 +2004,26 @@ button,
   }
 
   .cdol-dash .dashboard-menu {
-    grid-template-columns: 1fr;
-    padding: 8px;
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 6px;
+    gap: 6px;
   }
 
   .cdol-dash .dashboard-menu button {
     width: 100%;
-    min-height: 46px;
+    min-height: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 11px;
+    padding: 8px 4px;
+    border-radius: 10px;
+  }
+
+  .cdol-dash .dashboard-menu button i {
+    font-size: 18px;
   }
 
   .cdol-dash .card {
@@ -2142,7 +2211,7 @@ button,
   }
 
   .reserva-modal {
-    align-items: flex-start;
+    align-items: center;
     padding: 8px;
   }
 
@@ -2327,8 +2396,8 @@ button,
     padding: 42px 10px 34px;
   }
 
-  .prefooter-text h3 {
-    font-size: clamp(1.3rem, 6.5vw, 1.6rem);
+  .prefooter-cta-row h3 {
+    font-size: 0.88rem;
   }
 
   /* ── Admin / Dash ── */
@@ -2338,7 +2407,7 @@ button,
   }
 
   body.pagina-login .container {
-    min-height: 710px;
+    min-height: 670px;
   }
 
   body.pagina-login form {

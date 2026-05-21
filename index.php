@@ -246,33 +246,33 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
         <div class="carousel" id="carousel">
 
           <div class="card">
-            <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Iogurte com frutas">
-            <div class="overlay"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Iogurte com Frutas</div>
+            <img src="https://images.unsplash.com/photo-1731601816614-2423297fe97b?w=800&q=80" alt="Polvo à Lagareiro">
+            <div class="overlay"><i class="fa-solid fa-fish" aria-hidden="true"></i> Polvo à Lagareiro</div>
           </div>
 
           <div class="card">
-            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b" alt="Prato de massa">
-            <div class="overlay"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> Massa Especial</div>
+            <img src="https://images.unsplash.com/photo-1764333580740-b327847301b1?w=800&q=80" alt="Bacalhau à Casa">
+            <div class="overlay"><i class="fa-solid fa-fish-fins" aria-hidden="true"></i> Bacalhau à Casa</div>
           </div>
 
           <div class="card">
-            <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Iogurte com frutas">
-            <div class="overlay"><i class="fa-solid fa-leaf" aria-hidden="true"></i> Salada Fresca</div>
+            <img src="https://images.unsplash.com/photo-1657143375273-75371e23f7f0?w=800&q=80" alt="Bife à Casa">
+            <div class="overlay"><i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i> Bife à Casa</div>
           </div>
 
           <div class="card">
-            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b" alt="Prato de massa">
-            <div class="overlay"><i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i> Bife Grelhado</div>
+            <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=800&q=80" alt="Picanha">
+            <div class="overlay"><i class="fa-solid fa-fire" aria-hidden="true"></i> Picanha</div>
           </div>
 
           <div class="card">
-            <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Iogurte com frutas">
-            <div class="overlay"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i> Sobremesa Doce</div>
+            <img src="https://images.unsplash.com/photo-1717809184558-597a0f1b9eb0?w=800&q=80" alt="Espetadas de Porco Preto">
+            <div class="overlay"><i class="fa-solid fa-utensils" aria-hidden="true"></i> Espetadas de Porco Preto</div>
           </div>
 
           <div class="card">
-            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b" alt="Prato de massa">
-            <div class="overlay"><i class="fa-solid fa-wine-glass" aria-hidden="true"></i> Vinho da Casa</div>
+            <img src="https://images.unsplash.com/photo-1770164678239-89706708a496?w=800&q=80" alt="Cozido à Portuguesa">
+            <div class="overlay"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> Cozido à Portuguesa</div>
           </div>
 
         </div>

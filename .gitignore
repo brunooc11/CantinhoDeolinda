@@ -19,3 +19,6 @@ Seguranca/chatbot_prompt.txt
 # Dependencias e modulos externos
 node_modules/
 vendor/
+
+#dependencias do claude
+.claude
