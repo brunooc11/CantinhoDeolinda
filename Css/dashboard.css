@@ -2465,6 +2465,8 @@ body {
 
 .cdol-dash .conta-info-item {
     min-height: 0;
+    min-width: 0;
+    overflow: hidden;
     padding: 16px 18px;
     border-radius: 18px;
     background:
@@ -2501,6 +2503,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .cdol-dash .conta-actions {
@@ -2662,7 +2665,7 @@ body {
     max-height: calc(100vh - 44px);
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 26px;
+    padding: 20px;
     border-radius: 24px;
     background:
       radial-gradient(circle at top left, rgba(255, 216, 118, 0.1), transparent 26%),
@@ -2672,8 +2675,11 @@ body {
     box-shadow:
       0 30px 70px rgba(0, 0, 0, 0.5),
       inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 212, 95, 0.5) rgba(255, 255, 255, 0.04);
+    scrollbar-width: none;
+}
+
+.cdol-dash .senha-form::-webkit-scrollbar {
+    display: none;
 }
 
 .cdol-dash .senha-form::before {
@@ -3388,4 +3394,54 @@ body {
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+@media (max-width: 480px) {
+  .cdol-dash #bttInicio {
+    position: fixed !important;
+    bottom: 14px !important;
+    right: 12px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 76px !important;
+    text-align: center;
+    z-index: 1002;
+  }
+}
+
+/* Botão "Voltar ao Início" mobile — visível apenas em ≤480px como elemento fixo */
+.btt-inicio-mobile {
+    display: none;
+}
+
+@media (max-width: 480px) {
+    .btt-inicio-desktop {
+        display: none !important;
+    }
+
+    .btt-inicio-mobile {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 8px;
+        right: 8px;
+        bottom: auto;
+        width: 76px;
+        padding: 10px 8px 12px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #f5a623, #ffcc33);
+        color: #000;
+        box-shadow: 0 0 8px rgba(245, 166, 35, 0.45), 0 0 16px rgba(245, 166, 35, 0.22);
+        z-index: 1002;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

@@ -1138,6 +1138,16 @@ html.admin-home-page::-webkit-scrollbar-corner {
     word-break: normal;
 }
 
+.cdol-admin #adminUsersTable th:nth-child(10),
+.cdol-admin #adminUsersTable td:nth-child(10),
+.cdol-admin #adminUsersTable th:nth-child(11),
+.cdol-admin #adminUsersTable td:nth-child(11),
+.cdol-admin #adminUsersTable th:nth-child(12),
+.cdol-admin #adminUsersTable td:nth-child(12) {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
 .cdol-admin #adminUsersTable th:nth-child(11),
 .cdol-admin #adminUsersTable td:nth-child(11) {
     width: 84px;
@@ -1151,6 +1161,11 @@ html.admin-home-page::-webkit-scrollbar-corner {
 .cdol-admin #adminUsersTable .admin-actions-cell .action-btn {
     padding: 6px 8px;
     font-size: 10px;
+    margin: 0;
+}
+
+.cdol-admin #adminUsersTable .admin-actions-cell .admin-inline-form {
+    margin: 0;
 }
 
 /* Reservas table: fit content without horizontal scroll */
@@ -1378,6 +1393,7 @@ html.admin-home-page::-webkit-scrollbar-corner {
     transform: translateY(-2px);
     border-color: rgba(255, 212, 90, 0.34);
 }
+
 
 .cdol-admin .admin-section {
     border-color: rgba(255, 212, 90, 0.14);
@@ -1875,7 +1891,9 @@ html.admin-home-page::-webkit-scrollbar-corner {
 .cdol-admin .admin-table tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
 .cdol-admin .admin-table tbody tr:hover td { background: rgba(255, 212, 90, 0.06); }
 .cdol-admin .admin-actions-cell { display: table-cell; }
-.cdol-admin .admin-actions-cell .action-btn { margin: 3px 4px 3px 0 !important; }
+.cdol-admin .admin-actions-cell .action-btn { margin: 3px 4px 3px 0; }
+.cdol-admin #adminUsersTable .admin-actions-cell .action-btn { margin: 0; }
+.cdol-admin #adminUsersTable .admin-actions-cell .admin-inline-form { margin: 0; }
 .cdol-admin .admin-home-link-copy strong,
 .cdol-admin .admin-home-sidebar-brand strong { letter-spacing: 0.18px; }
 .cdol-admin .admin-home-icon { border-radius: 12px; }

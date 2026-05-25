@@ -728,5 +728,55 @@ if ($result && $result->num_rows > 0) {
     })();
   </script>
   <?php cd_render_theme_script('../', dirname(__DIR__)); ?>
+  <nav class="admin-mobile-nav" aria-label="Navegação admin">
+      <a class="admin-mob-item" data-nav="geral" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.8v-5.5H9.8V21H5a1 1 0 0 1-1-1z"/></svg>
+          <span>Geral</span>
+      </a>
+      <a class="admin-mob-item" data-nav="confirmar" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 12.5 10.2 16 17 8.8"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+          <span>Confirmar</span>
+      </a>
+      <a class="admin-mob-item" data-nav="reservas" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><rect x="4" y="5" width="6" height="6" rx="1.5"/><rect x="14" y="5" width="6" height="6" rx="1.5"/><rect x="4" y="13" width="6" height="6" rx="1.5"/><rect x="14" y="13" width="6" height="6" rx="1.5"/></svg>
+          <span>Reservas</span>
+      </a>
+      <a class="admin-mob-item" data-nav="logs" href="#">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h10"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+          <span>Logs</span>
+      </a>
+      <button type="button" class="admin-mob-item admin-mob-mais" aria-label="Mais opções" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+          <span>Mais</span>
+      </button>
+  </nav>
+  <script>
+  (function () {
+      var bd = window.location.pathname.replace(/\\/g, '/').indexOf('/Bd/') > -1;
+      var p = bd ? '../' : '';
+      var links = { geral: p + 'admin.php', confirmar: p + 'Bd/confirmar_reservas.php', reservas: p + 'admin_reservas.php', logs: p + 'admin_logs.php' };
+      document.querySelectorAll('.admin-mob-item[data-nav]').forEach(function (el) {
+          var nav = el.getAttribute('data-nav');
+          if (links[nav]) el.href = links[nav];
+      });
+      var path = window.location.pathname;
+      var pageMap = { 'admin.php': 'geral', 'confirmar_reservas.php': 'confirmar', 'admin_reservas.php': 'reservas', 'admin_logs.php': 'logs', 'admin_mapa.php': 'mapa', 'admin_feedback.php': 'feedback' };
+      var active = null;
+      for (var k in pageMap) { if (path.indexOf(k) > -1) { active = pageMap[k]; break; } }
+      if (active) {
+          var isMain = ['geral', 'confirmar', 'reservas', 'logs'].indexOf(active) > -1;
+          var activeEl = isMain ? document.querySelector('.admin-mob-item[data-nav="' + active + '"]') : document.querySelector('.admin-mob-mais');
+          if (activeEl) activeEl.classList.add('is-active');
+      }
+      var mais = document.querySelector('.admin-mob-mais');
+      var toggle = document.querySelector('.admin-home-menu-toggle');
+      if (mais && toggle) {
+          mais.addEventListener('click', function () { toggle.click(); });
+          new MutationObserver(function () {
+              mais.setAttribute('aria-expanded', document.body.classList.contains('admin-home-menu-open') ? 'true' : 'false');
+          }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      }
+  })();
+  </script>
 </body>
 </html>

@@ -584,15 +584,181 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                 <a href="index.php"><span class="admin-home-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M7.8 11.2 12.4 6.6 11 5.2 4 12l7 6.8 1.4-1.4-4.6-4.4H20v-2z"/></svg></span><span class="admin-home-link-copy"><strong>Voltar ao site</strong><small>Regressar à homepage</small></span></a>
             </div>
         </aside>
+        <nav class="admin-mobile-nav" aria-label="Navegação admin">
+            <a class="admin-mob-item" data-nav="geral" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.8v-5.5H9.8V21H5a1 1 0 0 1-1-1z"/></svg>
+                <span>Geral</span>
+            </a>
+            <a class="admin-mob-item" data-nav="confirmar" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 12.5 10.2 16 17 8.8"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+                <span>Confirmar</span>
+            </a>
+            <a class="admin-mob-item" data-nav="reservas" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><rect x="4" y="5" width="6" height="6" rx="1.5"/><rect x="14" y="5" width="6" height="6" rx="1.5"/><rect x="4" y="13" width="6" height="6" rx="1.5"/><rect x="14" y="13" width="6" height="6" rx="1.5"/></svg>
+                <span>Reservas</span>
+            </a>
+            <a class="admin-mob-item" data-nav="logs" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h10"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+                <span>Logs</span>
+            </a>
+            <button type="button" class="admin-mob-item admin-mob-mais" aria-label="Mais opções" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+                <span>Mais</span>
+            </button>
+        </nav>
+        <script>
+        (function () {
+            var bd = window.location.pathname.replace(/\\/g, '/').indexOf('/Bd/') > -1;
+            var p = bd ? '../' : '';
+            var links = { geral: p + 'admin.php', confirmar: p + 'Bd/confirmar_reservas.php', reservas: p + 'admin_reservas.php', logs: p + 'admin_logs.php' };
+            document.querySelectorAll('.admin-mob-item[data-nav]').forEach(function (el) {
+                var nav = el.getAttribute('data-nav');
+                if (links[nav]) el.href = links[nav];
+            });
+            var path = window.location.pathname;
+            var pageMap = { 'admin.php': 'geral', 'confirmar_reservas.php': 'confirmar', 'admin_reservas.php': 'reservas', 'admin_logs.php': 'logs', 'admin_mapa.php': 'mapa', 'admin_feedback.php': 'feedback' };
+            var active = null;
+            for (var k in pageMap) { if (path.indexOf(k) > -1) { active = pageMap[k]; break; } }
+            if (active) {
+                var isMain = ['geral', 'confirmar', 'reservas', 'logs'].indexOf(active) > -1;
+                var activeEl = isMain ? document.querySelector('.admin-mob-item[data-nav="' + active + '"]') : document.querySelector('.admin-mob-mais');
+                if (activeEl) activeEl.classList.add('is-active');
+            }
+            var mais = document.querySelector('.admin-mob-mais');
+            var toggle = document.querySelector('.admin-home-menu-toggle');
+            if (mais && toggle) {
+                mais.addEventListener('click', function () { toggle.click(); });
+                new MutationObserver(function () {
+                    mais.setAttribute('aria-expanded', document.body.classList.contains('admin-home-menu-open') ? 'true' : 'false');
+                }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+            }
+        })();
+        </script>
     <?php endif; ?>
 
     <div class="dashboard-header">
         <h1>Olá, <?php echo htmlspecialchars($_SESSION['nome']); ?>!</h1>
         <div class="dashboard-header-actions">
             <?php if (($_SESSION['permissoes'] ?? '') !== 'admin'): ?>
-                <a href="index.php" id="bttInicio" class="btt-padrao-login">&larr; Voltar ao Início</a>
+                <a href="index.php" id="bttInicio" class="btt-padrao-login btt-inicio-desktop">&larr; Voltar ao Início</a>
             <?php endif; ?>
         </div>
+    </div>
+    <?php if (($_SESSION['permissoes'] ?? '') !== 'admin'): ?>
+    <a href="index.php" class="btt-inicio-mobile" aria-label="Voltar ao Início">Voltar</a>
+    <?php endif; ?>
+
+    <div class="form-lateral-card" id="formSenhaCard">
+        <form method="POST" class="senha-form">
+            <?php echo dash_csrf_input(); ?>
+            <button type="button" class="painel-flutuante-fechar" onclick="toggleFormSenha()" aria-label="Fechar painel de alterar palavra-passe">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+            <div class="senha-form-head">
+                <span class="conta-nome-kicker">Segurança da conta</span>
+                <h3>Alterar Palavra-passe</h3>
+                <p>Atualize a sua palavra-passe para manter a conta segura.</p>
+            </div>
+
+            <div class="conta-nome-topbar">
+                <span class="conta-nome-note">
+                    <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                    <span><span class="nota-highlight">Nota:</span> escolha uma palavra-passe forte e segura.</span>
+                </span>
+            </div>
+
+            <div class="senha-form-grid">
+                <label class="senha-field">
+                    <span>Palavra-passe atual</span>
+                    <div class="senha-input-wrap">
+                        <input id="senhaAtualInput" type="password" name="senha_atual" placeholder="Digite a palavra-passe atual" required>
+                        <button type="button" class="senha-toggle" data-target="senhaAtualInput" aria-label="Mostrar ou ocultar palavra-passe atual">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </label>
+                <label class="senha-field">
+                    <span>Nova palavra-passe</span>
+                    <div class="senha-input-wrap">
+                        <input id="novaSenhaInput" type="password" name="nova_senha" placeholder="Digite a nova palavra-passe" required>
+                        <button type="button" class="senha-toggle" data-target="novaSenhaInput" aria-label="Mostrar ou ocultar nova palavra-passe">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </label>
+                <label class="senha-field">
+                    <span>Confirmar nova palavra-passe</span>
+                    <div class="senha-input-wrap">
+                        <input id="confirmarSenhaInput" type="password" name="confirmar_senha" placeholder="Confirme a nova palavra-passe" required>
+                        <button type="button" class="senha-toggle" data-target="confirmarSenhaInput" aria-label="Mostrar ou ocultar confirmação da palavra-passe">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </label>
+            </div>
+
+            <ul class="senha-checklist" id="senhaChecklist" aria-live="polite">
+                <li id="ruleLength">Mínimo 8 caracteres</li>
+                <li id="ruleUpper">Tem letra maiúscula</li>
+                <li id="ruleLower">Tem letra minúscula</li>
+                <li id="ruleNumber">Tem número</li>
+                <li id="ruleSymbol">Tem símbolo (!@#...)</li>
+                <li id="ruleCurrentMatch">Palavra-passe atual correta</li>
+                <li id="ruleMatch">Confirmação coincide</li>
+            </ul>
+
+            <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
+                Guardar alteração
+            </button>
+        </form>
+    </div>
+
+    <div class="form-lateral-card" id="formNomeCard">
+        <form method="POST" class="senha-form conta-nome-form">
+            <?php echo dash_csrf_input(); ?>
+            <button type="button" class="painel-flutuante-fechar" onclick="toggleFormNome()" aria-label="Fechar painel de alterar nome">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+            <div class="senha-form-head conta-nome-head">
+                <span class="conta-nome-kicker">Identidade do perfil</span>
+                <h3>Alterar Nome</h3>
+                <p>Altera o nome visível no teu perfil.</p>
+            </div>
+
+            <div class="conta-nome-topbar">
+                <span class="conta-nome-note">
+                    <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                    <span><span class="nota-highlight">Nota:</span> só podes alterar o nome 1 vez a cada 3 meses</span>
+                </span>
+            </div>
+
+            <div class="conta-nome-grid">
+                <div class="conta-nome-preview">
+                    <span class="label">Nome atual</span>
+                    <strong><?php echo htmlspecialchars($_SESSION['nome']); ?></strong>
+                    <small>Este é o nome que aparece atualmente associado ao teu perfil e às tuas interações.</small>
+                    <div class="conta-nome-preview-pill">
+                        <i class="fa-regular fa-id-badge" aria-hidden="true"></i>
+                        Perfil visível
+                    </div>
+                </div>
+
+                <div class="conta-nome-editor">
+                    <label class="senha-field conta-nome-field">
+                        <span>Novo nome</span>
+                        <input type="text" name="novo_nome" value="<?php echo htmlspecialchars($_SESSION['nome']); ?>" placeholder="Digite o novo nome" maxlength="60" required>
+                    </label>
+                    <div class="conta-nome-guidance">
+                        <p class="conta-nome-helper">Escolhe um nome claro e consistente, para que a conta continue fácil de identificar.</p>
+                        <p class="conta-nome-helper-subtle">Evita abreviações confusas ou mudanças frequentes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="conta-nome-actions">
+                <button type="submit" name="alterar_nome" class="btt-padrao-login">Guardar alteração</button>
+            </div>
+        </form>
     </div>
 
     <div class="dashboard-menu">
@@ -666,54 +832,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                 </button>
             </div>
 
-            <div class="form-lateral-card" id="formNomeCard">
-                <form method="POST" class="senha-form conta-nome-form">
-                    <?php echo dash_csrf_input(); ?>
-                    <button type="button" class="painel-flutuante-fechar" onclick="toggleFormNome()" aria-label="Fechar painel de alterar nome">
-                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                    </button>
-                    <div class="senha-form-head conta-nome-head">
-                        <span class="conta-nome-kicker">Identidade do perfil</span>
-                        <h3>Alterar Nome</h3>
-                        <p>Atualiza a forma como o teu nome aparece na conta, com uma apresentação mais cuidada e consistente.</p>
-                    </div>
-
-                    <div class="conta-nome-topbar">
-                        <span class="conta-nome-note">
-                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
-                            <span><span class="nota-highlight">Nota:</span> só podes alterar o nome 1 vez a cada 3 meses</span>
-                        </span>
-                    </div>
-
-                    <div class="conta-nome-grid">
-                        <div class="conta-nome-preview">
-                            <span class="label">Nome atual</span>
-                            <strong><?php echo htmlspecialchars($_SESSION['nome']); ?></strong>
-                            <small>Este é o nome que aparece atualmente associado ao teu perfil e às tuas interações.</small>
-                            <div class="conta-nome-preview-pill">
-                                <i class="fa-regular fa-id-badge" aria-hidden="true"></i>
-                                Perfil visível
-                            </div>
-                        </div>
-
-                        <div class="conta-nome-editor">
-                            <label class="senha-field conta-nome-field">
-                                <span>Novo nome</span>
-                                <input type="text" name="novo_nome" value="<?php echo htmlspecialchars($_SESSION['nome']); ?>" placeholder="Digite o novo nome" maxlength="60" required>
-                            </label>
-                            <div class="conta-nome-guidance">
-                                <p class="conta-nome-helper">Escolhe um nome claro e consistente, para que a conta continue fácil de identificar.</p>
-                                <p class="conta-nome-helper-subtle">Evita abreviações confusas ou mudanças frequentes.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="conta-nome-actions">
-                        <button type="submit" name="alterar_nome" class="btt-padrao-login">Guardar alteração</button>
-                    </div>
-                </form>
-            </div>
-
             <div class="conta-password-section">
                 <div class="conta-password-hero">
                     <div class="conta-password-copy">
@@ -738,70 +856,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     </button>
                 </div>
 
-                <div class="form-lateral-card" id="formSenhaCard">
-                <form method="POST" class="senha-form">
-                    <?php echo dash_csrf_input(); ?>
-                    <button type="button" class="painel-flutuante-fechar" onclick="toggleFormSenha()" aria-label="Fechar painel de alterar palavra-passe">
-                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                    </button>
-                    <div class="senha-form-head">
-                        <span class="conta-nome-kicker">Segurança da conta</span>
-                        <h3>Alterar Palavra-passe</h3>
-                        <p>Atualize a sua palavra-passe para manter a conta segura.</p>
-                    </div>
-
-                    <div class="conta-nome-topbar">
-                        <span class="conta-nome-note">
-                            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-                            <span><span class="nota-highlight">Nota:</span> escolha uma palavra-passe forte e segura.</span>
-                        </span>
-                    </div>
-
-                    <div class="senha-form-grid">
-                        <label class="senha-field">
-                            <span>Palavra-passe atual</span>
-                            <div class="senha-input-wrap">
-                                <input id="senhaAtualInput" type="password" name="senha_atual" placeholder="Digite a palavra-passe atual" required>
-                                <button type="button" class="senha-toggle" data-target="senhaAtualInput" aria-label="Mostrar ou ocultar palavra-passe atual">
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-                            </div>
-                        </label>
-                        <label class="senha-field">
-                            <span>Nova palavra-passe</span>
-                            <div class="senha-input-wrap">
-                                <input id="novaSenhaInput" type="password" name="nova_senha" placeholder="Digite a nova palavra-passe" required>
-                                <button type="button" class="senha-toggle" data-target="novaSenhaInput" aria-label="Mostrar ou ocultar nova palavra-passe">
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-                            </div>
-                        </label>
-                        <label class="senha-field">
-                            <span>Confirmar nova palavra-passe</span>
-                            <div class="senha-input-wrap">
-                                <input id="confirmarSenhaInput" type="password" name="confirmar_senha" placeholder="Confirme a nova palavra-passe" required>
-                                <button type="button" class="senha-toggle" data-target="confirmarSenhaInput" aria-label="Mostrar ou ocultar confirmação da palavra-passe">
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-                            </div>
-                        </label>
-                    </div>
-
-                    <ul class="senha-checklist" id="senhaChecklist" aria-live="polite">
-                        <li id="ruleLength">Mínimo 8 caracteres</li>
-                        <li id="ruleUpper">Tem letra maiúscula</li>
-                        <li id="ruleLower">Tem letra minúscula</li>
-                        <li id="ruleNumber">Tem número</li>
-                        <li id="ruleSymbol">Tem símbolo (!@#...)</li>
-                        <li id="ruleCurrentMatch">Palavra-passe atual correta</li>
-                        <li id="ruleMatch">Confirmação coincide</li>
-                    </ul>
-
-                    <button type="submit" id="bttConfirmar" name="alterar_senha" class="btt-padrao-login">
-                        Guardar alteração
-                    </button>
-                </form>
-                </div>
             </div>
 
             <div class="conta-actions-card">
@@ -850,7 +904,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             </div>
 
             <?php if (!empty($reservas)): ?>
-                <div class="table-wrap">
+
+                <!-- Cards mobile -->
+                <div class="reservas-cards-view">
+                    <?php foreach ($reservas as $reserva): ?>
+                        <?php
+                        $agoraTs = time();
+                        $reservaTs = strtotime(($reserva['data'] ?? '') . ' ' . ($reserva['hora'] ?? ''));
+                        $faltamSegundos = $reservaTs - $agoraTs;
+                        $pode_cancelar = ($reservaTs !== false && $faltamSegundos > 7200);
+                        $apos_horario  = ($reservaTs !== false && $faltamSegundos <= 0);
+                        ?>
+                        <div class="reserva-card-item">
+                            <div class="reserva-card-top">
+                                <div class="reserva-card-datetime">
+                                    <span class="reserva-card-data"><i class="fa-regular fa-calendar" aria-hidden="true"></i> <?php echo date("d/m/Y", strtotime($reserva['data'])); ?></span>
+                                    <span class="reserva-card-hora"><i class="fa-regular fa-clock" aria-hidden="true"></i> <?php echo substr($reserva['hora'], 0, 5); ?></span>
+                                </div>
+                                <?php
+                                if ($reserva['confirmado'] == 1)       echo '<span class="status-badge confirmed">Confirmada</span>';
+                                elseif ($reserva['confirmado'] == -1)  echo '<span class="status-badge rejected">Recusada</span>';
+                                else                                   echo '<span class="status-badge pending">Pendente</span>';
+                                ?>
+                            </div>
+                            <div class="reserva-card-bottom">
+                                <span class="reserva-card-pessoas"><i class="fa-solid fa-users" aria-hidden="true"></i> <?php echo htmlspecialchars($reserva['pessoas']); ?> pessoas</span>
+                                <?php if ($pode_cancelar): ?>
+                                    <form method="POST" class="acao-form">
+                                        <?php echo dash_csrf_input(); ?>
+                                        <input type="hidden" name="id_reserva" value="<?php echo $reserva['id']; ?>">
+                                        <button class="btn-cancelar" name="cancelar_reserva"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+                                    </form>
+                                <?php elseif ($apos_horario): ?>
+                                    <span class="status-badge expired">Prazo expirado</span>
+                                <?php else: ?>
+                                    <span class="status-badge pending">Contacte-nos</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <!-- Tabela desktop -->
+                <div class="table-wrap reservas-table-view">
                     <table class="tabela-reservas">
                     <thead>
                         <tr>
@@ -912,7 +1008,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                     </tbody>
 
                     </table>
-                </div>
+                </div><!-- /.reservas-table-view -->
             <?php else: ?>
                 <p>Ainda não há reservas.</p>
             <?php endif; ?>

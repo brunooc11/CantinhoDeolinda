@@ -38,12 +38,20 @@ function toggleFormNome() {
             form.classList.remove('aberto');
             void form.offsetWidth;
             form.classList.add('closing');
+            document.body.classList.remove('nome-painel-aberto');
+            if (window.innerWidth <= 480) {
+                document.body.style.overflow = '';
+            }
         }
         return;
     }
 
     form.classList.remove('closing');
     form.classList.add('aberto');
+    if (window.innerWidth <= 480) {
+        document.body.classList.add('nome-painel-aberto');
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 (function initAlterarSenhaUI() {

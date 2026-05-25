@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!modal) return;
     modal.classList.remove("fechando");
     modal.classList.add("aberto");
+    if (window.innerWidth <= 480) {
+      document.body.classList.add("reserva-aberta");
+    }
   }
 
   function fecharModalReserva() {
@@ -25,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     modal.classList.add("fechando");
+    document.body.classList.remove("reserva-aberta");
   }
 
   // Esconde o modal inicialmente

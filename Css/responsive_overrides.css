@@ -791,6 +791,7 @@ button,
   }
 }
 
+
 /* ===== Navbar médio/pequeno (481–1024px): grid garante logo+RESERVAS na mesma linha ===== */
 @media (min-width: 481px) and (max-width: 1024px) {
   .navbar {
@@ -1208,6 +1209,99 @@ button,
     border-left: 0;
     border-top: 1px solid var(--card-border);
   }
+
+  .cdol-dash #formNomeCard {
+    padding: 10px !important;
+  }
+
+  .cdol-dash #formNomeCard .conta-nome-form {
+    max-height: calc(100dvh - 20px) !important;
+    padding: 14px !important;
+  }
+
+  .cdol-dash .conta-nome-preview,
+  .cdol-dash .conta-nome-editor {
+    padding: 10px 12px;
+  }
+
+  .cdol-dash .conta-nome-grid {
+    gap: 6px;
+  }
+
+  .cdol-dash .conta-nome-topbar {
+    margin-bottom: 6px;
+  }
+
+  .cdol-dash .conta-nome-actions {
+    margin-top: 10px;
+  }
+
+  .cdol-dash .conta-nome-kicker {
+    margin-bottom: 4px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .cdol-dash .senha-form-head {
+    margin-bottom: 8px;
+  }
+
+  .cdol-dash .conta-nome-form .senha-form-head h3 {
+    font-size: clamp(16px, 3.2vw, 22px);
+    margin-bottom: 4px;
+  }
+
+  .cdol-dash .conta-nome-form .senha-form-head p {
+    font-size: 12px;
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  .cdol-dash .conta-nome-preview strong {
+    font-size: clamp(16px, 2.8vw, 20px);
+    margin-top: 4px;
+  }
+
+  .cdol-dash .conta-nome-preview small {
+    font-size: 11px;
+    line-height: 1.3;
+    margin-top: 4px;
+  }
+
+  .cdol-dash .conta-nome-helper,
+  .cdol-dash .conta-nome-helper-subtle {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .cdol-dash .conta-nome-guidance {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .cdol-dash .conta-nome-field input {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .cdol-dash .conta-nome-preview .label {
+    font-size: 10px;
+  }
+
+  .cdol-dash .conta-nome-preview-pill {
+    margin-top: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+/* Admin mobile nav: oculto por defeito, aparece só em ≤480px */
+.admin-mobile-nav {
+  display: none;
+}
+/* Overflow menu "Mais": oculto fora de mobile */
+.admin-mob-mais-menu {
+  display: none;
 }
 
 @media (max-width: 480px) {
@@ -1993,8 +2087,29 @@ button,
     height: 50px;
   }
 
+  /* Transição suave para chatbot, back-home e controlo */
+  #btnChat,
+  #backHomeBtn,
+  .controlo {
+    transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .reserva-aberta #btnChat,
+  .reserva-aberta #backHomeBtn {
+    opacity: 0 !important;
+    transform: scale(0.7) !important;
+    pointer-events: none !important;
+  }
+
+  /* Esconde controlo e botão voltar quando painel de alterar nome está aberto */
+  .nome-painel-aberto .controlo,
+  .nome-painel-aberto .btt-inicio-mobile {
+    opacity: 0 !important;
+    transform: scale(0.7) !important;
+    pointer-events: none !important;
+  }
+
   .cdol-dash .dashboard-header,
-  .cdol-dash .dashboard-menu,
   .cdol-dash .card {
     width: calc(100% - 20px);
   }
@@ -2003,31 +2118,390 @@ button,
     padding: 16px 14px;
   }
 
+  /* ── User: Bottom Navigation Bar ≤480px ── */
   .cdol-dash .dashboard-menu {
-    grid-template-columns: repeat(3, 1fr);
-    padding: 6px;
-    gap: 6px;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.09) !important;
+    background: rgba(14, 11, 4, 0.97) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0 !important;
+    z-index: 90 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5) !important;
   }
 
   .cdol-dash .dashboard-menu button {
-    width: 100%;
-    min-height: 58px;
+    flex: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    padding: 10px 4px !important;
+    min-height: 60px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.04) !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+    transition: color 0.18s ease !important;
+  }
+
+  .cdol-dash .dashboard-menu button:last-child {
+    border-right: none !important;
+  }
+
+  .cdol-dash .dashboard-menu button::before {
+    display: none !important;
+  }
+
+  .cdol-dash .dashboard-menu button i {
+    font-size: 20px !important;
+    color: inherit !important;
+    margin: 0 !important;
+    transition: transform 0.18s ease !important;
+  }
+
+  .cdol-dash .dashboard-menu button.active {
+    color: #ffd777 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .cdol-dash .dashboard-menu button.active i {
+    color: #ffd777 !important;
+    transform: translateY(-2px) scale(1.08) !important;
+  }
+
+  .cdol-dash .dashboard-menu button.active::after {
+    top: 0 !important;
+    bottom: auto !important;
+    left: 25% !important;
+    right: 25% !important;
+    width: auto !important;
+    height: 3px !important;
+    border-radius: 0 0 3px 3px !important;
+    background: linear-gradient(90deg, #f5b42f, #ffd256) !important;
+    box-shadow: 0 0 8px rgba(245, 180, 47, 0.5) !important;
+  }
+
+  /* Tab content preenche o ecrã e garante espaço para o bottom nav */
+  .cdol-dash #Conta,
+  .cdol-dash #Reservas,
+  .cdol-dash #Favoritos {
+    min-height: calc(100dvh - 130px - env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Elevar z-index dos painéis flutuantes acima do bottom nav */
+  .cdol-dash #formNomeCard.aberto,
+  .cdol-dash #formNomeCard.closing,
+  .cdol-dash #formSenhaCard.aberto,
+  .cdol-dash #formSenhaCard.closing {
+    z-index: 200 !important;
+  }
+
+  /* ── Admin: Bottom Navigation Bar ≤480px ── */
+  .cdol-admin-home .admin-home-menu-toggle {
+    display: none !important;
+  }
+
+  .admin-mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    display: flex;
+    flex-direction: row;
+    background: rgba(14, 11, 4, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 90;
+  }
+
+  .admin-mob-item {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    font-size: 11px;
-    padding: 8px 4px;
-    border-radius: 10px;
+    padding: 10px 4px;
+    min-height: 60px;
+    border: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.18s ease;
   }
 
-  .cdol-dash .dashboard-menu button i {
-    font-size: 18px;
+  .admin-mob-item:last-child {
+    border-right: none;
+  }
+
+  .admin-mob-item svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform 0.18s ease;
+  }
+
+  .admin-mob-item:hover {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  /* Item ativo */
+  .admin-mob-item.is-active {
+    color: #ffd777;
+  }
+
+  .admin-mob-item.is-active svg {
+    transform: translateY(-2px) scale(1.08);
+  }
+
+  .admin-mob-item {
+    position: relative;
+  }
+
+  .admin-mob-item.is-active::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(90deg, #f5b42f, #ffd256);
+    box-shadow: 0 0 8px rgba(245, 180, 47, 0.5);
+  }
+
+  /* Botão "Mais" ativo quando sidebar está aberta */
+  .admin-home-menu-open .admin-mob-mais {
+    color: #ffd777;
+  }
+
+  .admin-home-menu-open .admin-mob-mais svg {
+    transform: scale(1.08);
+  }
+
+  .admin-home-menu-open .admin-mob-mais::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(90deg, #f5b42f, #ffd256);
+    box-shadow: 0 0 8px rgba(245, 180, 47, 0.5);
+  }
+
+  /* Menu de overflow "Mais" (páginas que não são dashboard) */
+  .admin-mob-mais-menu {
+    display: block;
+    position: fixed;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    right: 0;
+    background: rgba(18, 14, 6, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    z-index: 91;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.22s ease, opacity 0.22s ease;
+    pointer-events: none;
+  }
+
+  .admin-mob-mais-open .admin-mob-mais-menu {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .admin-mob-mais-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .admin-mob-mais-item:last-child {
+    border-bottom: none;
+  }
+
+  .admin-mob-mais-item:hover,
+  .admin-mob-mais-item.is-active {
+    color: #ffd777;
+    background: rgba(255, 215, 119, 0.06);
+  }
+
+  .admin-mob-mais-item svg {
+    flex-shrink: 0;
+    color: inherit;
+  }
+
+  /* Botão "Mais" ativo quando overflow menu está aberto */
+  .admin-mob-mais-open .admin-mob-mais {
+    color: #ffd777;
+  }
+
+  .admin-mob-mais-open .admin-mob-mais svg {
+    transform: scale(1.08);
+  }
+
+  .admin-mob-mais-open .admin-mob-mais::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(90deg, #f5b42f, #ffd256);
+    box-shadow: 0 0 8px rgba(245, 180, 47, 0.5);
+  }
+
+  /* Ajuste do sidebar admin em mobile — ocupa mais largura */
+  .cdol-admin-home .admin-home-sidebar {
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: min(85vw, 300px) !important;
+    border-radius: 0 16px 16px 0 !important;
+  }
+
+  /* Admin: tabs Conta/Reservas/Favoritos ficam no fluxo normal (não bottom nav) */
+  .cdol-admin-home .dashboard-menu {
+    position: static !important;
+    width: calc(100% - 20px) !important;
+    max-width: 100% !important;
+    margin: 8px auto 0 !important;
+    padding: 6px !important;
+    gap: 6px !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    background: rgba(20, 20, 20, 0.96) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    box-shadow: none !important;
+    z-index: auto !important;
+  }
+
+  .cdol-admin-home .dashboard-menu button {
+    flex: unset !important;
+    width: 100% !important;
+    border-right: none !important;
+    border: 1px solid transparent !important;
+    border-radius: 9px !important;
+    min-height: 44px !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    font-size: 11px !important;
+    padding: 8px 4px !important;
+    transform: none !important;
+  }
+
+  .cdol-admin-home .dashboard-menu button::before {
+    display: block !important;
+  }
+
+  .cdol-admin-home .dashboard-menu button.active {
+    background: linear-gradient(140deg, #ffd777, #f5b42f) !important;
+    color: #1a1309 !important;
+    box-shadow: 0 4px 12px rgba(245, 180, 47, 0.28) !important;
+  }
+
+  .cdol-admin-home .dashboard-menu button.active i {
+    color: #1a1309 !important;
+    transform: none !important;
+  }
+
+  .cdol-admin-home .dashboard-menu button.active::after {
+    display: none !important;
+  }
+
+  /* Admin tab content: sem min-height forçada, padding para o admin nav em baixo */
+  .cdol-admin-home #Conta,
+  .cdol-admin-home #Reservas,
+  .cdol-admin-home #Favoritos {
+    min-height: 0 !important;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Botão "Voltar ao Início": flutuante no canto inferior direito, fora do header */
+  .cdol-dash #bttInicio {
+    position: fixed !important;
+    bottom: 14px !important;
+    right: 12px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 76px !important;
+    text-align: center;
+    z-index: 1002;
   }
 
   .cdol-dash .card {
     padding: 18px 14px;
+    overflow: hidden;
+  }
+
+  /* Cards de conta/reservas/favoritos: garante margem e sem overflow */
+  .cdol-dash #Conta .card,
+  .cdol-dash #Reservas .card,
+  .cdol-dash #Favoritos .card {
+    width: calc(100% - 16px);
+    margin: 8px auto 16px;
+  }
+
+  /* Painel de detalhes da conta: padding reduzido em mobile */
+  .cdol-dash .conta-details-panel {
+    padding: 14px 14px;
+    border-radius: 16px;
+    margin-top: 14px;
+  }
+
+  /* Heading "Informação da Conta": tamanho adequado para mobile */
+  .cdol-dash .conta-details-head strong {
+    font-size: clamp(20px, 5.5vw, 24px);
+    line-height: 1.2;
   }
 
   .cdol-dash .conta-info-grid,
@@ -2048,7 +2522,7 @@ button,
   }
 
   .cdol-admin .admin-kpis {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .cdol-admin .admin-hero {
@@ -2101,9 +2575,228 @@ button,
     text-align: center;
   }
 
+  /* Search bar: input + botão em linha */
+  .cdol-admin .admin-search-bar {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+
+  .cdol-admin .admin-search-bar input {
+    flex: 1 !important;
+    width: auto !important;
+  }
+
+  .cdol-admin .admin-search-bar .btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    padding: 0 16px !important;
+  }
+
+  /* Filter bar: 2 por linha com flex-wrap */
+  .cdol-admin .admin-filter-bar {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .cdol-admin .admin-filter-bar > select,
+  .cdol-admin .admin-filter-bar > input[type="date"],
+  .cdol-admin .admin-filter-bar > .admin-clear-btn,
+  .cdol-admin .admin-filter-bar > .btn {
+    flex: 1 1 calc(50% - 4px) !important;
+    max-width: calc(50% - 4px) !important;
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  /* --- Tabelas admin: card layout ≤480px --- */
+  .cdol-admin .admin-table-wrap {
+    overflow-x: unset;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+  }
+
   .cdol-admin .admin-table,
   .cdol-logs .logs-table {
-    min-width: 680px;
+    min-width: 0 !important;
+    width: 100%;
+    display: block;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+  }
+
+  .cdol-admin .admin-table thead {
+    display: none;
+  }
+
+  .cdol-admin .admin-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .cdol-admin .admin-table tbody tr {
+    display: block;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    transition: none;
+  }
+
+  .cdol-admin .admin-table tbody tr:hover,
+  .cdol-admin .admin-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .cdol-admin .admin-table td {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 12px;
+    line-height: 1.4;
+    word-break: break-word;
+    color: #e9edf3;
+  }
+
+  .cdol-admin .admin-table td:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .cdol-admin .admin-table td::before {
+    color: rgba(255, 215, 119, 0.75);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+    flex-shrink: 0;
+    width: 115px;
+    padding-top: 1px;
+    white-space: nowrap;
+  }
+
+  #adminUsersTable td:nth-child(1)::before  { content: "Nome"; }
+  #adminUsersTable td:nth-child(2)::before  { content: "Email"; }
+  #adminUsersTable td:nth-child(3)::before  { content: "Telefone"; }
+  #adminUsersTable td:nth-child(4)::before  { content: "Registo"; }
+  #adminUsersTable td:nth-child(5)::before  { content: "Último login"; }
+  #adminUsersTable td:nth-child(6)::before  { content: "Estado"; }
+  #adminUsersTable td:nth-child(7)::before  { content: "Tipo"; }
+  #adminUsersTable td:nth-child(8)::before  { content: "Faltas"; }
+  #adminUsersTable td:nth-child(9)::before  { content: "Lista negra"; }
+  #adminUsersTable td:nth-child(10)::before { content: "Reset"; }
+  #adminUsersTable td:nth-child(11)::before { content: "Ação"; }
+  #adminUsersTable td:nth-child(12)::before { content: "Role"; }
+
+  #adminBlacklistTable td:nth-child(1)::before { content: "Nome"; }
+  #adminBlacklistTable td:nth-child(2)::before { content: "Email"; }
+  #adminBlacklistTable td:nth-child(3)::before { content: "Telefone"; }
+  #adminBlacklistTable td:nth-child(4)::before { content: "Faltas"; }
+  #adminBlacklistTable td:nth-child(5)::before { content: "Última falta"; }
+  #adminBlacklistTable td:nth-child(6)::before { content: "Ação"; }
+
+  #adminReservasTable td:nth-child(1)::before  { content: "ID"; }
+  #adminReservasTable td:nth-child(2)::before  { content: "Cliente"; }
+  #adminReservasTable td:nth-child(3)::before  { content: "Email"; }
+  #adminReservasTable td:nth-child(4)::before  { content: "Telefone"; }
+  #adminReservasTable td:nth-child(5)::before  { content: "Data reserva"; }
+  #adminReservasTable td:nth-child(6)::before  { content: "Hora"; }
+  #adminReservasTable td:nth-child(7)::before  { content: "Pessoas"; }
+  #adminReservasTable td:nth-child(8)::before  { content: "Criada em"; }
+  #adminReservasTable td:nth-child(9)::before  { content: "Confirmação"; }
+  #adminReservasTable td:nth-child(10)::before { content: "Estado"; }
+  #adminReservasTable td:nth-child(11)::before { content: "Ação"; }
+
+  #adminAuditTable td:nth-child(1)::before { content: "ID"; }
+  #adminAuditTable td:nth-child(2)::before { content: "Data/Hora"; }
+  #adminAuditTable td:nth-child(3)::before { content: "Admin"; }
+  #adminAuditTable td:nth-child(4)::before { content: "Ação"; }
+  #adminAuditTable td:nth-child(5)::before { content: "Alvo"; }
+  #adminAuditTable td:nth-child(6)::before { content: "Nome"; }
+  #adminAuditTable td:nth-child(7)::before { content: "Email"; }
+  #adminAuditTable td:nth-child(8)::before { content: "Detalhes"; }
+
+  /* Users: grid 6 colunas — campos curtos 2 por linha */
+  #adminUsersTable tbody tr {
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+  }
+
+  #adminUsersTable td {
+    grid-column: span 6;
+  }
+
+  #adminUsersTable td:nth-child(6),
+  #adminUsersTable td:nth-child(7),
+  #adminUsersTable td:nth-child(8),
+  #adminUsersTable td:nth-child(9) {
+    grid-column: span 3;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 3px;
+    padding: 8px 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  #adminUsersTable td:nth-child(7),
+  #adminUsersTable td:nth-child(9) {
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  #adminUsersTable td:nth-child(6)::before,
+  #adminUsersTable td:nth-child(7)::before,
+  #adminUsersTable td:nth-child(8)::before,
+  #adminUsersTable td:nth-child(9)::before {
+    min-width: 0;
+    font-size: 9px;
+  }
+
+  #adminUsersTable td:nth-child(10),
+  #adminUsersTable td:nth-child(11),
+  #adminUsersTable td:nth-child(12) {
+    grid-column: span 2;
+    align-items: center;
+    padding: 8px 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  /* Ações (Reset/Ação/Role): sem label, botões a largura toda */
+  #adminUsersTable td:nth-child(10)::before,
+  #adminUsersTable td:nth-child(11)::before,
+  #adminUsersTable td:nth-child(12)::before {
+    display: none;
+  }
+
+  #adminUsersTable td:nth-child(10),
+  #adminUsersTable td:nth-child(11),
+  #adminUsersTable td:nth-child(12) {
+    border-bottom: none;
+  }
+
+  #adminUsersTable td:nth-child(10) .admin-inline-form,
+  #adminUsersTable td:nth-child(11) .admin-inline-form,
+  #adminUsersTable td:nth-child(12) .admin-inline-form,
+  #adminUsersTable td:nth-child(10) .action-btn,
+  #adminUsersTable td:nth-child(11) .action-btn,
+  #adminUsersTable td:nth-child(12) .action-btn,
+  #adminUsersTable td:nth-child(10) .status-chip,
+  #adminUsersTable td:nth-child(11) .status-chip,
+  #adminUsersTable td:nth-child(12) .status-chip {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
   }
 
   .cdol-feedback .feedback-filters-grid,
@@ -2431,5 +3124,239 @@ button,
   .pagina-institucional .institution-side-card,
   .pagina-institucional .institution-card {
     padding: 14px;
+  }
+
+  .cdol-dash .conta-hero-badges {
+    flex-wrap: nowrap;
+  }
+
+  .cdol-dash .conta-hero-badge {
+    font-size: 10px;
+    padding: 5px 9px;
+    white-space: nowrap;
+  }
+
+  /* ── "Alterar Nome" panel mobile ── */
+  .cdol-dash #formNomeCard {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding: 16px !important;
+  }
+
+  .cdol-dash #formNomeCard:not(.aberto):not(.closing) {
+    display: none !important;
+  }
+
+  .cdol-dash #formNomeCard.aberto,
+  .cdol-dash #formNomeCard.closing {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .cdol-dash #formNomeCard .conta-nome-form {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-height: calc(100dvh - 32px) !important;
+    margin: 0 !important;
+    padding: 16px 14px 20px !important;
+    overflow-y: auto !important;
+  }
+
+
+  .cdol-dash .conta-nome-head h3,
+  .cdol-dash .conta-nome-form .senha-form-head h3 {
+    font-size: clamp(16px, 5vw, 20px);
+    margin-bottom: 4px;
+  }
+
+  .cdol-dash .conta-nome-kicker {
+    padding: 5px 10px;
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .cdol-dash .conta-nome-topbar {
+    margin-bottom: 10px;
+  }
+
+  .cdol-dash .conta-nome-note {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .cdol-dash .conta-nome-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cdol-dash .conta-nome-preview {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .cdol-dash .conta-nome-preview strong {
+    font-size: clamp(18px, 5.5vw, 22px);
+    margin-top: 6px;
+  }
+
+
+  .cdol-dash .conta-nome-preview-pill {
+    margin-top: 10px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .cdol-dash .conta-nome-editor {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .cdol-dash .conta-nome-field input {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+
+  .cdol-dash .conta-nome-actions {
+    margin-top: 16px;
+  }
+
+  /* ── "Alterar Senha" panel mobile ── */
+  .cdol-dash #formSenhaCard {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding: 16px !important;
+  }
+
+  .cdol-dash #formSenhaCard:not(.aberto):not(.closing) {
+    display: none !important;
+  }
+
+  .cdol-dash #formSenhaCard.aberto,
+  .cdol-dash #formSenhaCard.closing {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .cdol-dash #formSenhaCard .senha-form {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-height: calc(100dvh - 32px) !important;
+    margin: 0 !important;
+    padding: 16px 14px 20px !important;
+    overflow-y: auto !important;
+  }
+
+  .cdol-dash #formSenhaCard .senha-form-head p {
+    display: none;
+  }
+
+  .cdol-dash #formSenhaCard .senha-form-head h3 {
+    font-size: clamp(16px, 5vw, 20px);
+    margin-bottom: 4px;
+  }
+
+  .cdol-dash #formSenhaCard .senha-field input {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .cdol-dash .senha-checklist {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .cdol-dash .senha-checklist li {
+    padding: 3px 0;
+    font-size: 12px;
+  }
+
+  .cdol-dash #bttConfirmar {
+    min-width: unset !important;
+    width: 100%;
+    margin-top: 14px;
+  }
+}
+
+/* ── Reservas: cards mobile (≤768px) ── */
+.reservas-cards-view  { display: none !important; }
+.reservas-table-view  { display: block !important; }
+
+@media (max-width: 768px) {
+  .reservas-table-view { display: none !important; }
+  .reservas-cards-view {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .reserva-card-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: linear-gradient(160deg, rgba(40, 38, 30, 0.9), rgba(22, 21, 16, 0.95));
+    border: 1px solid rgba(255, 216, 118, 0.12);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+
+  .reserva-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .reserva-card-datetime {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .reserva-card-data {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff0c2;
+  }
+
+  .reserva-card-hora {
+    font-size: 12px;
+    color: #bba980;
+  }
+
+  .reserva-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 216, 118, 0.08);
+  }
+
+  .reserva-card-pessoas {
+    font-size: 12px;
+    color: #bba980;
   }
 }
