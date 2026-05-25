@@ -534,7 +534,7 @@ if ($result && $result->num_rows > 0) {
   <title>Confirmar Reservas</title>
   <link rel="stylesheet" href="../Css/admin.css?v=<?php echo filemtime(__DIR__ . '/../Css/admin.css'); ?>">
   <link rel="stylesheet" href="../Css/bttlogin.css">
-  <link rel="stylesheet" href="../Css/confirmar_reservas.css">
+  <link rel="stylesheet" href="../Css/confirmar_reservas.css?v=<?php echo filemtime(__DIR__ . '/../Css/confirmar_reservas.css'); ?>">
   <?php cd_render_theme_head('../', dirname(__DIR__)); ?>
 
 </head>
@@ -583,7 +583,7 @@ if ($result && $result->num_rows > 0) {
       <section class="grid">
         <?php foreach ($reservas as $row): ?>
           <?php $mesasLivres = get_available_mesa_options($con, (string)$row['data_reserva'], (string)$row['hora_reserva'], (int)$row['id']); ?>
-          <article class="card" data-reserva-id="<?php echo (int)$row['id']; ?>">
+          <article class="card<?php echo $row !== $reservas[0] ? ' is-collapsed' : ''; ?>" data-reserva-id="<?php echo (int)$row['id']; ?>">
             <div class="card-top">
               <div>
                 <h2 class="name"><?php echo esc($row['nome']); ?></h2>
@@ -595,10 +595,10 @@ if ($result && $result->num_rows > 0) {
                   type="button"
                   class="card-toggle-btn"
                   data-action="toggle-card"
-                  aria-expanded="true"
-                  aria-label="Minimizar reserva"
-                  title="Minimizar reserva"
-                >-</button>
+                  aria-expanded="<?php echo $row === $reservas[0] ? 'true' : 'false'; ?>"
+                  aria-label="<?php echo $row === $reservas[0] ? 'Minimizar reserva' : 'Expandir reserva'; ?>"
+                  title="<?php echo $row === $reservas[0] ? 'Minimizar reserva' : 'Expandir reserva'; ?>"
+                ><?php echo $row === $reservas[0] ? '-' : '+'; ?></button>
               </div>
             </div>
 
@@ -623,20 +623,25 @@ if ($result && $result->num_rows > 0) {
                   <?php echo csrf_input(); ?>
                   <p class="mesa-help">Selecione uma ou mais mesas ou conjuntos para compor a capacidade:</p>
                   <?php if (count($mesasLivres) > 0): ?>
-                    <p class="mesa-summary"><?php echo count($mesasLivres); ?> opções disponíveis</p>
+                    <button type="button" class="mesa-toggle-btn" aria-expanded="false" data-action="toggle-mesas">
+                      <?php echo count($mesasLivres); ?> opções disponíveis
+                      <span class="mesa-toggle-arrow" aria-hidden="true">&#9660;</span>
+                    </button>
+                    <div class="mesa-grid-wrap">
                     <div class="mesa-grid">
                       <?php foreach ($mesasLivres as $mesa): ?>
                         <label class="mesa-check">
-                          <input type="checkbox" name="mesas[]" value="<?php echo esc($mesa['value']); ?>">
+                          <input type="checkbox" name="mesas[]" value="<?php echo esc($mesa['value']); ?>" data-cap="<?php echo (int)$mesa['capacidade']; ?>">
                           <span class="mesa-check-txt">
                             <span class="mesa-check-id"><?php echo esc($mesa['display_name']); ?></span>
                             <?php if ((string)($mesa['detail'] ?? '') !== ''): ?>
                               <span class="mesa-check-detail"><?php echo esc($mesa['detail']); ?></span>
                             <?php endif; ?>
-                            <span class="mesa-check-cap"><?php echo (int)$mesa['capacidade']; ?> lugares</span>
+                            <span class="mesa-check-cap"><?php echo (int)$mesa['capacidade']; ?> lg.</span>
                           </span>
                         </label>
                       <?php endforeach; ?>
+                    </div>
                     </div>
                   <?php else: ?>
                     <p class="mesa-empty">Sem mesas disponíveis para este horário.</p>
@@ -651,7 +656,7 @@ if ($result && $result->num_rows > 0) {
 
                 <div class="action-buttons">
                   <?php if (count($mesasLivres) > 0): ?>
-                    <button type="submit" class="btn btn-ok btn-decision" form="confirmForm-<?php echo (int)$row['id']; ?>">Confirmar</button>
+                    <button type="submit" class="btn btn-ok btn-decision" form="confirmForm-<?php echo (int)$row['id']; ?>" data-pessoas="<?php echo (int)$row['numero_pessoas']; ?>" disabled>Confirmar</button>
                   <?php else: ?>
                     <button type="button" class="btn btn-ok btn-decision" disabled>Confirmar</button>
                   <?php endif; ?>
@@ -680,6 +685,36 @@ if ($result && $result->num_rows > 0) {
             btn.setAttribute("title", collapsed ? "Expandir reserva" : "Minimizar reserva");
           });
       });
+
+      document.querySelectorAll("[data-action='toggle-mesas']").forEach((btn) => {
+        const wrap = btn.nextElementSibling;
+        if (!wrap) return;
+        btn.addEventListener("click", () => {
+          const open = wrap.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      });
+
+      document.querySelectorAll(".card").forEach((card) => {
+        const confirmBtn = card.querySelector(".btn-ok[data-pessoas]");
+        if (!confirmBtn) return;
+        const pessoas = parseInt(confirmBtn.getAttribute("data-pessoas") || "0", 10);
+        const checkboxes = card.querySelectorAll("input[type='checkbox'][data-cap]");
+        if (checkboxes.length === 0) return;
+
+        function updateConfirm() {
+          let total = 0;
+          checkboxes.forEach((cb) => {
+            if (cb.checked) total += parseInt(cb.getAttribute("data-cap") || "0", 10);
+          });
+          const valid = total >= pessoas && total <= pessoas + 1;
+          confirmBtn.disabled = !valid;
+          confirmBtn.textContent = total > 0 ? "Confirmar · " + total + " lg." : "Confirmar";
+        }
+
+        checkboxes.forEach((cb) => cb.addEventListener("change", updateConfirm));
+      });
+
     })();
 
     (function () {

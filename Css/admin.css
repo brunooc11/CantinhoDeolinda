@@ -1138,34 +1138,22 @@ html.admin-home-page::-webkit-scrollbar-corner {
     word-break: normal;
 }
 
-.cdol-admin #adminUsersTable th:nth-child(10),
-.cdol-admin #adminUsersTable td:nth-child(10),
-.cdol-admin #adminUsersTable th:nth-child(11),
-.cdol-admin #adminUsersTable td:nth-child(11),
-.cdol-admin #adminUsersTable th:nth-child(12),
-.cdol-admin #adminUsersTable td:nth-child(12) {
-    padding-left: 4px;
-    padding-right: 4px;
+.cdol-admin #adminUsersTable .admin-actions-group {
+    white-space: nowrap;
 }
 
-.cdol-admin #adminUsersTable th:nth-child(11),
-.cdol-admin #adminUsersTable td:nth-child(11) {
-    width: 84px;
+.cdol-admin #adminUsersTable .admin-actions-group .admin-inline-form {
+    display: inline-block;
+    margin: 0 4px 0 0;
 }
 
-.cdol-admin #adminUsersTable th:nth-child(12),
-.cdol-admin #adminUsersTable td:nth-child(12) {
-    width: 108px;
+.cdol-admin #adminUsersTable .admin-actions-group .admin-inline-form:last-of-type {
+    margin-right: 0;
 }
 
-.cdol-admin #adminUsersTable .admin-actions-cell .action-btn {
-    padding: 6px 8px;
-    font-size: 10px;
-    margin: 0;
-}
-
-.cdol-admin #adminUsersTable .admin-actions-cell .admin-inline-form {
-    margin: 0;
+.cdol-admin #adminUsersTable .admin-actions-group .status-chip {
+    vertical-align: middle;
+    margin-right: 4px;
 }
 
 /* Reservas table: fit content without horizontal scroll */
@@ -1282,10 +1270,24 @@ html.admin-home-page::-webkit-scrollbar-corner {
 }
 
 .cdol-admin .admin-filter-help {
-    margin: -2px 0 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 9px 13px;
+    background: rgba(255, 212, 90, 0.07);
+    border: 1px solid rgba(255, 212, 90, 0.18);
+    border-radius: 10px;
     color: #cfcfcf;
     font-size: 12px;
-    line-height: 1.35;
+    line-height: 1.45;
+}
+
+.cdol-admin .admin-filter-help-icon {
+    flex-shrink: 0;
+    font-size: 14px;
+    color: #ffe19a;
+    margin-top: 1px;
 }
 
 .cdol-admin .admin-filter-help strong {
@@ -1574,7 +1576,7 @@ html.admin-home-page::-webkit-scrollbar-corner {
 }
 
 .cdol-admin .admin-filter-help {
-    color: #d7dde6;
+    color: #cfcfcf;
 }
 
 .cdol-admin .botoesNav a {
@@ -1603,6 +1605,10 @@ html.admin-home-page::-webkit-scrollbar-corner {
 }
 
 .cdol-admin .quick-date-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     height: 34px;
     padding: 0 12px;
     border-radius: 999px;
@@ -1750,12 +1756,12 @@ html.admin-home-page::-webkit-scrollbar-corner {
 
 /* Keep user-table action buttons inside fixed columns */
 .cdol-admin #adminUsersTable .admin-actions-cell .action-btn {
-    max-width: 100%;
     padding: 5px 6px !important;
     font-size: 9px !important;
     min-height: 28px;
     border-radius: 9px !important;
     white-space: nowrap;
+    margin: 0 !important;
 }
 
 /* Red actions: Bloquear / N�o Compareceu */
@@ -1843,10 +1849,14 @@ html.admin-home-page::-webkit-scrollbar-corner {
     }
 
     .cdol-admin .admin-filter-bar,
-    .cdol-admin .admin-search-bar,
-    .cdol-admin .quick-date-buttons {
+    .cdol-admin .admin-search-bar {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .cdol-admin .quick-date-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .cdol-admin .admin-filter-bar select,
@@ -1892,9 +1902,30 @@ html.admin-home-page::-webkit-scrollbar-corner {
 .cdol-admin .admin-table tbody tr:hover td { background: rgba(255, 212, 90, 0.06); }
 .cdol-admin .admin-actions-cell { display: table-cell; }
 .cdol-admin .admin-actions-cell .action-btn { margin: 3px 4px 3px 0; }
-.cdol-admin #adminUsersTable .admin-actions-cell .action-btn { margin: 0; }
-.cdol-admin #adminUsersTable .admin-actions-cell .admin-inline-form { margin: 0; }
 .cdol-admin .admin-home-link-copy strong,
 .cdol-admin .admin-home-sidebar-brand strong { letter-spacing: 0.18px; }
 .cdol-admin .admin-home-icon { border-radius: 12px; }
+
+.cdol-admin .admin-empty-state {
+    padding: 20px 16px;
+    text-align: center;
+}
+.cdol-admin .admin-empty-state svg {
+    display: block;
+    margin: 0 auto 10px;
+    opacity: 0.55;
+    width: 32px;
+    height: 32px;
+}
+.cdol-admin .admin-empty-state-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin: 0 0 6px;
+}
+.cdol-admin .admin-empty-state-sub {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
 .cdol-admin .admin-home-icon svg { width: 17px; height: 17px; }

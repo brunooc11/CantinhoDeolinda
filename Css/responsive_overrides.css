@@ -1196,9 +1196,18 @@ button,
     align-items: stretch;
   }
 
-  .cdol-confirmar-admin .meta,
+  .cdol-confirmar-admin .meta {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cdol-confirmar-admin .meta-line span:last-child {
+    font-size: clamp(0.72rem, 2.8vw, 0.95rem);
+    white-space: nowrap;
+  }
+
   .cdol-confirmar-admin .mesa-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
   }
 
   .recovery-shell {
@@ -2665,6 +2674,8 @@ button,
     font-size: 12px;
     line-height: 1.4;
     word-break: break-word;
+    overflow-wrap: anywhere;
+    min-width: 0;
     color: #e9edf3;
   }
 
@@ -2695,9 +2706,7 @@ button,
   #adminUsersTable td:nth-child(7)::before  { content: "Tipo"; }
   #adminUsersTable td:nth-child(8)::before  { content: "Faltas"; }
   #adminUsersTable td:nth-child(9)::before  { content: "Lista negra"; }
-  #adminUsersTable td:nth-child(10)::before { content: "Reset"; }
-  #adminUsersTable td:nth-child(11)::before { content: "Ação"; }
-  #adminUsersTable td:nth-child(12)::before { content: "Role"; }
+  #adminUsersTable td:nth-child(10)::before { content: "Ações"; }
 
   #adminBlacklistTable td:nth-child(1)::before { content: "Nome"; }
   #adminBlacklistTable td:nth-child(2)::before { content: "Email"; }
@@ -2705,18 +2714,39 @@ button,
   #adminBlacklistTable td:nth-child(4)::before { content: "Faltas"; }
   #adminBlacklistTable td:nth-child(5)::before { content: "Última falta"; }
   #adminBlacklistTable td:nth-child(6)::before { content: "Ação"; }
+  #adminBlacklistTable td[colspan]::before { display: none; }
 
   #adminReservasTable td:nth-child(1)::before  { content: "ID"; }
   #adminReservasTable td:nth-child(2)::before  { content: "Cliente"; }
   #adminReservasTable td:nth-child(3)::before  { content: "Email"; }
   #adminReservasTable td:nth-child(4)::before  { content: "Telefone"; }
-  #adminReservasTable td:nth-child(5)::before  { content: "Data reserva"; }
+  #adminReservasTable td:nth-child(5)::before  { content: "Data / Hora"; }
+  #adminReservasTable td:nth-child(5)::after   { content: " · " attr(data-hora); color: #aaa; }
+  #adminReservasTable td:nth-child(6)          { display: none; }
   #adminReservasTable td:nth-child(6)::before  { content: "Hora"; }
   #adminReservasTable td:nth-child(7)::before  { content: "Pessoas"; }
   #adminReservasTable td:nth-child(8)::before  { content: "Criada em"; }
   #adminReservasTable td:nth-child(9)::before  { content: "Confirmação"; }
   #adminReservasTable td:nth-child(10)::before { content: "Estado"; }
   #adminReservasTable td:nth-child(11)::before { content: "Ação"; }
+  #adminReservasTable td.admin-reserva-no-actions { display: none; }
+
+  #adminAuditTable td {
+    display: block !important;
+    position: relative !important;
+    padding: 5px 0 5px 125px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  #adminAuditTable td::before {
+    position: absolute !important;
+    left: 0 !important;
+    top: 6px !important;
+    width: 115px !important;
+  }
 
   #adminAuditTable td:nth-child(1)::before { content: "ID"; }
   #adminAuditTable td:nth-child(2)::before { content: "Data/Hora"; }
@@ -2763,40 +2793,40 @@ button,
     font-size: 9px;
   }
 
-  #adminUsersTable td:nth-child(10),
-  #adminUsersTable td:nth-child(11),
-  #adminUsersTable td:nth-child(12) {
-    grid-column: span 2;
+  /* Célula única de ações */
+  #adminUsersTable td:nth-child(10) {
+    grid-column: span 6;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    padding: 8px 4px;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 6px;
     border-top: 1px solid rgba(255, 255, 255, 0.07);
-  }
-
-  /* Ações (Reset/Ação/Role): sem label, botões a largura toda */
-  #adminUsersTable td:nth-child(10)::before,
-  #adminUsersTable td:nth-child(11)::before,
-  #adminUsersTable td:nth-child(12)::before {
-    display: none;
-  }
-
-  #adminUsersTable td:nth-child(10),
-  #adminUsersTable td:nth-child(11),
-  #adminUsersTable td:nth-child(12) {
     border-bottom: none;
   }
 
-  #adminUsersTable td:nth-child(10) .admin-inline-form,
-  #adminUsersTable td:nth-child(11) .admin-inline-form,
-  #adminUsersTable td:nth-child(12) .admin-inline-form,
-  #adminUsersTable td:nth-child(10) .action-btn,
-  #adminUsersTable td:nth-child(11) .action-btn,
-  #adminUsersTable td:nth-child(12) .action-btn,
-  #adminUsersTable td:nth-child(10) .status-chip,
-  #adminUsersTable td:nth-child(11) .status-chip,
-  #adminUsersTable td:nth-child(12) .status-chip {
+  #adminUsersTable td:nth-child(10)::before {
+    display: none;
+  }
+
+  #adminUsersTable td:nth-child(10) .admin-inline-form {
+    flex: 1;
+    margin: 0 !important;
+    min-width: 0;
+  }
+
+  #adminUsersTable td:nth-child(10) .action-btn {
     width: 100%;
     text-align: center;
-    justify-content: center;
+    margin: 0 !important;
+  }
+
+  #adminUsersTable td:nth-child(10) .status-chip {
+    flex: 1;
+    text-align: center;
+    width: auto;
+    margin: 0 !important;
   }
 
   .cdol-feedback .feedback-filters-grid,
@@ -2891,9 +2921,42 @@ button,
     align-items: stretch;
   }
 
-  .cdol-confirmar-admin .meta,
+  .cdol-confirmar-admin .meta {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cdol-confirmar-admin .meta-line span:last-child {
+    font-size: clamp(0.65rem, 2.6vw, 0.95rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .cdol-confirmar-admin .mesa-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+
+  .cdol-confirmar-admin .mesa-check {
+    align-items: flex-start;
+    height: auto;
+    min-height: 0;
+  }
+
+  .cdol-confirmar-admin .mesa-check-id {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(0.65rem, 2.4vw, 0.78rem);
+    max-width: 100%;
+  }
+
+  .cdol-confirmar-admin .mesa-check-detail {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(0.58rem, 2vw, 0.68rem);
+    max-width: 100%;
   }
 
   .cdol-confirmar-admin .btn-decision,

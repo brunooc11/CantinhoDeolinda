@@ -285,6 +285,12 @@ body.cdol-admin-home .page {
   box-shadow: 0 8px 18px rgba(64, 219, 143, 0.28);
 }
 
+.btn-ok:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 .btn-no {
   color: #fff1f1;
   background: linear-gradient(135deg, #f78484, var(--cr-red));
@@ -298,6 +304,10 @@ body.cdol-admin-home .page {
 }
 
 .mesa-summary {
+  display: none;
+}
+
+.mesa-toggle-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -309,6 +319,31 @@ body.cdol-admin-home .page {
   color: #c7f8de;
   font-size: 0.77rem;
   font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+
+.mesa-toggle-btn:hover {
+  background: rgba(64, 219, 143, 0.26);
+  border-color: rgba(117, 240, 173, 0.75);
+}
+
+.mesa-toggle-arrow {
+  display: inline-block;
+  transition: transform .2s ease;
+}
+
+.mesa-toggle-btn[aria-expanded="true"] .mesa-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.mesa-grid-wrap {
+  display: none;
+}
+
+.mesa-grid-wrap.is-open {
+  display: block;
 }
 
 .mesa-grid {
@@ -316,6 +351,7 @@ body.cdol-admin-home .page {
   grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
   gap: 8px;
   margin-bottom: 12px;
+  align-items: start;
 }
 
 .mesa-check {
@@ -422,7 +458,7 @@ body.cdol-admin-home .page {
   }
 
   .meta {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .name {

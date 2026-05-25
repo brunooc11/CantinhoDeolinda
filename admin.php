@@ -514,9 +514,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     <th>Tipo</th>
                     <th>Faltas</th>
                     <th>Lista Negra</th>
-                    <th>Reset</th>
-                    <th>Ação</th>
-                    <th>Role</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -585,8 +583,9 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     echo "<td><span class='status-chip ok'>Não</span></td>";
                 }
 
-                // Mostrar botão de reset se houver faltas
-                echo "<td class='admin-actions-cell'>";
+                // Célula única com os 3 botões de ação
+                echo "<td class='admin-actions-cell admin-actions-group'>";
+
                 if ($faltasUser > 0) {
                     echo "<form method='post' class='admin-inline-form'>";
                     echo cd_csrf_input();
@@ -595,10 +594,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                 } else {
                     echo "<span class='status-chip neutral'>Sem faltas</span>";
                 }
-                echo "</td>";
 
-                // Botão de bloquear/desbloquear
-                echo "<td class='admin-actions-cell'>";
                 if ($user['estado'] == 1) {
                     echo "<form method='post' class='admin-inline-form'>";
                     echo cd_csrf_input();
@@ -610,10 +606,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     echo "<button type='submit' class='action-btn green-btn' name='desbloquear' value='" . (int)$user['id'] . "'>Desbloquear</button>";
                     echo "</form>";
                 }
-                echo "</td>";
 
-
-                echo "<td class='admin-actions-cell'>";
                 if ($user['permissoes'] === 'admin') {
                     echo "<form method='post' class='admin-inline-form'>";
                     echo cd_csrf_input();
@@ -625,6 +618,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     echo "<button type='submit' class='action-btn blue-btn' name='role_admin' value='" . (int)$user['id'] . "'>Tornar Admin</button>";
                     echo "</form>";
                 }
+
                 echo "</td>";
 
                 echo "</tr>";
@@ -695,7 +689,11 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='6'><span class='status-chip ok'>Sem utilizadores na lista negra</span></td></tr>";
+                echo "<tr><td colspan='6'><div class='admin-empty-state'>";
+                echo "<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='#4caf7d' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/><polyline points='9 12 11 14 15 10'/></svg>";
+                echo "<p class='admin-empty-state-title'>Tudo limpo</p>";
+                echo "<p class='admin-empty-state-sub'>Nenhum utilizador se encontra na lista negra de momento.</p>";
+                echo "</div></td></tr>";
             }
             ?>
             </tbody>
@@ -735,15 +733,15 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
             <input type="date" id="adminReservasDataToFilter" aria-label="Data reserva fim">
             <button type="button" class="btn admin-clear-btn" id="adminReservasClearBtn">Limpar</button>
         </div>
-        <p class="admin-filter-help">
-            Dica: os dois campos de data filtram a <strong>Data da Reserva</strong> (início e fim).
-            O filtro "Criada em" usa a data em que a reserva foi registada no sistema.
-        </p>
+        <div class="admin-filter-help">
+            <span class="admin-filter-help-icon">&#9432;</span>
+            <span>Dica: os dois campos de data filtram a <strong>Data da Reserva</strong> (início e fim). O filtro "Criada em" usa a data em que a reserva foi registada no sistema.</span>
+        </div>
         <div class="quick-date-buttons">
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuickHoje">Hoje</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuick7">Últimos 7 dias</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasQuick30">Últimos 30 dias</button>
-            <button type="button" class="btn quick-date-btn" id="adminReservasExportCsvBtn">Exportar CSV</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuickHoje"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Hoje</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuick7"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Últimos 7 dias</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasQuick30"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Últimos 30 dias</button>
+            <button type="button" class="btn quick-date-btn" id="adminReservasExportCsvBtn"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar CSV</button>
         </div>
 
         <div class="admin-table-wrap">
@@ -825,7 +823,7 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
                 $reservaEmail = (string)($r['email'] ?? '');
                 echo "<td><span class='admin-email-text' title='" . esc($reservaEmail) . "'>" . esc($reservaEmail) . "</span></td>";
                 echo "<td>" . esc($r['telefone']) . "</td>";
-                echo "<td>" . esc($r['data_reserva']) . "</td>";
+                echo "<td data-hora='" . esc($r['hora_reserva']) . "'>" . esc($r['data_reserva']) . "</td>";
                 echo "<td>" . esc($r['hora_reserva']) . "</td>";
                 echo "<td>" . esc($r['numero_pessoas']) . "</td>";
                 echo "<td>" . cd_fmt_datetime($r['criada_em_admin'] ?? null) . "</td>";
@@ -842,14 +840,15 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 
 
                 /* btts */
-                echo "<td class='admin-actions-cell'>";
-
                 $estadoAtual = $r['estado'];
+                $temAcoes = ($r['confirmado'] == 1 && $estadoAtual === 'pendente');
+                $tdAcoesClass = $temAcoes ? 'admin-actions-cell' : 'admin-actions-cell admin-reserva-no-actions';
+                echo "<td class='" . $tdAcoesClass . "'>";
 
                 // Mostrar botões APENAS se:
                 // - Reserva está confirmada
                 // - Estado ainda é pendente
-                if ($r['confirmado'] == 1 && $estadoAtual === 'pendente') {
+                if ($temAcoes) {
 
                     echo "<form method='post' class='admin-inline-form'>";
                     echo cd_csrf_input();
