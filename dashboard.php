@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once("config.php");
 require_once("Bd/ligar.php");
 require_once("Bd/popup_helper.php");
@@ -593,13 +593,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 12.5 10.2 16 17 8.8"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
                 <span>Confirmar</span>
             </a>
-            <a class="admin-mob-item" data-nav="reservas" href="#">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><rect x="4" y="5" width="6" height="6" rx="1.5"/><rect x="14" y="5" width="6" height="6" rx="1.5"/><rect x="4" y="13" width="6" height="6" rx="1.5"/><rect x="14" y="13" width="6" height="6" rx="1.5"/></svg>
-                <span>Reservas</span>
+            <a class="admin-mob-item" data-nav="mapa" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M8 6.5 4.5 8v10L8 16.5l4 1.5 3.5-1.5L19.5 18V8l-4 1.5L12 8 8 9.5z"/><path d="M8 6.5v10M12 8v10M15.5 9.5v10"/></svg>
+                <span>Mapa</span>
             </a>
-            <a class="admin-mob-item" data-nav="logs" href="#">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h10"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
-                <span>Logs</span>
+            <a class="admin-mob-item" data-nav="feedback" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><path d="M7 17.5 4.5 20V7a2 2 0 0 1 2-2h11A2.5 2.5 0 0 1 20 7.5v7a2.5 2.5 0 0 1-2.5 2.5z"/><path d="M8 10h8M8 13h5"/></svg>
+                <span>Feedback</span>
             </a>
             <button type="button" class="admin-mob-item admin-mob-mais" aria-label="Mais opções" aria-expanded="false">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
@@ -610,7 +610,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         (function () {
             var bd = window.location.pathname.replace(/\\/g, '/').indexOf('/Bd/') > -1;
             var p = bd ? '../' : '';
-            var links = { geral: p + 'admin.php', confirmar: p + 'Bd/confirmar_reservas.php', reservas: p + 'admin_reservas.php', logs: p + 'admin_logs.php' };
+            var links = { geral: p + 'admin.php', confirmar: p + 'Bd/confirmar_reservas.php', mapa: p + 'admin_mapa.php', feedback: p + 'admin_feedback.php' };
             document.querySelectorAll('.admin-mob-item[data-nav]').forEach(function (el) {
                 var nav = el.getAttribute('data-nav');
                 if (links[nav]) el.href = links[nav];
@@ -620,7 +620,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
             var active = null;
             for (var k in pageMap) { if (path.indexOf(k) > -1) { active = pageMap[k]; break; } }
             if (active) {
-                var isMain = ['geral', 'confirmar', 'reservas', 'logs'].indexOf(active) > -1;
+                var isMain = ['geral', 'confirmar', 'mapa', 'feedback'].indexOf(active) > -1;
                 var activeEl = isMain ? document.querySelector('.admin-mob-item[data-nav="' + active + '"]') : document.querySelector('.admin-mob-mais');
                 if (activeEl) activeEl.classList.add('is-active');
             }

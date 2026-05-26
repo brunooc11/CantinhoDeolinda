@@ -1174,8 +1174,7 @@ button,
 
   .cdol-admin .admin-search-bar,
   .cdol-admin .admin-filter-bar,
-  .cdol-admin .quick-date-buttons,
-  .cdol-admin .logs-filter-actions {
+  .cdol-admin .quick-date-buttons {
     flex-direction: column;
     align-items: stretch;
   }
@@ -1185,10 +1184,29 @@ button,
   .cdol-admin .admin-filter-bar input[type="date"],
   .cdol-admin .admin-search-bar .btn,
   .cdol-admin .admin-clear-btn,
-  .cdol-admin .quick-date-buttons .btn,
-  .cdol-admin .logs-filter-actions .btn,
-  .cdol-admin .logs-reset-link {
+  .cdol-admin .quick-date-buttons .btn {
     width: 100%;
+  }
+
+  .cdol-logs .logs-filter-actions {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+  }
+
+  .cdol-logs .logs-filter-actions .btn {
+    flex: 1 1 calc(50% - 4px) !important;
+    min-width: 0 !important;
+    width: auto !important;
+    text-align: center;
+  }
+
+  .cdol-logs .logs-filter-actions .logs-reset-link {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+    width: auto !important;
+    text-align: center;
   }
 
   .cdol-confirmar-admin .header {
@@ -2528,6 +2546,7 @@ button,
     width: calc(100% - 12px);
     margin: 8px auto 16px;
     padding: 12px;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
   .cdol-admin .admin-kpis {
@@ -2547,7 +2566,6 @@ button,
   .cdol-admin .admin-search-bar,
   .cdol-admin .admin-filter-bar,
   .cdol-admin .quick-date-buttons,
-  .cdol-admin .logs-filter-actions,
   .cdol-admin .admin-site-state,
   .cdol-admin .admin-pagination {
     flex-direction: column;
@@ -2560,8 +2578,6 @@ button,
   .cdol-admin .admin-search-bar .btn,
   .cdol-admin .admin-clear-btn,
   .cdol-admin .quick-date-buttons .btn,
-  .cdol-admin .logs-filter-actions .btn,
-  .cdol-admin .logs-reset-link,
   .cdol-admin .admin-site-state .btn,
   .cdol-admin .admin-pagination .btn {
     width: 100%;
@@ -2868,22 +2884,54 @@ button,
     grid-template-columns: 1fr;
   }
 
-  .cdol-admin.cdol-mapa .admin-kpis,
-  .mapa-grid,
-  .mapa-release-meta {
+  .cdol-logs .logs-filters-grid input[type="text"] {
+    width: 100%;
+    flex: 1 0 100%;
+  }
+
+  .cdol-admin.cdol-mapa .admin-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mapa-grid {
     grid-template-columns: 1fr;
   }
 
-  .mapa-toolbar,
-  .mapa-actions,
+  .mapa-release-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .mapa-release-bar {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .mapa-actions,
+  .mapa-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .mapa-actions {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    flex-wrap: nowrap;
+  }
+
   .mapa-legenda {
     flex-wrap: wrap;
+  }
+
+  .mapa-tip {
+    display: none;
+  }
+
+  .mapa-merge-btn {
+    flex: 1 1 calc(50% - 4px);
+    text-align: center;
+    white-space: nowrap;
   }
 
   .mapa-card {
@@ -3160,6 +3208,10 @@ button,
   .cdol-admin .container,
   .cdol-dash .card {
     padding: 10px;
+  }
+
+  .cdol-admin .container {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
   body.pagina-login .container {

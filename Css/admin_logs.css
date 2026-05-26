@@ -204,15 +204,21 @@
     }
 
     .cdol-logs .logs-filter-actions {
-        justify-content: stretch;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
     .cdol-logs .logs-filter-actions .btn {
-        width: 100%;
+        flex: 1 1 calc(50% - 4px);
         min-width: 0;
+        width: auto;
+        text-align: center;
     }
 
-    .cdol-logs .logs-reset-link {
+    .cdol-logs .logs-filter-actions .logs-reset-link {
+        flex: 1 1 100%;
+        min-width: 0;
+        width: auto;
         text-align: center;
     }
 }
@@ -379,6 +385,79 @@
     background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.28) 50%, transparent 100%);
     transform: translateX(-120%);
     transition: transform 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .cdol-logs .logs-table-wrap {
+        border: none;
+        border-radius: 0;
+        overflow: visible;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .cdol-logs .logs-table,
+    .cdol-logs .logs-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .cdol-logs .logs-table thead {
+        display: none;
+    }
+
+    .cdol-logs .logs-table tbody tr {
+        display: block;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 212, 90, 0.18);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+        transition: background 0.16s ease;
+    }
+
+    .cdol-logs .logs-table tbody tr:nth-child(odd) {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .cdol-logs .logs-table tbody tr:hover {
+        background: rgba(255, 212, 90, 0.08);
+    }
+
+    .cdol-logs .logs-table td {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 4px 0;
+        border-bottom: none;
+        font-size: 13px;
+        overflow: visible;
+        width: 100%;
+    }
+
+    .cdol-logs .logs-table td::before {
+        content: attr(data-label);
+        font-size: 10px;
+        font-weight: 700;
+        color: rgba(255, 212, 90, 0.7);
+        min-width: 68px;
+        flex-shrink: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding-top: 2px;
+    }
+
+    .cdol-logs .logs-table td:nth-child(n) {
+        width: auto;
+    }
+
+    .cdol-logs .logs-table .logs-email-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 180px;
+        display: inline-block;
+    }
 }
 
 .cdol-logs .botoesNav a:hover::after {
