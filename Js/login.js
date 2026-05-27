@@ -279,6 +279,9 @@ function updateCountryFlag() {
 }
 
 if (codigoPaisInput) {
+  if ('ontouchstart' in window || window.innerWidth <= 1024) {
+    codigoPaisInput.removeAttribute('list');
+  }
   codigoPaisInput.addEventListener('input', updateCountryFlag);
   codigoPaisInput.addEventListener('change', updateCountryFlag);
   updateCountryFlag();

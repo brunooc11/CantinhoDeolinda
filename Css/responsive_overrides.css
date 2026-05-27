@@ -722,6 +722,15 @@ button,
     grid-template-columns: 1fr;
   }
 
+  .cdol-feedback .feedback-filters-grid .feedback-filter-actions {
+    grid-column: 1 / -1;
+  }
+
+  .cdol-feedback .feedback-quick-pill {
+    flex: 1 1 calc(50% - 5px);
+    max-width: calc(50% - 5px);
+  }
+
   .cdol-feedback .feedback-meta-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2845,12 +2854,18 @@ button,
     margin: 0 !important;
   }
 
-  .cdol-feedback .feedback-filters-grid,
-  .cdol-feedback .feedback-meta-grid {
+  .cdol-feedback .feedback-filters-grid {
     grid-template-columns: 1fr;
   }
 
-  .cdol-feedback .feedback-filter-actions,
+  .cdol-feedback .feedback-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cdol-feedback .feedback-meta-grid .feedback-meta-card:last-child {
+    grid-column: 1 / -1;
+  }
+
   .cdol-feedback .feedback-actions-grid,
   .cdol-feedback .feedback-reader-hero,
   .cdol-feedback .feedback-panel-head,
@@ -2861,6 +2876,23 @@ button,
     flex-direction: column;
     align-items: stretch;
   }
+
+  .cdol-feedback .feedback-filter-actions {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+
+  .cdol-feedback .feedback-filter-actions .btn,
+  .cdol-feedback .feedback-filter-actions .admin-clear-btn {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    width: 0 !important;
+    text-align: center;
+  }
+
 
   .cdol-feedback .feedback-inbox-panel,
   .cdol-feedback .feedback-reader-panel {

@@ -526,11 +526,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         exit();
     }
 
-    $query = "DELETE FROM reservas WHERE id = ? AND cliente_id = ?";
-    $stmt = mysqli_prepare($con, $query);
-    mysqli_stmt_bind_param($stmt, "ii", $id_reserva, $_SESSION['id']);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+    mysqli_begin_transaction($con);
+    try {
+        $stmtLibertar = mysqli_prepare($con, "UPDATE mesas m JOIN reserva_mesas rm ON rm.mesa_id = m.id SET m.estado = 'livre' WHERE rm.reserva_id = ?");
+        if ($stmtLibertar) {
+            mysqli_stmt_bind_param($stmtLibertar, "i", $id_reserva);
+            mysqli_stmt_execute($stmtLibertar);
+            mysqli_stmt_close($stmtLibertar);
+        }
+
+        $stmtRM = mysqli_prepare($con, "DELETE FROM reserva_mesas WHERE reserva_id = ?");
+        if ($stmtRM) {
+            mysqli_stmt_bind_param($stmtRM, "i", $id_reserva);
+            mysqli_stmt_execute($stmtRM);
+            mysqli_stmt_close($stmtRM);
+        }
+
+        $stmtDel = mysqli_prepare($con, "DELETE FROM reservas WHERE id = ? AND cliente_id = ?");
+        if ($stmtDel) {
+            mysqli_stmt_bind_param($stmtDel, "ii", $id_reserva, $_SESSION['id']);
+            mysqli_stmt_execute($stmtDel);
+            mysqli_stmt_close($stmtDel);
+        }
+
+        mysqli_commit($con);
+    } catch (Throwable $e) {
+        mysqli_rollback($con);
+    }
 
     header("Location: dashboard.php?tab=Reservas");
     exit();
@@ -912,7 +934,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                         $agoraTs = time();
                         $reservaTs = strtotime(($reserva['data'] ?? '') . ' ' . ($reserva['hora'] ?? ''));
                         $faltamSegundos = $reservaTs - $agoraTs;
-                        $pode_cancelar = ($reservaTs !== false && $faltamSegundos > 7200);
+                        $pode_cancelar = ($reservaTs !== false && $faltamSegundos > 7200 && $reserva['confirmado'] != -1);
                         $apos_horario  = ($reservaTs !== false && $faltamSegundos <= 0);
                         ?>
                         <div class="reserva-card-item">
@@ -984,7 +1006,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
                                     $agoraTs = time();
                                     $reservaTs = strtotime($reserva['data'] . ' ' . $reserva['hora']);
                                     $faltamSegundos = $reservaTs - $agoraTs;
-                                    $pode_cancelar = ($reservaTs !== false && $faltamSegundos > 7200);
+                                    $pode_cancelar = ($reservaTs !== false && $faltamSegundos > 7200 && $reserva['confirmado'] != -1);
                                     $apos_horario = ($reservaTs !== false && $faltamSegundos <= 0);
                                     ?>
 

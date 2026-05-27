@@ -53,6 +53,13 @@ if (!function_exists('cd_popup')) {
   };
 
   var run = function() {
+    if (!document.querySelector('meta[name="viewport"]')) {
+      var vmeta = document.createElement('meta');
+      vmeta.name = 'viewport';
+      vmeta.content = 'width=device-width, initial-scale=1.0';
+      (document.head || document.documentElement).appendChild(vmeta);
+    }
+
     if (!window.__cdShowPopup) {
       window.__cdShowPopup = function(message, type, onClose, autoCloseMs) {
         type = type || 'info';

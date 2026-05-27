@@ -841,7 +841,8 @@ $kpiReservasHoje = (int)(cd_fetch_one($con, "SELECT COUNT(*) AS total FROM reser
 
                 /* btts */
                 $estadoAtual = $r['estado'];
-                $temAcoes = ($r['confirmado'] == 1 && $estadoAtual === 'pendente');
+                $reservaTs = strtotime(($r['data_reserva'] ?? '') . ' ' . ($r['hora_reserva'] ?? ''));
+                $temAcoes = ($r['confirmado'] == 1 && $estadoAtual === 'pendente' && $reservaTs !== false && time() >= $reservaTs);
                 $tdAcoesClass = $temAcoes ? 'admin-actions-cell' : 'admin-actions-cell admin-reserva-no-actions';
                 echo "<td class='" . $tdAcoesClass . "'>";
 

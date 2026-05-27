@@ -420,7 +420,11 @@ $porPaginaLabel = 'Todas';
                         <?php $estadoClass = ($r['estado'] === 'compareceu') ? 'ok' : (($r['estado'] === 'nao_compareceu' || $r['estado'] === 'recusada') ? 'bad' : 'warn'); ?>
                         <td><span class="status-chip <?php echo $estadoClass; ?>"><?php echo esc($estadoLabel); ?></span></td>
                         <td class="admin-actions-cell">
-                            <?php if ($r['confirmado'] == 1 && $r['estado'] === 'pendente'): ?>
+                            <?php
+                            $reservaTs = strtotime(($r['data_reserva'] ?? '') . ' ' . ($r['hora_reserva'] ?? ''));
+                            $podeMarcarPresenca = ($reservaTs !== false && time() >= $reservaTs);
+                        ?>
+                        <?php if ($r['confirmado'] == 1 && $r['estado'] === 'pendente' && $podeMarcarPresenca): ?>
                                 <form method="post" class="admin-inline-form">
                                     <?php echo cd_csrf_input(); ?>
                                     <input type="hidden" name="reserva" value="<?php echo (int)$r['id']; ?>">

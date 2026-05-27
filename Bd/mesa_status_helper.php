@@ -49,6 +49,7 @@ function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RE
         SET m.estado = 'reservada'
         WHERE r.confirmado = 1
           AND r.estado = 'pendente'
+          AND r.data_reserva = CURDATE()
           AND TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) > NOW()
           $joinWhere
     ";
@@ -66,6 +67,7 @@ function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RE
         SET m.estado = 'ocupada'
         WHERE r.confirmado = 1
           AND r.estado = 'compareceu'
+          AND r.data_reserva = CURDATE()
           AND TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) > NOW()
           $joinWhere
     ";
@@ -92,6 +94,7 @@ function cd_sync_mesa_states(mysqli $con, int $durationMinutes = CD_MESA_AUTO_RE
             WHERE rm.mesa_id = m.id
               AND r.confirmado = 1
               AND r.estado IN ('pendente', 'compareceu')
+              AND r.data_reserva = CURDATE()
               AND TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) > NOW()
           )
           $mesaWhere
@@ -131,6 +134,7 @@ function cd_get_mesa_lock_map(mysqli $con, int $durationMinutes = CD_MESA_AUTO_R
                 r.estado = 'pendente'
                 OR r.estado = 'compareceu'
               )
+          AND r.data_reserva = CURDATE()
           AND TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) > NOW()
         ORDER BY fim_reserva ASC, r.id DESC
     ";
