@@ -122,6 +122,12 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
           <!-- Body -->
           <form class="reserva-modal-body" action="Bd/processar_reservas.php" method="POST">
 
+            <!-- Dica de horário -->
+            <div class="reserva-horario-hint">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+              <p><strong>Almoço:</strong> <span class="reserva-hora-nowrap">12:00 – 14:30</span><span class="reserva-hint-sep">&nbsp;|&nbsp;</span><span class="reserva-hint-jantar"><strong>Jantar:</strong> <span class="reserva-hora-nowrap">19:00 – 22:30</span></span><br class="reserva-hint-br">Reservas no mesmo dia requerem 1 hora de antecedência.</p>
+            </div>
+
             <!-- Linha 1: Time e Data -->
             <div class="reserva-form-group grid-2">
               <!-- Input de Hora e Minutos como uma única caixa -->
@@ -135,7 +141,6 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'lista_negra') {
                 </svg>
               </div>
             </div>
-
 
             <!-- Linha 2: Nome e Telefone (apenas visual) -->
             <div class="reserva-form-group grid-2">

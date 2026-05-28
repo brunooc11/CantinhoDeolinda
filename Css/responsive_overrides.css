@@ -1086,6 +1086,15 @@ button,
   }
 }
 
+@media (max-width: 768px) {
+  .reserva-aberta #btnChat,
+  .reserva-aberta #backHomeBtn {
+    opacity: 0 !important;
+    transform: scale(0.7) !important;
+    pointer-events: none !important;
+  }
+}
+
 @media (min-width: 481px) and (max-width: 768px) {
   .logo {
     font-size: 20px;
@@ -2130,12 +2139,6 @@ button,
     transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .reserva-aberta #btnChat,
-  .reserva-aberta #backHomeBtn {
-    opacity: 0 !important;
-    transform: scale(0.7) !important;
-    pointer-events: none !important;
-  }
 
   /* Esconde controlo e botão voltar quando painel de alterar nome está aberto */
   .nome-painel-aberto .controlo,

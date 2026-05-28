@@ -112,13 +112,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $minuto = $minutosTotais % 60;
     $hora_reserva = sprintf('%02d:%02d', $hora, $minuto);
 
-    $minimoPermitido = (8 * 60); // 08:00
-    $diaSemana = (int)$dataObj->format('w'); // 0 = domingo
-    $maximoPermitido = ($diaSemana === 0) ? (17 * 60) : (23 * 60 + 55);
-
-    if ($minutosTotais < $minimoPermitido || $minutosTotais > $maximoPermitido) {
-        cd_reserva_popup('Erro: hora fora do horário permitido para reservas.', 'error', '__HISTORY_BACK__');
+    $periodosPermitidos = [
+        ['min' => 12 * 60,       'max' => 14 * 60 + 30], // almoço 12:00–14:30
+        ['min' => 19 * 60,       'max' => 22 * 60 + 30], // jantar 19:00–22:30
+    ];
+    $dentroDoHorario = false;
+    foreach ($periodosPermitidos as $periodo) {
+        if ($minutosTotais >= $periodo['min'] && $minutosTotais <= $periodo['max']) {
+            $dentroDoHorario = true;
+            break;
+        }
+    }
+    if (!$dentroDoHorario) {
+        cd_reserva_popup("Hora fora do horário de funcionamento.\nAlmoço: 12:00–14:30 | Jantar: 19:00–22:30", 'error', '__HISTORY_BACK__');
         exit;
+    }
+
+    if ($dataObj == $hoje) {
+        $agora = new DateTime('now');
+        $agoraMinutos = (int)$agora->format('G') * 60 + (int)$agora->format('i');
+        if ($minutosTotais < $agoraMinutos + 60) {
+            cd_reserva_popup('Reservas no mesmo dia requerem pelo menos 1 hora de antecedência.', 'error', '__HISTORY_BACK__');
+            exit;
+        }
     }
 
     // Cria reserva pendente (confirmado = 0)

@@ -18,9 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!modal) return;
     modal.classList.remove("fechando");
     modal.classList.add("aberto");
-    if (window.innerWidth <= 480) {
-      document.body.classList.add("reserva-aberta");
-    }
+    document.body.classList.add("reserva-aberta");
   }
 
   function fecharModalReserva() {
@@ -111,36 +109,29 @@ document.addEventListener("DOMContentLoaded", function () {
     return Math.round(totalMinutes / 5) * 5;
   }
 
-  function getMaxTimeForDate(dateStr) {
-    if (!dateStr) return "23:55";
-    const date = new Date(`${dateStr}T00:00:00`);
-    const day = date.getDay(); // 0 = domingo
-    return day === 0 ? "17:00" : "23:55";
+  const PERIODOS_RESERVA = [
+    { min: 12 * 60,      max: 14 * 60 + 30 }, // almoço 12:00–14:30
+    { min: 19 * 60,      max: 22 * 60 + 30 }  // jantar 19:00–22:30
+  ];
+
+  function isWithinPeriod(minutes) {
+    return PERIODOS_RESERVA.some(p => minutes >= p.min && minutes <= p.max);
   }
 
   function updateAllowedTimeRange() {
-    if (!horaMinInput) return;
+    if (!horaMinInput || !horaMinInput.value) return;
 
-    const minTime = "08:00";
-    const maxTime = getMaxTimeForDate(dateInput ? dateInput.value : "");
-    if (horaMinInput.value) {
-      const validFormat = /^([01]\d|2[0-3]):([0-5]\d)$/.test(horaMinInput.value);
-      if (!validFormat) {
-        return;
-      }
+    const validFormat = /^([01]\d|2[0-3]):([0-5]\d)$/.test(horaMinInput.value);
+    if (!validFormat) return;
 
-      const valueMin = timeToMinutes(horaMinInput.value);
-      const normalizedMin = roundToNearest5(valueMin);
-      if (normalizedMin !== valueMin) {
-        horaMinInput.value = minutesToTime(normalizedMin);
-      }
+    const valueMin = timeToMinutes(horaMinInput.value);
+    const normalizedMin = roundToNearest5(valueMin);
+    if (normalizedMin !== valueMin) {
+      horaMinInput.value = minutesToTime(normalizedMin);
+    }
 
-      if (
-        normalizedMin < timeToMinutes(minTime) ||
-        normalizedMin > timeToMinutes(maxTime)
-      ) {
-        horaMinInput.value = "";
-      }
+    if (!isWithinPeriod(normalizedMin)) {
+      horaMinInput.value = "";
     }
   }
 
@@ -181,14 +172,27 @@ document.addEventListener("DOMContentLoaded", function () {
       const rawMinutes = timeToMinutes(horaMinInput.value);
       const minutes = roundToNearest5(rawMinutes);
       horaMinInput.value = minutesToTime(minutes);
-      const minAllowed = timeToMinutes("08:00");
-      const maxAllowed = timeToMinutes(getMaxTimeForDate(dateInput ? dateInput.value : ""));
 
-      if (minutes < minAllowed || minutes > maxAllowed) {
-        showReservaPopup("Hora fora do horário permitido para reservas.");
+      if (!isWithinPeriod(minutes)) {
+        showReservaPopup("Hora fora do horário de funcionamento.\nAlmoço: 12:00–14:30 | Jantar: 19:00–22:30");
         horaMinInput.classList.add("invalid");
         event.preventDefault();
         return;
+      }
+
+      const dateVal = dateInput ? dateInput.value : "";
+      if (dateVal) {
+        const hoje = new Date();
+        const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,"0")}-${String(hoje.getDate()).padStart(2,"0")}`;
+        if (dateVal === hojeStr) {
+          const agoraMin = hoje.getHours() * 60 + hoje.getMinutes();
+          if (minutes < agoraMin + 60) {
+            showReservaPopup("Reservas no mesmo dia requerem pelo menos 1 hora de antecedência.");
+            horaMinInput.classList.add("invalid");
+            event.preventDefault();
+            return;
+          }
+        }
       }
 
       horaMinInput.classList.remove("invalid");
