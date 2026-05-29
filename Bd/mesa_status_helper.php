@@ -165,19 +165,21 @@ function cd_get_mesa_lock_map(mysqli $con, int $durationMinutes = CD_MESA_AUTO_R
             $reservaData = trim((string)($row['data_reserva'] ?? ''));
             $reservaHora = trim((string)($row['hora_reserva'] ?? ''));
 
-            $locks[$mesaId] = [
-                'reserva_id' => (int)($row['reserva_id'] ?? 0),
-                'status' => $estadoReserva === 'compareceu' ? 'ocupada' : 'reservada',
-                'status_label' => $statusLabel,
-                'cliente_nome' => $clienteNome !== '' ? $clienteNome : 'Cliente',
-                'cliente_email' => $clienteEmail !== '' ? $clienteEmail : '-',
-                'numero_pessoas' => (int)($row['numero_pessoas'] ?? 0),
-                'data_reserva' => $reservaData !== '' ? date('d/m/Y', strtotime($reservaData)) : '-',
-                'hora_reserva' => $reservaHora !== '' ? substr($reservaHora, 0, 5) : '-',
-                'release_time' => $releaseShort,
-                'release_at' => $releaseFull,
-                'starts_at' => $inicioReserva !== '' ? date('d/m/Y H:i', strtotime($inicioReserva)) : '-',
-            ];
+            if (!isset($locks[$mesaId])) {
+                $locks[$mesaId] = [
+                    'reserva_id' => (int)($row['reserva_id'] ?? 0),
+                    'status' => $estadoReserva === 'compareceu' ? 'ocupada' : 'reservada',
+                    'status_label' => $statusLabel,
+                    'cliente_nome' => $clienteNome !== '' ? $clienteNome : 'Cliente',
+                    'cliente_email' => $clienteEmail !== '' ? $clienteEmail : '-',
+                    'numero_pessoas' => (int)($row['numero_pessoas'] ?? 0),
+                    'data_reserva' => $reservaData !== '' ? date('d/m/Y', strtotime($reservaData)) : '-',
+                    'hora_reserva' => $reservaHora !== '' ? substr($reservaHora, 0, 5) : '-',
+                    'release_time' => $releaseShort,
+                    'release_at' => $releaseFull,
+                    'starts_at' => $inicioReserva !== '' ? date('d/m/Y H:i', strtotime($inicioReserva)) : '-',
+                ];
+            }
         }
     }
     mysqli_stmt_close($stmt);

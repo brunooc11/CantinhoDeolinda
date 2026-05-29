@@ -1,6 +1,7 @@
 ﻿<?php
 session_start();
 include("ligar.php");
+require_once("helpers.php");
 require_once("popup_helper.php");
 require_once("mesa_status_helper.php");
 require_once("email_template_helper.php");
@@ -28,11 +29,6 @@ cd_sync_mesa_states($con);
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-function esc($value): string
-{
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
 
 function csrf_token(): string
@@ -82,15 +78,18 @@ function has_rows_for_condition(mysqli $con, string $table, string $conditionSql
 
 function get_busy_mesa_ids(mysqli $con, string $dataReserva, string $horaReserva, int $excludeReservaId = 0): array
 {
+    $durationMinutes = CD_MESA_AUTO_RELEASE_MINUTES;
+
     $sql = "
         SELECT DISTINCT rm.mesa_id
         FROM reserva_mesas rm
         JOIN reservas r ON r.id = rm.reserva_id
         WHERE r.data_reserva = ?
-          AND r.hora_reserva = ?
           AND r.confirmado = 1
           AND r.estado NOT IN ('recusada', 'nao_compareceu')
           AND r.id <> ?
+          AND TIMESTAMP(r.data_reserva, r.hora_reserva) < TIMESTAMPADD(MINUTE, ?, TIMESTAMP(?, ?))
+          AND TIMESTAMPADD(MINUTE, ?, TIMESTAMP(r.data_reserva, r.hora_reserva)) > TIMESTAMP(?, ?)
     ";
 
     $stmt = mysqli_prepare($con, $sql);
@@ -98,7 +97,12 @@ function get_busy_mesa_ids(mysqli $con, string $dataReserva, string $horaReserva
         return [];
     }
 
-    mysqli_stmt_bind_param($stmt, "ssi", $dataReserva, $horaReserva, $excludeReservaId);
+    mysqli_stmt_bind_param($stmt, "siississ",
+        $dataReserva,
+        $excludeReservaId,
+        $durationMinutes, $dataReserva, $horaReserva,
+        $durationMinutes, $dataReserva, $horaReserva
+    );
     mysqli_stmt_execute($stmt);
     $res = mysqli_stmt_get_result($stmt);
     $busyIds = [];
@@ -283,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         return preg_match('/^(mesa|group):[A-Za-z0-9_-]{1,50}$/', $v) ? $v : '';
     }, $mesasSelecionadasRaw))));
 
-    $sql = "SELECT r.*, c.nome, c.email, c.telefone
+    $sql = "SELECT r.*, c.nome, c.email, c.telefone, c.lista_negra
             FROM reservas r
             JOIN Cliente c ON r.cliente_id = c.id
             WHERE r.id = ?";
@@ -295,6 +299,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
 
     if (!$reserva) {
         redirect_with_alert('Reserva nao encontrada.');
+    }
+
+    if ((int)($reserva['lista_negra'] ?? 0) === 1) {
+        redirect_with_alert('Não é possível confirmar a reserva: o cliente encontra-se na lista negra.');
     }
 
     if (count($mesasSelecionadasRaw) === 0) {
@@ -340,11 +348,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
              SET confirmado = 1,
                  estado = 'pendente',
                  notificado_reserva = 0
-             WHERE id = ?"
+             WHERE id = ? AND confirmado = 0"
         );
         $stmt2->bind_param("i", $id);
         $stmt2->execute();
+        $afetados = $stmt2->affected_rows;
         $stmt2->close();
+
+        if ($afetados === 0) {
+            mysqli_rollback($con);
+            redirect_with_alert('Esta reserva já foi confirmada ou não está disponível.');
+        }
 
         $stmtDelete = $con->prepare("DELETE FROM reserva_mesas WHERE reserva_id = ?");
         $stmtDelete->bind_param("i", $id);
@@ -371,6 +385,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
         redirect_with_alert('Erro ao confirmar reserva com mesas.');
     }
 
+    try {
     $envCandidates = [
         __DIR__ . "/../Seguranca/config.env",
         __DIR__ . "/../seguranca/config.env",
@@ -457,9 +472,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar'])) {
             $mail->AltBody = "Olá {$reserva['nome']}, a sua reserva foi confirmada para {$reserva['data_reserva']} às {$reserva['hora_reserva']} para {$reserva['numero_pessoas']} pessoas.";
             $mail->send();
         } catch (Exception $e) {
-            // Mantém o fluxo de confirmação mesmo se o email falhar.
+            error_log('Cantinho Deolinda: falha ao enviar email de confirmação — ' . $e->getMessage());
         }
     }
+    } catch (Throwable $e) {
+        error_log('Cantinho Deolinda: falha nas notificações pós-confirmação — ' . $e->getMessage());
+    }
+
+    cd_admin_audit($con, 'confirmar_reserva', 'reserva', $id,
+        'cliente=' . esc((string)($reserva['nome'] ?? '')) . ';mesas=' . implode(',', $mesasSelecionadas)
+    );
 
     redirect_with_alert('Reserva confirmada e mesas atribuídas com sucesso.');
 }
@@ -506,6 +528,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recusar'])) {
         }
         $stmtMesaLivre->close();
     }
+
+    cd_admin_audit($con, 'recusar_reserva', 'reserva', $id, null);
 
     redirect_with_alert('Reserva recusada!');
 }

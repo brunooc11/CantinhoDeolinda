@@ -51,6 +51,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        http_response_code(422);
+        echo "INVALID_DATA";
+        exit;
+    }
+
+    $assuntosPermitidos = ['Reserva', 'Experiência no restaurante', 'Qualidade da comida', 'Atendimento', 'Sugestão', 'Reclamação', 'Outro'];
+    if (!in_array($assunto, $assuntosPermitidos, true)) {
+        http_response_code(422);
+        echo "INVALID_DATA";
+        exit;
+    }
+
     $stmt = $con->prepare(
         "INSERT INTO contactos (nome, email, assunto, mensagem)
          VALUES (?, ?, ?, ?)"

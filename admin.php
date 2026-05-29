@@ -14,27 +14,13 @@ if ($_SESSION['permissoes'] !== 'admin') {
 }
 
 require("Bd/ligar.php");
+require_once("Bd/helpers.php");
 require_once("Bd/popup_helper.php");
 require_once("Bd/mesa_status_helper.php");
 require_once(__DIR__ . "/theme.php");
 
-function esc($value)
-{
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-}
-
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-function cd_csrf_token()
-{
-    return (string)($_SESSION['csrf_token'] ?? '');
-}
-
-function cd_csrf_input()
-{
-    return '<input type="hidden" name="csrf_token" value="' . esc(cd_csrf_token()) . '">';
 }
 
 function cd_verify_csrf_or_fail()
@@ -162,6 +148,17 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
     cd_verify_csrf_or_fail();
     $idReserva = intval($_POST['reserva']);
     $estado = $_POST['presenca'] === 'compareceu' ? 'compareceu' : 'nao_compareceu';
+
+    $reservaCheck = cd_fetch_one($con, "SELECT data_reserva, hora_reserva FROM reservas WHERE id = ?", "i", $idReserva);
+    if (!$reservaCheck) {
+        header("Location: admin.php");
+        exit();
+    }
+    $reservaTs = strtotime(($reservaCheck['data_reserva'] ?? '') . ' ' . ($reservaCheck['hora_reserva'] ?? ''));
+    if ($reservaTs === false || time() < $reservaTs) {
+        cd_popup('Não é possível registar presença antes da hora da reserva.', 'error', 'admin.php');
+        exit();
+    }
 
     // Atualiza o estado da reserva
     cd_execute($con, "UPDATE reservas SET estado = ? WHERE id = ?", "si", $estado, $idReserva);

@@ -3,6 +3,7 @@ session_start();
 header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/ligar.php';
+require_once __DIR__ . '/helpers.php';
 require_once __DIR__ . '/mesa_status_helper.php';
 
 if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
@@ -44,11 +45,13 @@ function cd_mesa_has_column(mysqli $con, string $column): bool
 
 function cd_mesa_position_columns(mysqli $con): array
 {
-    $leftColumn = cd_mesa_has_column($con, 'pos_left') ? 'pos_left' : null;
-    $topColumn = cd_mesa_has_column($con, 'pos_top')
+    $allowedColumns = ['pos_left', 'pos_top', 'pos_right', 'grupo'];
+
+    $leftColumn = in_array('pos_left', $allowedColumns, true) && cd_mesa_has_column($con, 'pos_left') ? 'pos_left' : null;
+    $topColumn = in_array('pos_top', $allowedColumns, true) && cd_mesa_has_column($con, 'pos_top')
         ? 'pos_top'
-        : (cd_mesa_has_column($con, 'pos_right') ? 'pos_right' : null);
-    $groupColumn = cd_mesa_has_column($con, 'grupo') ? 'grupo' : null;
+        : (in_array('pos_right', $allowedColumns, true) && cd_mesa_has_column($con, 'pos_right') ? 'pos_right' : null);
+    $groupColumn = in_array('grupo', $allowedColumns, true) && cd_mesa_has_column($con, 'grupo') ? 'grupo' : null;
 
     return [
         'left' => $leftColumn,
@@ -121,6 +124,8 @@ if ($action === 'save_state') {
     mysqli_stmt_bind_param($stmt, 'ss', $state, $mesaId);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+
+    cd_admin_audit($con, 'alterar_estado_mesa', 'mesa', null, 'mesa_id=' . $mesaId . ';estado=' . $state);
 
     echo json_encode(['ok' => true]);
     exit();

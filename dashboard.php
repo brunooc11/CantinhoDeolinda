@@ -502,6 +502,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
         $data_reserva_cancelar . ' ' . $hora_reserva_cancelar,
         $timezone
     );
+    $dateErrors = DateTime::getLastErrors();
+    if ($dateErrors !== false && ($dateErrors['warning_count'] > 0 || $dateErrors['error_count'] > 0)) {
+        $reservaDateTime = false;
+    }
 
     if (!$reservaDateTime) {
         $timestampReserva = strtotime($data_reserva_cancelar . ' ' . $hora_reserva_cancelar);
@@ -529,25 +533,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancelar_reserva'])) 
     mysqli_begin_transaction($con);
     try {
         $stmtLibertar = mysqli_prepare($con, "UPDATE mesas m JOIN reserva_mesas rm ON rm.mesa_id = m.id SET m.estado = 'livre' WHERE rm.reserva_id = ?");
-        if ($stmtLibertar) {
-            mysqli_stmt_bind_param($stmtLibertar, "i", $id_reserva);
-            mysqli_stmt_execute($stmtLibertar);
-            mysqli_stmt_close($stmtLibertar);
-        }
+        if (!$stmtLibertar) throw new RuntimeException('prepare failed');
+        mysqli_stmt_bind_param($stmtLibertar, "i", $id_reserva);
+        if (!mysqli_stmt_execute($stmtLibertar)) throw new RuntimeException('execute failed');
+        mysqli_stmt_close($stmtLibertar);
 
         $stmtRM = mysqli_prepare($con, "DELETE FROM reserva_mesas WHERE reserva_id = ?");
-        if ($stmtRM) {
-            mysqli_stmt_bind_param($stmtRM, "i", $id_reserva);
-            mysqli_stmt_execute($stmtRM);
-            mysqli_stmt_close($stmtRM);
-        }
+        if (!$stmtRM) throw new RuntimeException('prepare failed');
+        mysqli_stmt_bind_param($stmtRM, "i", $id_reserva);
+        if (!mysqli_stmt_execute($stmtRM)) throw new RuntimeException('execute failed');
+        mysqli_stmt_close($stmtRM);
 
         $stmtDel = mysqli_prepare($con, "DELETE FROM reservas WHERE id = ? AND cliente_id = ?");
-        if ($stmtDel) {
-            mysqli_stmt_bind_param($stmtDel, "ii", $id_reserva, $_SESSION['id']);
-            mysqli_stmt_execute($stmtDel);
-            mysqli_stmt_close($stmtDel);
-        }
+        if (!$stmtDel) throw new RuntimeException('prepare failed');
+        mysqli_stmt_bind_param($stmtDel, "ii", $id_reserva, $_SESSION['id']);
+        if (!mysqli_stmt_execute($stmtDel)) throw new RuntimeException('execute failed');
+        mysqli_stmt_close($stmtDel);
 
         mysqli_commit($con);
     } catch (Throwable $e) {

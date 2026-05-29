@@ -1231,7 +1231,7 @@ html.admin-home-page::-webkit-scrollbar-corner {
 }
 
 .cdol-admin #adminAuditTable th:nth-child(1),
-.cdol-admin #adminAuditTable td:nth-child(1) { width: 4%; }
+.cdol-admin #adminAuditTable td:nth-child(1) { width: 4%; min-width: 46px; white-space: nowrap; }
 
 .cdol-admin #adminAuditTable th:nth-child(2),
 .cdol-admin #adminAuditTable td:nth-child(2) { width: 11%; }

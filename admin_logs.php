@@ -7,6 +7,7 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
 }
 
 require("Bd/ligar.php");
+require_once("Bd/helpers.php");
 require_once(__DIR__ . "/theme.php");
 
 mysqli_query(

@@ -1,6 +1,7 @@
 ﻿<?php
 session_start();
 require_once("Bd/ligar.php");
+require_once("Bd/helpers.php");
 require_once("Bd/mesa_status_helper.php");
 require_once(__DIR__ . "/theme.php");
 
@@ -46,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['libertar_mesa_mapa'],
                 }
 
                 mysqli_commit($con);
+                cd_admin_audit($con, 'libertar_mesa', 'reserva', $idReserva, 'libertacao_manual=mapa');
             } catch (Throwable $e) {
                 mysqli_rollback($con);
             }

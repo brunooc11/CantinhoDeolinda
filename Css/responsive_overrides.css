@@ -2848,6 +2848,8 @@ button,
     width: 100%;
     text-align: center;
     margin: 0 !important;
+    font-size: 9px !important;
+    padding: 6px 6px !important;
   }
 
   #adminUsersTable td:nth-child(10) .status-chip {

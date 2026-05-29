@@ -7,30 +7,16 @@ if (!isset($_SESSION['permissoes']) || $_SESSION['permissoes'] !== 'admin') {
 }
 
 require("Bd/ligar.php");
+require_once("Bd/helpers.php");
 require_once("Bd/popup_helper.php");
 require_once("Bd/mesa_status_helper.php");
 require_once(__DIR__ . "/theme.php");
-
-function esc($value)
-{
-    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
-}
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 cd_sync_mesa_states($con);
-
-function cd_csrf_token()
-{
-    return (string)($_SESSION['csrf_token'] ?? '');
-}
-
-function cd_csrf_input()
-{
-    return '<input type="hidden" name="csrf_token" value="' . esc(cd_csrf_token()) . '">';
-}
 
 function cd_verify_csrf_or_fail()
 {
@@ -46,7 +32,9 @@ function cd_stmt_prepare($con, $sql)
 {
     $stmt = mysqli_prepare($con, $sql);
     if (!$stmt) {
-        die('Erro ao preparar query SQL.');
+        error_log('Cantinho Deolinda: falha ao preparar query — ' . mysqli_error($con));
+        http_response_code(500);
+        die('Erro interno do servidor. Por favor tente mais tarde.');
     }
     return $stmt;
 }
