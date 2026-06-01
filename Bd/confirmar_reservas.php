@@ -148,6 +148,7 @@ function get_available_mesa_options(mysqli $con, string $dataReserva, string $ho
     if ($hasAtiva && has_rows_for_condition($con, 'mesas', "ativa = 1")) {
         $whereParts[] = "m.ativa = 1";
     }
+    $whereParts[] = "m.estado = 'livre'";
     $whereSql = count($whereParts) > 0 ? "WHERE " . implode("\n          AND ", $whereParts) : "";
 
     $sql = "
