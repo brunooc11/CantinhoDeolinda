@@ -19,8 +19,11 @@ The system includes:
 
 ### Public Area
 - Homepage with menu, carousel, and restaurant content.
-- Reservation modal with validations.
-- Contact page.
+- Reservation modal with validations:
+  - Opening hours: Lunch 12:00–14:30 | Dinner 19:00–22:30.
+  - Same-day reservations require at least 1 hour advance notice.
+  - Table overlap check (90-minute window).
+- Contact page (requires a completed reservation to submit).
 - Site maintenance mode (controlled from admin).
 
 ### Account / Authentication
@@ -33,13 +36,19 @@ The system includes:
   - favorites.
 
 ### Admin
-- Admin panel with:
+- Admin panel (`admin.php`) with:
   - site status (active/maintenance),
   - users (block/unblock, role changes, no-show reset),
   - blacklist,
-  - reservations (attendance and status),
+  - reservations (attendance and status — only available at or after reservation time),
   - latest audit records.
+- Dedicated reservation management page: `admin_reservas.php`.
+- Visual table map: `admin_mapa.php` (drag-and-drop, manual state changes).
+- Feedback inbox: `admin_feedback.php`.
 - Dedicated logs page: `admin_logs.php`.
+- Reservation confirmation with table assignment: `Bd/confirmar_reservas.php`:
+  - blocks blacklisted clients,
+  - only shows tables with `estado = 'livre'`.
 - Filters, sorting, and CSV export:
   - logs (filtered CSV),
   - reservations (currently visible rows in admin).
@@ -54,7 +63,17 @@ Implemented:
   - `Bd/confirmar_reservas.php`,
   - `dashboard.php` (write forms).
 - `Bd/favoritos.php` restricted to `POST` (no write actions via `GET`).
-- Admin audit trail (`admin_audit_log`) for action tracking.
+- Blacklist check before confirming a reservation.
+- Column name whitelist in `Bd/mesa_layout_api.php`.
+- Generic error messages for DB failures (details logged via `error_log`).
+- Consistent timezone (`Europe/Lisbon`) set globally in `Bd/ligar.php`.
+- Atomic token verification in `verificar_conta.php` (single UPDATE + affected_rows).
+- Transaction integrity on reservation cancellation (`dashboard.php`).
+- Server-side validation of attendance time in `admin.php`.
+- Contact form: email validated with `filter_var`, subject validated against allowed list.
+- Admin audit trail (`admin_audit_log`) for action tracking:
+  - confirm/refuse reservation, release table, change table state,
+  - attendance, block/unblock user, role change, no-show reset, site status, feedback actions.
 
 ## Project Structure
 
@@ -70,10 +89,13 @@ CantinhoDeolinda/
 |-- config.php
 |-- Bd/
 |   |-- ligar.php
+|   |-- helpers.php            (shared: esc, csrf, cd_admin_audit)
 |   |-- processar_reservas.php
 |   |-- confirmar_reservas.php
-|   |-- favoritos.php
+|   |-- mesa_layout_api.php
+|   |-- mesa_status_helper.php
 |   |-- popup_helper.php
+|   |-- favoritos.php
 |   `-- ...
 |-- Js/
 |-- Css/
@@ -124,9 +146,11 @@ Notes:
 ### Admin
 - Block/unblock user.
 - Change user role (admin/client).
-- Mark reservation attendance.
-- Reset no-shows.
+- Mark reservation attendance (only available at or after reservation time).
+- Reset no-shows / remove from blacklist.
 - Toggle site status.
+- Confirm/refuse a reservation (blacklisted client → should be blocked).
+- Manually set a table to 'reservada' on the map → should not appear when confirming a reservation.
 - Confirm critical actions are `POST` requests with `csrf_token`.
 
 ### Logs
