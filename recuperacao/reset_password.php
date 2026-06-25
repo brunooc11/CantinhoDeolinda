@@ -5,6 +5,7 @@ require_once("../Bd/popup_helper.php");
 require_once(__DIR__ . "/../theme.php");
 
 $erro = "";
+$popupErro = "";
 $sucesso = false;
 
 if (empty($_SESSION['csrf_token_reset'])) {
@@ -37,11 +38,13 @@ if (isset($_POST['alterar'])) {
         if (!$passwordValida) {
             $erro = 'A palavra-passe deve ter, no mínimo, 8 caracteres, incluindo maiúscula, minúscula, número e símbolo.';
         } else {
-            $hash = password_hash($nova, PASSWORD_DEFAULT);
-
             $stmt = mysqli_prepare(
                 $con,
-                "SELECT email FROM password_resets WHERE token = ? AND expires_at > NOW() LIMIT 1"
+                "SELECT pr.email, c.password AS password_atual
+                 FROM password_resets pr
+                 JOIN Cliente c ON c.email = pr.email
+                 WHERE pr.token = ? AND pr.expires_at > NOW()
+                 LIMIT 1"
             );
 
             if (!$stmt) {
@@ -57,23 +60,30 @@ if (isset($_POST['alterar'])) {
 
             if ($dados && isset($dados['email'])) {
                 $email = (string)$dados['email'];
+                $hashAtual = (string)($dados['password_atual'] ?? '');
 
-                $stmtUpdate = mysqli_prepare($con, "UPDATE Cliente SET password = ? WHERE email = ?");
-                if ($stmtUpdate) {
-                    mysqli_stmt_bind_param($stmtUpdate, "ss", $hash, $email);
-                    mysqli_stmt_execute($stmtUpdate);
-                    mysqli_stmt_close($stmtUpdate);
+                if ($hashAtual !== '' && password_verify($nova, $hashAtual)) {
+                    $popupErro = 'A nova palavra-passe não pode ser igual à atual.';
+                } else {
+                    $hash = password_hash($nova, PASSWORD_DEFAULT);
+
+                    $stmtUpdate = mysqli_prepare($con, "UPDATE Cliente SET password = ? WHERE email = ?");
+                    if ($stmtUpdate) {
+                        mysqli_stmt_bind_param($stmtUpdate, "ss", $hash, $email);
+                        mysqli_stmt_execute($stmtUpdate);
+                        mysqli_stmt_close($stmtUpdate);
+                    }
+
+                    // Invalida todos os tokens deste e-mail após alteração.
+                    $stmtDelete = mysqli_prepare($con, "DELETE FROM password_resets WHERE email = ?");
+                    if ($stmtDelete) {
+                        mysqli_stmt_bind_param($stmtDelete, "s", $email);
+                        mysqli_stmt_execute($stmtDelete);
+                        mysqli_stmt_close($stmtDelete);
+                    }
+
+                    $sucesso = true;
                 }
-
-                // Invalida todos os tokens deste e-mail após alteração.
-                $stmtDelete = mysqli_prepare($con, "DELETE FROM password_resets WHERE email = ?");
-                if ($stmtDelete) {
-                    mysqli_stmt_bind_param($stmtDelete, "s", $email);
-                    mysqli_stmt_execute($stmtDelete);
-                    mysqli_stmt_close($stmtDelete);
-                }
-
-                $sucesso = true;
             } else {
                 $erro = 'Token inválido ou expirado.';
             }
@@ -94,6 +104,7 @@ if (isset($_POST['alterar'])) {
 </head>
 <body class="pagina-recovery">
     <?php cd_render_theme_toggle('../'); ?>
+    <?php if ($popupErro !== '') { cd_popup($popupErro, 'error'); } ?>
     <a href="../login.php" id="btnVoltarRecovery" class="btt-padrao-login">&larr; Voltar</a>
     <main class="recovery-shell">
         <section class="recovery-hero">

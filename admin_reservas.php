@@ -117,9 +117,13 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
     $idReserva = intval($_POST['reserva']);
     $estado = $_POST['presenca'] === 'compareceu' ? 'compareceu' : 'nao_compareceu';
 
-    $reservaCheck = cd_fetch_one($con, "SELECT data_reserva, hora_reserva FROM reservas WHERE id = ?", "i", $idReserva);
+    $reservaCheck = cd_fetch_one($con, "SELECT data_reserva, hora_reserva, confirmado, estado FROM reservas WHERE id = ?", "i", $idReserva);
     if (!$reservaCheck) {
         header("Location: admin_reservas.php");
+        exit();
+    }
+    if ((int)($reservaCheck['confirmado'] ?? 0) !== 1 || (string)($reservaCheck['estado'] ?? '') !== 'pendente') {
+        cd_popup('Só é possível registar presença em reservas confirmadas e pendentes.', 'error', 'admin_reservas.php');
         exit();
     }
     $reservaTs = strtotime(($reservaCheck['data_reserva'] ?? '') . ' ' . ($reservaCheck['hora_reserva'] ?? ''));
