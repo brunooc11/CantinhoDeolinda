@@ -145,6 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['alterar_senha'])) {
 
         if (!password_verify($senha_atual, $senha_bd)) {
             $mensagem = "A palavra-passe atual está incorreta.";
+        } elseif (password_verify($nova_senha, $senha_bd)) {
+            $mensagem = "A nova palavra-passe não pode ser igual à atual.";
         } else {
             // Atualiza a password
             $nova_hash = password_hash($nova_senha, PASSWORD_DEFAULT);

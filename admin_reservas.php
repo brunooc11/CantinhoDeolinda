@@ -117,6 +117,17 @@ if (isset($_POST['presenca']) && isset($_POST['reserva'])) {
     $idReserva = intval($_POST['reserva']);
     $estado = $_POST['presenca'] === 'compareceu' ? 'compareceu' : 'nao_compareceu';
 
+    $reservaCheck = cd_fetch_one($con, "SELECT data_reserva, hora_reserva FROM reservas WHERE id = ?", "i", $idReserva);
+    if (!$reservaCheck) {
+        header("Location: admin_reservas.php");
+        exit();
+    }
+    $reservaTs = strtotime(($reservaCheck['data_reserva'] ?? '') . ' ' . ($reservaCheck['hora_reserva'] ?? ''));
+    if ($reservaTs === false || time() < $reservaTs) {
+        cd_popup('Não é possível registar presença antes da hora da reserva.', 'error', 'admin_reservas.php');
+        exit();
+    }
+
     cd_execute($con, "UPDATE reservas SET estado = ? WHERE id = ?", "si", $estado, $idReserva);
     $estadoMesa = $estado === 'compareceu' ? 'ocupada' : 'livre';
     cd_execute(
